@@ -1,0 +1,8 @@
+D:\ProjektZespolowy\Przychodnia\Przychodnia\Przychodnia.Data\bin\Debug\netcoreapp3.0\Przychodnia.Data.deps.json
+D:\ProjektZespolowy\Przychodnia\Przychodnia\Przychodnia.Data\bin\Debug\netcoreapp3.0\Przychodnia.Data.dll
+D:\ProjektZespolowy\Przychodnia\Przychodnia\Przychodnia.Data\obj\Debug\netcoreapp3.0\Przychodnia.Data.AssemblyInfoInputs.cache
+D:\ProjektZespolowy\Przychodnia\Przychodnia\Przychodnia.Data\obj\Debug\netcoreapp3.0\Przychodnia.Data.AssemblyInfo.cs
+D:\ProjektZespolowy\Przychodnia\Przychodnia\Przychodnia.Data\bin\Debug\netcoreapp3.0\Przychodnia.Data.pdb
+D:\ProjektZespolowy\Przychodnia\Przychodnia\Przychodnia.Data\obj\Debug\netcoreapp3.0\Przychodnia.Data.csprojAssemblyReference.cache
+D:\ProjektZespolowy\Przychodnia\Przychodnia\Przychodnia.Data\obj\Debug\netcoreapp3.0\Przychodnia.Data.dll
+D:\ProjektZespolowy\Przychodnia\Przychodnia\Przychodnia.Data\obj\Debug\netcoreapp3.0\Przychodnia.Data.pdb
