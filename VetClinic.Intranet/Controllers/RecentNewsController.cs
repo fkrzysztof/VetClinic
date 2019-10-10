@@ -1,29 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.CMS;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class AktualnoscController : Controller
+    public class RecentNewsController : Controller
     {
         private readonly VetClinicContext _context;
 
-        public AktualnoscController(VetClinicContext context)
+        public RecentNewsController(VetClinicContext context)
         {
             _context = context;
         }
 
-        // GET: Aktualnosc
+        // GET: RecentNews
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Aktualnosci.ToListAsync());
+            return View(await _context.RecentNews.ToListAsync());
         }
 
-        // GET: Aktualnosc/Details/5
+        // GET: RecentNews/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -31,39 +33,39 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            var aktualnosc = await _context.Aktualnosci
-                .FirstOrDefaultAsync(m => m.IdAktualnosci == id);
-            if (aktualnosc == null)
+            var recentNews = await _context.RecentNews
+                .FirstOrDefaultAsync(m => m.RecentNewsID == id);
+            if (recentNews == null)
             {
                 return NotFound();
             }
 
-            return View(aktualnosc);
+            return View(recentNews);
         }
 
-        // GET: Aktualnosc/Create
+        // GET: RecentNews/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Aktualnosc/Create
+        // POST: RecentNews/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdAktualnosci,LinkTytul,Tytul,Tekst,Pozycja,Zdjecie,CzyAktywny,DataDodania,DataModyfikacji")] Aktualnosc aktualnosc)
+        public async Task<IActionResult> Create([Bind("RecentNewsID,LinkTitle,Title,Text,Position,Photo,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] RecentNews recentNews)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(aktualnosc);
+                _context.Add(recentNews);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(aktualnosc);
+            return View(recentNews);
         }
 
-        // GET: Aktualnosc/Edit/5
+        // GET: RecentNews/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -71,22 +73,22 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            var aktualnosc = await _context.Aktualnosci.FindAsync(id);
-            if (aktualnosc == null)
+            var recentNews = await _context.RecentNews.FindAsync(id);
+            if (recentNews == null)
             {
                 return NotFound();
             }
-            return View(aktualnosc);
+            return View(recentNews);
         }
 
-        // POST: Aktualnosc/Edit/5
+        // POST: RecentNews/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdAktualnosci,LinkTytul,Tytul,Tekst,Pozycja,Zdjecie,CzyAktywny,DataDodania,DataModyfikacji")] Aktualnosc aktualnosc)
+        public async Task<IActionResult> Edit(int id, [Bind("RecentNewsID,LinkTitle,Title,Text,Position,Photo,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] RecentNews recentNews)
         {
-            if (id != aktualnosc.IdAktualnosci)
+            if (id != recentNews.RecentNewsID)
             {
                 return NotFound();
             }
@@ -95,12 +97,12 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
-                    _context.Update(aktualnosc);
+                    _context.Update(recentNews);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AktualnoscExists(aktualnosc.IdAktualnosci))
+                    if (!RecentNewsExists(recentNews.RecentNewsID))
                     {
                         return NotFound();
                     }
@@ -111,10 +113,10 @@ namespace VetClinic.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(aktualnosc);
+            return View(recentNews);
         }
 
-        // GET: Aktualnosc/Delete/5
+        // GET: RecentNews/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -122,30 +124,30 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            var aktualnosc = await _context.Aktualnosci
-                .FirstOrDefaultAsync(m => m.IdAktualnosci == id);
-            if (aktualnosc == null)
+            var recentNews = await _context.RecentNews
+                .FirstOrDefaultAsync(m => m.RecentNewsID == id);
+            if (recentNews == null)
             {
                 return NotFound();
             }
 
-            return View(aktualnosc);
+            return View(recentNews);
         }
 
-        // POST: Aktualnosc/Delete/5
+        // POST: RecentNews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var aktualnosc = await _context.Aktualnosci.FindAsync(id);
-            _context.Aktualnosci.Remove(aktualnosc);
+            var recentNews = await _context.RecentNews.FindAsync(id);
+            _context.RecentNews.Remove(recentNews);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AktualnoscExists(int id)
+        private bool RecentNewsExists(int id)
         {
-            return _context.Aktualnosci.Any(e => e.IdAktualnosci == id);
+            return _context.RecentNews.Any(e => e.RecentNewsID == id);
         }
     }
 }
