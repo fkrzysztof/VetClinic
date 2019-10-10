@@ -46,23 +46,16 @@
     color: white !important;
 }
 
-
-/* Featurettes
-------------------------- */
 .featurette-divider {
-    margin: 2rem 0; /* Space out the Bootstrap <hr> more */
+    margin: 2rem 0;
     border-color:transparent;
 }
 
-/* Thin out the marketing headings */
 .featurette-heading {
     font-weight: 300;
     line-height: 1;
     letter-spacing: -.05rem;
 }
-
-/* RESPONSIVE CSS
--------------------------------------------------- */
 
 @media (min-width: 40em) {
     
@@ -88,3 +81,24 @@
     color: white; 
 }
 
+.txtSecColor {
+    color: #f3715b;
+}
+/*
+ * Footer
+ */
+blockquote {
+    border-left: 2px solid #f3715b;
+}
+
+.ulNoBullets {
+    list-style-type: none;
+}
+
+body{
+    margin-bottom: 0px;
+}
+
+.aSecColor {
+    color: #f3715b;
+}
