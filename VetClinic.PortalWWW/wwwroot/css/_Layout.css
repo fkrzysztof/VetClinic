@@ -51,6 +51,7 @@
 ------------------------- */
 .featurette-divider {
     margin: 2rem 0; /* Space out the Bootstrap <hr> more */
+    border-color:transparent;
 }
 
 /* Thin out the marketing headings */
@@ -79,4 +80,10 @@
 .page {
     padding-top: 3rem; 
     padding-bottom: 3rem; 
+}
+
+.secColor {
+    background-color: #f3715b;
+    border-color: #f3715b;
+    color: white; 
 }
