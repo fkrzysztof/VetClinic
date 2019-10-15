@@ -3173,15 +3173,15 @@ fieldset:disabled a.btn {
 }
 
 .btn-link {
-  font-weight: 400;
-  color: #007bff;
-  text-decoration: none;
+    font-weight: 400;
+    color: #878787; /*SZARY*/
+    text-decoration: none;
 }
 
-.btn-link:hover {
-  color: #0056b3;
-  text-decoration: underline;
-}
+    .btn-link:hover {
+        color: #f3715b; /*PINK*/
+        text-decoration: underline;
+    }
 
 .btn-link:focus, .btn-link.focus {
   text-decoration: underline;
@@ -3469,11 +3469,11 @@ input[type="button"].btn-block {
   border: 0;
 }
 
-.dropdown-item:hover, .dropdown-item:focus {
-  color: #16181b;
-  text-decoration: none;
-  background-color: #f8f9fa;
-}
+    .dropdown-item:hover, .dropdown-item:focus {
+        color: #f3715b; /*PINK*/
+        text-decoration: none;
+        background-color: #ededed; /*jasno szary*/
+    }
 
 .dropdown-item.active, .dropdown-item:active {
   color: #fff;
@@ -4929,9 +4929,9 @@ input[type="button"].btn-block {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
-.card-header:first-child {
-  border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
-}
+    .card-header:first-child {
+        border-radius: calc(0.25rem - 1px) calc(0.25rem - 1px) 0 0;
+    }
 
 .card-header + .list-group .list-group-item:first-child {
   border-top: 0;
@@ -10710,9 +10710,13 @@ body {
   color: rgba(255, 255, 255, 0.5);
 }
 
-.sidebar .nav-item .nav-link:active, .sidebar .nav-item .nav-link:focus, .sidebar .nav-item .nav-link:hover {
-  color: rgba(255, 255, 255, 0.75);
-}
+    .sidebar .nav-item .nav-link:active, .sidebar .nav-item .nav-link:focus, .sidebar .nav-item .nav-link:hover {
+        color: #f3715b !important; /*PINK*/
+    }
+
+    .nav-item .nav-link:active, .nav-item .nav-link:focus, .nav-item .nav-link:hover {
+        color: #f3715b !important; /*PINK*/
+    }
 
 .sidebar.toggled {
   width: 0 !important;
@@ -10727,7 +10731,7 @@ body {
     display: block;
     width: 100%;
     text-align: left;
-    padding: 1rem;
+    padding: 0.7rem;
     width: 225px;
   }
   .sidebar .nav-item .nav-link span {
