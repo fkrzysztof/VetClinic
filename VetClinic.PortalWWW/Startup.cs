@@ -27,7 +27,7 @@ namespace VetClinic.PortalWWW
         {
             services.AddControllersWithViews();
             services.AddDbContext<VetClinicContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("VetClinicIntranetContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("VetClinicContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
