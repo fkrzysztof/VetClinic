@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VetClinic.Data.Migrations
 {
-    public partial class create_database_v4 : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,8 +17,8 @@ namespace VetClinic.Data.Migrations
                     MedicineID = table.Column<int>(nullable: false),
                     Quantity = table.Column<decimal>(nullable: false),
                     Price = table.Column<decimal>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -39,8 +39,8 @@ namespace VetClinic.Data.Migrations
                     Description = table.Column<string>(nullable: true),
                     Price = table.Column<decimal>(nullable: false),
                     Quantity = table.Column<decimal>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -61,8 +61,8 @@ namespace VetClinic.Data.Migrations
                     VetID = table.Column<int>(nullable: true),
                     DateOfVisit = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -83,9 +83,9 @@ namespace VetClinic.Data.Migrations
                     Name = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),
                     PatientNumber = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
+                    IsActive = table.Column<bool>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -103,8 +103,8 @@ namespace VetClinic.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -124,8 +124,8 @@ namespace VetClinic.Data.Migrations
                     VetID = table.Column<int>(nullable: true),
                     DateOfOperation = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -149,8 +149,8 @@ namespace VetClinic.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -169,8 +169,8 @@ namespace VetClinic.Data.Migrations
                     VisitID = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: false),
                     TotalToPay = table.Column<decimal>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -197,8 +197,8 @@ namespace VetClinic.Data.Migrations
                     Text = table.Column<string>(type: "nvarchar(MAX)", nullable: true),
                     Position = table.Column<int>(nullable: false),
                     Photo = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -218,8 +218,8 @@ namespace VetClinic.Data.Migrations
                     VetID = table.Column<int>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     DateOfVisit = table.Column<DateTime>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -239,8 +239,8 @@ namespace VetClinic.Data.Migrations
                     ReceiverID = table.Column<int>(nullable: true),
                     Message = table.Column<string>(nullable: false),
                     IsReaded = table.Column<bool>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -258,8 +258,8 @@ namespace VetClinic.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    IsActive = table.Column<bool>(nullable: false),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true),
                     AddedUserID = table.Column<int>(nullable: true),
                     UpdatedUserID = table.Column<int>(nullable: true)
@@ -287,10 +287,10 @@ namespace VetClinic.Data.Migrations
                     Phone = table.Column<string>(nullable: true),
                     Photo = table.Column<string>(nullable: true),
                     CardNumber = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
+                    IsActive = table.Column<bool>(nullable: false),
                     LoginAttempt = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    AddedDate = table.Column<DateTime>(nullable: false, defaultValueSql: "getdate()"),
+                    AddedDate = table.Column<DateTime>(nullable: false),
                     UpdatedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
