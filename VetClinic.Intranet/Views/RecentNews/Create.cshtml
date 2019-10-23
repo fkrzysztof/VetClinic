@@ -4,75 +4,91 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>RecentNews</h4>
+<h4>Dodaj nowy element:</h4>
+<h2>RecentNews</h2>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="LinkTitle" class="control-label"></label>
-                <input asp-for="LinkTitle" class="form-control" />
-                <span asp-validation-for="LinkTitle" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Text" class="control-label"></label>
-                <input asp-for="Text" class="form-control" />
-                <span asp-validation-for="Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Position" class="control-label"></label>
-                <input asp-for="Position" class="form-control" />
-                <span asp-validation-for="Position" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Photo" class="control-label"></label>
-                <input asp-for="Photo" class="form-control" />
-                <span asp-validation-for="Photo" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="AddedDate" class="control-label"></label>
-                <input asp-for="AddedDate" class="form-control" />
-                <span asp-validation-for="AddedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedDate" class="control-label"></label>
-                <input asp-for="UpdatedDate" class="form-control" />
-                <span asp-validation-for="UpdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AddedUserID" class="control-label"></label>
-                <input asp-for="AddedUserID" class="form-control" />
-                <span asp-validation-for="AddedUserID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UpdatedUserID" class="control-label"></label>
-                <input asp-for="UpdatedUserID" class="form-control" />
-                <span asp-validation-for="UpdatedUserID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+
+
+<form asp-action="Create">
+
+    <div class="form-row"> @*jeden rząd*@
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*kolumna w rzędzie o szerokości 6*@
+        <div class="form-group col-md-6">
+            <label asp-for="LinkTitle" class="control-label"></label>
+            <input asp-for="LinkTitle" class="form-control" placeholder="Tytuł linku" />
+            <span asp-validation-for="LinkTitle" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" placeholder="Tytuł" /> @*Pamiętać o zmianie placeholder*@
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+    </div> @*koniec rzędu*@
+
+    <div class="form-group">
+        <label asp-for="Text" class="control-label"></label>
+        @*<input asp-for="Text" class="form-control" /> <---- w przypadku większego pola tekstowego zmieniamy na to co niżej. Gosia*@
+        <textarea asp-for="Text" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Tekst aktualności..."></textarea>
+        <span asp-validation-for="Text" class="text-danger"></span>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label asp-for="Position" class="control-label"></label>
+            <input asp-for="Position" class="form-control" placeholder="Lp. pozycji" /> @*Pamiętać o zmianie placeholder*@
+            <span asp-validation-for="Position" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-8">
+            <label asp-for="Photo" class="control-label"></label>
+            <input asp-for="Photo" class="form-control" placeholder="Adres zdjęcia" /> @*Pamiętać o zmianie placeholder*@
+            <span asp-validation-for="Photo" class="text-danger"></span>
+        </div>
+    </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+    <div class="form-group form-check">
+        <label class="form-check-label">
+            <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+        </label>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="AddedDate" class="control-label"></label>
+            <input asp-for="AddedDate" class="form-control" />
+            <span asp-validation-for="AddedDate" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="UpdatedDate" class="control-label"></label>
+            <input asp-for="UpdatedDate" class="form-control" />
+            <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="AddedUserID" class="control-label"></label>
+            <input asp-for="AddedUserID" class="form-control" />
+            <span asp-validation-for="AddedUserID" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="UpdatedUserID" class="control-label"></label>
+            <input asp-for="UpdatedUserID" class="form-control" />
+            <span asp-validation-for="UpdatedUserID" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Zapisz" class="btn btn-primary" />
+    </div>
+</form>
+
+    <div>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
