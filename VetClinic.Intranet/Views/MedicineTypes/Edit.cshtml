@@ -1,4 +1,4 @@
-﻿@model VetClinic.Data.Data.CMS.RecentNews
+﻿@model VetClinic.Data.Data.Clinic.MedicineType
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,43 +6,25 @@
 
 <h4>Edytuj wybrany element:</h4>
 <h2>RecentNews</h2>
-<hr />
 
+<hr />
 <form asp-action="Edit">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="RecentNewsID"/>
+        <input type="hidden" asp-for="MedicineTypeID" />
 
         <div class="form-group col-md-6">
-            <label asp-for="LinkTitle" class="control-label"></label>
-            <input asp-for="LinkTitle" class="form-control" />
-            <span asp-validation-for="LinkTitle" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-6">
-            <label asp-for="Title" class="control-label"></label>
-            <input asp-for="Title" class="form-control" />
-            <span asp-validation-for="Title" class="text-danger"></span>
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
-        <label asp-for="Text" class="control-label"></label>
-        <textarea asp-for="Text" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-        <span asp-validation-for="Text" class="text-danger"></span>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label asp-for="Position" class="control-label"></label>
-            <input asp-for="Position" class="form-control" />
-            <span asp-validation-for="Position" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label asp-for="Photo" class="control-label"></label>
-            <input asp-for="Photo" class="form-control" />
-            <span asp-validation-for="Photo" class="text-danger"></span>
-        </div>
-    </div>
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>  
 
     <div class="form-group form-check">
         <label class="form-check-label">
@@ -90,3 +72,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+

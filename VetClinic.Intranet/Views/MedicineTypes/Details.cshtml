@@ -1,44 +1,28 @@
-﻿@model VetClinic.Data.Data.CMS.RecentNews
+﻿@model VetClinic.Data.Data.Clinic.MedicineType
 
 @{
     ViewData["Title"] = "Details";
 }
 
 <h4>Szczegóły elementu:</h4>
-<h2>RecentNews</h2>
+<h2>Medicine Type</h2>
 <hr />
 
 <div>
+    <h4>MedicineType</h4>
+    <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.LinkTitle)
+            @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LinkTitle)
+            @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Text)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Text)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Position)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Position)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Photo)
+            @Html.DisplayFor(model => model.Description)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IsActive)
@@ -59,22 +43,21 @@
             @Html.DisplayFor(model => model.UpdatedDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AddedUserID)
+            @Html.DisplayNameFor(model => model.MedicineTypeAddedUser)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AddedUserID)
+            @Html.DisplayFor(model => model.MedicineTypeAddedUser.City)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedUserID)
+            @Html.DisplayNameFor(model => model.MedicineTypeUpdatedUser)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedUserID)
+            @Html.DisplayFor(model => model.MedicineTypeUpdatedUser.City)
         </dd>
     </dl>
 </div>
-
 <div>
-    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model.RecentNewsID">
+    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model.MedicineTypeID">
         <span class="fas fa-pen"></span> Edytuj
     </a>
     <a class="btn btn-outline-primary" role="button" asp-action="Index">
