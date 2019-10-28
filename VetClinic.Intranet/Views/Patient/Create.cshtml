@@ -1,0 +1,94 @@
+﻿@model VetClinic.Data.Data.Clinic.Patient
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Dodaj nowy element:</h4>
+<h2>Pacjent</h2>
+<hr />
+ 
+<form asp-action="Create">
+    <div class="form-row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-md-6">
+            <label asp-for="PatientTypeID" class="control-label"></label>
+            <select asp-for="PatientTypeID" class="form-control" asp-items="ViewBag.PatientTypeID"></select>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="PatientUserID" class="control-label"></label>
+            <select asp-for="PatientUserID" class="form-control" asp-items="ViewBag.PatientUserID"></select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" placeholder="Imie" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="BirthDate" class="control-label"></label>
+            <input asp-for="BirthDate" class="form-control" placeholder="Data urodzenia" />
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="PatientNumber" class="control-label"></label>
+            <input asp-for="PatientNumber" class="form-control" placeholder="Nr pacjenta" />
+            <span asp-validation-for="PatientNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Opis"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="AddedDate" class="control-label"></label>
+            <input asp-for="AddedDate" class="form-control" placeholder="Data dodania"/>
+            <span asp-validation-for="AddedDate" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="UpdatedDate" class="control-label"></label>
+            <input asp-for="UpdatedDate" class="form-control" placeholder="Data aktualizacji"/>
+            <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="AddedUserID" class="control-label"></label>
+            <select asp-for="AddedUserID" class="form-control" asp-items="ViewBag.AddedUserID"></select>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="UpdatedUserID" class="control-label"></label>
+            <select asp-for="UpdatedUserID" class="form-control" asp-items="ViewBag.UpdatedUserID"></select>
+        </div>
+    </div>
+
+        <div class="form-group">
+            <input type="submit" value="Zapisz" class="btn btn-primary" />
+        </div>
+</form>
+    
+
+    <div>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
