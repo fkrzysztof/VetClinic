@@ -10,8 +10,8 @@ using VetClinic.Data;
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    [Migration("20191028172210_Initial2")]
-    partial class Initial2
+    [Migration("20191029164030_AddFieldsLabels")]
+    partial class AddFieldsLabels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

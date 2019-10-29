@@ -2,7 +2,7 @@
 
 namespace VetClinic.Data.Migrations
 {
-    public partial class Init4 : Migration
+    public partial class AddFieldsLabels : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
