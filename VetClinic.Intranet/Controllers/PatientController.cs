@@ -20,10 +20,27 @@ namespace VetClinic.Intranet.Controllers
         }
 
         // GET: Patient
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    var vetClinicContext = _context.Patients.Include(p => p.PatientAddedUser).Include(p => p.PatientType).Include(p => p.PatientUpdatedUser).Include(p => p.PatientUser);
+        //    return View(await vetClinicContext.ToListAsync());
+        //}
+
+        public async Task<IActionResult> Index(string searchString)
         {
-            var vetClinicContext = _context.Patients.Include(p => p.PatientAddedUser).Include(p => p.PatientType).Include(p => p.PatientUpdatedUser).Include(p => p.PatientUser);
-            return View(await vetClinicContext.ToListAsync());
+            
+            ViewData["CurrentFilter"] = searchString;
+
+            var patients = from p in _context.Patients
+                           select p;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                patients = patients.Where(p => p.Name.Contains(searchString)
+                                       || p.Description.Contains(searchString)
+                                       || p.BirthDate.ToString().Contains(searchString));
+            }
+            
+            return View(await patients.AsNoTracking().ToListAsync());
         }
 
         // GET: Patient/Details/5
