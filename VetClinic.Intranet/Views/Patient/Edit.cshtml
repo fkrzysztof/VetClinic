@@ -1,0 +1,72 @@
+﻿@model VetClinic.Data.Data.Clinic.Patient
+
+@{
+   ViewData["Title"] = "Edit";
+}
+
+<h4>Edytuj wybrany element:</h4>
+<h2>Pacjent</h2>
+<hr />
+
+
+<form asp-action="Edit">
+    <div class="form-row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="PatientID" />
+        <div class="form-group col-md-6">
+            <label asp-for="PatientTypeID" class="control-label"></label>
+            <select asp-for="PatientTypeID" class="form-control" asp-items="ViewBag.PatientTypeID"></select>
+            <span asp-validation-for="PatientTypeID" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="PatientUserID" class="control-label"></label>
+            <select asp-for="PatientUserID" class="form-control" asp-items="ViewBag.PatientUserID"></select>
+            <span asp-validation-for="PatientUserID" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="BirthDate" class="control-label"></label>
+            <input asp-for="BirthDate" class="form-control" />
+            <span asp-validation-for="BirthDate" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="PatientNumber" class="control-label"></label>
+            <input asp-for="PatientNumber" class="form-control" />
+            <span asp-validation-for="PatientNumber" class="text-danger"></span>
+        </div>
+        
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+  
+    
+    <div class="form-group">
+        <input type="submit" value="Zapisz" class="btn btn-primary" />
+    </div>
+</form>
+
+
+<div>
+    <a class="btn btn-outline-primary" role="button" asp-action="Index">
+        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+    </a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
