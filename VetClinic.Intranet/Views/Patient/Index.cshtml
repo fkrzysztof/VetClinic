@@ -26,96 +26,110 @@
     </a>
 </p>
 
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.BirthDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PatientNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AddedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UpdatedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PatientType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PatientUser)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PatientAddedUser)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PatientUpdatedUser)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Szukaj według imienia, daty urodzenia lub opisu: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Szukaj" class="btn btn-primary" />
+
+            <a class="btn btn-outline-primary" role="button" asp-action="Index">
+                <span class="fas fa-arrow-circle-left"></span> Wyczyść filtr
+            </a>
+
+        </p>
+    </div>
+</form>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-dark">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.BirthDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PatientNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AddedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UpdatedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PatientType.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PatientUser.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PatientAddedUser.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PatientUpdatedUser.City)
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.PatientID">
-                            <span class="fas fa-pen"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.PatientID">
-                            <span class="fas fa-list-alt"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
-                            <span class="fas fa-trash-alt"></span>
-                        </a>
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BirthDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PatientNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsActive)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AddedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UpdatedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PatientType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PatientUser)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PatientAddedUser)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PatientUpdatedUser)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.BirthDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PatientNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsActive)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AddedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdatedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PatientType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PatientUser.City)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PatientAddedUser.City)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PatientUpdatedUser.City)
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.PatientID">
+                                <span class="fas fa-pen"></span>
+                            </a>
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.PatientID">
+                                <span class="fas fa-list-alt"></span>
+                            </a>
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
+                                <span class="fas fa-trash-alt"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
