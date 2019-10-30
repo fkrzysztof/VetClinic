@@ -19,13 +19,7 @@ namespace VetClinic.Intranet.Controllers
             _context = context;
         }
 
-        // GET: Patient
-        //public async Task<IActionResult> Index()
-        //{
-        //    var vetClinicContext = _context.Patients.Include(p => p.PatientAddedUser).Include(p => p.PatientType).Include(p => p.PatientUpdatedUser).Include(p => p.PatientUser);
-        //    return View(await vetClinicContext.ToListAsync());
-        //}
-
+        // GET: Patient     
         public async Task<IActionResult> Index(string searchString)
         {
             
