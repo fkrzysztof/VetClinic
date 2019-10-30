@@ -25,5 +25,7 @@ namespace VetClinic.Data
         public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<Visit> Visits { get; set; }
+        public DbSet<Specialization> Specializations { get; set; }
+        public DbSet<MedicalSpecialization> MedicalSpecializations { get; set; }
     }
 }

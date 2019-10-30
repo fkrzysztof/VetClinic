@@ -115,5 +115,17 @@ namespace VetClinic.Data.Data.VetClinic
         public ICollection<Visit> AddedVisits { get; set; }
         [InverseProperty("VisitUpdatedUser")]
         public ICollection<Visit> UpdatedVisits { get; set; }
+
+        [InverseProperty("MedicalSpecializationUser")]
+        public ICollection<MedicalSpecialization> UserMedicalSpecialization { get; set; }
+        [InverseProperty("MedicalSpecializationAddedUser")]
+        public ICollection<MedicalSpecialization> AddedMedicalSpecialization { get; set; }
+        [InverseProperty("MedicalSpecializationUpdatedUser")]
+        public ICollection<MedicalSpecialization> UpdatedMedicalSpecialization { get; set; }
+
+        [InverseProperty("SpecializationAddedUser")]
+        public ICollection<Specialization> AddedUserSpecialization { get; set; }
+        [InverseProperty("SpecializationUpdatedUser")]
+        public ICollection<Specialization> UpdatedUserSpecialization { get; set; }
     }
 }
