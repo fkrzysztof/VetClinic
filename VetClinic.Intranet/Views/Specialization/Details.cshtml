@@ -1,0 +1,64 @@
+﻿@model VetClinic.Data.Data.Clinic.Specialization
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h4>Szczegóły elementu:</h4>
+<h2>Rodzaje Specjalizacji</h2>
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IsActive)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AddedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddedDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SpecializationAddedUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SpecializationAddedUser.City)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SpecializationUpdatedUser)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SpecializationUpdatedUser.City)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model.SpecializationID">
+        <span class="fas fa-pen"></span> Edytuj
+    </a>
+    <a class="btn btn-outline-primary" role="button" asp-action="Index">
+        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+    </a>
+</div>
