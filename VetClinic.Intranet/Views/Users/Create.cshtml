@@ -7,7 +7,7 @@
 <h4>Dodaj nowy element:</h4>
 <hr />
 
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group col-md-4">
@@ -74,7 +74,7 @@
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>Zdjęcie</label>
-            <input asp-for="Photo" class="form-control" />
+            <input type="file" class="form-control-file" id="file" name="file" />
             <span asp-validation-for="Photo" class="text-danger"></span>
         </div>
 
