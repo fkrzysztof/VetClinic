@@ -7,7 +7,7 @@
 <h4>Edytuj wybrany element:</h4>
 
 <hr />
-<form asp-action="Edit">
+<form asp-action="Edit" enctype="multipart/form-data">
 
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -78,7 +78,7 @@
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>Zdjęcie</label>
-            <input asp-for="Photo" class="form-control" />
+            <input type="file" class="form-control-file" id="file" name="file" />
             <span asp-validation-for="Photo" class="text-danger"></span>
         </div>
         <div class="form-group col-md-4">
@@ -90,7 +90,8 @@
 
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label>Czy aktywny <input class="form-check-input" asp-for="IsActive" /></label>
+            <label>Czy aktywny </label>
+            <input class="form-check-label" asp-for="IsActive" /> 
         </div>
         <div class="form-group col-md-4">
             <label>Próby logowania</label>
