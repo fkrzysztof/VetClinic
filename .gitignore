@@ -354,3 +354,5 @@ MigrationBackup/
 
 .DS_Store
 .idea/
+**/wwwroot/uploads/**/*.*
+!**/wwwroot/uploads/**/.gitkeep

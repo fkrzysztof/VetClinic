@@ -174,7 +174,7 @@ namespace VetClinic.Intranet.Controllers
             {
                 var fileName = file.FileName;
 
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "../VetClinic.Intranet/wwwroot/images/users", fileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "../VetClinic.Intranet/wwwroot/uploads", fileName);
 
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
