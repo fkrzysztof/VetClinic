@@ -46,31 +46,10 @@
                     @Html.DisplayNameFor(model => model.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.Price)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AddedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UpdatedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MedicineType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MedicineAddedUser)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MedicineUpdatedUser)
+                    @Html.DisplayNameFor(m=>m.MedicineType.Name)
                 </th>
                 <th></th>
             </tr>
@@ -78,49 +57,28 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Quantity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AddedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UpdatedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MedicineType.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MedicineAddedUser.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MedicineUpdatedUser.City)
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.MedicineID">
-                            <span class="fas fa-pen"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.MedicineID">
-                            <span class="fas fa-list-alt"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.MedicineID">
-                            <span class="fas fa-trash-alt"></span>
-                        </a>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>   
+                <td>
+                    @Html.DisplayFor(m=>item.MedicineType.Name)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.MedicineID">
+                        <span class="fas fa-pen"></span>
+                    </a>
+                    <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.MedicineID">
+                        <span class="fas fa-list-alt"></span>
+                    </a>
+                    <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.MedicineID">
+                        <span class="fas fa-trash-alt"></span>
+                    </a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>

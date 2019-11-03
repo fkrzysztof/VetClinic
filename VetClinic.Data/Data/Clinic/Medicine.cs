@@ -13,9 +13,16 @@ namespace VetClinic.Data.Data.Clinic
         public int MedicineID { get; set; }
         public int MedicineTypeID { get; set; }
 
-        [Required(ErrorMessage = "Nazwa jest wymagane")]
+        [Required(ErrorMessage = "Nazwa jest wymagana")]
+        [Display(Name ="Nazwa")]
         public string Name { get; set; }
+
+        [Display(Name="Opis")]
         public string Description { get; set; }
+
+        [Display(Name ="Cena")]
+        [Required(ErrorMessage = "Cena jest wymagana")]
+        [DataType(DataType.Currency)]
         public decimal Price { get; set; }
         public decimal Quantity { get; set; }
         public bool IsActive { get; set; }

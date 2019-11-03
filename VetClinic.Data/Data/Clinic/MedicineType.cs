@@ -12,8 +12,11 @@ namespace VetClinic.Data.Data.Clinic
         [Key]
         public int MedicineTypeID { get; set; }
 
-        [Required(ErrorMessage = "Nazwa jest wymagane")]
+        [Required(ErrorMessage = "Typ leku jest wymagany")]
+        [Display(Name ="Typ leku")]
         public string Name { get; set; }
+
+        [Display(Name ="Opis")]
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public DateTime AddedDate { get; set; }
