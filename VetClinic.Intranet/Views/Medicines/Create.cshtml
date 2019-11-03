@@ -20,26 +20,26 @@
     </div>
         <div class="form-group col-md-6">
             <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" placeholder="Tytuł" />
+            <input asp-for="Name" class="form-control" placeholder="Nazwa Leku" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
-         <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Tekst aktualności..."></textarea>
+         <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Opis Leku"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
     <div class="form-row">
         <div class="form-group col-md-4">
             <label asp-for="Price" class="control-label"></label>
-            <input asp-for="Price" class="form-control" placeholder="Lp. pozycji" />
+            <input asp-for="Price" class="form-control" placeholder="Cena" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
         <div class="form-group col-md-8">
             <label asp-for="Quantity" class="control-label"></label>
-            <input asp-for="Quantity" class="form-control" placeholder="Adres zdjęcia" />
+            <input asp-for="Quantity" class="form-control" placeholder="Ilość" />
             <span asp-validation-for="Quantity" class="text-danger"></span>
         </div>
     </div>

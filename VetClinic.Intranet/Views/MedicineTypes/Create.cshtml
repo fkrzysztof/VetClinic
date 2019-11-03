@@ -15,7 +15,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group col-md-6">
             <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" placeholder="Tytuł linku" />
+            <input asp-for="Name" class="form-control" placeholder="Typ leku" />
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
@@ -23,7 +23,7 @@
 
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
-       <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Tekst aktualności..."></textarea>
+       <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Opis Typu"></textarea>
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 

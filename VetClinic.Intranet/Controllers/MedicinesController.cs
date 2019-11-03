@@ -20,9 +20,19 @@ namespace VetClinic.Intranet.Controllers
         }
 
         // GET: Medicines
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
             var vetClinicContext = _context.Medicines.Include(m => m.MedicineAddedUser).Include(m => m.MedicineType).Include(m => m.MedicineUpdatedUser);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vetClinicContext = (from order in _context.Medicines
+                                    where order.Name.Contains(searchString)
+                                    select order)
+                                 .Include(m => m.MedicineAddedUser)
+                                 .Include(m => m.MedicineType)
+                                 .Include(m => m.MedicineUpdatedUser);
+            }
             return View(await vetClinicContext.ToListAsync());
         }
 
