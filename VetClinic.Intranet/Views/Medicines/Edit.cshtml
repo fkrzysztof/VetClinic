@@ -34,50 +34,12 @@
     </div>
 
     <div class="form-row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-2">
             <label asp-for="Price" class="control-label"></label>
             <input asp-for="Price" class="form-control" />
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
-        <div class="form-group col-md-4">
-            <label asp-for="Quantity" class="control-label"></label>
-            <input asp-for="Quantity" class="form-control" />
-            <span asp-validation-for="Quantity" class="text-danger"></span>
-        </div>
     </div>
-
-    <div class="form-group form-check">
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-        </label>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="AddedDate" class="control-label"></label>
-            <input asp-for="AddedDate" class="form-control" />
-            <span asp-validation-for="AddedDate" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-6">
-            <label asp-for="UpdatedDate" class="control-label"></label>
-            <input asp-for="UpdatedDate" class="form-control" />
-            <span asp-validation-for="UpdatedDate" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="AddedUserID" class="control-label"></label>
-            <input asp-for="AddedUserID" class="form-control" />
-            <span asp-validation-for="AddedUserID" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-6">
-            <label asp-for="UpdatedUserID" class="control-label"></label>
-            <input asp-for="UpdatedUserID" class="form-control" />
-            <span asp-validation-for="UpdatedUserID" class="text-danger"></span>
-        </div>
-    </div>
-
     <div class="form-group">
         <input type="submit" value="Zapisz" class="btn btn-primary" />
     </div>

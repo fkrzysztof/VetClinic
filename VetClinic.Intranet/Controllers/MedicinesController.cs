@@ -23,7 +23,8 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
             ViewData["CurrentFilter"] = searchString;
-            var vetClinicContext = _context.Medicines.Include(m => m.MedicineAddedUser).Include(m => m.MedicineType).Include(m => m.MedicineUpdatedUser);
+            ViewData["MedicineTypeID"] = new SelectList(_context.MedicineTypes, "MedicineTypeID", "Name");
+            var vetClinicContext = _context.Medicines.Include(m => m.MedicineAddedUser).Include(m => m.MedicineType).Include(m => m.MedicineUpdatedUser).Where(a=>a.IsActive==true);
             if (!String.IsNullOrEmpty(searchString))
             {
                 vetClinicContext = (from order in _context.Medicines
@@ -75,6 +76,10 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                medicine.IsActive = true;
+                medicine.AddedDate = DateTime.Now;
+                //dodac urzytkownika
+                //medicine.AddedUserID = current;
                 _context.Add(medicine);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -120,6 +125,8 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    medicine.UpdatedDate = DateTime.Now;
+                    //dodac urzytkownika
                     _context.Update(medicine);
                     await _context.SaveChangesAsync();
                 }
@@ -169,7 +176,7 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var medicine = await _context.Medicines.FindAsync(id);
-            _context.Medicines.Remove(medicine);
+            medicine.IsActive=false;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
