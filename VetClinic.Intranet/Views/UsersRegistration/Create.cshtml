@@ -46,7 +46,7 @@
     <div class="form-row">
         <div class="form-group col-md-8">
             <label>E-Mail</label>
-            <input asp-for="Email" class="form-control" />
+            <input asp-for="Email" class="form-control"/>
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="form-group col-md-4">
@@ -63,7 +63,8 @@
         </div>
         <div class="form-group col-md-4">
             <label>Hasło</label>
-            <input asp-for="Password" class="form-control" />
+            <input readonly="readonly" id="passwordInput" asp-for="Password" class="form-control" />
+            <button onclick="generatePassword()" class="btn btn-primary">Generuj hasło</button>
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <div class="form-group col-md-4">
@@ -76,6 +77,18 @@
         <input type="submit" value="Zapisz" class="btn btn-primary" />
     </div>
 </form>
+
+<script>
+    function generatePassword() {
+        event.preventDefault();
+        $.get(
+            "/Users/Haslo",
+            function (data) {
+                document.getElementById("passwordInput").value = data;
+            }
+        );
+    }
+</script>
 
 
 @section Scripts {
