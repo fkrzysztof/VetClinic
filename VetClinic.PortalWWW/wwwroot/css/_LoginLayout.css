@@ -6,8 +6,14 @@
 }
 
 body {
-    background: red;
-    background: linear-gradient(to right, #0062E6, #33AEFF);
+    background: #dedede;
+}
+
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .card-signin {
