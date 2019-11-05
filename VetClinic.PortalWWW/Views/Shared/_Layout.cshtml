@@ -89,32 +89,10 @@
     <hr class="featurette-divider">
     <div class="container">
         <!-- AKTUALNOŚCI ------------------------>
-        <div class="row">
-            <div class="col-md-4">
-                <h2>Szczepienia</h2>
-                <p>
-                    Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.
-                    Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-                </p>
-                <p><a class="btn secColor" href="#" role="button">Więcej &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                <h2>Promocyjne zabiegi</h2>
-                <p>
-                    Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.
-                    Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-                </p>
-                <p><a class="btn secColor" href="#" role="button">Więcej &raquo;</a></p>
-            </div>
-            <div class="col-md-4">
-                <h2>Przerwa świąteczna</h2>
-                <p>
-                    Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.
-                    Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.
-                </p>
-                <p><a class="btn secColor" href="#" role="button">Więcej &raquo;</a></p>
-            </div>
-        </div>
+
+        @await Html.PartialAsync("RecentNews", (IEnumerable<VetClinic.Data.Data.CMS.RecentNews>
+            )ViewBag.ModelRecentNews)
+
         <hr class="featurette-divider">
     </div>
     <!-- /AKTUALNOŚCI ------------------------>

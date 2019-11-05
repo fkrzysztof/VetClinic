@@ -1,0 +1,17 @@
+﻿@model VetClinic.Data.Data.CMS.RecentNews
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_RecentNewsLayout.cshtml";
+}
+<div>
+    Aktualność
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <h1>@Model.Title</h1>
+        <p>@Model.Text</p>
+    </div>
+    <div class="col-md-6">
+        @Model.Photo
+    </div>
+</div>

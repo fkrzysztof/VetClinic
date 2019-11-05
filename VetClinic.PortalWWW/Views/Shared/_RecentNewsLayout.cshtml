@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - VetClinic.PortalWWW</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/_Layout.css" />
+    <!-- fontawesome-->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"
+            integrity="sha384-xymdQtn1n3lH2wcu0qhcdaOpQwyoarkgLVxC/wZ5q7h9gHtxICrpcaSUfygqZGOe"
+            crossorigin="anonymous"></script>
+    <title>VetClinic - Przychodnia dla Twojego zwierzaka!</title>
+</head>
+
+<body>
+    <!-- NAVBAR ------------------------>
+    <div class="collapse bg-dark" id="navbarHeader">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-md-7 py-4">
+                    <h4 class="aSecColor">O nas</h4>
+                    <p class="text-muted">
+                        Nasza klinika powstała z miłości do zwierząt. W codziennej pracy najbardziej
+                        cenimy sobie ciągły kontakt ze zwierzętami, ich wrażliwość i wdzięczność,
+                        którą okazują kiedy się im pomaga. Niezachwiane wartości pozwalają nam sumiennie
+                        wykonywać obowiązki wobec naszych pacjentów, a ich zdrowie i uśmiech na twarzy
+                        właściciela są dla nas najważniejsze!
+                    </p>
+                    <h6 class="txtSecColor">DYŻUR 24/7</h6>
+                    <h6 class="txtSecColor">T: 343 434 434</h6>
+                </div>
+                <div class="col-sm-4 offset-md-1 py-4">
+                    <h4 class="aSecColor">Kontakt</h4>
+                    <ul class="list-unstyled">
+                        <li class="text-white"><i class="fa fa-map-marker mx-2 aSecColor "></i> ul. Zwierzowa 12/1 33-300 Nowy Sącz </li>
+                        <li class="text-white"><i class="fa fa-phone  mx-2 aSecColor"></i> +48 222 778 218</li>
+                        <li><i class="fa fa-envelope  mx-2 aSecColor"></i><a class="aSecColor" href="mailto:vetclinic@gmail.com">vetclinic@gmail.com</a></li>
+                    </ul>
+
+                    <button class="btn btn-outline my-2 my-sm-0 secColor" type="submit">Logowanie</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="navbar navbar-dark bg-dark box-shadow">
+        <div class="container d-flex justify-content-between">
+            <a class="navbar-brand" href="#">
+                
+                <img src="~/images/logo.svg" width="35" height="35" class="d-inline-block align-top" alt="" />
+                VetClinic
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </div>
+    <!-- /NAVBAR ------------------------>
+
+    <main role="main">
+        <!-- BANNER GŁÓWNY ------------------------>
+        <section class="jumbotron text-center">
+            <div class="container">
+                <h1 class="jumbotron-heading">Klinika VetClinic</h1>
+                <p class="lead text-muted">
+                    Something short and leading about the
+                    collection below—its contents, the creator, etc. Make it short and sweet,
+                    but not too short so folks don't simply skip over it entirely.
+                </p>
+                <p>
+                    <a href="#" class="btn my-2 secColor">REZERWUJ WIZYTĘ</a>
+                </p>
+            </div>
+        </section>
+        <!-- /BANNER GŁÓWNY ------------------------>
+        <div class="container page">
+            @RenderBody()
+        </div>
+    </main>
+    <!-- STOPKA ------------------------>
+    <footer class="bg-dark">
+        <div class="container">
+            <hr class="featurette-divider">
+            <div class="row">
+                <div class="col-md-4 text-center text-md-center"> 
+                    <div>
+                        <a class="navbar-brand" href="#">
+                            <img src="~/images/logo.svg" width="120" height="120" class="d-inline-block align-top" alt="">
+                            <p class="text-white">VetClinic</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4 text-white text-center text-md-center">
+                    <div class="py-2 my-4">
+                        <div>
+                            <p class="text-white">
+                                <i class="fa fa-map-marker mx-2 aSecColor "></i>
+                                ul. Zwierzowa 12/1 33-300 Nowy Sącz
+                            </p>
+                        </div>
+                        <div>
+                            <p><i class="fa fa-phone  mx-2 aSecColor"></i> +48 222 778 218</p>
+                        </div>
+                        <div>
+                            <p><i class="fa fa-envelope  mx-2 aSecColor"></i><a class="aSecColor" href="mailto:vetclinic@gmail.com">vetclinic@gmail.com</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 text-white my-4 text-center text-md-center ">
+                    <h3 class="txtSecColor">DYŻUR 24/7</h3>
+                    <h3 class="txtSecColor">T: 343 434 434</h3>
+                    <div class="py-2">
+                        <a href="#"><i class="fab fa-facebook fa-2x text-primary mx-3"></i></a>
+                        <a href="#"><i class="fab fa-google-plus fa-2x text-danger mx-3"></i></a>
+                        <a href="#"><i class="fab fa-twitter fa-2x text-info mx-3"></i></a>
+                        <a href="#"><i class="fab fa-youtube fa-2x text-danger mx-3"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- /STOPKA ------------------------>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
