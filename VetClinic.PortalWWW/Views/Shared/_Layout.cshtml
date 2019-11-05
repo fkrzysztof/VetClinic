@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -38,7 +39,17 @@
                         <li class="text-white"><i class="fa fa-phone  mx-2 aSecColor"></i> +48 222 778 218</li>
                         <li><i class="fa fa-envelope  mx-2 aSecColor"></i><a class="aSecColor" href="mailto:vetclinic@gmail.com">vetclinic@gmail.com</a></li>
                     </ul>
-                    <button class="btn btn-outline my-2 my-sm-0 secColor" type="submit">  @Html.ActionLink("Logowanie", "Index", "Login",  new {id = 1}, new { @class = "aWhite" }) </button>
+
+                    @if (Context.Session.GetString("UserID") != null)
+                    {
+                        @*<button class="btn btn-outline my-2 my-sm-0 secColor" type="submit">  @Html.ActionLink("Wyloguj", "Index", "Home", new { id = 1 }, new { @class = "aWhite" }) </button>*@
+                        <li><a asp-area="" asp-controller="Login" asp-action="Logout">Wyloguj</a></li>
+                    }
+                    else
+                    {
+                        @*<button class="btn btn-outline my-2 my-sm-0 secColor" type="submit">  @Html.ActionLink("Logowanie", "Index", "Login", new { id = 1 }, new { @class = "aWhite" }) </button>*@
+                        <li><a asp-area="" asp-controller="Login" asp-action="Index">Zaloguj</a></li>
+                    }
                 </div>
             </div>
         </div>

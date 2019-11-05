@@ -1,4 +1,4 @@
-﻿
+﻿@model VetClinic.Data.Data.VetClinic.User
 @{
     ViewData["Title"] = "Registration";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
@@ -6,11 +6,31 @@
 
 <h1>TU BĘDZIE LAYOUT ALE NA RAZIE WERSJA TESTOWA DLA Jacka :)</h1>
 
-<form>
+<form asp-controller="Login" asp-action="Registration" method="post">
+    @if (ViewBag.Message != null)
+    {
+        <div class="form-control">
+            <div class="col-md-10">@ViewBag.Message</div>
+        </div>
+    }
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="inputLogin">Login</label>
-            <input type="text" class="form-control" id="inputLogin" placeholder="MopsikAngielski23 ...">
+            <label asp-for="Login">Login</label>
+            <input type="text" class="form-control" asp-for="Login" id="inputLogin" placeholder="MopsikAngielski23 ...">
+            <span asp-validation-for="Login" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label asp-for="Password">Hasło</label>
+            <input type="password" class="form-control" asp-for="Password" id="inputPassword" placeholder="Moje hasło ...">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
+            <label asp-for="Password">Powtórz hasło</label>
+            <input type="password" class="form-control" asp-for="Password" id="inputPassword2" placeholder="Powtórz hasło ...">
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
     </div>
 
