@@ -17,7 +17,9 @@ namespace VetClinic.Data.Data.VetClinic
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Nazwisko jest wymagane")]
         public string LastName { get; set; }
-        public string Address { get; set; }  // ulica numer
+        public string HouseNumber { get; set; }
+        public string ApartmentNumber { get; set; }
+        public string Street { get; set; }
         [Required(ErrorMessage = "Miejscowość jest wymagana")]
         public string City { get; set; }
         [Required(ErrorMessage = "Kod pocztowy jest wymagany")]
