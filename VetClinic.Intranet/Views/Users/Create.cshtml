@@ -61,11 +61,11 @@
         <div class="form-group col-md-4">
             <label>Hasło</label>
             <div class="row">
-                <div class="col-md-7">
+                <div class="col-md-6">
                     <input readonly="readonly" id="passwordInput" asp-for="Password" class="form-control" />
                 </div>
-                <div class="col-md-5">
-                    <button onclick="generatePassword()" class="btn btn-primary">Generuj hasło</button>
+                <div class="col-md-6">
+                    <button  onclick="generatePassword()" class="btn btn-primary w-100">Generuj hasło</button>
                 </div>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
