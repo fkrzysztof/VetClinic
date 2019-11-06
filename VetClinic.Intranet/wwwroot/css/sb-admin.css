@@ -382,8 +382,8 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-size: 2rem;
-  color:indianred;
+    font-size: 2rem;
+    color: #F04E33;
 }
 
 h3, .h3 {
@@ -558,11 +558,11 @@ pre code {
 }
 
 .container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 @media (min-width: 576px) {
@@ -8684,7 +8684,7 @@ button.bg-dark:focus {
 
 .pb-3,
 .py-3 {
-  padding-bottom: 1rem !important;
+    padding-bottom: 1rem !important;
 }
 
 .pl-3,
