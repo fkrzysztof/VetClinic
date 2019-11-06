@@ -47,7 +47,7 @@
     <div class="navbar navbar-dark bg-dark box-shadow">
         <div class="container d-flex justify-content-between">
             <a class="navbar-brand" href="#">
-                <img src="../images/logo.svg" width="35" height="35" class="d-inline-block align-top" alt="">
+                <img src="~/images/logo.svg" width="35" height="35" class="d-inline-block align-top" alt="">
                 VetClinic
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,12 +81,24 @@
     <!-- BANNER PRZEZ STRONĘ No. 1------------------------>
     <figure class="full-width">
         <div class="row-full">
-            <img class="img-space" src="../images/banSmall4.jpg" style="width:100%">
+            <img class="img-space" src="~/images/banSmall4.jpg" style="width:100%">
         </div>
     </figure>
     <!-- /BANNER PRZEZ STRONĘ No. 1------------------------>
 
     <hr class="featurette-divider">
+    
+    <!--Treść stron---------------------------------------->
+    <div class="section no-pad-bot">
+        <div class="container">
+            <div class="row center">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <br >
+
     <div class="container">
         <!-- AKTUALNOŚCI ------------------------>
 
@@ -99,7 +111,7 @@
     <!-- BANNER PRZEZ STRONĘ No. 2 ------------------------>
     <figure class="full-width">
         <div class="row-full">
-            <img class="img-space" src="../images/banSmall1.jpg" style="width:100%">
+            <img class="img-space" src="~/images/banSmall1.jpg" style="width:100%">
         </div>
     </figure>
     <hr class="featurette-divider">
@@ -118,7 +130,7 @@
                 </p>
             </div>
             <div class="col-md-5">
-                <img class="featurette-image img-fluid mx-auto" src="../images/uslugi4.jpg" alt="Generic placeholder image">
+                <img class="featurette-image img-fluid mx-auto" src="~/images/uslugi4.jpg" alt="Generic placeholder image">
             </div>
         </div>
         <hr class="featurette-divider">
@@ -133,7 +145,7 @@
                 </p>
             </div>
             <div class="col-md-5 order-md-1">
-                <img class="featurette-image img-fluid mx-auto" src="../images/uslugi6.jpg" alt="Generic placeholder image">
+                <img class="featurette-image img-fluid mx-auto" src="~/images/uslugi6.jpg" alt="Generic placeholder image">
             </div>
         </div>
         <hr class="featurette-divider">
@@ -148,7 +160,7 @@
                 </p>
             </div>
             <div class="col-md-5">
-                <img class="featurette-image img-fluid mx-auto" src="../images/uslugi5.jpg" alt="Generic placeholder image">
+                <img class="featurette-image img-fluid mx-auto" src="~/images/uslugi5.jpg" alt="Generic placeholder image">
             </div>
         </div>
         <hr class="featurette-divider">
@@ -157,7 +169,7 @@
     <!-- BANNER PRZEZ STRONĘ No. 3------------------------>
     <figure class="full-width">
         <div class="row-full">
-            <img class="img-space" src="../images/banSmall2.jpg" style="width:100%">
+            <img class="img-space" src="~/images/banSmall2.jpg" style="width:100%">
         </div>
     </figure>
     <!-- /BANNER PRZEZ STRONĘ No. 3------------------------>
@@ -171,7 +183,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="card mb-4 box-shadow">
-                    <img class="card-img-top" src="../images/team1.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="~/images/team1.jpg" alt="Card image cap">
                     <div class="card-body">
                         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                         <div class="d-flex justify-content-between align-items-center">
@@ -184,7 +196,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card mb-4 box-shadow">
-                    <img class="card-img-top" src="../images/team2.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="~/images/team2.jpg" alt="Card image cap">
                     <div class="card-body">
                         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                         <div class="d-flex justify-content-between align-items-center">
@@ -197,7 +209,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card mb-4 box-shadow">
-                    <img class="card-img-top" src="../images/team3.jpg" alt="Card image cap">
+                    <img class="card-img-top" src="~/images/team3.jpg" alt="Card image cap">
                     <div class="card-body">
                         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                         <div class="d-flex justify-content-between align-items-center">
@@ -219,7 +231,7 @@
                 <div class="col-md-4 text-center text-md-center">
                     <div>
                         <a class="navbar-brand" href="#">
-                            <img src="../images/logo.svg" width="120" height="120" class="d-inline-block align-top" alt="">
+                            <img src="~/images/logo.svg" width="120" height="120" class="d-inline-block align-top" alt="">
                             <p class="text-white">VetClinic</p>
                         </a>
                     </div>

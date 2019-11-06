@@ -38,7 +38,8 @@
             @Html.DisplayNameFor(model => model.Photo)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Photo)
+            @*@Html.DisplayFor(model => model.Photo)*@
+            <img src="~/uploads/@Model.Photo" />
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IsActive)
