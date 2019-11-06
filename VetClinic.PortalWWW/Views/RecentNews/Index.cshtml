@@ -1,19 +1,19 @@
-﻿
+﻿@model VetClinic.Data.Data.CMS.RecentNews
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = Model.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-image">
-                    <img src="@Url.Content(Model.Photo)" alt="@Model.Title">
-                    <h3 class="red-text">@Model.Title</h3>
-                </div>
-                <div class="card-content">
-                    <p>@Model.Text</p>
-                </div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-image">
+                <img src="@Url.Content(@Model.Photo)" alt="">
+                <h3 class="red-text">@Model.Title</h3>
+            </div>
+            <div class="card-content">
+                <p>@Model.Text</p>
             </div>
         </div>
     </div>
+</div>
