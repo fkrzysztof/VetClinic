@@ -383,6 +383,7 @@ h1, .h1 {
 
 h2, .h2 {
   font-size: 2rem;
+  color:indianred;
 }
 
 h3, .h3 {
@@ -1674,12 +1675,13 @@ pre code {
   color: #212529;
 }
 
-.table th,
-.table td {
-  padding: 0.75rem;
-  vertical-align: top;
-  border-top: 1px solid #dee2e6;
-}
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+        border: 1px solid #dee2e6 !important; /*tableka*/
+    }
 
 .table thead th {
   vertical-align: bottom;
@@ -1917,9 +1919,9 @@ pre code {
 }
 
 .table .thead-dark th {
-  color: #fff;
-  background-color: #343a40;
-  border-color: #454d55;
+  color: black;
+  background-color: lightgray;
+  border-color: white;
 }
 
 .table .thead-light th {
