@@ -53,5 +53,6 @@ namespace VetClinic.Data.Data.Clinic
         public User PatientUpdatedUser { get; set; }
 
         public ICollection<Visit> Visits { get; set; }
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

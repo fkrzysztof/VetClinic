@@ -12,7 +12,7 @@ namespace VetClinic.Data.Data.Clinic
         [Key]
         public int ReservationID { get; set; }
         public int ReservationUserID { get; set; } // klient rezerwujący
-        public int? VetID { get; set; } // weterynarz
+        public int? PatientID { get; set; } // pacjent
 
         public string Description { get; set; }
         public DateTime DateOfVisit { get; set; }
@@ -22,9 +22,9 @@ namespace VetClinic.Data.Data.Clinic
     
         [ForeignKey("ReservationUserID")]
         public User ReservationUser { get; set; }
- 
-        [ForeignKey("VetID")]
-        public User VetUser { get; set; }
+
+        [ForeignKey("PatientID")]
+        public Patient Patients { get; set; }
 
         public int? AddedUserID { get; set; } // użytkownik dodający
         [ForeignKey("AddedUserID")]
