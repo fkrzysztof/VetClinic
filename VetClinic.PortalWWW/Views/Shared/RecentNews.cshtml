@@ -1,0 +1,15 @@
+﻿@model IEnumerable<VetClinic.Data.Data.CMS.RecentNews>
+<div class="section">
+    <div class="row">
+        @foreach (var item in Model)
+        {             
+        <div class="col-md-4">
+            <h2>@item.Title</h2>
+            <p>
+                @item.Text
+            </p>          
+            <p><button class="center btn secColor">@Html.ActionLink("Wiecej", "Index", "RecentNews", new { id = item.RecentNewsID }, null)  &raquo;</button></p>  
+        </div>          
+        }
+    </div>
+</div>

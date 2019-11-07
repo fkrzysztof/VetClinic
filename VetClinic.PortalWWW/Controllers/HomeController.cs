@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using VetClinic.Data;
 using VetClinic.PortalWWW.Models;
 
 namespace VetClinic.PortalWWW.Controllers
@@ -12,14 +13,25 @@ namespace VetClinic.PortalWWW.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly VetClinicContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, VetClinicContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
+            ViewBag.ModelRecentNews =
+            (
+                from recentnews in _context.RecentNews
+                orderby recentnews.Position
+                select recentnews
+            ).ToList();
+            
+
+
             return View();
         }
 

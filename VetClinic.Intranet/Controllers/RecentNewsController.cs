@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -54,12 +56,15 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RecentNewsID,LinkTitle,Title,Text,Position,Photo,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] RecentNews recentNews)
+        public async Task<IActionResult> Create([Bind("RecentNewsID,LinkTitle,Title,Text,Position,Photo,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] RecentNews recentNews,IFormFile file)
         {
             if (ModelState.IsValid)
             {
+                recentNews.AddedDate = DateTime.Now;
+                recentNews.IsActive = true;
                 _context.Add(recentNews);
                 await _context.SaveChangesAsync();
+                UploadPhoto(file, recentNews.RecentNewsID);
                 return RedirectToAction(nameof(Index));
             }
             return View(recentNews);
@@ -86,7 +91,7 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RecentNewsID,LinkTitle,Title,Text,Position,Photo,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] RecentNews recentNews)
+        public async Task<IActionResult> Edit(int id, [Bind("RecentNewsID,LinkTitle,Title,Text,Position,Photo,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] RecentNews recentNews, IFormFile file)
         {
             if (id != recentNews.RecentNewsID)
             {
@@ -97,8 +102,10 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    recentNews.UpdatedDate = DateTime.Now;
                     _context.Update(recentNews);
                     await _context.SaveChangesAsync();
+                    UploadPhoto(file, recentNews.RecentNewsID);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -141,6 +148,8 @@ namespace VetClinic.Intranet.Controllers
         {
             var recentNews = await _context.RecentNews.FindAsync(id);
             _context.RecentNews.Remove(recentNews);
+            recentNews.IsActive = false;
+            recentNews.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -148,6 +157,32 @@ namespace VetClinic.Intranet.Controllers
         private bool RecentNewsExists(int id)
         {
             return _context.RecentNews.Any(e => e.RecentNewsID == id);
+        }
+
+        //Upload photo
+        public void UploadPhoto(IFormFile file, int id)
+        {
+            if (file != null)
+            {
+                var fileName = file.FileName;
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "../VetClinic.Intranet/wwwroot/uploads", fileName);
+
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+
+                var recentNews =
+                    (from item in _context.RecentNews
+                     where item.RecentNewsID == id
+                     select item
+                    ).FirstOrDefault();
+
+                recentNews.Photo = fileName;
+                _context.Update(recentNews);
+                _context.SaveChanges();
+            }
         }
     }
 }
