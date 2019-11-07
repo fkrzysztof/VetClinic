@@ -86,8 +86,6 @@ namespace VetClinic.Data.Data.VetClinic
         [InverseProperty("PrescriptionItemUpdatedUser")]
         public ICollection<PrescriptionItem> UpdatedPrescriptionItem { get; set; }
 
-        [InverseProperty("VetUser")]
-        public ICollection<Reservation> VetReservations { get; set; }
         [InverseProperty("ReservationUser")]
         public ICollection<Reservation> ReservationUser { get; set; }
         [InverseProperty("ReservationAddedUser")]
