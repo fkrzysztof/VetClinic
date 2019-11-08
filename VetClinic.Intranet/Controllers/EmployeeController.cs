@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +15,8 @@ namespace VetClinic.Intranet.Controllers
     public class EmployeeController : Controller
     {
         private readonly VetClinicContext _context;
-
+        private readonly string EmployeeUserName = "Pracownik";
+        private readonly int EmployeeUserId = 1;
         public EmployeeController(VetClinicContext context)
         {
             _context = context;
@@ -57,12 +60,16 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,LoginAttempt,Description,AddedDate,UpdatedDate")] User user)
+        public async Task<IActionResult> Create([Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,Description")] User user, IFormFile file)
         {
             if (ModelState.IsValid)
             {
+                user.AddedDate = DateTime.Now;
+                user.IsActive = true;
+                user.UserTypeID = EmployeeUserId;
                 _context.Add(user);
                 await _context.SaveChangesAsync();
+                UploadPhoto(file, user.UserID);
                 return RedirectToAction(nameof(Index));
             }
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name", user.UserTypeID);
@@ -91,7 +98,7 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,LoginAttempt,Description,AddedDate,UpdatedDate")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,Description")] User user, IFormFile file)
         {
             if (id != user.UserID)
             {
@@ -102,8 +109,10 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    user.UpdatedDate = DateTime.Now;
                     _context.Update(user);
                     await _context.SaveChangesAsync();
+                    UploadPhoto(file, user.UserID);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -148,6 +157,8 @@ namespace VetClinic.Intranet.Controllers
         {
             var user = await _context.Users.FindAsync(id);
             _context.Users.Remove(user);
+            user.IsActive = false;
+            user.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -155,6 +166,32 @@ namespace VetClinic.Intranet.Controllers
         private bool UserExists(int id)
         {
             return _context.Users.Any(e => e.UserID == id);
+        }
+
+        //Upload photo
+        public void UploadPhoto(IFormFile file, int id)
+        {
+            if (file != null)
+            {
+                var fileName = file.FileName;
+
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "../VetClinic.Intranet/wwwroot/uploads", fileName);
+
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+
+                var user =
+                    (from item in _context.Users
+                     where item.UserID == id
+                     select item
+                    ).FirstOrDefault();
+
+                user.Photo = fileName;
+                _context.Update(user);
+                _context.SaveChanges();
+            }
         }
     }
 }

@@ -154,12 +154,13 @@ namespace VetClinic.Intranet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userType = await _context.UserTypes.FindAsync(id);
-            //_context.UserTypes.Remove(userType);
-            userType.IsActive = false;
-            userType.UpdatedDate = DateTime.Now;
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+          
+              var userType = await _context.UserTypes.FindAsync(id);
+              //_context.UserTypes.Remove(userType);
+              userType.IsActive = false;
+              userType.UpdatedDate = DateTime.Now;
+              await _context.SaveChangesAsync();
+              return RedirectToAction(nameof(Index));
         }
 
         private bool UserTypeExists(int id)

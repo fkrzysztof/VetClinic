@@ -15,7 +15,9 @@ namespace VetClinic.Intranet.Controllers
     public class AdminController : Controller
     {
         private readonly VetClinicContext _context;
-
+        
+        private readonly string AdminUserName = "admin";
+        private readonly int AdminUserId = 1;
         public AdminController(VetClinicContext context)
         {
             _context = context;
@@ -24,7 +26,7 @@ namespace VetClinic.Intranet.Controllers
         // GET: Admin
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == "Administrator");
+            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == "admin");
             return View(await vetClinicContext.ToListAsync());
         }
 
@@ -43,13 +45,14 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-
+            
             return View(user);
         }
 
         // GET: Admin/Create
         public IActionResult Create()
         {
+            
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name");
             return View();
         }
@@ -59,12 +62,14 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,LoginAttempt,Description")] User user, IFormFile file)
+        public async Task<IActionResult> Create([Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,Description")] User user, IFormFile file)
         {
             if (ModelState.IsValid)
             {
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
+                user.UserTypeID = AdminUserId;
+                
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 UploadPhoto(file, user.UserID);
@@ -81,7 +86,7 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-
+           
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
@@ -96,7 +101,7 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,LoginAttempt,Description")] User user, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,Description")] User user, IFormFile file)
         {
             if (id != user.UserID)
             {
@@ -107,10 +112,11 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
-                    user.UpdatedDate = DateTime.Now;
+                   user.UpdatedDate = DateTime.Now;
+                   user.UserTypeID = AdminUserId;
                     _context.Update(user);
                     await _context.SaveChangesAsync();
-                    UploadPhoto(file, user.UserID);
+                   UploadPhoto(file, user.UserID);
                 }
                 catch (DbUpdateConcurrencyException)
                 {

@@ -72,19 +72,7 @@
                     Cz.Aktywny
                 </th>
                 <th>
-                    Pr.Logowania
-                </th>
-                <th>
                     Opis
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AddedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UpdatedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UserType)
                 </th>
                 <th></th>
             </tr>
@@ -136,19 +124,7 @@
                         @Html.DisplayFor(modelItem => item.IsActive)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LoginAttempt)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AddedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UpdatedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserType.Name)
                     </td>
                     <td>
                         <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.UserID">

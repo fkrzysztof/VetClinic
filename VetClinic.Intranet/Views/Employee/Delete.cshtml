@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Delete";
 }
+
 <h4>Usuń element:</h4>
 <h2>PRACOWNIK</h2>
 <hr />
@@ -93,35 +94,12 @@
             @Html.DisplayFor(model => model.IsActive)
         </dd>
         <dt class="col-sm-2">
-            Próby Log.:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LoginAttempt)
-        </dd>
-        <dt class="col-sm-2">
             Opis:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AddedDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AddedDate)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedDate)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedDate)
-        </dd>
-        <dt class="col-sm-2">
-            Rodz.Użytkownika:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UserType.Name)
-        </dd>
+
     </dl>
 
     <form asp-action="Delete">
