@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VetClinic.Data;
@@ -18,9 +19,30 @@ namespace VetClinic.PortalWWW.Controllers
 
         public IActionResult Index()
         {
-            return View(_context.Users.ToList());
+            return View();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Index(User user)
+        {
+            User account = _context.Users.First(u => u.Login == user.Login);
+
+            if (account != null && account.Password == user.Password)
+            {
+                HttpContext.Session.SetString("UserID", account.UserID.ToString());
+                HttpContext.Session.SetString("Login", account.Login.ToString());
+
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Login lub hasło jest niepoprawne.");
+            }
+
+            return View();
+        }
+
+        [Authorize]
         public IActionResult Registration()
         {
             return View();
@@ -38,41 +60,6 @@ namespace VetClinic.PortalWWW.Controllers
                 ViewBag.Message = user.FirstName + " " + user.LastName + " pomyślnie zarejestrowano konto.";
             }
             return View();
-        }
-
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Login(User user)
-        {
-            var account = _context.Users.Where(u => u.Login == user.Login && u.Password == user.Password).FirstOrDefault();
-            if (account != null)
-            {
-                HttpContext.Session.SetString("UserID", account.UserID.ToString());
-                HttpContext.Session.SetString("Login", account.Login.ToString());
-                return RedirectToAction("Welcome");
-            }
-            else
-            {
-                ModelState.AddModelError("","Login lub hasło jest niepoprawne.");
-            }
-            return View();
-        }
-
-        public IActionResult Welcome()
-        {
-           if(HttpContext.Session.GetString("Login") != null)
-           {
-               ViewBag.Login = HttpContext.Session.GetString("Login");
-               return View();
-           }
-           else
-           {
-               return RedirectToAction("Login");
-           }
         }
 
         public IActionResult Logout()
