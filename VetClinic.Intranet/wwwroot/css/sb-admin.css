@@ -382,7 +382,8 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  font-size: 2rem;
+    font-size: 2rem;
+    color: #F04E33;
 }
 
 h3, .h3 {
@@ -557,11 +558,11 @@ pre code {
 }
 
 .container {
-  width: 100%;
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 @media (min-width: 576px) {
@@ -1674,12 +1675,13 @@ pre code {
   color: #212529;
 }
 
-.table th,
-.table td {
-  padding: 0.75rem;
-  vertical-align: top;
-  border-top: 1px solid #dee2e6;
-}
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+        border: 1px solid #dee2e6 !important; /*tableka*/
+    }
 
 .table thead th {
   vertical-align: bottom;
@@ -1917,9 +1919,9 @@ pre code {
 }
 
 .table .thead-dark th {
-  color: #fff;
-  background-color: #343a40;
-  border-color: #454d55;
+  color: black;
+  background-color: lightgray;
+  border-color: white;
 }
 
 .table .thead-light th {
@@ -8682,7 +8684,7 @@ button.bg-dark:focus {
 
 .pb-3,
 .py-3 {
-  padding-bottom: 1rem !important;
+    padding-bottom: 1rem !important;
 }
 
 .pl-3,
