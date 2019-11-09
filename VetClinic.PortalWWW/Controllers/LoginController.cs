@@ -42,7 +42,6 @@ namespace VetClinic.PortalWWW.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult Registration()
         {
             return View();
