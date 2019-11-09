@@ -61,6 +61,7 @@ namespace VetClinic.Intranet.Controllers
         {
             var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser);
             return View(await vetClinicContext.ToListAsync());
+               
         }
 
         // GET: UserTypes/Details/5
@@ -111,11 +112,26 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Create()
         {
 
-            ViewBag.PermissionsList = _context.Permissions.Include(p => p.PermissionAddedUser).Include(p => p.PermissionUpdatedUser);
-            //ViewBag.PermissionsList = _context.UserTypePermissions;
+            //ViewBag.PermissionsList = _context.Permissions.Include(p => p.PermissionAddedUser).Include(p => p.PermissionUpdatedUser);
+            ////ViewBag.PermissionsList = _context.UserTypePermissions;
+
+            ICollection<UserTypePermission> permissions_list_add = _context.UserTypePermissions.Include(i=>i.Permission).ToList();
+           // ICollection<UserType> userTypes_list_add = _context.UserTypes.ToList
 
 
-            return View();
+
+
+            return View(new HelpersCreate
+            {
+
+                UserTypeID = 0,
+                Name = "wpisz",
+                Description = "wpisz wiecej",
+                IsActive = false,
+                permissions_list = permissions_list_add
+
+            }) ;
+             
 
 
 
@@ -133,11 +149,56 @@ namespace VetClinic.Intranet.Controllers
         [ValidateAntiForgeryToken]
         //calosc nie bedzie pobierana z form
        //  public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] UserType userType)
-        //public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive")] UserType userType)
+       // public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive")] UserType userType)
+       // public async Task<IActionResult> Create(HelpersCreate hc)
+     //   public async Task<IActionResult> Create(HelpersCreate hc,List<int> select_permission)
         public async Task<IActionResult> Create(HelpersCreate hc)
+
         {
 
-            
+                //musimy zrobic nowego UserType !!
+
+
+                
+                _context.UserTypes.Add( new UserType()
+                {
+                    Name = hc.Name,
+                    Description = hc.Description,
+                    IsActive = hc.IsActive,
+                    AddedDate = DateTime.Now
+                }
+                );
+
+            //_context.UserTypePermissions.Add( new UserTypePermission()
+            //{
+            //    UserTypeID = 1, // na chwile
+            //    PermissionID = select_permission.ElementAt(0),
+            //    Access = true,
+            //    AddedDate = DateTime.Now
+            //}
+            //);
+
+            _context.SaveChangesAsync();
+
+
+
+            //if (select_permission != null)
+            //{
+            //    foreach (int item in select_permission)
+            //    {
+            //        _context.UserTypePermissions.Add( new UserTypePermission()
+            //        {
+            //            UserTypeID = hc.UserTypeID,
+            //            PermissionID = item,
+            //            Access = true,
+            //            AddedDate = DateTime.Now
+            //        }
+            //        );
+
+            //        //student.Courses.Add(course);
+            //    }
+            //}
+
 
             //if (ModelState.IsValid)
             //{
@@ -147,15 +208,19 @@ namespace VetClinic.Intranet.Controllers
             //    await _context.SaveChangesAsync();
             //    return RedirectToAction(nameof(Index));
             //}
-            //jest ok
+
+
 
 
             //to bedzie z automau..
             //ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", userType.AddedUserID);
             //ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", userType.UpdatedUserID);
 
-            return View();
-            
+            //var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser);
+            //return View("Index",await vetClinicContext.ToListAsync());
+
+            return RedirectToAction(nameof(Index));
+
             //return View(userType);
         }
 
