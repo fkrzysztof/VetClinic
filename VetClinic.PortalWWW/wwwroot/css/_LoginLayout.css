@@ -32,6 +32,10 @@ body {
         padding: 2rem;
     }
 
+#PinkH4 {
+    color: #f3715b
+}
+
 .form-signin {
     width: 100%;
 }
@@ -103,7 +107,7 @@ body {
         .form-label-group input:not(:placeholder-shown) ~ label {
             padding-top: calc(var(--input-padding-y) / 3);
             padding-bottom: calc(var(--input-padding-y) / 3);
-            font-size: 12px;
+            font-size: 10px;
             color: #777;
         }
 
