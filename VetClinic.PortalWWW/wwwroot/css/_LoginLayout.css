@@ -52,11 +52,13 @@ body {
 .form-label-group {
     position: relative;
     margin-bottom: 1rem;
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
 }
 
     .form-label-group input {
         height: auto;
-        border-radius: 2rem;
+        border-radius: 1.5rem;
     }
 
     .form-label-group > input,
