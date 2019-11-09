@@ -41,5 +41,7 @@ namespace VetClinic.Data.Data.Clinic
         public ICollection<Prescription> Prescriptions { get; set; }
 
         public ICollection<Operation> Operations { get; set; }
+
+        public virtual ICollection<VisitMedicine> VisitMedicines { get; set; }
     }
 }

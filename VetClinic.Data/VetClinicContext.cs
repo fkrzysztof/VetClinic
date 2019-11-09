@@ -27,5 +27,6 @@ namespace VetClinic.Data
         public DbSet<Visit> Visits { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<MedicalSpecialization> MedicalSpecializations { get; set; }
+        public DbSet<VisitMedicine> VisitMedicines { get; set; }
     }
 }
