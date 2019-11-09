@@ -1,27 +1,29 @@
-﻿@model VetClinic.Data.Data.Clinic.UserType
+﻿@model VetClinic.Data.Data.Clinic.UserTypePermission
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
-<h1>Edit</h1>
+<h1>Create</h1>
 
-<h4>UserType</h4>
+<h4>UserTypePermission</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UserTypeID" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="UserTypeID" class="control-label"></label>
+                <select asp-for="UserTypeID" class ="form-control" asp-items="ViewBag.UserTypeID"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="PermissionID" class="control-label"></label>
+                <select asp-for="PermissionID" class ="form-control" asp-items="ViewBag.PermissionID"></select>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Access" /> @Html.DisplayNameFor(model => model.Access)
+                </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -40,16 +42,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="AddedUserID" class="control-label"></label>
-                <select asp-for="AddedUserID" class="form-control" asp-items="ViewBag.AddedUserID"></select>
-                <span asp-validation-for="AddedUserID" class="text-danger"></span>
+                <select asp-for="AddedUserID" class ="form-control" asp-items="ViewBag.AddedUserID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="UpdatedUserID" class="control-label"></label>
-                <select asp-for="UpdatedUserID" class="form-control" asp-items="ViewBag.UpdatedUserID"></select>
-                <span asp-validation-for="UpdatedUserID" class="text-danger"></span>
+                <select asp-for="UpdatedUserID" class ="form-control" asp-items="ViewBag.UpdatedUserID"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>

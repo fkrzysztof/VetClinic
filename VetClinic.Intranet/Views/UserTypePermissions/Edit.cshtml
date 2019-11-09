@@ -1,4 +1,4 @@
-﻿@model VetClinic.Data.Data.Clinic.UserType
+﻿@model VetClinic.Data.Data.Clinic.UserTypePermission
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,22 +6,27 @@
 
 <h1>Edit</h1>
 
-<h4>UserType</h4>
+<h4>UserTypePermission</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UserTypeID" />
+            <input type="hidden" asp-for="UserPermissionID" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="UserTypeID" class="control-label"></label>
+                <select asp-for="UserTypeID" class="form-control" asp-items="ViewBag.UserTypeID"></select>
+                <span asp-validation-for="UserTypeID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="PermissionID" class="control-label"></label>
+                <select asp-for="PermissionID" class="form-control" asp-items="ViewBag.PermissionID"></select>
+                <span asp-validation-for="PermissionID" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Access" /> @Html.DisplayNameFor(model => model.Access)
+                </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">

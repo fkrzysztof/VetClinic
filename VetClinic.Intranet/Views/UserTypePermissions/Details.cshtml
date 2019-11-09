@@ -1,28 +1,20 @@
-﻿@model VetClinic.Data.Data.Clinic.UserType
-
-@*@model VetClinic.Data.Data.HelpersClass.UsersAndUserType*@
+﻿@model VetClinic.Data.Data.Clinic.UserTypePermission
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Zarzadzanie grupą</h1>
+<h1>Details</h1>
 
 <div>
-    <h4>UserType</h4>
+    <h4>UserTypePermission</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Access)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
+            @Html.DisplayFor(model => model.Access)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IsActive)
@@ -43,22 +35,32 @@
             @Html.DisplayFor(model => model.UpdatedDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserTypeAddedUser)
+            @Html.DisplayNameFor(model => model.UserType)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserTypeAddedUser.City)
+            @Html.DisplayFor(model => model.UserType.Name)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserTypeUpdatedUser)
+            @Html.DisplayNameFor(model => model.Permission)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserTypeUpdatedUser.City)
+            @Html.DisplayFor(model => model.Permission.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserTypePermissionAddedUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserTypePermissionAddedUser.City)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.UserTypePermissionUpdatedUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.UserTypePermissionUpdatedUser.City)
         </dd>
     </dl>
 </div>
-
-
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.UserTypeID">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.UserPermissionID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

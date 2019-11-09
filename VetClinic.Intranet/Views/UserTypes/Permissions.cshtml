@@ -1,0 +1,91 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.UserTypePermission>
+
+@{
+    ViewData["Title"] = "Permissions";
+}
+
+<h1>Permissions</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Access)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserType)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Permission)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.UserTypePermissionAddedUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserTypePermissionUpdatedUser)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            @*
+        <td>
+        @Html.DisplayFor(modelItem => item.Access)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActive)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AddedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserType.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Permission.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserTypePermissionAddedUser.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserTypePermissionUpdatedUser.City)
+        </td>
+            *@
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Permission.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Access)
+            </td>
+
+
+
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.UserPermissionID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.UserPermissionID">Details</a> |*@
+
+                @*to nie dziala bo nie jest post!*@
+                <a asp-action="PermissionsDelete" asp-route-id="@item.UserPermissionID" asp->Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

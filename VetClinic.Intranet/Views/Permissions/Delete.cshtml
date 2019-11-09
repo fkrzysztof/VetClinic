@@ -1,4 +1,4 @@
-﻿@model VetClinic.Data.Data.Clinic.UserType
+﻿@model VetClinic.Data.Data.Clinic.Permission
 
 @{
     ViewData["Title"] = "Delete";
@@ -8,7 +8,7 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>UserType</h4>
+    <h4>Permission</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -42,21 +42,21 @@
             @Html.DisplayFor(model => model.UpdatedDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserTypeAddedUser)
+            @Html.DisplayNameFor(model => model.PermissionAddedUser)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserTypeAddedUser.City)
+            @Html.DisplayFor(model => model.PermissionAddedUser.City)
         </dd class>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserTypeUpdatedUser)
+            @Html.DisplayNameFor(model => model.PermissionUpdatedUser)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserTypeUpdatedUser.City)
+            @Html.DisplayFor(model => model.PermissionUpdatedUser.City)
         </dd class>
     </dl>
     
     <form asp-action="Delete">
-        <input type="hidden" asp-for="UserTypeID" />
+        <input type="hidden" asp-for="PermissionID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>
