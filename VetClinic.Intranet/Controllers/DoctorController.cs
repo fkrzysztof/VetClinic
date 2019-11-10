@@ -110,6 +110,7 @@ namespace VetClinic.Intranet.Controllers
                 try
                 {
                     user.UpdatedDate = DateTime.Now;
+                    user.UserTypeID = DoctorUserId;
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                     UploadPhoto(file, user.UserID);

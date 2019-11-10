@@ -16,7 +16,7 @@ namespace VetClinic.Intranet.Controllers
     {
         private readonly VetClinicContext _context;
         private readonly string EmployeeUserName = "Pracownik";
-        private readonly int EmployeeUserId = 1;
+        private readonly int EmployeeUserId = 3;
         public EmployeeController(VetClinicContext context)
         {
             _context = context;
@@ -110,6 +110,7 @@ namespace VetClinic.Intranet.Controllers
                 try
                 {
                     user.UpdatedDate = DateTime.Now;
+                    user.UserTypeID = EmployeeUserId;
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                     UploadPhoto(file, user.UserID);
