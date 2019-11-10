@@ -20,6 +20,9 @@ namespace VetClinic.Intranet.Controllers
             _context = context;
         }
 
+
+        
+
         //widok przdstawia uprawnienia - chyba nie potrzebny odrazu mozna dac edycje, lub przerobic na partial
         public async Task<IActionResult> Permissions(int id)
         {
@@ -56,12 +59,58 @@ namespace VetClinic.Intranet.Controllers
 
 
 
+
         // GET: UserTypes
         public async Task<IActionResult> Index()
         {
             var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser);
             return View(await vetClinicContext.ToListAsync());
                
+        }        
+        
+        public async Task<IActionResult> List()
+        {
+            //var vetClinicContext = _context.UserTypes
+            //    .Include(u => u.UserTypeAddedUser)
+            //    .Include(u => u.UserTypePermissions)
+            //    .Include(u => u.UserTypeUpdatedUser);
+            //return View(await vetClinicContext.ToListAsync());
+
+            ICollection<HelpersIndex> helpersIndex;
+            
+            ICollection<Permission> permissions_list_add = _context.Permissions.ToList();
+            ICollection<UserType> userTypes_list_add = _context.UserTypes.ToList();
+
+
+            helpersIndex.Add(new HelpersIndex { });
+
+
+            foreach (var item in userTypes_list_add)
+            {
+                helpersIndex.Add(
+                    new HelpersIndex
+                    {
+
+                    }
+                    
+                    );
+
+                    
+
+                    
+            }
+
+            return View(new HelpersCreate
+            {
+
+                UserTypeID = 0,
+                Name = "wpisz",
+                Description = "wpisz wiecej",
+                IsActive = false,
+                permissions_list = permissions_list_add
+
+            });
+
         }
 
         // GET: UserTypes/Details/5
@@ -115,8 +164,11 @@ namespace VetClinic.Intranet.Controllers
             //ViewBag.PermissionsList = _context.Permissions.Include(p => p.PermissionAddedUser).Include(p => p.PermissionUpdatedUser);
             ////ViewBag.PermissionsList = _context.UserTypePermissions;
 
-            ICollection<UserTypePermission> permissions_list_add = _context.UserTypePermissions.Include(i=>i.Permission).ToList();
-           // ICollection<UserType> userTypes_list_add = _context.UserTypes.ToList
+          //  ToString nie ta kolejca kolekcja!!??
+          //  ICollection<UserTypePermission> permissions_list_add = _context.UserTypePermissions.Include(i=>i.Permission).ToList();
+            ICollection<Permission> permissions_list_add = _context.Permissions.ToList();
+           
+            // ICollection<UserType> userTypes_list_add = _context.UserTypes.ToList
 
 
 
@@ -133,8 +185,6 @@ namespace VetClinic.Intranet.Controllers
             }) ;
              
 
-
-
             //Dane beda pobierane automatycznie z loginu! ********************************
 
             //ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
@@ -145,40 +195,47 @@ namespace VetClinic.Intranet.Controllers
         // POST: UserTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+        //calosc nie bedzie pobierana z form
+        //  public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] UserType userType)
+        // public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive")] UserType userType)
+        // public async Task<IActionResult> Create(HelpersCreate hc)
+        //   public async Task<IActionResult> Create(HelpersCreate hc)
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //calosc nie bedzie pobierana z form
-       //  public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] UserType userType)
-       // public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive")] UserType userType)
-       // public async Task<IActionResult> Create(HelpersCreate hc)
-     //   public async Task<IActionResult> Create(HelpersCreate hc,List<int> select_permission)
-        public async Task<IActionResult> Create(HelpersCreate hc)
+        public async Task<IActionResult> Create(HelpersCreate hc,List<int> select_permission)
+
 
         {
 
-                //musimy zrobic nowego UserType !!
+            //musimy zrobic nowego UserType !!
 
+            _context.UserTypes.Add(new UserType()
+            {
+                Name = hc.Name,
+                Description = hc.Description,
+                IsActive = hc.IsActive,
+                AddedDate = DateTime.Now
+            }
+            );
+            _context.SaveChanges();
 
-                
-                _context.UserTypes.Add( new UserType()
+            int newId = _context.UserTypes.First(f => f.Name == hc.Name).UserTypeID;
+
+            foreach (int item in select_permission)
+            {
+                _context.UserTypePermissions.Add(new UserTypePermission()
                 {
-                    Name = hc.Name,
-                    Description = hc.Description,
-                    IsActive = hc.IsActive,
+                    UserTypeID = newId,
+                    PermissionID = item,
+                    Access = true,
                     AddedDate = DateTime.Now
-                }
-                );
+                });
+            }
 
-            //_context.UserTypePermissions.Add( new UserTypePermission()
-            //{
-            //    UserTypeID = 1, // na chwile
-            //    PermissionID = select_permission.ElementAt(0),
-            //    Access = true,
-            //    AddedDate = DateTime.Now
-            //}
-            //);
-
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
+       
 
 
 
