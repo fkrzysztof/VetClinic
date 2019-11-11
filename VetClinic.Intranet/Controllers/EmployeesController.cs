@@ -12,24 +12,24 @@ using VetClinic.Data.Data.VetClinic;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class CustomerController : Controller
+    public class EmployeesController : Controller
     {
         private readonly VetClinicContext _context;
-        private readonly string CustomerUserName = "Klient";
-        private readonly int CustomerUserId = 4;
-        public CustomerController(VetClinicContext context)
+        private readonly string EmployeeUserName = "Pracownik";
+        private readonly int EmployeeUserId = 3;
+        public EmployeesController(VetClinicContext context)
         {
             _context = context;
         }
 
-        // GET: Customer
+        // GET: Employee
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == "Klient");
+            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name==EmployeeUserName);
             return View(await vetClinicContext.ToListAsync());
         }
 
-        // GET: Customer/Details/5
+        // GET: Employee/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,14 +48,14 @@ namespace VetClinic.Intranet.Controllers
             return View(user);
         }
 
-        // GET: Customer/Create
+        // GET: Employee/Create
         public IActionResult Create()
         {
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name");
             return View();
         }
 
-        // POST: Customer/Create
+        // POST: Employee/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,7 +66,7 @@ namespace VetClinic.Intranet.Controllers
             {
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
-                user.UserTypeID = CustomerUserId;
+                user.UserTypeID = EmployeeUserId;
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 UploadPhoto(file, user.UserID);
@@ -76,7 +76,7 @@ namespace VetClinic.Intranet.Controllers
             return View(user);
         }
 
-        // GET: Customer/Edit/5
+        // GET: Employee/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -93,7 +93,7 @@ namespace VetClinic.Intranet.Controllers
             return View(user);
         }
 
-        // POST: Customer/Edit/5
+        // POST: Employee/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -110,7 +110,7 @@ namespace VetClinic.Intranet.Controllers
                 try
                 {
                     user.UpdatedDate = DateTime.Now;
-                    user.UserTypeID = CustomerUserId;
+                    user.UserTypeID = EmployeeUserId;
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                     UploadPhoto(file, user.UserID);
@@ -132,7 +132,7 @@ namespace VetClinic.Intranet.Controllers
             return View(user);
         }
 
-        // GET: Customer/Delete/5
+        // GET: Employee/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -151,7 +151,7 @@ namespace VetClinic.Intranet.Controllers
             return View(user);
         }
 
-        // POST: Customer/Delete/5
+        // POST: Employee/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
