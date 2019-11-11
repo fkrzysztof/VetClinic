@@ -71,17 +71,27 @@ body {
 }
 
 a.aWhite {
-    color: white
+    color: white !important;
 }
 
 a.aWhite:active {
-    color: white
+    color: white !important;
 }
 
 a.aWhite:link {
-    color: white
+    color: white !important;
 }
 
 a.aWhite:visited {
-    color: white
+    color: white !important;
+}
+
+.footerPanel {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    text-align: center;
 }
