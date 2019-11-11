@@ -10,11 +10,11 @@ using VetClinic.Data.Data.Clinic;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class MedicinesController : Controller
+    public class MedicineController : Controller
     {
         private readonly VetClinicContext _context;
 
-        public MedicinesController(VetClinicContext context)
+        public MedicineController(VetClinicContext context)
         {
             _context = context;
         }
