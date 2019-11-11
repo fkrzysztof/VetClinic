@@ -51,9 +51,7 @@ body {
 
 .form-label-group {
     position: relative;
-    margin-bottom: 1rem;
-    margin-left: 0.25rem;
-    margin-right: 0.25rem;
+    margin: .5rem !important;
 }
 
     .form-label-group input {
@@ -73,7 +71,7 @@ body {
         display: block;
         width: 100%;
         margin-bottom: 0;
-        /* Override default `<label>` margin */
+
         line-height: 1.5;
         color: #495057;
         border: 1px solid transparent;
@@ -129,3 +127,6 @@ body {
     border-color: #FD6950;
 }*/
 
+#divReg {
+    background-image: url("../images/DogCat.jpg");
+}

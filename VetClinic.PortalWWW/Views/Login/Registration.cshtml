@@ -7,13 +7,12 @@
 
 
 <body>
-    <div class="row justify-content-center">
+    <div id="divReg" class="row justify-content-center">
         <div class="card card-signin my-5">
             <div class="card-body">
+
                 <h4 class="card-title text-center font-weight-normal" id="PinkH4">Formularz rejestracji</h4>
-
                 <hr class="my-4">
-
                 <form class="form-signin" asp-controller="Login" asp-action="Registration" method="post">
                     @if (ViewBag.Message != null)
                     {
@@ -63,7 +62,7 @@
                             <input type="text" id="street" class="form-control" placeholder="Ulica" required>
                             <label for="street">Ulica</label>
                         </div>
-                        <div class="form-label-group" style="width:35%">
+                        <div class="form-label-group" style="width:32%">
                             <input type="text" id="streetNo" class="form-control" placeholder="Numer ulicy, domu" required>
                             <label for="streetNo">Nr </label>
                         </div>
@@ -74,7 +73,7 @@
                             <input type="text" id="city" class="form-control" placeholder="Miasto" required>
                             <label for="city">Miasto</label>
                         </div>
-                        <div class="form-label-group" style="width:35%">
+                        <div class="form-label-group" style="width:32%">
                             <input type="text" id="PostalCode" class="form-control" placeholder="00-000" required>
                             <label for="PostalCode">Kod</label>
                         </div>
@@ -82,7 +81,7 @@
 
                     <hr class="my-4">
 
-                    <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Zarejestruj mnie!</button>
+                    <button class="btn btn-lg btn-secondary btn-block text-uppercase" type="submit">Zarejestruj mnie!</button>
 
                 </form>
             </div>
