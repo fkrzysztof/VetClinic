@@ -43,12 +43,12 @@
                     @if (Context.Session.GetString("UserID") != null)
                     {
                         @*<button class="btn btn-outline my-2 my-sm-0 secColor" type="submit">  @Html.ActionLink("Wyloguj", "Index", "Home", new { id = 1 }, new { @class = "aWhite" }) </button>*@
-                        <li><a asp-area="" asp-controller="Login" asp-action="Logout">Wyloguj</a></li>
+                        <a asp-area="" asp-controller="Login" asp-action="Logout" class="btn secColor" role="button">Wyloguj</a>
                     }
                     else
                     {
                         @*<button class="btn btn-outline my-2 my-sm-0 secColor" type="submit">  @Html.ActionLink("Logowanie", "Index", "Login", new { id = 1 }, new { @class = "aWhite" }) </button>*@
-                        <li><a asp-area="" asp-controller="Login" asp-action="Index">Zaloguj</a></li>
+                        <a asp-area="" asp-controller="Login" asp-action="Index" class="btn secColor" role="button">Zaloguj</a>
                     }
                 </div>
             </div>
