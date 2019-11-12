@@ -14,13 +14,17 @@ namespace VetClinic.Data.Data.Clinic
         public int VisitUserID { get; set; } // klient 
         public int? PatientID { get; set; } // zwierzak
         public int? VetID { get; set; } // weterynarz
+        public int TreatmentID { get; set; } // zabieg
 
         public DateTime DateOfVisit { get; set; }
         public string Description { get; set; } // krótki opis co się dzieje podczas zgłaszania wizyty
         public bool IsActive { get; set; } 
         public DateTime AddedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
- 
+
+        [ForeignKey("TreatmentID")]
+        public Treatment Treatment { get; set; }
+
         [ForeignKey("VisitUserID")]
         public User VisitUser { get; set; }
     
@@ -37,10 +41,6 @@ namespace VetClinic.Data.Data.Clinic
         public int? UpdatedUserID { get; set; } // użytkownik modyfikujący
         [ForeignKey("UpdatedUserID")]
         public User VisitUpdatedUser { get; set; }
-
-        public ICollection<Prescription> Prescriptions { get; set; }
-
-        public ICollection<Operation> Operations { get; set; }
 
         public virtual ICollection<VisitMedicine> VisitMedicines { get; set; }
     }

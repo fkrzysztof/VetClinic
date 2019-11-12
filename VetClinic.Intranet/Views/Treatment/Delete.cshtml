@@ -1,0 +1,37 @@
+﻿@model VetClinic.Data.Data.Clinic.Treatment
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h4>Usuń element:</h4>
+<h2>Zagieg</h2>
+<hr />
+
+<div>
+    <h4>Treatment</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nazwa zabiegu
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Opis zabiegu
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="TreatmentID" />
+        <input type="submit" value="Usuń" class="btn btn-primary" />
+
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </form>
+</div>

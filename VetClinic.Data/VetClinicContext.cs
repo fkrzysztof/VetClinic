@@ -15,11 +15,8 @@ namespace VetClinic.Data
         public DbSet<RecentNews> RecentNews { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<MedicineType> MedicineTypes { get; set; }
-        public DbSet<Operation> Operations { get; set; }
         public DbSet<PatientType> PatientTypes { get; set; }
         public DbSet<Patient> Patients { get; set; }
-        public DbSet<Prescription> Prescriptions { get; set; }
-        public DbSet<PrescriptionItem> PrescriptionItems { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Statement> Statements { get; set; }
         public DbSet<User> Users { get; set; }
@@ -28,5 +25,6 @@ namespace VetClinic.Data
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<MedicalSpecialization> MedicalSpecializations { get; set; }
         public DbSet<VisitMedicine> VisitMedicines { get; set; }
+        public DbSet<Treatment> Treatments { get; set; }    
     }
 }

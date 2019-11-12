@@ -52,13 +52,6 @@ namespace VetClinic.Data.Data.VetClinic
         [InverseProperty("MedicineTypeUpdatedUser")]
         public ICollection<MedicineType> UpdatedMedicineTypes { get; set; }
 
-        [InverseProperty("VetUser")]
-        public ICollection<Operation> VetOperations { get; set; }
-        [InverseProperty("OperationAddedUser")]
-        public ICollection<Operation> AddedOperations { get; set; }
-        [InverseProperty("OperationUpdatedUser")]
-        public ICollection<Operation> UpdateOperations { get; set; }
-
         [InverseProperty("RecentNewsAddedUser")]
         public virtual ICollection<RecentNews> AddedRecentNews { get; set; }
         [InverseProperty("RecentNewsUpdatedUser")]
@@ -75,16 +68,6 @@ namespace VetClinic.Data.Data.VetClinic
         public ICollection<PatientType> AddedPatientTypes { get; set; }
         [InverseProperty("PatientTypeUpdatedUser")]
         public ICollection<PatientType> UpdatedPatientTypes { get; set; }
-
-        [InverseProperty("PrescriptionAddedUser")]
-        public ICollection<Prescription> AddedPrescription { get; set; }
-        [InverseProperty("PrescriptionUpdatedUser")]
-        public ICollection<Prescription> UpdatedPrescription { get; set; }
-
-        [InverseProperty("PrescriptionItemAddedUser")]
-        public ICollection<PrescriptionItem> AddedPrescriptionItem { get; set; }
-        [InverseProperty("PrescriptionItemUpdatedUser")]
-        public ICollection<PrescriptionItem> UpdatedPrescriptionItem { get; set; }
 
         [InverseProperty("ReservationUser")]
         public ICollection<Reservation> ReservationUser { get; set; }
@@ -127,5 +110,10 @@ namespace VetClinic.Data.Data.VetClinic
         public ICollection<Specialization> AddedUserSpecialization { get; set; }
         [InverseProperty("SpecializationUpdatedUser")]
         public ICollection<Specialization> UpdatedUserSpecialization { get; set; }
+
+        [InverseProperty("TreatmentAddedUser")]
+        public ICollection<Treatment> AddedTreatments { get; set; }
+        [InverseProperty("TreatmentUpdatedUser")]
+        public ICollection<Treatment> UpdatedTreatments { get; set; }
     }
 }
