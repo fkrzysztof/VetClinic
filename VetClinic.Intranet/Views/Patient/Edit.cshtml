@@ -40,11 +40,15 @@
 
     <div class="form-row">
         <div class="form-group col-md-6">
+            <label asp-for="KennelName" class="control-label"></label>
+            <input asp-for="KennelName" class="form-control" />
+            <span asp-validation-for="KennelName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-6">
             <label asp-for="PatientNumber" class="control-label"></label>
             <input asp-for="PatientNumber" class="form-control" />
             <span asp-validation-for="PatientNumber" class="text-danger"></span>
         </div>
-        
     </div>
 
     <div class="form-group">

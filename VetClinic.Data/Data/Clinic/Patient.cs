@@ -27,6 +27,8 @@ namespace VetClinic.Data.Data.Clinic
         public bool IsActive { get; set; }
         [Display(Name = "Opis")]
         public string Description { get; set; }
+        [Display(Name = "Przydomek hodowlany")]
+        public string KennelName { get; set; }
         [Display(Name = "Data dodania")]
         public DateTime AddedDate { get; set; }
         [Display(Name = "Data modyfikacji")]
