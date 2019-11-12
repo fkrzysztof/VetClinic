@@ -13,11 +13,11 @@ using VetClinic.Data.Data.VetClinic;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class UsersController : Controller
+    public class UserController : Controller
     {
         private readonly VetClinicContext _context;
 
-        public UsersController(VetClinicContext context)
+        public UserController(VetClinicContext context)
         {
             _context = context;
         }
