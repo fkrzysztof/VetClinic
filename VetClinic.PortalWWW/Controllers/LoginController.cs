@@ -32,7 +32,7 @@ namespace VetClinic.PortalWWW.Controllers
                 HttpContext.Session.SetString("UserID", account.UserID.ToString());
                 HttpContext.Session.SetString("Login", account.Login.ToString());
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "ClientPanel");
             }
             else
             {
@@ -64,7 +64,7 @@ namespace VetClinic.PortalWWW.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
