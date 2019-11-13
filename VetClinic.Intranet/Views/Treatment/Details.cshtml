@@ -1,0 +1,64 @@
+﻿@model VetClinic.Data.Data.Clinic.Treatment
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h4>Szczegóły elementu:</h4>
+<h2>Zabieg</h2>
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nazwa zabiegu
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Opis Zabiegu
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-sm-2">
+            Czy aktywny
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IsActive)
+        </dd>
+        <dt class="col-sm-2">
+            Data dodania
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AddedDate)
+        </dd>
+        <dt class="col-sm-2">
+            Data modyfikacji
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+        <dt class="col-sm-2">
+            Dodający
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TreatmentAddedUser.Login)
+        </dd>
+        <dt class="col-sm-2">
+            Modyfikujący
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TreatmentUpdatedUser.Login)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model.TreatmentID">
+        <span class="fas fa-pen"></span> Edytuj
+    </a>
+    <a class="btn btn-outline-primary" role="button" asp-action="Index">
+        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+    </a>
+</div>
