@@ -28,6 +28,8 @@ namespace VetClinic.PortalWWW
             services.AddControllersWithViews();
             services.AddDbContext<VetClinicContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("VetClinicContext")));
+            services.AddDistributedMemoryCache();
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +47,7 @@ namespace VetClinic.PortalWWW
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
 

@@ -1,57 +1,94 @@
-﻿
+﻿@model VetClinic.Data.Data.VetClinic.User
 @{
     ViewData["Title"] = "Registration";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<h1>TU BĘDZIE LAYOUT ALE NA RAZIE WERSJA TESTOWA DLA Jacka :)</h1>
 
-<form>
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="inputLogin">Login</label>
-            <input type="text" class="form-control" id="inputLogin" placeholder="MopsikAngielski23 ...">
+
+<body>
+    <div id="divReg" class="row justify-content-center">
+        <div class="card card-signin my-5">
+            <div class="card-body">
+
+                <h4 class="card-title text-center font-weight-normal" id="PinkH4">Formularz rejestracji</h4>
+                <hr class="my-4">
+                <form class="form-signin" asp-controller="Login" asp-action="Registration" method="post">
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="form-control">
+                            <div class="col-md-10">@ViewBag.Message</div>
+                        </div>
+                    }
+
+                    <div class="form-row">
+                        <div class="form-label-group" style="width:100%">
+                            <input type="text" id="inputLogin" class="form-control" placeholder="Login">
+                            <label for="inputLogin">Login</label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-label-group">
+                            <input type="password" id="inputPassword1" class="form-control" placeholder="Hasło" required>
+                            <label for="inputPassword1">Hasło</label>
+                        </div>
+                        <div class="form-label-group">
+                            <input type="password" id="inputPassword2" class="form-control" placeholder="Powtórzone hasło" required>
+                            <label for="inputPassword2">Powtórz hasło</label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-label-group" style="width:100%">
+                            <input type="email" id="inputEmail" class="form-control" placeholder="E-mail">
+                            <label for="inputEmail">E-mail</label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-label-group">
+                            <input type="text" id="name" class="form-control" placeholder="Imię" required>
+                            <label for="name">Imię</label>
+                        </div>
+                        <div class="form-label-group">
+                            <input type="text" id="surname" class="form-control" placeholder="Nazwisko" required>
+                            <label for="surname">Nazwisko</label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-label-group" style="width:61%">
+                            <input type="text" id="street" class="form-control" placeholder="Ulica" required>
+                            <label for="street">Ulica</label>
+                        </div>
+                        <div class="form-label-group" style="width:32%">
+                            <input type="text" id="streetNo" class="form-control" placeholder="Numer ulicy, domu" required>
+                            <label for="streetNo">Nr </label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-label-group" style="width:61%">
+                            <input type="text" id="city" class="form-control" placeholder="Miasto" required>
+                            <label for="city">Miasto</label>
+                        </div>
+                        <div class="form-label-group" style="width:32%">
+                            <input type="text" id="PostalCode" class="form-control" placeholder="00-000" required>
+                            <label for="PostalCode">Kod</label>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <button class="btn btn-lg btn-secondary btn-block text-uppercase" type="submit">Zarejestruj mnie!</button>
+
+                </form>
+            </div>
+
         </div>
     </div>
+</body>
 
-    <div class="form-row">
-        <div class="form-group col-md-12">
-            <label for="inputEmail">Email</label>
-            <input type="email" class="form-control" id="inputEmail" placeholder="kochanyklient@email.com ...">
-        </div>
-    </div>
 
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label for="inputName">Imię</label>
-            <input type="text" class="form-control" id="inputName" placeholder="Janek ...">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="inputSurname">Nazwisko</label>
-            <input type="email" class="form-control" id="inputSurname" placeholder="Kowalski ...">
-        </div>
-    </div>
 
-    <div class="form-group">
-        <label for="inputAddress">Adres</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="ul.Zwierzowa ... ">
-    </div>
-
-    <div class="form-group">
-        <label for="inputAddress2">Adres cd.</label>
-        <input type="text" class="form-control" id="inputAddress2" placeholder="Mieszkanie, dom, piętro ...">
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-8">
-            <label for="inputCity">Miasto</label>
-            <input type="text" class="form-control" id="inputCity">
-        </div>
-        <div class="form-group col-md-4">
-            <label for="inputZip">Kod pocztowy</label>
-            <input type="text" class="form-control" id="inputZip">
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Rejestruj</button>
-</form>

@@ -32,6 +32,10 @@ body {
         padding: 2rem;
     }
 
+#PinkH4 {
+    color: #f3715b
+}
+
 .form-signin {
     width: 100%;
 }
@@ -47,12 +51,12 @@ body {
 
 .form-label-group {
     position: relative;
-    margin-bottom: 1rem;
+    margin: .5rem !important;
 }
 
     .form-label-group input {
         height: auto;
-        border-radius: 2rem;
+        border-radius: 1.5rem;
     }
 
     .form-label-group > input,
@@ -67,7 +71,7 @@ body {
         display: block;
         width: 100%;
         margin-bottom: 0;
-        /* Override default `<label>` margin */
+
         line-height: 1.5;
         color: #495057;
         border: 1px solid transparent;
@@ -103,7 +107,7 @@ body {
         .form-label-group input:not(:placeholder-shown) ~ label {
             padding-top: calc(var(--input-padding-y) / 3);
             padding-bottom: calc(var(--input-padding-y) / 3);
-            font-size: 12px;
+            font-size: 10px;
             color: #777;
         }
 
@@ -123,3 +127,6 @@ body {
     border-color: #FD6950;
 }*/
 
+#divReg {
+    background-image: url("../images/DogCat.jpg");
+}
