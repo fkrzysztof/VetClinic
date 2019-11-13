@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20191112182306_add_new_column_KennelName_in_table_Patients")]
+    partial class add_new_column_KennelName_in_table_Patients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -197,6 +199,53 @@ namespace VetClinic.Data.Migrations
                     b.ToTable("MedicineTypes");
                 });
 
+            modelBuilder.Entity("VetClinic.Data.Data.Clinic.Operation", b =>
+                {
+                    b.Property<int>("OperationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("AddedUserID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateOfOperation")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UpdatedUserID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VetID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VisitID")
+                        .HasColumnType("int");
+
+                    b.HasKey("OperationID");
+
+                    b.HasIndex("AddedUserID");
+
+                    b.HasIndex("UpdatedUserID");
+
+                    b.HasIndex("VetID");
+
+                    b.HasIndex("VisitID");
+
+                    b.ToTable("Operations");
+                });
+
             modelBuilder.Entity("VetClinic.Data.Data.Clinic.Patient", b =>
                 {
                     b.Property<int>("PatientID")
@@ -290,6 +339,96 @@ namespace VetClinic.Data.Migrations
                     b.HasIndex("UpdatedUserID");
 
                     b.ToTable("PatientTypes");
+                });
+
+            modelBuilder.Entity("VetClinic.Data.Data.Clinic.Prescription", b =>
+                {
+                    b.Property<int>("PrescriptionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("AddedUserID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("TotalToPay")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UpdatedUserID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VisitID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PrescriptionID");
+
+                    b.HasIndex("AddedUserID");
+
+                    b.HasIndex("UpdatedUserID");
+
+                    b.HasIndex("VisitID");
+
+                    b.ToTable("Prescriptions");
+                });
+
+            modelBuilder.Entity("VetClinic.Data.Data.Clinic.PrescriptionItem", b =>
+                {
+                    b.Property<int>("PrescriptionItemID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("AddedUserID")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MedicineID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PrescriptionID")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UpdatedUserID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PrescriptionItemID");
+
+                    b.HasIndex("AddedUserID");
+
+                    b.HasIndex("MedicineID");
+
+                    b.HasIndex("PrescriptionID");
+
+                    b.HasIndex("UpdatedUserID");
+
+                    b.ToTable("PrescriptionItems");
                 });
 
             modelBuilder.Entity("VetClinic.Data.Data.Clinic.Reservation", b =>
@@ -425,44 +564,6 @@ namespace VetClinic.Data.Migrations
                     b.ToTable("Statements");
                 });
 
-            modelBuilder.Entity("VetClinic.Data.Data.Clinic.Treatment", b =>
-                {
-                    b.Property<int>("TreatmentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("AddedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("AddedUserID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("UpdatedUserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("TreatmentID");
-
-                    b.HasIndex("AddedUserID");
-
-                    b.HasIndex("UpdatedUserID");
-
-                    b.ToTable("Treatments");
-                });
-
             modelBuilder.Entity("VetClinic.Data.Data.Clinic.UserType", b =>
                 {
                     b.Property<int>("UserTypeID")
@@ -526,9 +627,6 @@ namespace VetClinic.Data.Migrations
                     b.Property<int?>("PatientID")
                         .HasColumnType("int");
 
-                    b.Property<int>("TreatmentID")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
@@ -546,8 +644,6 @@ namespace VetClinic.Data.Migrations
                     b.HasIndex("AddedUserID");
 
                     b.HasIndex("PatientID");
-
-                    b.HasIndex("TreatmentID");
 
                     b.HasIndex("UpdatedUserID");
 
@@ -718,6 +814,25 @@ namespace VetClinic.Data.Migrations
                         .HasForeignKey("UpdatedUserID");
                 });
 
+            modelBuilder.Entity("VetClinic.Data.Data.Clinic.Operation", b =>
+                {
+                    b.HasOne("VetClinic.Data.Data.VetClinic.User", "OperationAddedUser")
+                        .WithMany("AddedOperations")
+                        .HasForeignKey("AddedUserID");
+
+                    b.HasOne("VetClinic.Data.Data.VetClinic.User", "OperationUpdatedUser")
+                        .WithMany("UpdateOperations")
+                        .HasForeignKey("UpdatedUserID");
+
+                    b.HasOne("VetClinic.Data.Data.VetClinic.User", "VetUser")
+                        .WithMany("VetOperations")
+                        .HasForeignKey("VetID");
+
+                    b.HasOne("VetClinic.Data.Data.Clinic.Visit", "Visit")
+                        .WithMany("Operations")
+                        .HasForeignKey("VisitID");
+                });
+
             modelBuilder.Entity("VetClinic.Data.Data.Clinic.Patient", b =>
                 {
                     b.HasOne("VetClinic.Data.Data.VetClinic.User", "PatientAddedUser")
@@ -747,6 +862,44 @@ namespace VetClinic.Data.Migrations
 
                     b.HasOne("VetClinic.Data.Data.VetClinic.User", "PatientTypeUpdatedUser")
                         .WithMany("UpdatedPatientTypes")
+                        .HasForeignKey("UpdatedUserID");
+                });
+
+            modelBuilder.Entity("VetClinic.Data.Data.Clinic.Prescription", b =>
+                {
+                    b.HasOne("VetClinic.Data.Data.VetClinic.User", "PrescriptionAddedUser")
+                        .WithMany("AddedPrescription")
+                        .HasForeignKey("AddedUserID");
+
+                    b.HasOne("VetClinic.Data.Data.VetClinic.User", "PrescriptionUpdatedUser")
+                        .WithMany("UpdatedPrescription")
+                        .HasForeignKey("UpdatedUserID");
+
+                    b.HasOne("VetClinic.Data.Data.Clinic.Visit", "Visit")
+                        .WithMany("Prescriptions")
+                        .HasForeignKey("VisitID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VetClinic.Data.Data.Clinic.PrescriptionItem", b =>
+                {
+                    b.HasOne("VetClinic.Data.Data.VetClinic.User", "PrescriptionItemAddedUser")
+                        .WithMany("AddedPrescriptionItem")
+                        .HasForeignKey("AddedUserID");
+
+                    b.HasOne("VetClinic.Data.Data.Clinic.Medicine", "Medicine")
+                        .WithMany("PrescriptionItems")
+                        .HasForeignKey("MedicineID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VetClinic.Data.Data.Clinic.Prescription", "Prescription")
+                        .WithMany("PrescriptionItems")
+                        .HasForeignKey("PrescriptionID");
+
+                    b.HasOne("VetClinic.Data.Data.VetClinic.User", "PrescriptionItemUpdatedUser")
+                        .WithMany("UpdatedPrescriptionItem")
                         .HasForeignKey("UpdatedUserID");
                 });
 
@@ -801,17 +954,6 @@ namespace VetClinic.Data.Migrations
                         .HasForeignKey("UpdatedUserID");
                 });
 
-            modelBuilder.Entity("VetClinic.Data.Data.Clinic.Treatment", b =>
-                {
-                    b.HasOne("VetClinic.Data.Data.VetClinic.User", "TreatmentAddedUser")
-                        .WithMany("AddedTreatments")
-                        .HasForeignKey("AddedUserID");
-
-                    b.HasOne("VetClinic.Data.Data.VetClinic.User", "TreatmentUpdatedUser")
-                        .WithMany("UpdatedTreatments")
-                        .HasForeignKey("UpdatedUserID");
-                });
-
             modelBuilder.Entity("VetClinic.Data.Data.Clinic.UserType", b =>
                 {
                     b.HasOne("VetClinic.Data.Data.VetClinic.User", "UserTypeAddedUser")
@@ -832,12 +974,6 @@ namespace VetClinic.Data.Migrations
                     b.HasOne("VetClinic.Data.Data.Clinic.Patient", "Patient")
                         .WithMany("Visits")
                         .HasForeignKey("PatientID");
-
-                    b.HasOne("VetClinic.Data.Data.Clinic.Treatment", "Treatment")
-                        .WithMany("Visits")
-                        .HasForeignKey("TreatmentID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("VetClinic.Data.Data.VetClinic.User", "VisitUpdatedUser")
                         .WithMany("UpdatedVisits")
