@@ -194,5 +194,17 @@ namespace VetClinic.Intranet.Controllers
                 _context.SaveChanges();
             }
         }
+       
+        public IActionResult VerifyLogin(string login)
+        {
+            var test = _context.Users.FirstOrDefault(a => a.Login == login);
+
+            if (test != null)
+            {
+                return Json($"Login {login} jest już zajęty.");
+            }
+
+            return Json(true);
+        }
     }
 }
