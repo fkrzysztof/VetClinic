@@ -188,98 +188,106 @@
     <h2 class="text-center txtSecColor">NASZ ZESPÓŁ</h2>
     <hr class="featurette-divider">
 
-    <!-- ZAŁOGA ------------------------>
+    <!-- ZAŁOGA -------------------------------------------------------------------------------->
+
+
     <div class="container marketing">
         <div class="row">
-            <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <img class="card-img-top" src="~/images/team1.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a class="btn secColor" href="#" role="button">Więcej &raquo;</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <img class="card-img-top" src="~/images/team2.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a class="btn secColor" href="#" role="button">Więcej &raquo;</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                    <img class="card-img-top" src="~/images/team3.jpg" alt="Card image cap">
-                    <div class="card-body">
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a class="btn secColor" href="#" role="button">Więcej &raquo;</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- /ZAŁOGA ------------------------>
-    <!-- STOPKA ------------------------>
-    <footer class="bg-dark">
-        <div class="container">
-            <hr class="featurette-divider">
-            <div class="row">
-                <div class="col-md-4 text-center text-md-center">
-                    <div>
-                        <a class="navbar-brand" href="#">
-                            <img src="~/images/logo.svg" width="120" height="120" class="d-inline-block align-top" alt="">
-                            <p class="text-white">VetClinic</p>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-4 text-white text-center text-md-center">
-                    <div class="py-2 my-4">
-                        <div>
-                            <p class="text-white">
-                                <i class="fa fa-map-marker mx-2 aSecColor "></i>
-                                ul. Zwierzowa 12/1 33-300 Nowy Sącz
-                            </p>
-                        </div>
-                        <div>
-                            <p><i class="fa fa-phone  mx-2 aSecColor"></i> +48 222 778 218</p>
-                        </div>
-                        <div>
-                            <p><i class="fa fa-envelope  mx-2 aSecColor"></i><a class="aSecColor" href="mailto:vetclinic@gmail.com">vetclinic@gmail.com</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 text-white my-4 text-center text-md-center ">
-                    <h3 class="txtSecColor">DYŻUR 24/7</h3>
-                    <h3 class="txtSecColor">T: 343 434 434</h3>
-                    <div class="py-2">
-                        <a href="#"><i class="fab fa-facebook fa-2x text-primary mx-3"></i></a>
-                        <a href="#"><i class="fab fa-google-plus fa-2x text-danger mx-3"></i></a>
-                        <a href="#"><i class="fab fa-twitter fa-2x text-info mx-3"></i></a>
-                        <a href="#"><i class="fab fa-youtube fa-2x text-danger mx-3"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- /STOPKA ------------------------>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+            @await Html.PartialAsync("Crews", (IEnumerable<VetClinic.Data.Data.VetClinic.User>)ViewBag.ModelUser)
+         
+
+            @*<div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <img class="card-img-top" src="~/images/team1.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn secColor" href="#" role="button">Więcej &raquo;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <img class="card-img-top" src="~/images/team2.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn secColor" href="#" role="button">Więcej &raquo;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <img class="card-img-top" src="~/images/team3.jpg" alt="Card image cap">
+                        <div class="card-body">
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a class="btn secColor" href="#" role="button">Więcej &raquo;</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
+            <!-- /ZAŁOGA ------------------------>
+            <!-- STOPKA ------------------------>
+            <footer class="bg-dark">
+                <div class="container">
+                    <hr class="featurette-divider">
+                    <div class="row">
+                        <div class="col-md-4 text-center text-md-center">
+                            <div>
+                                <a class="navbar-brand" href="#">
+                                    <img src="~/images/logo.svg" width="120" height="120" class="d-inline-block align-top" alt="">
+                                    <p class="text-white">VetClinic</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-white text-center text-md-center">
+                            <div class="py-2 my-4">
+                                <div>
+                                    <p class="text-white">
+                                        <i class="fa fa-map-marker mx-2 aSecColor "></i>
+                                        ul. Zwierzowa 12/1 33-300 Nowy Sącz
+                                    </p>
+                                </div>
+                                <div>
+                                    <p><i class="fa fa-phone  mx-2 aSecColor"></i> +48 222 778 218</p>
+                                </div>
+                                <div>
+                                    <p><i class="fa fa-envelope  mx-2 aSecColor"></i><a class="aSecColor" href="mailto:vetclinic@gmail.com">vetclinic@gmail.com</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-white my-4 text-center text-md-center ">
+                            <h3 class="txtSecColor">DYŻUR 24/7</h3>
+                            <h3 class="txtSecColor">T: 343 434 434</h3>
+                            <div class="py-2">
+                                <a href="#"><i class="fab fa-facebook fa-2x text-primary mx-3"></i></a>
+                                <a href="#"><i class="fab fa-google-plus fa-2x text-danger mx-3"></i></a>
+                                <a href="#"><i class="fab fa-twitter fa-2x text-info mx-3"></i></a>
+                                <a href="#"><i class="fab fa-youtube fa-2x text-danger mx-3"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- /STOPKA ------------------------>
+
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+            @RenderSection("Scripts", required: false)
 </body>
 </html>
