@@ -30,14 +30,6 @@ namespace VetClinic.Intranet.Controllers
             return View(await vetClinicContext.ToListAsync());
         }
 
-
-        //public async Task<IActionResult> AddNewPermisssonsToType()
-        public string AddNewPermisssonsToType(string name)
-        {
-            return "jest ok" + name;
-        }
-
-
         // POST: UserTypePermissions/Delete/5
         //[HttpPost, ActionName("Delete")]
         [HttpPost]
@@ -59,7 +51,6 @@ namespace VetClinic.Intranet.Controllers
         {
             var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser).Where(w => w.IsActive == true && w.Name != "No7818Permissions");
             return View(await vetClinicContext.ToListAsync());
-               
         }
 
         // GET: UserTypes/Details/5
@@ -243,10 +234,8 @@ namespace VetClinic.Intranet.Controllers
                 }
                 _context.SaveChanges();
             }
-
-
+            
             #endregion
-
 
             return RedirectToAction(nameof(Index));
         }
@@ -256,9 +245,6 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Create()
         {
 
-            //ViewBag.PermissionsList = _context.Permissions.Include(p => p.PermissionAddedUser).Include(p => p.PermissionUpdatedUser);
-            //ViewBag.PermissionsList = _context.UserTypePermissions;
-            //ICollection<UserTypePermission> permissions_list_add = _context.UserTypePermissions.Include(i=>i.Permission).ToList();
             ICollection<Permission> permissions_list_add = _context.Permissions.ToList();
 
             return View(new HelpersCreate
@@ -272,10 +258,6 @@ namespace VetClinic.Intranet.Controllers
 
             }) ;
 
-            //Dane beda pobierane automatycznie z loginu! ********************************
-            //ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            //ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            //return View();
         }
 
         //  public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] UserType userType)
@@ -310,37 +292,6 @@ namespace VetClinic.Intranet.Controllers
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
-
-            //if (select_permission != null)
-            //{
-            //    foreach (int item in select_permission)
-            //    {
-            //        _context.UserTypePermissions.Add( new UserTypePermission()
-            //        {
-            //            UserTypeID = hc.UserTypeID,
-            //            PermissionID = item,
-            //            Access = true,
-            //            AddedDate = DateTime.Now
-            //        }
-            //        );
-
-            //        //student.Courses.Add(course);
-            //    }
-            //}
-            //if (ModelState.IsValid)
-            //{
-            //    userType.AddedDate = DateTime.Now;
-            //    userType.AddedUserID = null;
-            //    _context.Add(userType);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction(nameof(Index));
-            //}
-            //to bedzie z automau..
-            //ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", userType.AddedUserID);
-            //ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", userType.UpdatedUserID);
-            //var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser);
-            //return View("Index",await vetClinicContext.ToListAsync());
-            //return View(userType);
         }
 
         // GET: UserTypes/Edit/5
@@ -453,10 +404,7 @@ namespace VetClinic.Intranet.Controllers
                 itemUser.IsActive = true;
                 itemUser.UserTypeID = noPermissionsID;
             }
-
-
-
-            
+                                             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         
