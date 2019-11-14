@@ -1,0 +1,20 @@
+﻿@model IEnumerable<VetClinic.Data.Data.VetClinic.User>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <img class="card-img-top" src="@item.Photo" alt="Card image cap">
+            <div class="card-body">
+
+                <p class="card-text font-weight-bold">@item.FirstName @item.LastName</p>
+                <p class="card-text">@item.Description</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <a class="btn secColor" asp-controller="Crews" asp-action="Index" asp-route-id="@item.UserID" role="button">Więcej &raquo;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

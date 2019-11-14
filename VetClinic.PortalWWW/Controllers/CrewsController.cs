@@ -20,16 +20,24 @@ namespace VetClinic.PortalWWW.Controllers
         }
 
         // GET: Crews
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            ViewBag.ModelUser =
+            if(id == null)
+                return View("Views/Home/Index.cshtml");
+
+
+            ViewBag.ModelRecentNews =
             (
-                from user in _context.Users
-                orderby user.UserID 
-                select User
+                from recentnews in _context.RecentNews
+                orderby recentnews.Position
+                select recentnews
             ).ToList();
-            var vetClinicContext = _context.Users.Include(u => u.UserType);
-            return View(await vetClinicContext.ToListAsync());
+
+            ViewBag.ModelUser = _context.Users.Include(u => u.UserType);
+
+
+            User result  = _context.Users.FirstOrDefault(i => i.UserID == id);
+            return View(result);
         }
 
     }

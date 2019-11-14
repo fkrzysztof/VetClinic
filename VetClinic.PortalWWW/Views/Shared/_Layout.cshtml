@@ -113,7 +113,7 @@
         <!-- AKTUALNOŚCI ------------------------>
 
         @await Html.PartialAsync("RecentNews", (IEnumerable<VetClinic.Data.Data.CMS.RecentNews>
-            )ViewBag.ModelRecentNews)
+            )ViewBag.ModelRecentNews)        
 
         <hr class="featurette-divider">
     </div>
@@ -188,57 +188,14 @@
     <h2 class="text-center txtSecColor">NASZ ZESPÓŁ</h2>
     <hr class="featurette-divider">
 
-    <!-- ZAŁOGA -------------------------------------------------------------------------------->
+    <!-- ZAŁOGA --------------------------------->
 
 
     <div class="container marketing">
         <div class="row">
-
-            @await Html.PartialAsync("Crews", (IEnumerable<VetClinic.Data.Data.VetClinic.User>)ViewBag.ModelUser)
-         
-
-            @*<div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" src="~/images/team1.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a class="btn secColor" href="#" role="button">Więcej &raquo;</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" src="~/images/team2.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a class="btn secColor" href="#" role="button">Więcej &raquo;</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4 box-shadow">
-                        <img class="card-img-top" src="~/images/team3.jpg" alt="Card image cap">
-                        <div class="card-body">
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <a class="btn secColor" href="#" role="button">Więcej &raquo;</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>*@
-
+            @await Html.PartialAsync("Crew", (IEnumerable<VetClinic.Data.Data.VetClinic.User>)ViewBag.ModelUser)
+        </div>
+    </div>
 
             <!-- /ZAŁOGA ------------------------>
             <!-- STOPKA ------------------------>

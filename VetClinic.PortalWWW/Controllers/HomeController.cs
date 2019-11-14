@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -29,9 +30,8 @@ namespace VetClinic.PortalWWW.Controllers
                 orderby recentnews.Position
                 select recentnews
             ).ToList();
-            
 
-
+            ViewBag.ModelUser = _context.Users.Include(u => u.UserType);
             return View();
         }
 
