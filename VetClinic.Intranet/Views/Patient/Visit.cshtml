@@ -1,0 +1,89 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Visit>
+@{
+    ViewData["Title"] = "Wizyty";
+}
+
+
+<p>
+    <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="AddVisit" asp-route-id=@ViewData["PatientID"]>
+        <i class="fas fa-plus-circle"></i>
+        Dodaj
+    </a>
+</p>
+<div class="form-row">
+    <div class="form-group col-md-7">
+        <h2>Wizyty dla pacjenta @ViewData["PatientName"]</h2>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>
+                            Identyfikator
+                        </th>
+                        <th>
+                            Data wizyty
+                        </th>
+                        <th>
+                            Opis
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>
+                                <a href="" class="visitdetails-id" data-VisitId="@item.VisitID"> @Html.DisplayFor(modelItem => item.PatientID) </a>
+                            </td>
+                            <td>
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOfVisit))
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+
+                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="EditVisit" asp-route-id="@item.VisitID">
+                                    <span class="fas fa-pen"></span>
+                                </a>
+                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.PatientID">
+                                    <span class="fas fa-list-alt"></span>
+                                </a>
+                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
+                                    <span class="fas fa-trash-alt"></span>
+                                </a>
+                            </td>
+
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="maincont" class="form-group col-md-5" style="padding-top:45px"></div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+    $('.visitdetails-id').click(function (e) {
+        e.preventDefault();
+        var pId = $(this).attr('data-visitId');
+
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("VisitDetails", "Patient")',
+            data: {
+                id: pId
+            },
+            success: function (pageContent) {
+                $('#maincont').html(pageContent);
+            }
+        });
+    });
+    </script>
+}

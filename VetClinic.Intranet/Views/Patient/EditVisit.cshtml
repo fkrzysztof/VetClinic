@@ -1,0 +1,53 @@
+﻿@model VetClinic.Data.Data.Clinic.Visit
+
+@{
+    ViewData["Title"] = "EditVisit";
+}
+
+<h3>Edycja wizyty</h3>
+
+<h5>Szczegóły</h5>
+<hr />
+<form asp-action="Edit">
+    <div class="form-row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="VisitID" />
+        @*<input type="hidden" asp-for="VisitUserID" />
+            <input type="hidden" asp-for="PatientID" />*@
+        <div class="form-group col-md-4">
+            <label>Weterynarz</label>
+            <select asp-for="VetID" class="form-control" asp-items="ViewBag.VetID"></select>
+            <span asp-validation-for="VetID" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Data wizyty</label>
+            <input asp-for="DateOfVisit" class="form-control" />
+            <span asp-validation-for="DateOfVisit" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-5">
+            <label>Zabieg</label>
+            <select asp-for="TreatmentID" class="form-control" asp-items="ViewBag.TreatmentID"></select>
+            <span asp-validation-for="TreatmentID" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Opis</label>
+        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Zapisz" asp-action="EditVisit" asp-route-id="@Model.VisitID" class="btn btn-primary" />
+
+
+    </div>
+</form>
+<div>
+    <a class="btn btn-outline-primary" role="button" asp-action="AddMedicine" asp-route-id="@Model.VisitID">Dodaj leki</a>
+    <a class="btn btn-outline-primary" role="button" asp-action="Index">
+        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+    </a>
+</div>
+
