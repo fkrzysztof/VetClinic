@@ -22,7 +22,7 @@ namespace VetClinic.Intranet.Controllers
         // GET: Permissions
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.Permissions.Include(p => p.PermissionAddedUser).Include(p => p.PermissionUpdatedUser);
+            var vetClinicContext = _context.Permissions.Include(p => p.PermissionAddedUser).Include(p => p.PermissionUpdatedUser).Where(w => w.IsActive == true);
             return View(await vetClinicContext.ToListAsync());
         }
 
@@ -61,6 +61,9 @@ namespace VetClinic.Intranet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PermissionID,Name,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Permission permission)
         {
+            permission.IsActive = true;
+            permission.AddedDate = DateTime.Now;
+            
             if (ModelState.IsValid)
             {
                 _context.Add(permission);
@@ -97,10 +100,14 @@ namespace VetClinic.Intranet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PermissionID,Name,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Permission permission)
         {
+
             if (id != permission.PermissionID)
             {
                 return NotFound();
             }
+
+            permission.IsActive = true;
+            permission.UpdatedDate = DateTime.Now;
 
             if (ModelState.IsValid)
             {
@@ -153,8 +160,17 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var permission = await _context.Permissions.FindAsync(id);
-            _context.Permissions.Remove(permission);
-            await _context.SaveChangesAsync();
+
+            permission.IsActive = false;
+            _context.SaveChanges();
+
+            var permissionList = _context.UserTypePermissions.Where(w => w.PermissionID == id).ToList();
+            foreach (var itemPermissionType in permissionList)
+            {
+                itemPermissionType.IsActive = false;
+                _context.SaveChanges();
+            }
+            
             return RedirectToAction(nameof(Index));
         }
 

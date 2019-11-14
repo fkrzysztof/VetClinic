@@ -4,48 +4,31 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Grupy uprawnien</h1>
+    <div class="row">
+        <div class="col-sm-6">
+        <h1>Grupy uprawnien</h1>
+        </div>
+        <div class="col-sm-6 float-right">
+            <a class="btn btn-outline-primary float-right" asp-action="Details">Nowa Grupa</a>            
+            <a class="btn btn-outline-primary float-right mr-2" asp-action="Index" asp-controller="Permissions">Uprawniena</a>
+        </div>
+    </div>
+<hr />
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-sm-6">
+                @*margines*@
+                <div class="card mb-4 border-danger">
+                    <div class="card-body">
+                        <h3 class="card-title text-right"> @Html.DisplayFor(modelItem => item.Name)</h3>
 
-<p>
-    <a asp-action="Create">Nowa Grupa</a>
-</p>
-
-
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @*<a asp-action="Edit" asp-route-id="@item.UserTypeID">Edit</a> |*@
-
-                        @*<a asp-action="PermissionsDelete" asp-route-id="@item.UserTypeID">x</a>*@
-
-                        <a asp-action="Permissions" asp-route-id="@item.UserTypeID">More</a> |
-                        @*<a asp-controller="UserTypePermissions" asp-action="Details" asp-route-id="@item.UserTypeID">Uprawnienia</a>*@
-                        @*<a asp-action="Delete" asp-route-id="@item.UserTypeID">Delete</a>*@
-                </td>
-            </tr>
+                        <h6 class="card-title">Opis</h6>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                        <a asp-action="Details" asp-route-id="@item.UserTypeID" class="btn btn-outline-primary">Zarządzaj</a>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-    </table>
-
+    </div>
 

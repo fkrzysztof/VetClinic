@@ -4,68 +4,72 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<div class="row">
+
+    <div class="col-sm-6">
+        <h1>Lista uprawnień</h1>
+    </div>
+    <div class="col-sm-6 text-right float-right">
+        <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+            <i class="fas fa-plus-circle"></i>
+            Dodaj
+        </a>
+        <a class="btn btn-outline-primary" asp-controller="UserTypes" asp-action="Index">
+            Powrót
+        </a>
+    </div>
+</div>
+
+<br />
+<hr />
+<br />
+<table class="table col-sm-5 table-hover">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
+            <th class="text-left">
+                Nazwa
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
+            <th class="text-center">
+                Opis
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PermissionAddedUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PermissionUpdatedUser)
-            </th>
-            <th></th>
+            <th class="text-right"></th>
+            <th class="text-right"></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UpdatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermissionAddedUser.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PermissionUpdatedUser.City)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PermissionID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PermissionID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PermissionID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-left">
+                   @item.Name
+                </td>
+                <td class="text-center">
+                    @item.Description
+                </td>
+                <td class="text-right">
+                    <table class="table-borderless">
+                        <tr>
+                            <td>
+                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.PermissionID">
+                                    Edycja
+                                </a>
+                            </td>
+                            <td>
+
+                                <form asp-action="Delete" asp-controller="Permissions" method="post">
+
+                                    <input type="hidden" value="@item.PermissionID" name="id" />
+                                    <input type="submit" value="Usun" class="btn btn-danger btn-sm" />
+                                </form>
+
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+

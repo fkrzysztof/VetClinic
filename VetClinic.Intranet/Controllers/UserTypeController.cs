@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.Data.Data.VetClinic;
 using VetClinic.Data.HelpersClass;
 
 namespace VetClinic.Intranet.Controllers
@@ -19,9 +20,6 @@ namespace VetClinic.Intranet.Controllers
         {
             _context = context;
         }
-
-
-        
 
         //widok przdstawia uprawnienia - chyba nie potrzebny odrazu mozna dac edycje, lub przerobic na partial
         public async Task<IActionResult> Permissions(int id)
@@ -56,122 +54,212 @@ namespace VetClinic.Intranet.Controllers
         }
 
 
-
-
-
-
         // GET: UserTypes
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser);
+            var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser).Where(w => w.IsActive == true && w.Name != "No7818Permissions");
             return View(await vetClinicContext.ToListAsync());
                
-        }        
-        
-        public async Task<IActionResult> List()
-        {
-            //var vetClinicContext = _context.UserTypes
-            //    .Include(u => u.UserTypeAddedUser)
-            //    .Include(u => u.UserTypePermissions)
-            //    .Include(u => u.UserTypeUpdatedUser);
-            //return View(await vetClinicContext.ToListAsync());
-
-            ICollection<HelpersIndex> helpersIndex;
-            
-            ICollection<Permission> permissions_list_add = _context.Permissions.ToList();
-            ICollection<UserType> userTypes_list_add = _context.UserTypes.ToList();
-
-
-            helpersIndex.Add(new HelpersIndex { });
-
-
-            foreach (var item in userTypes_list_add)
-            {
-                helpersIndex.Add(
-                    new HelpersIndex
-                    {
-
-                    }
-                    
-                    );
-
-                    
-
-                    
-            }
-
-            return View(new HelpersCreate
-            {
-
-                UserTypeID = 0,
-                Name = "wpisz",
-                Description = "wpisz wiecej",
-                IsActive = false,
-                permissions_list = permissions_list_add
-
-            });
-
         }
 
         // GET: UserTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id/*,string searchString*/)
         {
+            DateTime time = DateTime.Now;
             if (id == null)
             {
-                return NotFound();
+                _context.UserTypes.Add(new UserType()
+                {
+                    Name = "nazwa",
+                    Description = "opis",
+                    IsActive = true,
+                    AddedDate = time
+                }
+               );
+                _context.SaveChanges();
+                id = _context.UserTypes.SingleOrDefault(s => s.AddedDate == time && s.IsActive == true).UserTypeID;
+                if(id == null)
+                    return NotFound();
             }
 
-            var userType = await _context.UserTypes
-                .Include(u => u.UserTypeAddedUser)
-                .Include(u => u.UserTypeUpdatedUser)
-                .FirstOrDefaultAsync(m => m.UserTypeID == id);            
+            //aktualnie przegladany userType (grupa)
+            var usersPermissions_add = await _context.UserTypes
+                .FirstOrDefaultAsync(m => m.UserTypeID == id && m.IsActive == true);
+
+            //uprawnienia grupy - Access!
+            ICollection<UserTypePermission> permissions_add = _context.UserTypePermissions
+                .Include(i => i.Permission)
+                .Include(i => i.UserType.Users)
+                .Where(w => w.UserTypeID == id && w.IsActive == true && w.Access == true && w.Permission.IsActive == true).ToList();
+
+            //uprawnienia w string
+            ICollection<string> permissions_select_name = _context.UserTypePermissions
+                .Include(i => i.Permission)
+                .Where(w => w.UserTypeID == id && w.IsActive == true && w.Access == true)
+                .Select(s => s.Permission.Name).ToList();
             
-            //var userToAdd = await _context.Users.FirstOrDefaultAsync(m => m.UserTypeID == id);
+            //wszystkie istniejace uprawnienia w string
+            List<string> permissionsAllName = _context.Permissions.Where(w => w.IsActive == true).Select(s => s.Name).ToList();
+            //kolekcja wszystkich uprawnien max
+            List<Permission> permissionsAll = _context.Permissions.Where(w => w.IsActive == true).ToList();
 
-            //List<UserType> list_userType = new List<UserType>();
-            //list_userType.Add(userType);
-            //List<User> list_user = new List<User>();
-            //list_user.Add(userToAdd);
-
-            
-            //UsersAndUserType usersAndUser = new UsersAndUserType();
-            //usersAndUser.User = _context.Users.Where(u => u.UserTypeID == id).ToList();
-            //usersAndUser.UserType = _context.UserTypes.Where(t => t.UserTypeID == id).ToList();
-
-            if (userType == null)
+            foreach (string item2 in permissions_select_name)
             {
-                return NotFound();
+                foreach (string item in permissionsAllName)
+                {
+                    if(item.Contains(item2))
+                    {
+                        //usuwamy z listy te ktore juz sa w uprawnieniach grupy
+                        Permission permissionToRemove = permissionsAll.FirstOrDefault(w => w.Name == item);
+                        if(permissionToRemove != null)
+                            permissionsAll.Remove(permissionToRemove);
+                    }
+                }
             }
-            ViewBag.UsersInType = _context.Users.Where(u => u.UserTypeID == id);
 
-            //return View(
-            //    new UsersAndUserType
-            //    {
+            ICollection<User> user_add = _context.Users.Where(w => w.IsActive == true).ToList();
+           
+            return View(new HelpersDetails
+            {
+                typeUser = usersPermissions_add,
+                permissionsUser = permissions_add,
+                users = user_add,
+                permissionsNotSelected = permissionsAll
+            }); ;
 
-            //        UserTypeList = list_userType,
-            //        UserList =list_user
-            //    }
-            //    );
-
-            return View(userType);
-            //return View(usersAndUser);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Details (HelpersDetails hd, List<int> select_permission, List<int> select_user, List<int> select_new_user)
+        {   
+            //userType ktory przegladamy
+            //IsActive wykluczamy juz wczesniej na liscie w index
+            UserType resultTypeUsers = _context.UserTypes.SingleOrDefault(u => u.UserTypeID == hd.typeUser.UserTypeID);
+            
+            //Edycja UserType
+            if(resultTypeUsers != null)
+            {
+                resultTypeUsers.Name = hd.typeUser.Name;
+                resultTypeUsers.Description = hd.typeUser.Description;
+                resultTypeUsers.UpdatedDate = DateTime.Now;
+                resultTypeUsers.IsActive = true;
+                _context.SaveChanges();
+            }
+
+
+            //lista uprawnien w string dla aktualnego typu (grupy)
+            List<int> permissionsQuery = _context.UserTypePermissions
+                .Where(w => w.UserTypeID == hd.typeUser.UserTypeID && w.IsActive == true && w.Access == true && w.Permission.IsActive == true)
+                .Select(s => s.UserPermissionID).ToList();
+  
+          
+            
+            foreach (int item in permissionsQuery) //juz istniejace uprawniena
+            {
+                    if(!select_permission.Contains(item)) //nowe rozdanie nie posiada elementu starego rozdania
+                    {
+                        UserTypePermission resulUserTypePermissions = _context.UserTypePermissions.FirstOrDefault(w => w.UserPermissionID == item);
+                        if( resulUserTypePermissions != null)
+                        { 
+                            resulUserTypePermissions.Access = false;
+                            _context.SaveChanges();
+                        }
+                    }
+            }
+         
+            //stare rozdanie nie posiada elementu nowego 
+            foreach (int item in select_permission)
+            {
+                if (!permissionsQuery.Contains(item))
+                {
+                    Permission resultPermissionToAdd = _context.Permissions.FirstOrDefault(f => f.PermissionID == item && f.IsActive == true);
+                    if (resultPermissionToAdd != null)
+                    {
+                        _context.UserTypePermissions.Add(new UserTypePermission
+                        {
+                            UserTypeID = hd.typeUser.UserTypeID,
+                            PermissionID = item,
+                            Access = true,
+                            IsActive = true,
+                            AddedDate = DateTime.Now
+                        });
+                        _context.SaveChanges();
+                    }
+                }
+            }
+
+            #region uzytkownicy grupy
+
+            //lista users ktorzy naleza do userType (Grupy)
+            List<int> oldUsersList = _context.Users
+                .Where(w => w.UserTypeID == hd.typeUser.UserTypeID && w.IsActive == true)
+                .Select(s => s.UserID).ToList();
+
+            //sprawdzam czy nie zmniejszono liczbe uzytkownikow / dodawanie uzytkownikow jest osobno
+            foreach (int item3 in oldUsersList) //juz istniejace
+            {
+                if (!select_user.Contains(item3)) //nowe rozdanie nie posiada usera item3
+                {
+                    User resultUser = _context.Users.FirstOrDefault(f => f.UserID == item3);
+                    
+                    if (resultUser != null)
+                    {
+                        var isTableNoPermissions = _context.UserTypes.SingleOrDefault(s => s.Name == "No7818Permissions");
+                        if(isTableNoPermissions == null)
+                        {
+                            _context.UserTypes.Add(new UserType()
+                            {
+                                Name = "No7818Permissions",
+                                Description = "NoPermissions",
+                                IsActive = true,
+                                AddedDate = DateTime.Now
+                            }
+                            );
+                            _context.SaveChanges();
+                        }
+                        //grupa nie posiadajaca uprawnien
+
+                        int noPermissionsID = _context.UserTypes.SingleOrDefault(s => s.Name == "No7818Permissions").UserTypeID;
+                        resultUser.UserTypeID = noPermissionsID;
+                        _context.SaveChanges();
+                                               
+                    }
+                }
+            }
+
+            #endregion
+
+
+            #region Dodawanie uzytkownika do listy
+
+
+            foreach (int itemNewUserID in select_new_user)
+            {
+                User userToAdd = _context.Users.FirstOrDefault(f => f.UserID == itemNewUserID);
+                if(userToAdd != null)
+                {
+                    userToAdd.UpdatedDate = DateTime.Now;
+                    userToAdd.UserTypeID = hd.typeUser.UserTypeID;
+                }
+                _context.SaveChanges();
+            }
+
+
+            #endregion
+
+
+            return RedirectToAction(nameof(Index));
+        }
+
 
         // GET: UserTypes/Create
         public async Task<IActionResult> Create()
         {
 
             //ViewBag.PermissionsList = _context.Permissions.Include(p => p.PermissionAddedUser).Include(p => p.PermissionUpdatedUser);
-            ////ViewBag.PermissionsList = _context.UserTypePermissions;
-
-          //  ToString nie ta kolejca kolekcja!!??
-          //  ICollection<UserTypePermission> permissions_list_add = _context.UserTypePermissions.Include(i=>i.Permission).ToList();
+            //ViewBag.PermissionsList = _context.UserTypePermissions;
+            //ICollection<UserTypePermission> permissions_list_add = _context.UserTypePermissions.Include(i=>i.Permission).ToList();
             ICollection<Permission> permissions_list_add = _context.Permissions.ToList();
-           
-            // ICollection<UserType> userTypes_list_add = _context.UserTypes.ToList
-
-
-
 
             return View(new HelpersCreate
             {
@@ -183,34 +271,19 @@ namespace VetClinic.Intranet.Controllers
                 permissions_list = permissions_list_add
 
             }) ;
-             
 
             //Dane beda pobierane automatycznie z loginu! ********************************
-
             //ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
             //ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
             //return View();
         }
 
-        // POST: UserTypes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-        //calosc nie bedzie pobierana z form
         //  public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] UserType userType)
-        // public async Task<IActionResult> Create([Bind("UserTypeID,Name,Description,IsActive")] UserType userType)
-        // public async Task<IActionResult> Create(HelpersCreate hc)
-        //   public async Task<IActionResult> Create(HelpersCreate hc)
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(HelpersCreate hc,List<int> select_permission)
-
-
         {
-
             //musimy zrobic nowego UserType !!
-
             _context.UserTypes.Add(new UserType()
             {
                 Name = hc.Name,
@@ -235,9 +308,8 @@ namespace VetClinic.Intranet.Controllers
             }
 
             _context.SaveChanges();
-       
 
-
+            return RedirectToAction(nameof(Index));
 
             //if (select_permission != null)
             //{
@@ -255,8 +327,6 @@ namespace VetClinic.Intranet.Controllers
             //        //student.Courses.Add(course);
             //    }
             //}
-
-
             //if (ModelState.IsValid)
             //{
             //    userType.AddedDate = DateTime.Now;
@@ -265,19 +335,11 @@ namespace VetClinic.Intranet.Controllers
             //    await _context.SaveChangesAsync();
             //    return RedirectToAction(nameof(Index));
             //}
-
-
-
-
             //to bedzie z automau..
             //ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", userType.AddedUserID);
             //ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", userType.UpdatedUserID);
-
             //var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser);
             //return View("Index",await vetClinicContext.ToListAsync());
-
-            return RedirectToAction(nameof(Index));
-
             //return View(userType);
         }
 
@@ -299,9 +361,6 @@ namespace VetClinic.Intranet.Controllers
             return View(userType);
         }
 
-        // POST: UserTypes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserTypeID,Name,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] UserType userType)
@@ -349,7 +408,7 @@ namespace VetClinic.Intranet.Controllers
                 .Include(u => u.UserTypeUpdatedUser)
                 .FirstOrDefaultAsync(m => m.UserTypeID == id);
 
-           
+
             if (userType == null)
             {
                 return NotFound();
@@ -364,9 +423,43 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var userType = await _context.UserTypes.FindAsync(id);
-            _context.UserTypes.Remove(userType);
+            userType.IsActive = false;
+
+            var userTypePermission = _context.UserTypePermissions.Where(w => w.UserTypeID == id).ToList();
+            foreach ( var item in userTypePermission)
+            {
+                item.IsActive = false;
+            }
+            
+            var isTableNoPermissions = _context.UserTypes.SingleOrDefault(s => s.Name == "No7818Permissions");
+            if (isTableNoPermissions == null)
+            {
+                _context.UserTypes.Add(new UserType()
+                {
+                    Name = "No7818Permissions",
+                    Description = "NoPermissions",
+                    IsActive = true,
+                    AddedDate = DateTime.Now
+                }
+                );
+                _context.SaveChanges();
+            }
+
+            int noPermissionsID = _context.UserTypes.SingleOrDefault(s => s.Name == "No7818Permissions").UserTypeID;
+            var users = _context.Users.Where(w => w.UserTypeID == id).ToList();
+            
+            foreach ( var itemUser in users)
+            {
+                itemUser.IsActive = true;
+                itemUser.UserTypeID = noPermissionsID;
+            }
+
+
+
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        
         }
 
         private bool UserTypeExists(int id)
