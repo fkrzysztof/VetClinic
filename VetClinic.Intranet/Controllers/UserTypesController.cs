@@ -85,7 +85,7 @@ namespace VetClinic.Intranet.Controllers
 
             ICollection<User> user_add = _context.Users.Where(w => w.IsActive == true).ToList();
            
-            return View(new HelpersDetails
+            return View(new UserTypesDetails
             {
                 typeUser = usersPermissions_add,
                 permissionsUser = permissions_add,
@@ -96,7 +96,7 @@ namespace VetClinic.Intranet.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Details (HelpersDetails hd, List<int> select_permission, List<int> select_user, List<int> select_new_user)
+        public async Task<IActionResult> Details (UserTypesDetails hd, List<int> select_permission, List<int> select_user, List<int> select_new_user)
         {   
             //userType ktory przegladamy
             //IsActive wykluczamy juz wczesniej na liscie w index

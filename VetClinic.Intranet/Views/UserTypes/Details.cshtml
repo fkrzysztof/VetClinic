@@ -1,5 +1,4 @@
-﻿@*@model VetClinic.Data.Data.Clinic.UserTypePermission*@
-@model VetClinic.Data.HelpersClass.HelpersDetails
+﻿@model VetClinic.Data.HelpersClass.UserTypesDetails
 
 @{
     ViewBag.Title = "Zarzadzanie grupą";
@@ -59,8 +58,8 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Permission.Name)
                             </td>
-                            <td>
-                                <input class="form-check-input" type="checkbox" name="select_permission" checked="checked" value="@item.UserPermissionID" />
+                            <td class="text-right">
+                                <input type="checkbox" name="select_permission" checked="checked" value="@item.UserPermissionID" />
                             </td>
                         </tr>
                     }
@@ -71,8 +70,8 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.Name)
                             </td>
-                            <td>
-                                <input class="form-check-input" type="checkbox" name="select_permission" value="@item.PermissionID" />
+                            <td class="text-right">
+                                <input type="checkbox" name="select_permission" value="@item.PermissionID" />
                             </td>
                         </tr>
                     }
@@ -91,8 +90,8 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
                             </td>
-                            <td>
-                                <input class="form-check-input" type="checkbox" name="select_user" checked="@item.IsActive? 'checked':'' " value="@item.UserID" />
+                            <td  class="text-right">
+                                <input type="checkbox" name="select_user" checked="@item.IsActive? 'checked':'' " value="@item.UserID" />
                             </td>
                         </tr>
                     }
@@ -124,8 +123,8 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
                             </td>
-                            <td>
-                                <input class="form-check-input" type="checkbox" name="select_new_user" value="@item.UserID" />
+                            <td class="text-right">
+                                <input type="checkbox" name="select_new_user" value="@item.UserID" />
                             </td>
 
                         </tr>
