@@ -37,6 +37,16 @@ namespace VetClinic.PortalWWW.Controllers
             else
             {
                 ModelState.AddModelError("", "Login lub hasło jest niepoprawne.");
+                account.LoginAttempt++;
+                _context.SaveChanges();
+                if (account.LoginAttempt >= 5)
+                {
+                    account.IsActive = false;
+                    _context.SaveChanges();
+                    ModelState.AddModelError("", "Twoje konto zostalo zablokowane.");
+                }
+                          
+                //ModelState.AddModelError("", "Login lub hasło jest niepoprawne.");
             }
 
             return View();
