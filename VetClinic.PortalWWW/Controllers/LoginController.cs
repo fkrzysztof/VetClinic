@@ -29,21 +29,22 @@ namespace VetClinic.PortalWWW.Controllers
 
             if (account != null && account.Password == user.Password)
             {
-                account.LoginAttempt = account.LoginAttempt;
                 HttpContext.Session.SetString("UserID", account.UserID.ToString());
                 HttpContext.Session.SetString("Login", account.Login.ToString());
-
-                
 
                 return RedirectToAction("Index", "ClientPanel");
             }
             else
             {
                 ModelState.AddModelError("", "Login lub hasło jest niepoprawne.");
-                account.LoginAttempt+=1;
-                if(account.LoginAttempt==5)               
-                ModelState.AddModelError("", "Twoje konto zostalo zablokowane.");
-                account.IsActive = false;
+                account.LoginAttempt++;
+                _context.SaveChanges();
+                if (account.LoginAttempt >= 5)
+                
+                    account.IsActive = false;
+                    _context.SaveChanges();
+                    ModelState.AddModelError("", "Twoje konto zostalo zablokowane.");
+                
                           
                 //ModelState.AddModelError("", "Login lub hasło jest niepoprawne.");
             }
