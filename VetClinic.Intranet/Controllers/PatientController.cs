@@ -227,12 +227,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name");
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName");
             ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "LastName");
-
-            ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name");
-            ViewData["VetID"] = new SelectList(_context.Users.Where(u => u.UserTypeID == 2)/*2 to id lekarzy*/, "UserID", "LastName");
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name");
 
             return View();
         }
@@ -240,7 +235,7 @@ namespace VetClinic.Intranet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddVisit(int id, [Bind("VisitID,VisitUserID,PatientID,VetID,TreatmentID,DateOfVisit,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Visit visit)
         {
-
+           // ViewData["MedicineID"] = new MultiSelectList(_context.Medicines, "MedicineID", "Name",medicinesID);
             if (ModelState.IsValid)
             {
                 visit.VisitUserID = Int32.Parse(
@@ -250,6 +245,14 @@ namespace VetClinic.Intranet.Controllers
                 visit.AddedDate = DateTime.Now;
                 visit.IsActive = true;
                 //visit.AddedUserID
+                //foreach (var item in medicinesID)
+                //{
+                //    visit.VisitMedicine.Add(new VisitMedicine()
+                //    {
+                //        VisitID=visit.Visit.VisitID,
+                //        MedicineID=item
+                //    });                    
+                //}
                 _context.Add(visit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -258,16 +261,9 @@ namespace VetClinic.Intranet.Controllers
             ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "LastName", visit.VisitUserID);
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", visit.PatientID);
             ViewData["VetID"] = new SelectList(_context.Users.Where(u => u.UserTypeID == 2)/*2 to id lekarzy*/, "UserID", "LastName", visit.VetID);
-            ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name");
+            ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name",visit.TreatmentID);
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", visit.AddedUserID);
             ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "LastName", visit.UpdatedUserID);
-
-            ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "City", visit.VisitUserID);
-            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", visit.PatientID);
-            ViewData["VetID"] = new SelectList(_context.Users.Where(u => u.UserTypeID == 2)/*2 to id lekarzy*/, "UserID", "LastName", visit.VetID);
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", visit.AddedUserID);
-            ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "City", visit.UpdatedUserID);
-
 
             return View(visit);
         }
@@ -313,15 +309,18 @@ namespace VetClinic.Intranet.Controllers
                    .Include(v => v.VetUser)
                    .Include(v => v.VisitUser)
                    .Include(v => v.Treatment)
-                   //.Include(v => v.VisitMedicines)
+                   .Include(v => v.VisitMedicines)
                    .Where(v => v.VisitID == id)
                    .FirstOrDefault();
-          
 
+            var visitMedicine = _context.VisitMedicines
+                .Include(m=>m.Medicine)
+                .Include(m=>m.Medicine.MedicineType)
+                .Where(v => v.VisitID == id).ToList();
             var view = new VisitDetailsViewModel
             {
               
-                //VisitMedicine = visitmedicine.ToList(),
+                VisitMedicine = visitMedicine,
                 Visit = visit,
                 //Patient = visit.Patient                
             };
@@ -337,8 +336,11 @@ namespace VetClinic.Intranet.Controllers
             }
 
             var visits = await _context.Visits.FindAsync(id);
+            var visit = new VisitDetailsViewModel();
+            visit.Visit = visits;
+
             //var operations = await _context.Operations.ToListAsync();
-            if (visits == null)
+            if (visit == null)
             {
                 return NotFound();
             }
@@ -354,7 +356,8 @@ namespace VetClinic.Intranet.Controllers
             ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "LastName");
             ViewData["VetID"] = new SelectList(_context.Users.Where(u => u.UserTypeID == 2)/*2 to id lekarzy*/, "UserID", "LastName");
             ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name");
-            return View(visits);
+            ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name");
+            return View(visit);
         }
 
         // POST: Patient/Edit/5
@@ -362,27 +365,35 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditVisit(int id, [Bind("VisitID,VisitUserID,PatientID,TreatmentID,DateOfVisit,IsActive,Description,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Visit visit)
+        public async Task<IActionResult> EditVisit(int id, 
+            [Bind("VisitID,VisitUserID,PatientID,TreatmentID,DateOfVisit,IsActive,Description,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Visit visit,
+            [Bind("MedicineID")] Medicine medicine)
         {
             if (id != visit.VisitID)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
-            {
                 try
                 {
                     visit.PatientID = Int32.Parse(
                     _context.Visits.Where(p => p.VisitID == id).Select(a => a.PatientID).FirstOrDefault().ToString());
                     visit.VisitUserID = Int32.Parse(
                     _context.Patients.Where(p => p.PatientID == visit.PatientID).Select(a => a.PatientUserID).FirstOrDefault().ToString());
-
                     //visit.VetID
                     visit.UpdatedDate = DateTime.Now;
                     //visit.IsActive = true;
                     //visit.AddedUserID
+                    if (medicine.MedicineID == 0) { }
+                    //else if (_context.VisitMedicines.Where(v => v.VisitID == id).FirstOrDefault() == null ||
+                    //    _context.VisitMedicines.Where(m => m.MedicineID == medicine.MedicineID).FirstOrDefault() == null)
+                    //{
+                        var visitMedicine = new VisitMedicine();
+                        visitMedicine.VisitID = id;
+                        visitMedicine.MedicineID = medicine.MedicineID;
+                        _context.Add(visitMedicine);
+                    //}
                     _context.Update(visit);
+                   
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -397,12 +408,7 @@ namespace VetClinic.Intranet.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Visit), new { @id = visit.PatientID });
-            }
-            ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "LastName", visit.VisitUserID);
-            ViewData["VetID"] = new SelectList(_context.Users.Where(u => u.UserTypeID == 2)/*2 to id lekarzy*/, "UserID", "LastName", visit.VetID);
-            ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name",visit.TreatmentID);
 
-            return View(visit);
         }
     }
 }

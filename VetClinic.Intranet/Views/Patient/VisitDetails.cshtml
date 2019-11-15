@@ -85,9 +85,9 @@
                                     <th>
                                         Nazwa
                                     </th>
-                                    <th>
+                                    @*<th>
                                         Ilosc
-                                    </th>
+                                    </th>*@
                                     <th>
                                         Typ leku
                                     </th>
@@ -95,20 +95,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @*@foreach (var item in Model.VisitMedicine)
+                                @foreach (var item in Model.VisitMedicine)
                                     {
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Medicine.Name)
                                             </td>
-                                            <td>
+                                            @*<td>
                                                 @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                                            </td>
+                                            </td>*@
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Medicine.MedicineType)
+                                                @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
                                             </td>
                                         </tr>
-                                    }*@
+                                    }
                             </tbody>
                         </table>
                     </div>

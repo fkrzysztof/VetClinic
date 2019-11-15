@@ -14,6 +14,7 @@ namespace VetClinic.Intranet.ViewModels
         public User User { get; set; }
         public Treatment Treatment { get; set; }
         public Medicine Medicine { get; set; }
+        public MedicineType MedicineType { get; set; }
         public List<VisitMedicine> VisitMedicine { get; set; }
     }
 }
