@@ -1,0 +1,119 @@
+﻿@model VetClinic.Intranet.ViewModels.VisitDetailsViewModel
+
+@{
+    Layout = null;
+}
+
+
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="Stylesheet" href="~/css/Zakladki.css">
+
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav>
+                <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-dane-tab" data-toggle="tab" href="#nav-dane" role="tab" aria-controls="nav-dane" aria-selected="true">Dane</a>
+                    <a class="nav-item nav-link" id="nav-zabieg-tab" data-toggle="tab" href="#nav-zabieg" role="tab" aria-controls="nav-zabieg" aria-selected="false">Zabieg</a>
+                    <a class="nav-item nav-link" id="nav-leki-tab" data-toggle="tab" href="#nav-leki" role="tab" aria-controls="nav-leki" aria-selected="false">Leki</a>
+                </div>
+            </nav>
+            <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-dane" role="tabpanel" aria-labelledby="nav-dane-tab">
+                    <div>
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <p class="odstep">Imię</p>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DisplayFor(model => model.Visit.Patient.Name)
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="odstep">Data urodzenia</p>
+                            </div>
+                            <div class="col-sm-6">
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Visit.Patient.BirthDate))
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="odstep">Wlasciciel</p>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DisplayFor(model => model.Visit.VisitUser.FirstName)
+                                @Html.DisplayFor(model => model.Visit.VisitUser.LastName)
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="odstep">Opis</p>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DisplayFor(model => model.Visit.Description)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nav-zabieg" role="tabpanel" aria-labelledby="nav-zabieg-tab">
+                    <div>
+                        <div class="row">
+
+                            <div class="col-sm-6">
+                                <p class="odstep">Nazwa</p>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DisplayFor(model => model.Visit.Treatment.Name)
+                            </div>                       
+                            <div class="col-sm-6">
+                                <p class="odstep">Opis</p>
+                            </div>
+                            <div class="col-sm-6">
+                                @Html.DisplayFor(model => model.Visit.Treatment.Description)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="nav-leki" role="tabpanel" aria-labelledby="nav-leki-tab">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>
+                                        Nazwa
+                                    </th>
+                                    @*<th>
+                                        Ilosc
+                                    </th>*@
+                                    <th>
+                                        Typ leku
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.VisitMedicine)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Medicine.Name)
+                                            </td>
+                                            @*<td>
+                                                @Html.DisplayFor(modelItem => item.Medicine.Quantity)
+                                            </td>*@
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
+                                            </td>
+                                        </tr>
+                                    }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
