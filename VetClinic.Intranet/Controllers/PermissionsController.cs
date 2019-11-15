@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -26,25 +25,6 @@ namespace VetClinic.Intranet.Controllers
             return View(await vetClinicContext.ToListAsync());
         }
 
-        // GET: Permissions/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var permission = await _context.Permissions
-                .Include(p => p.PermissionAddedUser)
-                .Include(p => p.PermissionUpdatedUser)
-                .FirstOrDefaultAsync(m => m.PermissionID == id);
-            if (permission == null)
-            {
-                return NotFound();
-            }
-
-            return View(permission);
-        }
 
         // GET: Permissions/Create
         public IActionResult Create()
@@ -134,25 +114,6 @@ namespace VetClinic.Intranet.Controllers
             return View(permission);
         }
 
-        // GET: Permissions/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var permission = await _context.Permissions
-                .Include(p => p.PermissionAddedUser)
-                .Include(p => p.PermissionUpdatedUser)
-                .FirstOrDefaultAsync(m => m.PermissionID == id);
-            if (permission == null)
-            {
-                return NotFound();
-            }
-
-            return View(permission);
-        }
 
         // POST: Permissions/Delete/5
         [HttpPost, ActionName("Delete")]

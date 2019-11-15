@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Permission>
 
 @{
-    ViewData["Title"] = "Index";
+  ViewBag.Title = "Lista uprawnień";
 }
 
 
@@ -24,7 +24,7 @@
 <br />
 <hr />
 <br />
-<table class="table col-sm-5 table-hover">
+<table class="table-borderless col-sm-8 table-hover text-right">
     <thead>
         <tr>
             <th class="text-left">
@@ -47,25 +47,17 @@
                 <td class="text-center">
                     @item.Description
                 </td>
-                <td class="text-right">
-                    <table class="table-borderless">
-                        <tr>
-                            <td>
-                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.PermissionID">
-                                    Edycja
-                                </a>
-                            </td>
-                            <td>
-
-                                <form asp-action="Delete" asp-controller="Permissions" method="post">
-
-                                    <input type="hidden" value="@item.PermissionID" name="id" />
-                                    <input type="submit" value="Usuń" class="btn btn-danger btn-sm" />
-                                </form>
-
-                            </td>
-                        </tr>
-                    </table>
+                <td class="d-inline-flex">
+                   
+                     <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.PermissionID">
+                        Edycja
+                     </a>
+                </td>
+                <td class="d-inline-flex">
+                     <form asp-action="Delete" asp-controller="Permissions" method="post">
+                     <input type="hidden" value="@item.PermissionID" name="id" />
+                     <input type="submit" value="Usuń" class="btn btn-danger btn-sm" />
+                     </form>
 
                 </td>
             </tr>
