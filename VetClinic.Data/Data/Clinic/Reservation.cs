@@ -12,6 +12,7 @@ namespace VetClinic.Data.Data.Clinic
         [Key]
         [Display(Name = "Id rezerwacji")]
         public int ReservationID { get; set; }
+        [Display(Name = "Klient")]
         public int ReservationUserID { get; set; } // klient rezerwujący
         [Display(Name = "Pacjent")]
         public int? PatientID { get; set; } // pacjent

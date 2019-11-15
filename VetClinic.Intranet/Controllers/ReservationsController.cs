@@ -22,7 +22,7 @@ namespace VetClinic.Intranet.Controllers
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.Reservations.Include(r => r.Patients).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
+            var vetClinicContext = _context.Reservations.Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
             return View(await vetClinicContext.ToListAsync());
         }
 
@@ -36,6 +36,7 @@ namespace VetClinic.Intranet.Controllers
 
             var reservation = await _context.Reservations
                 .Include(r => r.Patients)
+                .Include(r => r.ReservationAddedUser)
                 .Include(r => r.ReservationUpdatedUser)
                 .Include(r => r.ReservationUser)
                 .FirstOrDefaultAsync(m => m.ReservationID == id);
@@ -66,14 +67,18 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                reservation.AddedDate = DateTime.Now;
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+
+
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", reservation.PatientID);
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", reservation.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", reservation.UpdatedUserID);
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City", reservation.ReservationUserID);
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.AddedUserID);
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.UpdatedUserID);
+            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
             return View(reservation);
         }
 
@@ -90,10 +95,17 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", reservation.PatientID);
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", reservation.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", reservation.UpdatedUserID);
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City", reservation.ReservationUserID);
+ 
+
+            ViewData["PatientID"] = new SelectList(_context.Patients.
+            Where(p => p.PatientUserID != null).
+            Where(p => p.PatientUserID == reservation.ReservationUserID).Select(n => n.Name)
+           );
+
+           
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.AddedUserID);
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.UpdatedUserID);
+            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
             return View(reservation);
         }
 
@@ -113,6 +125,7 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    reservation.UpdatedDate = DateTime.Now;
                     _context.Update(reservation);
                     await _context.SaveChangesAsync();
                 }
@@ -130,9 +143,9 @@ namespace VetClinic.Intranet.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", reservation.PatientID);
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", reservation.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", reservation.UpdatedUserID);
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City", reservation.ReservationUserID);
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.AddedUserID);
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.UpdatedUserID);
+            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
             return View(reservation);
         }
 
@@ -146,6 +159,7 @@ namespace VetClinic.Intranet.Controllers
 
             var reservation = await _context.Reservations
                 .Include(r => r.Patients)
+                .Include(r => r.ReservationAddedUser)
                 .Include(r => r.ReservationUpdatedUser)
                 .Include(r => r.ReservationUser)
                 .FirstOrDefaultAsync(m => m.ReservationID == id);
