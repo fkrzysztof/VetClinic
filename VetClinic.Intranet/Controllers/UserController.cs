@@ -4,12 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using System.Web.Providers.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.VetClinic;
+using User = VetClinic.Data.Data.VetClinic.User;
 
 namespace VetClinic.Intranet.Controllers
 {
@@ -191,6 +193,33 @@ namespace VetClinic.Intranet.Controllers
                 _context.Update(user);
                 _context.SaveChanges();
             }
-        }     
+        }
+
+        
+        [HttpPost, ActionName("Deactivate")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Deactivate(string[] ids)
+        {
+            int[] getid = null;
+            if (ids != null)
+            {
+                getid = new int[ids.Length];
+                int j = 0;
+                foreach (string i in ids)
+                {
+                    int.TryParse(i, out getid[j++]);
+                }
+            }
+
+            List<User> getusrids = new List<User>();
+            getusrids = _context.Users.Where(x => getid.Contains(x.UserID)).ToList();
+            foreach (var s in getusrids)
+            {
+                _context.Users.Update(s);
+                s.IsActive = false;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
