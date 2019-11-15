@@ -110,10 +110,19 @@ namespace VetClinic.Data.Data.VetClinic
         public ICollection<Specialization> AddedUserSpecialization { get; set; }
         [InverseProperty("SpecializationUpdatedUser")]
         public ICollection<Specialization> UpdatedUserSpecialization { get; set; }
-
         [InverseProperty("TreatmentAddedUser")]
         public ICollection<Treatment> AddedTreatments { get; set; }
         [InverseProperty("TreatmentUpdatedUser")]
         public ICollection<Treatment> UpdatedTreatments { get; set; }
+
+        [InverseProperty("PermissionAddedUser")]
+        public ICollection<Permission> AddedPermission { get; set; }
+        [InverseProperty("PermissionUpdatedUser")]
+        public ICollection<Permission> UpdatedPermission { get; set; }
+
+        [InverseProperty("UserTypePermissionAddedUser")]
+        public ICollection<UserTypePermission> AddedUserTypePermission { get; set; }
+        [InverseProperty("UserTypePermissionUpdatedUser")]
+        public ICollection<UserTypePermission> UpdatedUserTypePermission { get; set; }
     }
 }

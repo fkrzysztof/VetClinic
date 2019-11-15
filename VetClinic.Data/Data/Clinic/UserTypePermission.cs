@@ -7,29 +7,33 @@ using VetClinic.Data.Data.VetClinic;
 
 namespace VetClinic.Data.Data.Clinic
 {
-    public class UserType
+    public class UserTypePermission
     {
         [Key]
+        public int UserPermissionID { get; set; }
         public int UserTypeID { get; set; }
+        public int PermissionID { get; set; }
 
-        [Required(ErrorMessage = "Nazwa jest wymagane")]
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public bool Access { get; set; }
+
+        //standardowe pozycje
         public bool IsActive { get; set; }
         public DateTime AddedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
+
+        [ForeignKey("UserTypeID")]
+        public UserType UserType { get; set; }
+
+        [ForeignKey("PermissionID")]
+        public Permission Permission { get; set; }
+
         public int? AddedUserID { get; set; } // użytkownik dodający
         [ForeignKey("AddedUserID")]
-        public User UserTypeAddedUser { get; set; }
+        public User UserTypePermissionAddedUser { get; set; }
 
         public int? UpdatedUserID { get; set; } // użytkownik modyfikujący
         [ForeignKey("UpdatedUserID")]
-        public User UserTypeUpdatedUser { get; set; }
-
-        public ICollection<User> Users { get; set; }
-        public ICollection<UserTypePermission> UserTypePermissions { get; set; }
-
-        
+        public User UserTypePermissionUpdatedUser { get; set; }
     }
 }

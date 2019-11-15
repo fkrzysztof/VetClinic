@@ -26,5 +26,8 @@ namespace VetClinic.Data
         public DbSet<MedicalSpecialization> MedicalSpecializations { get; set; }
         public DbSet<VisitMedicine> VisitMedicines { get; set; }
         public DbSet<Treatment> Treatments { get; set; }    
+        public DbSet<UserTypePermission> UserTypePermissions { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        
     }
 }
