@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.VetClinic;
+using VetClinic.Intranet.Services;
 
 namespace VetClinic.Intranet.Controllers
 {
@@ -17,6 +18,7 @@ namespace VetClinic.Intranet.Controllers
         private readonly VetClinicContext _context;
         private readonly string EmployeeUserName = "Pracownik";
         private readonly int EmployeeUserId = 3;
+        SmtpConfiguration SmtpConf = new SmtpConfiguration(); // konfuguracja smtp do wysyłki maila
         public EmployeesController(VetClinicContext context)
         {
             _context = context;
@@ -67,9 +69,14 @@ namespace VetClinic.Intranet.Controllers
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
                 user.UserTypeID = EmployeeUserId;
+                var hasloDlaUzytkownika = user.Password;
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 UploadPhoto(file, user.UserID);
+                SmtpConf.MessageTo = user.Email;
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + hasloDlaUzytkownika;
+                SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
+                SmtpConf.send();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name", user.UserTypeID);

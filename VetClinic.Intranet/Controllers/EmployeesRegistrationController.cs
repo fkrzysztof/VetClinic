@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using VetClinic.Data;
 using VetClinic.Data.Data.VetClinic;
+using VetClinic.Intranet.Helpers;
 using VetClinic.Intranet.Services;
 
 namespace VetClinic.Intranet.Controllers
@@ -20,6 +21,7 @@ namespace VetClinic.Intranet.Controllers
         private readonly VetClinicContext _context;
         private readonly string EmployeeUserName = "Pracownik";
         private readonly int EmployeeUserId = 3;
+        MD5 md5Hash = MD5.Create();
         SmtpConfiguration SmtpConf = new SmtpConfiguration(); // konfuguracja smtp do wysyłki maila
 
         public EmployeesRegistrationController(VetClinicContext context)
@@ -44,15 +46,13 @@ namespace VetClinic.Intranet.Controllers
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
                 user.UserTypeID = EmployeeUserId;
-                var hasloDlaUrzytkownika = user.Password;
-                var salt = Salt.Create();
-                var hash = Hash.Create(user.Password, salt);
-                user.Password = hash;
+                var hasloDlaUzytkownika = user.Password;  
+                user.Password = HaszPassword.GetMd5Hash(md5Hash, user.Password);
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 UploadPhoto(file, user.UserID);
                 SmtpConf.MessageTo = user.Email;
-                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + hasloDlaUrzytkownika;
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + hasloDlaUzytkownika;
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
                 SmtpConf.send();
                 return RedirectToAction(nameof(Index));
@@ -84,38 +84,6 @@ namespace VetClinic.Intranet.Controllers
                 _context.Update(user);
                 _context.SaveChanges();
             }
-        }
-        // Haszowanie hasła
-        public class Hash
-        {
-            public static string Create(string value, string salt)
-            {
-                var valueBytes = KeyDerivation.Pbkdf2(
-                                    password: value,
-                                    salt: Encoding.UTF8.GetBytes(salt),
-                                    prf: KeyDerivationPrf.HMACSHA512,
-                                    iterationCount: 10000,
-                                    numBytesRequested: 256 / 8);
-
-                return Convert.ToBase64String(valueBytes);
-            }
-            public static bool Validate(string value, string salt, string hash)
-                    => Create(value, salt) == hash;
-        }
-        public class Salt
-        {
-
-            public static string Create()
-            {
-                byte[] randomBytes = new byte[128 / 8];
-                using (var generator = RandomNumberGenerator.Create())
-                {
-                    generator.GetBytes(randomBytes);
-                    return Convert.ToBase64String(randomBytes);
-                }
-            }
-
-        }
-        
+        } 
     }
 }
