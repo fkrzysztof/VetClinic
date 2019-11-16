@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VetClinic.Data\VetClinic.Data.csproj" />
+    <ProjectReference Include="..\VetClinic.Intranet\VetClinic.Intranet.csproj" />
   </ItemGroup>
 
   <ItemGroup>
