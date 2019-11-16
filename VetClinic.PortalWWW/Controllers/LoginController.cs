@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VetClinic.Data;
 using VetClinic.Data.Data.VetClinic;
+using VetClinic.PortalWWW.Helpers;
 
 namespace VetClinic.PortalWWW.Controllers
 {
@@ -72,6 +73,15 @@ namespace VetClinic.PortalWWW.Controllers
 
                 ModelState.Clear();
                 ViewBag.Message = user.FirstName + " " + user.LastName + " pomyślnie zarejestrowano konto.";
+                string message = "Witaj " + user.FirstName + " " + user.LastName + "\n";
+                message += "\n";
+                message += "TwojeDane\n";
+                message += "Login - " + user.Login;
+                message += "Haslo - " + user.Password;
+                message += "\n";
+                message += "Z Powazaniem \nVet Clinic";
+                EMaill eMail = new EMaill(user.Email, "Vet Clinic rejestracja",message);
+                eMail.send();
             }
             return View();
         }
