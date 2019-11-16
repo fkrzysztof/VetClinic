@@ -23,7 +23,7 @@ namespace VetClinic.Intranet.Controllers
         // GET: UserTypes
         public async Task<IActionResult> Index()
         {
-            
+
             var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser).Where(w => w.IsActive == true && w.Name != "No7818Permissions");
             return View(await vetClinicContext.ToListAsync());
         }
@@ -44,7 +44,7 @@ namespace VetClinic.Intranet.Controllers
                );
                 _context.SaveChanges();
                 id = _context.UserTypes.SingleOrDefault(s => s.AddedDate == time && s.IsActive == true).UserTypeID;
-                if(id == null)
+                if (id == null)
                     return NotFound();
             }
 
@@ -63,7 +63,7 @@ namespace VetClinic.Intranet.Controllers
                 .Include(i => i.Permission)
                 .Where(w => w.UserTypeID == id && w.IsActive == true && w.Access == true)
                 .Select(s => s.Permission.Name).ToList();
-            
+
             //wszystkie istniejace uprawnienia w string
             List<string> permissionsAllName = _context.Permissions.Where(w => w.IsActive == true).Select(s => s.Name).ToList();
             //kolekcja wszystkich uprawnien max
@@ -73,18 +73,18 @@ namespace VetClinic.Intranet.Controllers
             {
                 foreach (string item in permissionsAllName)
                 {
-                    if(item.Contains(item2))
+                    if (item.Contains(item2))
                     {
                         //usuwamy z listy te ktore juz sa w uprawnieniach grupy
                         Permission permissionToRemove = permissionsAll.FirstOrDefault(w => w.Name == item);
-                        if(permissionToRemove != null)
+                        if (permissionToRemove != null)
                             permissionsAll.Remove(permissionToRemove);
                     }
                 }
             }
 
             ICollection<User> user_add = _context.Users.Where(w => w.IsActive == true).ToList();
-           
+
             return View(new UserTypesDetails
             {
                 typeUser = usersPermissions_add,
@@ -96,14 +96,14 @@ namespace VetClinic.Intranet.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Details (UserTypesDetails hd, List<int> select_permission, List<int> select_user, List<int> select_new_user)
-        {   
+        public async Task<IActionResult> Details(UserTypesDetails hd, List<int> select_permission, List<int> select_user, List<int> select_new_user)
+        {
             //userType ktory przegladamy
             //IsActive wykluczamy juz wczesniej na liscie w index
             UserType resultTypeUsers = _context.UserTypes.SingleOrDefault(u => u.UserTypeID == hd.typeUser.UserTypeID);
-            
+
             //Edycja UserType
-            if(resultTypeUsers != null)
+            if (resultTypeUsers != null)
             {
                 resultTypeUsers.Name = hd.typeUser.Name;
                 resultTypeUsers.Description = hd.typeUser.Description;
@@ -117,22 +117,22 @@ namespace VetClinic.Intranet.Controllers
             List<int> permissionsQuery = _context.UserTypePermissions
                 .Where(w => w.UserTypeID == hd.typeUser.UserTypeID && w.IsActive == true && w.Access == true && w.Permission.IsActive == true)
                 .Select(s => s.UserPermissionID).ToList();
-  
-          
-            
+
+
+
             foreach (int item in permissionsQuery) //juz istniejace uprawniena
             {
-                    if(!select_permission.Contains(item)) //nowe rozdanie nie posiada elementu starego rozdania
+                if (!select_permission.Contains(item)) //nowe rozdanie nie posiada elementu starego rozdania
+                {
+                    UserTypePermission resulUserTypePermissions = _context.UserTypePermissions.FirstOrDefault(w => w.UserPermissionID == item);
+                    if (resulUserTypePermissions != null)
                     {
-                        UserTypePermission resulUserTypePermissions = _context.UserTypePermissions.FirstOrDefault(w => w.UserPermissionID == item);
-                        if( resulUserTypePermissions != null)
-                        { 
-                            resulUserTypePermissions.Access = false;
-                            _context.SaveChanges();
-                        }
+                        resulUserTypePermissions.Access = false;
+                        _context.SaveChanges();
                     }
+                }
             }
-         
+
             //stare rozdanie nie posiada elementu nowego 
             foreach (int item in select_permission)
             {
@@ -167,11 +167,11 @@ namespace VetClinic.Intranet.Controllers
                 if (!select_user.Contains(item3)) //nowe rozdanie nie posiada usera item3
                 {
                     User resultUser = _context.Users.FirstOrDefault(f => f.UserID == item3);
-                    
+
                     if (resultUser != null)
                     {
                         var isTableNoPermissions = _context.UserTypes.SingleOrDefault(s => s.Name == "No7818Permissions");
-                        if(isTableNoPermissions == null)
+                        if (isTableNoPermissions == null)
                         {
                             _context.UserTypes.Add(new UserType()
                             {
@@ -188,7 +188,7 @@ namespace VetClinic.Intranet.Controllers
                         int noPermissionsID = _context.UserTypes.SingleOrDefault(s => s.Name == "No7818Permissions").UserTypeID;
                         resultUser.UserTypeID = noPermissionsID;
                         _context.SaveChanges();
-                                               
+
                     }
                 }
             }
@@ -202,14 +202,14 @@ namespace VetClinic.Intranet.Controllers
             foreach (int itemNewUserID in select_new_user)
             {
                 User userToAdd = _context.Users.FirstOrDefault(f => f.UserID == itemNewUserID);
-                if(userToAdd != null)
+                if (userToAdd != null)
                 {
                     userToAdd.UpdatedDate = DateTime.Now;
                     userToAdd.UserTypeID = hd.typeUser.UserTypeID;
                 }
                 _context.SaveChanges();
             }
-            
+
             #endregion
 
             return RedirectToAction(nameof(Index));
@@ -224,11 +224,11 @@ namespace VetClinic.Intranet.Controllers
             userType.IsActive = false;
 
             var userTypePermission = _context.UserTypePermissions.Where(w => w.UserTypeID == id).ToList();
-            foreach ( var item in userTypePermission)
+            foreach (var item in userTypePermission)
             {
                 item.IsActive = false;
             }
-            
+
             var isTableNoPermissions = _context.UserTypes.SingleOrDefault(s => s.Name == "No7818Permissions");
             if (isTableNoPermissions == null)
             {
@@ -245,16 +245,16 @@ namespace VetClinic.Intranet.Controllers
 
             int noPermissionsID = _context.UserTypes.SingleOrDefault(s => s.Name == "No7818Permissions").UserTypeID;
             var users = _context.Users.Where(w => w.UserTypeID == id).ToList();
-            
-            foreach ( var itemUser in users)
+
+            foreach (var itemUser in users)
             {
                 itemUser.IsActive = true;
                 itemUser.UserTypeID = noPermissionsID;
             }
-                                             
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        
+
         }
 
     }
