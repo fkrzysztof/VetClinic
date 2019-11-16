@@ -26,6 +26,11 @@ namespace VetClinic.PortalWWW.Controllers
         public async Task<IActionResult> Index(User user)
         {
             User account = _context.Users.First(u => u.Login == user.Login);
+            if(account.IsActive==false)
+            {
+                ModelState.AddModelError("", "Twoje konto jest zablokowane.");
+                return View();
+            }
 
             if (account != null && account.Password == user.Password)
             {
