@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace VetClinic.Intranet.Helpers
 {
-    public class HaszPassword
+    public class HashPassword
     {
         MD5 md5Hash = MD5.Create();// musy byc dodane do klasy w której haszujemy
-        public HaszPassword() { }
+        public HashPassword() { }
         public static string GetMd5Hash(MD5 md5Hash, string input)
         {
 

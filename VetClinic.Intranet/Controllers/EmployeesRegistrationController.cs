@@ -46,13 +46,13 @@ namespace VetClinic.Intranet.Controllers
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
                 user.UserTypeID = EmployeeUserId;
-                var hasloDlaUzytkownika = user.Password;  
-                user.Password = HaszPassword.GetMd5Hash(md5Hash, user.Password);
+                var passworduser = user.Password;  
+                user.Password = HashPassword.GetMd5Hash(md5Hash, user.Password);
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 UploadPhoto(file, user.UserID);
                 SmtpConf.MessageTo = user.Email;
-                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + hasloDlaUzytkownika;
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + passworduser;
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
                 SmtpConf.send();
                 return RedirectToAction(nameof(Index));
