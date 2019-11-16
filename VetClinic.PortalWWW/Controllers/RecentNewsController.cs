@@ -19,6 +19,13 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: RecentNews
         public  IActionResult Index(int id)
         {
+            //EDIT 16112019 MCZ: Każdy controller na stronie głównej powinien miec pozostałe "id" korzystających z tej samej strony 
+            ViewBag.ModelUser =
+               (
+               from crew in _context.Users
+               orderby crew.AddedDate
+               select crew
+               ).ToList();
 
             ViewBag.ModelRecentNews =
              (
