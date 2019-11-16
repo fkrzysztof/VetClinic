@@ -69,9 +69,18 @@ namespace VetClinic.PortalWWW.Controllers
             if (ModelState.IsValid)
             {
                 _context.Users.Add(user);
-                _context.SaveChanges();
+                
+                var typeid =
+                    (from item in _context.UserTypes
+                     where item.Name == "klient"
+                     select item.UserTypeID
+                     ).FirstOrDefault();
+                
+                user.UserTypeID = typeid;
 
+                _context.SaveChanges();
                 ModelState.Clear();
+
                 ViewBag.Message = user.FirstName + " " + user.LastName + " pomyślnie zarejestrowano konto.";
                 string message = "Witaj " + user.FirstName + " " + user.LastName + "\n";
                 message += "\n";
@@ -82,8 +91,9 @@ namespace VetClinic.PortalWWW.Controllers
                 message += "Z Powazaniem \nVet Clinic";
                 EMaill eMail = new EMaill(user.Email, "Vet Clinic rejestracja",message);
                 eMail.send();
+
             }
-            return View();
+            return RedirectToAction("Index", "Login");
         }
 
         public IActionResult Logout()
