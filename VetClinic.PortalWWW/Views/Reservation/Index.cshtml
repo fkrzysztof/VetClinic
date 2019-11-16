@@ -1,0 +1,44 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfVisit)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.AddedDate)
+            </th>            
+            <th>
+                @Html.DisplayNameFor(model => model.Patients)
+            </th>           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfVisit)
+            </td>           
+            <td>
+                @Html.DisplayFor(modelItem => item.AddedDate)
+            </td>            
+            <td>
+                @Html.DisplayFor(modelItem => item.Patients.Name)
+            </td>          
+        </tr>
+}
+    </tbody>
+</table>
