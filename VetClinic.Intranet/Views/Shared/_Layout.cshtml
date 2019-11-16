@@ -85,11 +85,7 @@
                     <span>Kategoria 1</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-area="" asp-controller="RecentNews" asp-action="Index">Recent News</a>
-                    <a class="dropdown-item" href="">Subkategoria 2 </a>
-                    <a class="dropdown-item" href="">Subkategoria 3 </a>
-                    <a class="dropdown-item" href="">Subkategoria 4 </a>
-                    <a class="dropdown-item" href="">Subkategoria 5 </a>
+                    <a class="dropdown-item" asp-area="" asp-controller="RecentNews" asp-action="Index">Strona wzorcowa</a>
                 </div>
             </li>
 
@@ -100,12 +96,12 @@
                     <span>Użytkownicy</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Index">Wykaz</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="Create">Dodaj</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="UserTypes" asp-action="Index">Rodzaje</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="MedicalSpecialization" asp-action="Index">Wykaz Lekarzy</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="MedicalSpecialization" asp-action="Create">Spec. Lekarza</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Specialization" asp-action="Index"> Lista Specjalizacji</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Wykaz</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Create">Dodaj</a>
+
+                    <a class="dropdown-item" asp-area="" asp-controller="UserTypes" asp-action="Index">Grupy uprawnień</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="MedicalSpecializations" asp-action="Create">Spec. Lekarza</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Specializations" asp-action="Index"> Lista Specjalizacji</a>
                 </div>
             </li>
 
@@ -116,18 +112,16 @@
                     <span>Pacjenci</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-area="" asp-controller="Patient" asp-action="Index">Lista</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="PatientType" asp-action="Index">Typ pacjenta</a>
-                    <a class="dropdown-item" href="">Subkategoria 3 </a>
-                    <a class="dropdown-item" href="">Subkategoria 4 </a>
-                    <a class="dropdown-item" href="">Subkategoria 5 </a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Patients" asp-action="Index">Lista</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="PatientTypes" asp-action="Index">Typ pacjenta</a>
                 </div>
             </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
-                    <span>Rodzaje Użytkowników</span>
+                    <span style="font-size:0.90rem">Rodzaje Użytkowników</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     <a class="dropdown-item" asp-area="" asp-controller="Admins" asp-action="Index">Admin</a>
@@ -142,27 +136,22 @@
                     <span>Leki</span>
                 </a>
             </li>
+
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Treatment" asp-action="Index">
+                <a class="nav-link" asp-area="" asp-controller="Treatments" asp-action="Index">
                     <span>Zabiegi</span>
                 </a>
             </li>
+
             <li class="nav-item">
                 <a class="nav-link toggle" asp-area="" asp-controller="Reservations" asp-action="Index">
                     <i class="fas fa-calendar-alt"></i> <span>Rezerwacje</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="">
-                    <span>Link 3</span>
-                </a>
-            </li>
         </ul>
-        <!-- /SIDEBAR -->
 
         <div id="content-wrapper">
             <div class="container-fluid">
-
                 <!-- KOMUNIKATY -->
                 <div id="accordion">
                     <div class="card">
@@ -250,24 +239,24 @@
                         </div>
                     </div>
                 </div>
-                <!-- /KOMUNIKATY-->
+
+
                 <!-- TREŚĆ STRON -->
                 <div class="card">
                     <div class="card-header">
-                        @*Treść strony (Tytuł wyświetlanej kategorii)*@
                         @ViewBag.Title
                     </div>
-                    <div class="card-body">
-                        <div class="container">
-                            <main role="main" class="pb-3">
-                                @RenderBody()
-                            </main>
-                        </div>
+                <div class="card-body">
+                    <div class="container">
+                        <main role="main" class="pb-3">
+                            @RenderBody()
+                        </main>
                     </div>
                 </div>
-                <!-- /TREŚĆ STRON -->
             </div>
-            <!-- /.container-fluid -->
+            </div>
+
+
             <!-- Footer -->
             <footer class="sticky-footer">
                 <div class="container my-auto">
@@ -276,12 +265,11 @@
                     </div>
                 </div>
             </footer>
-
         </div>
-        <!-- /.content-wrapper -->
 
     </div>
     <!-- /#wrapper -->
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

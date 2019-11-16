@@ -19,6 +19,12 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: RecentNews
         public  IActionResult Index(int id)
         {
+            ViewBag.ModelUser =
+               (
+               from crew in _context.Users
+               orderby crew.AddedDate
+               select crew
+               ).ToList();
 
             ViewBag.ModelRecentNews =
              (
