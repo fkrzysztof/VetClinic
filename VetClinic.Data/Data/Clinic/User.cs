@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,11 +26,15 @@ namespace VetClinic.Data.Data.VetClinic
         [Required(ErrorMessage = "Kod pocztowy jest wymagany")]
         public string PostalCode { get; set; }
         [Required(ErrorMessage = "Email jest wymagany")]
+        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",
+         ErrorMessage = "Adres email nie jest prawidłowy.")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Login jest wymagany")]
+        [Remote(action: "VerifyLogin", controller: "Employees")]
         public string Login { get; set; }
         [Required(ErrorMessage = "Hasło jest wymagane")]
         public string Password { get; set; } // nie wiem czy potrzebnie, bo bedzie ta autoryzacja .NETowa
+        [Required(ErrorMessage = "Numer telefonu jest wymagany")]
         public string Phone { get; set; }
         public string Photo { get; set; }
         public string CardNumber { get; set; } // karta stałego klienta 
