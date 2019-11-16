@@ -15,11 +15,11 @@ using User = VetClinic.Data.Data.VetClinic.User;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class UserController : Controller
+    public class UsersController : Controller
     {
         private readonly VetClinicContext _context;
 
-        public UserController(VetClinicContext context)
+        public UsersController(VetClinicContext context)
         {
             _context = context;
         }

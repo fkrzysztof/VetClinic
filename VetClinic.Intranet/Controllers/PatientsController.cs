@@ -11,11 +11,11 @@ using VetClinic.Intranet.ViewModels;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class PatientController : Controller
+    public class PatientsController : Controller
     {
         private readonly VetClinicContext _context;
 
-        public PatientController(VetClinicContext context)
+        public PatientsController(VetClinicContext context)
         {
             _context = context;
         }

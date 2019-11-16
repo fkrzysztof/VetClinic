@@ -12,12 +12,12 @@ using VetClinic.Intranet.Services;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class UserRegistrationController : Controller
+    public class UsersRegistrationController : Controller
     {
         private readonly VetClinicContext _context;
         SmtpConfiguration SmtpConf = new SmtpConfiguration(); // konfuguracja smtp do wysyłki maila
 
-        public UserRegistrationController(VetClinicContext context)
+        public UsersRegistrationController(VetClinicContext context)
         {
             _context = context;
         }
