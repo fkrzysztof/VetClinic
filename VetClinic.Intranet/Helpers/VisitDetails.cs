@@ -4,7 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using VetClinic.Data.Data.Clinic;
 
-namespace VetClinic.Data.Helper
+<<<<<<< HEAD:VetClinic.Data/Helpers/VisitDetails.cs
+namespace VetClinic.Data.Helpers
+=======
+namespace VetClinic.Intranet.Helpers
+>>>>>>> Tomasz:VetClinic.Intranet/Helpers/VisitDetails.cs
 {
     public class VisitDetails
     {
