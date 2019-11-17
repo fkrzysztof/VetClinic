@@ -22,7 +22,7 @@ namespace VetClinic.Data.Data.Clinic
 
         [Display(Name ="Cena")]
         [Required(ErrorMessage = "Cena jest wymagana")]
-        [DataType(DataType.Currency)]
+        //[DataType(DataType.Currency)]
         public decimal Price { get; set; }
         public decimal Quantity { get; set; }
         public bool IsActive { get; set; }

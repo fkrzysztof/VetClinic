@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -18,21 +19,24 @@ namespace VetClinic.Intranet.Controllers
         {
             _context = context;
         }
-
+        
         // GET: Medicines
         public async Task<IActionResult> Index(string searchString)
         {
+            var polishFormat = new CultureInfo("pl-PL");
             ViewData["CurrentFilter"] = searchString;
             ViewData["MedicineTypeID"] = new SelectList(_context.MedicineTypes, "MedicineTypeID", "Name");
             var vetClinicContext = _context.Medicines.Include(m => m.MedicineAddedUser).Include(m => m.MedicineType).Include(m => m.MedicineUpdatedUser).Where(a=>a.IsActive==true);
             if (!String.IsNullOrEmpty(searchString))
             {
                 vetClinicContext = (from order in _context.Medicines
-                                    where order.Name.Contains(searchString)
+                                    where order.Name.Contains(searchString) 
+                                    || order.MedicineType.Name.Contains(searchString)
                                     select order)
                                  .Include(m => m.MedicineAddedUser)
                                  .Include(m => m.MedicineType)
-                                 .Include(m => m.MedicineUpdatedUser);
+                                 .Include(m => m.MedicineUpdatedUser)
+                                 .Where(a => a.IsActive == true);
             }
             return View(await vetClinicContext.ToListAsync());
         }
