@@ -93,7 +93,7 @@ namespace VetClinic.PortalWWW.Controllers
                 eMail.send();
 
             }
-            return RedirectToAction("Index", "Login");
+            return RedirectToAction("Index", "ClientPanel");
         }
 
         public IActionResult Logout()
