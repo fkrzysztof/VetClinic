@@ -1,20 +1,14 @@
 ﻿@model VetClinic.Data.Data.Clinic.Medicine
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Dodawanie leku";
 }
-
-<h4>Dodaj nowy element:</h4>
-<h2>RecentNews</h2>
-<hr />
-
-
 <form asp-action="Create">
 
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group col-md-6">
-        <label asp-for="MedicineTypeID" class="control-label"></label>
+        <label class="control-label">Typ leku</label>
         <select asp-for="MedicineTypeID" class="form-control" asp-items="ViewBag.MedicineTypeID"></select>
         <span asp-validation-for="MedicineTypeID" class="text-danger"></span>
     </div>
