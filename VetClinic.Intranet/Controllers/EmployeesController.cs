@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.VetClinic;
+using VetClinic.Intranet.Helpers;
 using VetClinic.Intranet.Services;
 
 namespace VetClinic.Intranet.Controllers
@@ -69,12 +70,13 @@ namespace VetClinic.Intranet.Controllers
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
                 user.UserTypeID = EmployeeUserId;
-                var hasloDlaUzytkownika = user.Password;
+                var passwordUser = user.Password;
+                user.Password = HashPassword.GetMd5Hash(user.Password);
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 UploadPhoto(file, user.UserID);
                 SmtpConf.MessageTo = user.Email;
-                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + hasloDlaUzytkownika;
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + passwordUser;
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
                 SmtpConf.send();
                 return RedirectToAction(nameof(Index));

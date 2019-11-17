@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.VetClinic;
+using VetClinic.Intranet.Helpers;
 
 namespace VetClinic.Intranet.Controllers
 {
@@ -69,7 +70,7 @@ namespace VetClinic.Intranet.Controllers
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
                 user.UserTypeID = AdminUserId;
-                
+                user.Password = HashPassword.GetMd5Hash(user.Password);
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 UploadPhoto(file, user.UserID);

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VetClinic.Data;
 using VetClinic.Data.Data.VetClinic;
+//using VetClinic.Intranet.Helpers;
 using VetClinic.PortalWWW.Helpers;
 
 namespace VetClinic.PortalWWW.Controllers
@@ -27,13 +28,14 @@ namespace VetClinic.PortalWWW.Controllers
         public async Task<IActionResult> Index(User user)
         {
             User account = _context.Users.First(u => u.Login == user.Login);
-            if(account.IsActive==false)
+            var veryfyHashPassword =  HashPassword.VerifyMd5Hash(user.Password, account.Password);
+            if (account.IsActive == false)
             {
                 ModelState.AddModelError("", "Twoje konto jest zablokowane.");
                 return View();
             }
 
-            if (account != null && account.Password == user.Password)
+            if (account != null && (account.Password == user.Password || veryfyHashPassword))
             {
                 HttpContext.Session.SetString("UserID", account.UserID.ToString());
                 HttpContext.Session.SetString("Login", account.Login.ToString());
@@ -42,7 +44,7 @@ namespace VetClinic.PortalWWW.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Login lub hasło jest niepoprawne.");
+                ModelState.AddModelError("","Login lub hasło jest niepoprawne.");
                 account.LoginAttempt++;
                 _context.SaveChanges();
                 if (account.LoginAttempt >= 5)
