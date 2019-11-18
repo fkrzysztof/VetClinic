@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Data.CMS;
-using VetClinic.Data.Data.VetClinic;
 
 namespace VetClinic.Data
 {

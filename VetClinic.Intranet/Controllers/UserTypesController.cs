@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
-using VetClinic.Data.Data.VetClinic;
 using VetClinic.Data.HelpersClass;
 
 namespace VetClinic.Intranet.Controllers
@@ -91,12 +90,12 @@ namespace VetClinic.Intranet.Controllers
                 permissionsUser = permissions_add,
                 users = user_add,
                 permissionsNotSelected = permissionsAll
-            }); ;
+            });
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Details(UserTypesDetails hd, List<int> select_permission, List<int> select_user, List<int> select_new_user)
+        public IActionResult Details(UserTypesDetails hd, List<int> select_permission, List<int> select_user, List<int> select_new_user)
         {
             //userType ktory przegladamy
             //IsActive wykluczamy juz wczesniej na liscie w index

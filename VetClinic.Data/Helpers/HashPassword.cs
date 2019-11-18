@@ -5,12 +5,13 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VetClinic.PortalWWW.Helpers
+namespace VetClinic.Data.Helpers
 {
     public class HashPassword
     {
+        
         public HashPassword() { }
-        public static string GetMd5Hash(string input)
+        public static string GetMd5Hash( string input)
         {
             MD5 md5Hash = MD5.Create();
             // Convert the input string to a byte array and compute the hash.

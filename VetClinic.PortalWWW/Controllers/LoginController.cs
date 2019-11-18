@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VetClinic.Data;
-using VetClinic.Data.Data.VetClinic;
-//using VetClinic.Intranet.Helpers;
-using VetClinic.PortalWWW.Helpers;
+using VetClinic.Data.Data.Clinic;
+using VetClinic.Data.Helpers;
 
 namespace VetClinic.PortalWWW.Controllers
 {

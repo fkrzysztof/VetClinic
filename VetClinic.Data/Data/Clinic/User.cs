@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Data.CMS;
 
-namespace VetClinic.Data.Data.VetClinic
+namespace VetClinic.Data.Data.Clinic
 {
     public class User
     {
