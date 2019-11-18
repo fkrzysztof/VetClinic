@@ -51,9 +51,6 @@ namespace VetClinic.Intranet.Controllers
         // GET: MedicalSpecialization/Create
         public IActionResult Create()
         {
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "City");
             ViewData["SpecializationID"] = new SelectList(_context.Specializations, "SpecializationID", "Name");
             return View();
         }
