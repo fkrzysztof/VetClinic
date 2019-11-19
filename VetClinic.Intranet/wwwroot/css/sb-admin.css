@@ -11737,3 +11737,13 @@ body.sidebar-toggled footer.sticky-footer {
         width: calc(100% - 90px);
     }
 }
+
+
+#usunFiltry {
+    margin-left: 10px;
+}
+
+#Filtry {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

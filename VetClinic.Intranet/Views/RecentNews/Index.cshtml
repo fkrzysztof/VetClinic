@@ -1,15 +1,45 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.CMS.RecentNews>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "RecentNews";
 }
 
-<h5>Przykładowa strona CRUD (Layout) </h5>
+<!-- EXPANDER FILTRÓW  --> <!-- UWAGA: KONIECZNE PODPIĘCIE WŁAŚCIWYCH DANYCH NA KAŻDEJ STRONIE!!!! -->
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="Filtry">
+            <div class="mb-0">
+                Filtr
+                <button class="btn btn-link" data-toggle="collapse"
+                        data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="fa fa-bars text-black"></i>
+                </button>
+            </div>
+        </div>
+        <div id="collapse1" class="collapse show" aria-labelledby="Filtr" data-parent="#accordion">
+            <div class="card-body">
 
+                <form class="form-inline">
+                    <div class="form-group mb-2">
+                        <label>Szukaj: </label>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Proszę podpiąć swoje..." /> @*Podpiąć swoje dane*@
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
+                    <button class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</button> @*Podpiąć swoje dane*@
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<!-- EXPANDER FILTRÓW  -->
 <p>
     <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
-        Dodaj nowy element
+        Dodaj nowy
     </a>
 </p>
 
@@ -28,7 +58,7 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Position)
-                </th>                      
+                </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Photo)
                 </th>
@@ -53,7 +83,7 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Position)
-                    </td>                              
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Photo)
                     </td>
