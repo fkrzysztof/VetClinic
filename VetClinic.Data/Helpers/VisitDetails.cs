@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VetClinic.Data.Data.Clinic;
-using VetClinic.Data.Data.VetClinic;
 
-namespace VetClinic.Intranet.ViewModels
+namespace VetClinic.Data.Helpers
 {
-    public class VisitDetailsViewModel
+    public class VisitDetails
     {
         public Visit Visit { get; set; }
         public Patient Patient { get; set; }

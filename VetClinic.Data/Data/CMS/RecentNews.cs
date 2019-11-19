@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using VetClinic.Data.Data.VetClinic;
+using VetClinic.Data.Data.Clinic;
 
 namespace VetClinic.Data.Data.CMS
 {

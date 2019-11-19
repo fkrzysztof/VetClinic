@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
 
-namespace VetClinic.PortalWWW.Helpers
+namespace VetClinic.Data.Helpers
 {
     public class EMaill
     {

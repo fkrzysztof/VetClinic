@@ -18,5 +18,5 @@
   <ItemGroup>
     <ProjectReference Include="..\VetClinic.Data\VetClinic.Data.csproj" />
   </ItemGroup>
-
+  
 </Project>

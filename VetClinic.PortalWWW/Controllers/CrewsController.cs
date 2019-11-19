@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
-using VetClinic.Data.Data.VetClinic;
+using VetClinic.Data.Data.Clinic;
 
 namespace VetClinic.PortalWWW.Controllers
 {

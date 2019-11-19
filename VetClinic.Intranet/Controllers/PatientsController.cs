@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
-using VetClinic.Intranet.ViewModels;
+using VetClinic.Data.Helpers;
 
 namespace VetClinic.Intranet.Controllers
 {
@@ -317,7 +317,7 @@ namespace VetClinic.Intranet.Controllers
                 .Include(m=>m.Medicine)
                 .Include(m=>m.Medicine.MedicineType)
                 .Where(v => v.VisitID == id).ToList();
-            var view = new VisitDetailsViewModel
+            var view = new VisitDetails
             {
               
                 VisitMedicine = visitMedicine,
@@ -336,7 +336,7 @@ namespace VetClinic.Intranet.Controllers
             }
 
             var visits = await _context.Visits.FindAsync(id);
-            var visit = new VisitDetailsViewModel();
+            var visit = new VisitDetails();
             visit.Visit = visits;
 
             //var operations = await _context.Operations.ToListAsync();

@@ -8,9 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
-using VetClinic.Data.Data.VetClinic;
-using VetClinic.Intranet.Helpers;
-using VetClinic.Intranet.Services;
+using VetClinic.Data.Data.Clinic;
+using VetClinic.Data.Helpers;
 
 namespace VetClinic.Intranet.Controllers
 {

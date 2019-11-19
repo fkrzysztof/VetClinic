@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Mail;
 
-namespace VetClinic.Intranet.Services
+namespace VetClinic.Data.Helpers
 {
     public class SmtpConfiguration
     {
