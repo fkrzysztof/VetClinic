@@ -1,13 +1,9 @@
-﻿@model VetClinic.Data.Helpers.VisitDetails
+@model VetClinic.Data.Helpers.VisitDetails
 
 @{
-    ViewData["Title"] = "EditVisit";
+    ViewData["Title"] = "Edycja wizyty";
 }
 
-<h3>Edycja wizyty</h3>
-
-<h5>Szczegóły</h5>
-<hr />
 <form asp-action="Edit">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -24,14 +20,16 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="form-group col-md-5">
+        <div class="form-group col-md-4">
             <label>Zabieg</label>
-            <select asp-for="Visit.TreatmentID" class="form-control" asp-items="ViewBag.TreatmentID"></select>
+            <select asp-for="Visit.TreatmentID" class="form-control" asp-items="ViewBag.TreatmentID" size="2" multiple>
+                <option disabled selected>--Wybierz lek--</option>
+            </select>
             <span asp-validation-for="Visit.TreatmentID" class="text-danger"></span>
         </div>
-        <div class="form-group col-md-5">
+        <div class="form-group col-md-4">
             <label>Leki</label>
-            <select asp-for="Medicine.MedicineID" class="form-control" asp-items="ViewBag.MedicineID">
+            <select asp-for="Medicine.MedicineID" class="form-control" asp-items="ViewBag.MedicineID" size="2" multiple>
                 <option disabled selected>--Wybierz lek--</option>
             </select>
             <span asp-validation-for="Medicine.MedicineID" class="text-danger"></span>

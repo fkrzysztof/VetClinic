@@ -11,15 +11,12 @@
     </a>
 </p>
 <div class="form-row">
-    <div class="form-group col-md-7">
-        <h2>Wizyty dla pacjenta @ViewData["PatientName"]</h2>
+    <div class="form-group col-md-5">
+        <h2>@ViewData["PatientName"]  (ID @ViewData["PatientID"])</h2>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead class="thead-dark">
                     <tr>
-                        <th>
-                            Identyfikator
-                        </th>
                         <th>
                             Data wizyty
                         </th>
@@ -33,37 +30,26 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-
                             <td>
-                                <a href="" class="visitdetails-id" data-VisitId="@item.VisitID"> @Html.DisplayFor(modelItem => item.PatientID) </a>
-                            </td>
-                            <td>
-                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOfVisit))
+                                <a href="" class="visitdetails-id" data-VisitId="@item.VisitID">
+                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOfVisit))
+                                </a>
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Description)
                             </td>
                             <td>
-
                                 <a class="btn btn-outline-primary btn-sm" role="button" asp-action="EditVisit" asp-route-id="@item.VisitID">
                                     <span class="fas fa-pen"></span>
                                 </a>
-                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.PatientID">
-                                    <span class="fas fa-list-alt"></span>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
-                                    <span class="fas fa-trash-alt"></span>
-                                </a>
                             </td>
-
                         </tr>
-
                     }
                 </tbody>
             </table>
         </div>
     </div>
-    <div id="maincont" class="form-group col-md-5" style="padding-top:45px"></div>
+    <div id="maincont" class="form-group col-md-7" style="padding-top:45px"></div>
 </div>
 
 @section Scripts {
