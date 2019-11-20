@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using VetClinic.Data.Data.Clinic;
 
-namespace VetClinic.Data.Helper
+namespace VetClinic.Data.Helpers
 {
     public class VisitDetails
     {
