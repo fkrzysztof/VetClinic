@@ -28,29 +28,29 @@
                     <div>
                         <div class="row">
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz" >
                                 <p class="odstep">Imię</p>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 @Html.DisplayFor(model => model.Visit.Patient.Name)
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 <p class="odstep">Data urodzenia</p>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Visit.Patient.BirthDate))
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 <p class="odstep">Wlasciciel</p>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 @Html.DisplayFor(model => model.Visit.VisitUser.FirstName)
                                 @Html.DisplayFor(model => model.Visit.VisitUser.LastName)
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 <p class="odstep">Opis</p>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 @Html.DisplayFor(model => model.Visit.Description)
                             </div>
                         </div>
@@ -60,16 +60,16 @@
                     <div>
                         <div class="row">
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 <p class="odstep">Nazwa</p>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 @Html.DisplayFor(model => model.Visit.Treatment.Name)
                             </div>                       
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 <p class="odstep">Opis</p>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-6 wiersz">
                                 @Html.DisplayFor(model => model.Visit.Treatment.Description)
                             </div>
                         </div>

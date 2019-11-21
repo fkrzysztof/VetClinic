@@ -11,7 +11,7 @@
     </a>
 </p>
 <div class="form-row">
-    <div class="form-group col-md-5">
+    <div class="form-group col-md-3">
         <h2>@ViewData["PatientName"]  (ID @ViewData["PatientID"])</h2>
         <div class="table-responsive">
             <table class="table table-hover">
@@ -19,10 +19,7 @@
                     <tr>
                         <th>
                             Data wizyty
-                        </th>
-                        <th>
-                            Opis
-                        </th>
+                        </th>                      
                         <th></th>
                     </tr>
                 </thead>
@@ -34,10 +31,7 @@
                                 <a href="" class="visitdetails-id" data-VisitId="@item.VisitID">
                                     @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOfVisit))
                                 </a>
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
+                            </td>                         
                             <td>
                                 <a class="btn btn-outline-primary btn-sm" role="button" asp-action="EditVisit" asp-route-id="@item.VisitID">
                                     <span class="fas fa-pen"></span>
@@ -49,7 +43,7 @@
             </table>
         </div>
     </div>
-    <div id="maincont" class="form-group col-md-7" style="padding-top:45px"></div>
+    <div id="maincont" class="form-group col-md-9" style="padding-top:45px"></div>
 </div>
 
 @section Scripts {
