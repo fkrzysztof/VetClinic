@@ -1,0 +1,89 @@
+﻿@model VetClinic.Data.Helpers.CalendarTime
+
+
+    <table class="table table-bordered" id="reservationCalendar">
+        <thead>
+            <tr>
+                <td>
+                    <form asp-action="Index" method="post">
+                        <input type="hidden" name="Navigation" value="previous" />
+                        <input type="hidden" value="@Model.First" name="first" />
+                        <input type="submit" value=">>" />
+                    </form>
+                </td>
+                <td colspan="5">
+                    Aktualna data = @Model.First
+                </td>
+                <td>
+                    <form asp-action="Index" method="post">
+                        <input type="hidden" name="Navigation" value="next" />
+                        <input type="hidden" value="@Model.First" name="first" />
+                        <input type="submit" value=">>" />
+                    </form>
+                </td>
+            </tr>
+        </thead>
+        <tr>
+            <td>
+                Poniedziałek
+            </td>
+            <td>
+                Wtorek
+            </td>
+            <td>
+                Środa
+            </td>
+            <td>
+                Czwartek
+            </td>
+            <td>
+                Piatek
+            </td>
+            <td>
+                Sobota
+            </td>
+            <td>
+                Niedziela
+            </td>
+        </tr>
+
+
+        <tr>
+            @{
+                DateTime renderedDay = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 0, 0, 0);
+                DateTime block = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 8,0,0);
+                for (int d = 0; d < 7; d++)
+                {
+
+                    // if Sunday
+                    //if (renderedDay.DayOfWeek == DayOfWeek.Sunday)
+                    if (d == 6)
+                    {
+                        <td class="calendar-holiday">@renderedDay.ToString("dd/MM/yyyy") sobota</td>
+                    }
+                    // if Saturday
+                    //else if (renderedDay.DayOfWeek == DayOfWeek.Saturday)
+                    else if (d == 7)
+                    {
+                        <td class="calendar-holiday">@renderedDay.ToString("dd/MM/yyyy") niedziela</td>
+                    }
+                    // if normal day
+                    else
+                    {
+                        <td>@renderedDay.ToString("dd/MM/yyyy") praca</td>
+                    }
+                    renderedDay = renderedDay.Add(new TimeSpan(1, 0, 0, 0, 0));
+                }
+            }
+        </tr>
+        @for (int i = 0; i < 24; i++)
+        {
+            <tr>
+                @for (int y = 0; y < 7; y++ , block.Add(new TimeSpan(0, 20,0,0)))
+                {
+                    <td>@block.Hour:@block.Minute  wizyta!</td>
+                }
+            </tr>
+        }
+
+    </table>
