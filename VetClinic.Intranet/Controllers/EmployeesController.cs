@@ -25,9 +25,22 @@ namespace VetClinic.Intranet.Controllers
         }
 
         // GET: Employee
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
             var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name==EmployeeUserName);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vetClinicContext = (from user in vetClinicContext
+                                    where user.Login.Contains(searchString)
+                                    || user.LastName.Contains(searchString)
+                                    || user.Email.Contains(searchString)
+                                    || user.City.Contains(searchString)
+                                    select user)
+                                            .Include(m => m.UserType);
+
+
+            }
             return View(await vetClinicContext.ToListAsync());
         }
 

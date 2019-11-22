@@ -25,9 +25,22 @@ namespace VetClinic.Intranet.Controllers
         }
 
         // GET: Doctor
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
+            ViewData["CurrentFilter"] = searchString;
             var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == DoctorUserName);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vetClinicContext = (from user in vetClinicContext
+                                    where user.Login.Contains(searchString)
+                                    || user.LastName.Contains(searchString)
+                                    || user.Email.Contains(searchString)
+                                    || user.City.Contains(searchString)
+                                    select user)
+                                            .Include(m => m.UserType);
+
+
+            }
             return View(await vetClinicContext.ToListAsync());
         }
 
@@ -54,6 +67,7 @@ namespace VetClinic.Intranet.Controllers
         public IActionResult Create()
         {
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name");
+          //  ViewData["SpecializationID"] = new SelectList(_context.MedicalSpecializations, "SpecializationID", "Name");
             return View();
         }
 
@@ -81,6 +95,8 @@ namespace VetClinic.Intranet.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name", user.UserTypeID);
+          //ViewData["SpecializationID"] = new SelectList(_context.Specializations, "SpecializationID", "Name", user.UserID);
+
             return View(user);
         }
 

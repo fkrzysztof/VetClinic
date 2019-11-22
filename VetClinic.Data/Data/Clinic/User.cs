@@ -42,7 +42,7 @@ namespace VetClinic.Data.Data.Clinic
         public string Description { get; set; }
         public DateTime AddedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
- 
+
         [ForeignKey("UserTypeID")]
         public UserType UserType { get; set; }
 
