@@ -115,6 +115,7 @@ namespace VetClinic.Intranet.Controllers
                 {
                    user.UpdatedDate = DateTime.Now;
                    user.UserTypeID = AdminUserId;
+                    user.Password = HashPassword.GetMd5Hash(user.Password);
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                    UploadPhoto(file, user.UserID);
