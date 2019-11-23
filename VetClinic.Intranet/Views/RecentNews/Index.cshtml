@@ -18,7 +18,6 @@
         </div>
         <div id="collapse1" class="collapse show" aria-labelledby="Filtr" data-parent="#accordion">
             <div class="card-body">
-
                 <form class="form-inline">
                     <div class="form-group mb-2">
                         <label>Szukaj: </label>
@@ -29,7 +28,6 @@
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
                     <button class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</button> @*Podpiąć swoje dane*@
                 </form>
-
             </div>
         </div>
     </div>
@@ -83,8 +81,7 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Photo)
-
-                        <img src="~/images/logo.svg" class="img-thumbnail rounded thumb-size-small" alt="...">
+                        <img src="~/uploads/@Html.DisplayFor(modelItem => item.Photo)" class="img-thumbnail rounded thumb-size-small">
                     </td>
                     <td>
                         <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.RecentNewsID">

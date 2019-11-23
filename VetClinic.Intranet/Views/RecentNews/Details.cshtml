@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h4>Szczegóły elementu:</h4>
+<h4>Szczegóły:</h4>
 <h2>RecentNews</h2>
 <hr />
 
@@ -31,9 +31,9 @@
 
 <div>
     <dl class="row">
-        @*SEKCJA ZDJĘCIA. TU WŁOŻONE STATYCZNIE - DOCELOWO MA SIĘ WGRYWAĆ Z BAZY*@
+        @*SEKCJA ZDJĘCIA.*@
         <dd class="col-sm-12">
-            <img src="~/images/logo.svg" class="img-thumbnail rounded thumb-size listButtMargin" alt="...">
+            <img src="~/uploads/@Model.Photo" class="img-thumbnail rounded thumb-size listButtMargin"/>
         </dd>
 
         <dt class="col-sm-2">
