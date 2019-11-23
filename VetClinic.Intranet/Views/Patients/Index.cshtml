@@ -3,28 +3,41 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="Filtry">
+            <div class="mb-0">
+                Filtr
+                <button class="btn btn-link" data-toggle="collapse"
+                        data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="fa fa-bars text-black"></i>
+                </button>
+            </div>
+        </div>
+        <div id="collapse1" class="collapse show" aria-labelledby="Filtr" data-parent="#accordion">
+            <div class="card-body">
 
+                <form class="form-inline" asp-action="Index" method="get">
+                    <div class="form-group mb-2">
+                        <label>Szukaj: </label>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Login,Nazwisko,E-mail,Miasto" /> @*Podpiąć swoje dane*@
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
+                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
 <p>
     <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
         Dodaj nowy element
     </a>
 </p>
-
-<form asp-action="Index" method="get">
-    <div class="form-actions no-color">
-        <p>
-            Szukaj według imienia, daty urodzenia lub opisu: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Szukaj" class="btn btn-primary" />
-
-            <a class="btn btn-outline-primary" role="button" asp-action="Index">
-                <span class="fas fa-arrow-circle-left"></span> Wyczyść filtr
-            </a>
-
-        </p>
-    </div>
-</form>
-
 <div class="table-responsive">
     <table class="table table-hover">
         <thead class="thead-dark">
@@ -53,40 +66,40 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    <a asp-action="Visit" asp-route-id="@item.PatientID">
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </a>
-                </td>
-                <td>
-                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.BirthDate))
-                </td>
-                <td style="text-align:right">
-                    @Html.DisplayFor(modelItem => item.PatientNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.KennelName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PatientType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PatientUser.FirstName)
-                    @Html.DisplayFor(modelItem => item.PatientUser.LastName)
-                </td>
-                <td>
-                    <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.PatientID">
-                        <span class="fas fa-pen"></span>
-                    </a>
-                    <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.PatientID">
-                        <span class="fas fa-list-alt"></span>
-                    </a>
-                    <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
-                        <span class="fas fa-trash-alt"></span>
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <a asp-action="Visit" asp-route-id="@item.PatientID">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </a>
+                    </td>
+                    <td>
+                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.BirthDate))
+                    </td>
+                    <td style="text-align:right">
+                        @Html.DisplayFor(modelItem => item.PatientNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.KennelName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PatientType.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PatientUser.FirstName)
+                        @Html.DisplayFor(modelItem => item.PatientUser.LastName)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.PatientID">
+                            <span class="fas fa-pen"></span>
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.PatientID">
+                            <span class="fas fa-list-alt"></span>
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
+                            <span class="fas fa-trash-alt"></span>
+                        </a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
