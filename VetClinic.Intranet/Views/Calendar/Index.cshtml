@@ -51,7 +51,6 @@
         <tr>
             @{
                 DateTime renderedDay = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 0, 0, 0);
-                DateTime block = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 8,0,0);
                 for (int d = 0; d < 7; d++)
                 {
 
@@ -76,14 +75,20 @@
                 }
             }
         </tr>
-        @for (int i = 0; i < 24; i++)
-        {
-            <tr>
-                @for (int y = 0; y < 7; y++ , block.Add(new TimeSpan(0, 20,0,0)))
-                {
-                    <td>@block.Hour:@block.Minute  wizyta!</td>
-                }
-            </tr>
-        }
+        @{
+            DateTime block = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 8, 0, 0);
 
+            //24 bloki wizyt 8h/20min
+            for (int i = 0; i < 24; i++)
+            {
+                <tr>
+                    @for (int j = 0; j < 7; j++)
+                    {
+                        <td>@block.ToString("HH/mm")  wizyta! i</td>
+                    }
+                </tr>
+               block = block.AddMinutes(20);
+                
+            }
+        }
     </table>
