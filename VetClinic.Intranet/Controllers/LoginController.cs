@@ -35,14 +35,14 @@ namespace VetClinic.Intranet.Controllers
                     return View();
                 }
                 else
-                if (account.Password == user.Password || HashPassword.VerifyMd5Hash(user.Password, account.Password))
+                if (HashPassword.VerifyMd5Hash(user.Password, account.Password))
                 {
                     HttpContext.Session.SetString("UserID", account.UserID.ToString());
                     HttpContext.Session.SetString("Login", account.Login.ToString());
                     account.LoginAttempt = 0;
                     _context.SaveChanges();
 
-                    return View("/Views/Home/Index.cshtml");
+                    return RedirectToAction("Index","Home");
                 }
                 else
                 {
