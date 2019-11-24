@@ -103,3 +103,30 @@ body{
     color: #f3715b;
 }
 
+.cardImageLogo {
+    width: 80px !important; 
+    text-align: center;
+}
+
+.cardBorderPad{
+    border:none;
+    margin:20px;
+}
+
+.cardImagePadding {
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+
+.fa {
+    color: white !important;
+}
+
+    .fa:hover {
+        color: white !important;
+    }
+
+    .fa, .fa-chevron-right:hover {
+        color: white !important;
+    }
