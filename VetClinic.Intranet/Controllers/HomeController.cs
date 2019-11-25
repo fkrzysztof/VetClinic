@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VetClinic.Intranet.Models;
@@ -20,7 +21,11 @@ namespace VetClinic.Intranet.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if (HttpContext.Session.GetString("Login") != null)
+            {
+                return View();
+            }else
+            return RedirectToAction("Index", "Login");
         }
 
         public IActionResult Privacy()
