@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20191125171242_ScheduleBlock-datetimetimeSpan")]
+    partial class ScheduleBlockdatetimetimeSpan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -756,31 +758,6 @@ namespace VetClinic.Data.Migrations
                     b.ToTable("VisitMedicines");
                 });
 
-<<<<<<< HEAD
-            modelBuilder.Entity("VetClinic.Data.Data.Clinic.VisitTreatment", b =>
-                {
-                    b.Property<int>("VisitTreatmentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("TreatmentID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("VisitID")
-                        .HasColumnType("int");
-
-                    b.HasKey("VisitTreatmentID");
-
-                    b.HasIndex("TreatmentID");
-
-                    b.HasIndex("VisitID");
-
-                    b.ToTable("VisitTreatment");
-                });
-
-=======
->>>>>>> sprawdza-dostepnosc-daty
             modelBuilder.Entity("VetClinic.Data.Data.CMS.RecentNews", b =>
                 {
                     b.HasOne("VetClinic.Data.Data.Clinic.User", "RecentNewsAddedUser")
@@ -1030,20 +1007,6 @@ namespace VetClinic.Data.Migrations
                         .WithMany("VisitMedicines")
                         .HasForeignKey("VisitID");
                 });
-<<<<<<< HEAD
-
-            modelBuilder.Entity("VetClinic.Data.Data.Clinic.VisitTreatment", b =>
-                {
-                    b.HasOne("VetClinic.Data.Data.Clinic.Treatment", "Treatment")
-                        .WithMany()
-                        .HasForeignKey("TreatmentID");
-
-                    b.HasOne("VetClinic.Data.Data.Clinic.Visit", "Visit")
-                        .WithMany()
-                        .HasForeignKey("VisitID");
-                });
-=======
->>>>>>> sprawdza-dostepnosc-daty
 #pragma warning restore 612, 618
         }
     }

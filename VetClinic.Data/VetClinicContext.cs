@@ -10,7 +10,6 @@ namespace VetClinic.Data
             : base(options)
         {
         }
-
         public DbSet<RecentNews> RecentNews { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<MedicineType> MedicineTypes { get; set; }
@@ -28,6 +27,6 @@ namespace VetClinic.Data
         public DbSet<UserTypePermission> UserTypePermissions { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<VisitTreatment> VisitTreatment { get; set; }
-
+        public DbSet<ScheduleBlock> ScheduleBlocks { get; set; }
     }
 }

@@ -32,7 +32,9 @@ namespace VetClinic.Intranet.Controllers
             sb.First = now;
             //dodaje kolekcje rezerwacji w zakresie aktualnie ogladanym
             sb.Reservation = _context.Reservations.Where(w => w.DateOfVisit >= now && w.DateOfVisit <= now.AddDays(7)).ToList();
-            return View(sb);
+            //dodanie kolekcji godzin pracy przychodni
+            sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy( o => o.Time).ToList();
+            return View(sb); 
         }
 
         [ValidateAntiForgeryToken]
