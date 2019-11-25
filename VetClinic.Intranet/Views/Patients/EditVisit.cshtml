@@ -22,14 +22,14 @@
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>Zabieg</label>
-            <select asp-for="Visit.TreatmentID" class="form-control" asp-items="ViewBag.TreatmentID" size="2" multiple>
-                <option disabled selected>--Wybierz lek--</option>
+            <select asp-for="Treatment.TreatmentID" class="form-control" asp-items="ViewBag.TreatmentID">
+                <option disabled selected>--Dodaj Zabieg--</option>
             </select>
-            <span asp-validation-for="Visit.TreatmentID" class="text-danger"></span>
+            <span asp-validation-for="Treatment.TreatmentID" class="text-danger"></span>
         </div>
         <div class="form-group col-md-4">
-            <label>Leki</label>
-            <select asp-for="Medicine.MedicineID" class="form-control" asp-items="ViewBag.MedicineID" size="2" multiple>
+            <label>Lek</label>
+            <select asp-for="Medicine.MedicineID" class="form-control" asp-items="ViewBag.MedicineID">
                 <option disabled selected>--Wybierz lek--</option>
             </select>
             <span asp-validation-for="Medicine.MedicineID" class="text-danger"></span>
