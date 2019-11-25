@@ -1,94 +1,127 @@
-﻿@model VetClinic.Data.Helpers.CalendarTime
+﻿@model VetClinic.Data.Helpers.ScheduleBlocks
+@{
+    ViewBag.Title = "Harmonogram";
+}
 
-
-    <table class="table table-bordered" id="reservationCalendar">
-        <thead>
-            <tr>
-                <td>
-                    <form asp-action="Index" method="post">
-                        <input type="hidden" name="Navigation" value="previous" />
-                        <input type="hidden" value="@Model.First" name="first" />
-                        <input type="submit" value=">>" />
-                    </form>
-                </td>
-                <td colspan="5">
-                    Aktualna data = @Model.First
-                </td>
-                <td>
-                    <form asp-action="Index" method="post">
-                        <input type="hidden" name="Navigation" value="next" />
-                        <input type="hidden" value="@Model.First" name="first" />
-                        <input type="submit" value=">>" />
-                    </form>
-                </td>
-            </tr>
-        </thead>
+<table class="table-borderless text-center col-sm-8" id="reservationCalendar">
+    <thead>
         <tr>
             <td>
-                Poniedziałek
+                <form class="m-4" asp-action="Index" method="post">
+                    <input type="hidden" name="Navigation" value="previous" />
+                    <input type="hidden" value="@Model.First" name="first" />
+                    <input type="submit" value="<<" />
+                </form>
             </td>
-            <td>
-                Wtorek
-            </td>
-            <td>
-                Środa
-            </td>
-            <td>
-                Czwartek
-            </td>
-            <td>
-                Piatek
-            </td>
-            <td>
-                Sobota
-            </td>
-            <td>
-                Niedziela
-            </td>
-        </tr>
-
-
-        <tr>
-            @{
-                DateTime renderedDay = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 0, 0, 0);
-                for (int d = 0; d < 7; d++)
-                {
-
-                    // if Sunday
-                    //if (renderedDay.DayOfWeek == DayOfWeek.Sunday)
-                    if (d == 6)
-                    {
-                        <td class="calendar-holiday">@renderedDay.ToString("dd/MM/yyyy") sobota</td>
-                    }
-                    // if Saturday
-                    //else if (renderedDay.DayOfWeek == DayOfWeek.Saturday)
-                    else if (d == 7)
-                    {
-                        <td class="calendar-holiday">@renderedDay.ToString("dd/MM/yyyy") niedziela</td>
-                    }
-                    // if normal day
-                    else
-                    {
-                        <td>@renderedDay.ToString("dd/MM/yyyy") praca</td>
-                    }
-                    renderedDay = renderedDay.Add(new TimeSpan(1, 0, 0, 0, 0));
+            <td colspan="5">
+                @{ 
+                    DateTime nextWeek = Model.First.AddDays(7);
                 }
-            }
-        </tr>
-        @{
-            DateTime block = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 8, 0, 0);
+                Tydzień @Model.First.ToString("dd/MM/yyyy") - @nextWeek.ToString("dd/MM/yyyy")
 
-            //24 bloki wizyt 8h/20min
-            for (int i = 0; i < 24; i++)
+            </td>
+            <td>
+                <form class="m-4" asp-action="Index" method="post">
+                    <input type="hidden" name="Navigation" value="next" />
+                    <input type="hidden" value="@Model.First" name="first" />
+                    <input type="submit" value=">>" />
+                </form>
+            </td>
+        </tr>
+    </thead>
+    <tr>
+        <td class="mt-2 ml-3">
+            <h5>Poniedziałek</h5>
+        </td>
+        <td>
+            <h5>Wtorek</h5>
+        </td>
+        <td>
+            <h5>Środa</h5>
+        </td>
+        <td class="mt-2 ml-3">
+            <h5>Czwartek</h5>
+        </td>
+        <td class="mt-2 ml-3">
+            <h5>Piatek</h5>
+        </td>
+        <td class="mt-2 ml-3">
+            <h5>Sobota</h5>
+        </td>
+        <td class="mt-2 ml-3">
+            <h5>Niedziela</h5>
+        </td>
+    </tr>
+
+
+    <tr>
+        @{
+            DateTime renderedDay = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 0, 0, 0);
+            for (int d = 0; d < 7; d++)
             {
-                <tr>
-                    @for (int j = 0; j < 7; j++)
-                    {
-                        <td>@block.ToString("HH/mm")  wizyta! i</td>
-                    }
-                </tr>
-               block = block.AddMinutes(20);
-                
+
+                // if Sunday
+                //if (renderedDay.DayOfWeek == DayOfWeek.Sunday)
+                if (d == 6)
+                {
+                    <td class="calendar-holiday">@renderedDay.ToString("dd/MM/yyyy")</td>
+                }
+                // if Saturday
+                //else if (renderedDay.DayOfWeek == DayOfWeek.Saturday)
+                else if (d == 7)
+                {
+                    <td class="calendar-holiday">@renderedDay.ToString("dd/MM/yyyy")</td>
+                }
+                // if normal day
+                else
+                {
+                    <td>@renderedDay.ToString("dd/MM/yyyy")</td>
+                }
+                renderedDay = renderedDay.Add(new TimeSpan(1, 0, 0, 0, 0));
             }
         }
-    </table>
+    </tr>
+    @{
+        DateTime block = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 8, 0, 0);
+        //    DateTime blockTr = new DateTime(blockTr.Year, blockTr.Month, blockTr.Day, 8, 0, 0);
+        //24 bloki wizyt 8h/20min
+        for (int i = 0; i < 24; i++)
+        {
+            if (block.Minute == 0)
+            {
+                <tr class="m-5">
+                    <td colspan="7" class="text-left">
+                        <h5 class="mt-2 ml-3">@block.ToString("HH/mm")</h5>
+                        @*<h1 class="display-4">@block.ToString("HH/mm")</h1>*@
+                    </td>
+                </tr>
+            }
+            <tr>
+                @for (int j = 0; j < 7; j++)
+                {
+                    <td class="">
+                        @foreach (var item in Model.Reservation)
+                        {
+                            if (item.DateOfVisit.Equals(block))
+                            {
+                                <button type="button" class="btn btn-outline-danger mr-3 ml-3" disabled>@block.ToString("HH/mm") Zajęty</button>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-outline-success  mr-3 ml-3">@block.ToString("HH/mm") Wolny</button>
+                            }
+                        }
+                    </td>
+                    block = block.AddDays(1);
+                }
+            </tr>
+
+            block = block.AddMinutes(20);
+            block = block - new TimeSpan(7, 0, 0, 0);
+
+
+
+
+        }
+    }
+</table>

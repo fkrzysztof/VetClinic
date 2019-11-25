@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VetClinic.Data.Data.Clinic;
 
 namespace VetClinic.Data.Helpers
 {
-    public class CalendarTime
+    public class ScheduleBlocks
     {
         public DateTime First { get; set; }
-        public DateTime Last { get; set; }
         public string Navigation { get; set; }
+        public ICollection<Reservation> Reservation { get; set; }
     }
 }
