@@ -27,6 +27,7 @@ namespace VetClinic.Data
         public DbSet<Treatment> Treatments { get; set; }    
         public DbSet<UserTypePermission> UserTypePermissions { get; set; }
         public DbSet<Permission> Permissions { get; set; }
-        
+        public DbSet<VisitTreatment> VisitTreatment { get; set; }
+
     }
 }

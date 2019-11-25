@@ -15,5 +15,6 @@ namespace VetClinic.Data.Helpers
         public Medicine Medicine { get; set; }
         public MedicineType MedicineType { get; set; }
         public List<VisitMedicine> VisitMedicine { get; set; }
+        public List<VisitTreatment> VisitTreatments { get; set; }
     }
 }

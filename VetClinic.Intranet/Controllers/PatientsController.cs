@@ -245,14 +245,8 @@ namespace VetClinic.Intranet.Controllers
                 visit.AddedDate = DateTime.Now;
                 visit.IsActive = true;
                 //visit.AddedUserID
-                //foreach (var item in medicinesID)
-                //{
-                //    visit.VisitMedicine.Add(new VisitMedicine()
-                //    {
-                //        VisitID=visit.Visit.VisitID,
-                //        MedicineID=item
-                //    });                    
-                //}
+                //do usuniecia jak baza bedize poprawiona
+                visit.TreatmentID = 1;
                 _context.Add(visit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -317,9 +311,12 @@ namespace VetClinic.Intranet.Controllers
                 .Include(m=>m.Medicine)
                 .Include(m=>m.Medicine.MedicineType)
                 .Where(v => v.VisitID == id).ToList();
+            var visitTreatments= _context.VisitTreatment
+               .Include(m => m.Treatment)
+               .Where(v => v.VisitID == id).ToList();
             var view = new VisitDetails
             {
-              
+                VisitTreatments= visitTreatments,
                 VisitMedicine = visitMedicine,
                 Visit = visit,
                 //Patient = visit.Patient                
@@ -367,7 +364,7 @@ namespace VetClinic.Intranet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditVisit(int id, 
             [Bind("VisitID,VisitUserID,PatientID,TreatmentID,DateOfVisit,IsActive,Description,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Visit visit,
-            [Bind("MedicineID")] Medicine medicine)
+            [Bind("MedicineID")] Medicine medicine, [Bind("TreatmentID")] Treatment treatment)
         {
             if (id != visit.VisitID)
             {
@@ -381,18 +378,28 @@ namespace VetClinic.Intranet.Controllers
                     _context.Patients.Where(p => p.PatientID == visit.PatientID).Select(a => a.PatientUserID).FirstOrDefault().ToString());
                     //visit.VetID
                     visit.UpdatedDate = DateTime.Now;
-                    //visit.IsActive = true;
-                    //visit.AddedUserID
-                    if (medicine.MedicineID == 0) { }
-                    //else if (_context.VisitMedicines.Where(v => v.VisitID == id).FirstOrDefault() == null ||
-                    //    _context.VisitMedicines.Where(m => m.MedicineID == medicine.MedicineID).FirstOrDefault() == null)
-                    //{
-                        var visitMedicine = new VisitMedicine();
-                        visitMedicine.VisitID = id;
-                        visitMedicine.MedicineID = medicine.MedicineID;
-                        _context.Add(visitMedicine);
-                    //}
-                    _context.Update(visit);
+                //visit.IsActive = true;
+                //visit.AddedUserID
+                if (medicine.MedicineID != 0)
+                {
+                    var visitMedicine = new VisitMedicine();
+                    visitMedicine.VisitID = id;
+                    visitMedicine.MedicineID = medicine.MedicineID;
+                    _context.Add(visitMedicine);
+                }
+                if (treatment.TreatmentID != 0)
+                {
+                    var visitTreatment = new VisitTreatment();
+                    visitTreatment.VisitID = id;
+                    visitTreatment.TreatmentID = treatment.TreatmentID;
+                    _context.Add(visitTreatment);
+
+
+                    
+                }
+                //do usuniecia jak baza bedize poprawiona
+                visit.TreatmentID = 1;
+                _context.Update(visit);
                    
                     await _context.SaveChangesAsync();
                 }

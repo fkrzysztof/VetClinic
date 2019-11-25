@@ -3,12 +3,13 @@
     color: #fff;
     background: #272e38;
     border-radius: 0;
+    min-height:44px;
 }
 
 nav > div a.nav-item.nav-link,
 nav > div a.nav-item.nav-link.active {
     border: none;
-    padding: 14px 25px;
+    padding: 10px 25px;
     color: #fff;
     background: #272e38;
     border-radius: 0;
@@ -17,7 +18,7 @@ nav > div a.nav-item.nav-link.active {
     nav > div a.nav-item.nav-link.active:after {
         content: "";
         position: relative;
-        bottom: -60px;
+        bottom: -50px;
         left: -10%;
         border: 15px solid transparent;
         border-top-color: #e74c3c;
@@ -25,11 +26,11 @@ nav > div a.nav-item.nav-link.active {
 
 .tab-content {
     background: #fdfdfd;
-    line-height: 25px;
+    line-height: 12px;
     border: 1px solid #ddd;
     border-top: 5px solid #e74c3c;
     border-bottom: 5px solid #e74c3c;
-    padding: 30px 25px;
+    padding: 12px 25px;
 }
 
 nav > div a.nav-item.nav-link:hover,
@@ -43,4 +44,9 @@ nav > div a.nav-item.nav-link:focus {
 
 .odstep {
     padding-left: 10px;
+}
+
+.wiersz
+{
+    height:56px;
 }
