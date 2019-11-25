@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using VetClinic.Data;
 using VetClinic.Data.Helpers;
 
@@ -50,5 +51,39 @@ namespace VetClinic.Intranet.Controllers
             sb.First = c.First;
             return View(sb);
         }
+
+        public IActionResult Create()
+        {
+            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name");
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City");
+            return View();
+        }
+
+        // POST: Reservations/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("ReservationID,ReservationUserID,PatientID,Description,DateOfVisit,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Data.Data.Clinic.Reservation reservation)
+        {
+            if (ModelState.IsValid)
+            {
+                reservation.AddedDate = DateTime.Now;
+                _context.Add(reservation);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+
+
+            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", reservation.PatientID);
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.AddedUserID);
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.UpdatedUserID);
+            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
+            return View(reservation);
+        }
+
     }
 }
