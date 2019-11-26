@@ -1,7 +1,7 @@
 ﻿nav > .nav.nav-tabs {
     border: none;
     color: #fff;
-    background: #272e38;
+    background: #bdbdbd;
     border-radius: 0;
     min-height:44px;
 }
@@ -10,8 +10,9 @@ nav > div a.nav-item.nav-link,
 nav > div a.nav-item.nav-link.active {
     border: none;
     padding: 10px 25px;
-    color: #fff;
-    background: #272e38;
+    color:black;
+    font-weight:bold;
+    background-color:lightgray;
     border-radius: 0;
 }
 
@@ -49,4 +50,10 @@ nav > div a.nav-item.nav-link:focus {
 .wiersz
 {
     height:56px;
+}
+
+.komorka
+{
+    background-color:lightgray;
+    color:black;
 }
