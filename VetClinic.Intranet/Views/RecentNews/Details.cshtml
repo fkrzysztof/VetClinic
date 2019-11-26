@@ -4,23 +4,43 @@
     ViewData["Title"] = "Details";
 }
 
-<h4>Szczegóły elementu:</h4>
+<h4>Szczegóły:</h4>
 <h2>RecentNews</h2>
 <hr />
 
+<div class="row inputGroupMargin">
+    @*Sekcja z nazwą elementu (zazwyczaj tytuł) W przypadku MODUŁÓW Z np. imieniem i nazwiskiem
+        dać obok siebie (zakomentowane poniżej). Zamiast PLACEHOLDER w INPUT jest VALUE Z MODEL.IMIE ETC!!!!!!!!!!!!*@
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="label1">@Html.DisplayNameFor(model => model.Title)</span>
+        </div>
+        <input type="text" class="form-control" value="@Model.Title" aria-describedby="label1" disabled>
+    </div>
+</div>
+
+@*<div class="row inputGroupMargin">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Imię i nazwisko</span>
+            </div>
+            <input type="text" class="form-control" placeholder="Janusz">
+            <input type="text" class="form-control" placeholder="Kowalski">
+        </div>
+    </div>*@
+
 <div>
     <dl class="row">
+        @*SEKCJA ZDJĘCIA.*@
+        <dd class="col-sm-12">
+            <img src="~/uploads/@Model.Photo" class="img-thumbnail rounded thumb-size listButtMargin"/>
+        </dd>
+
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.LinkTitle)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LinkTitle)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Text)
@@ -33,12 +53,6 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Position)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
-        <dd class="col-sm-12">       
-            <img src="~/uploads/@Model.Photo" />
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.IsActive)
@@ -58,23 +72,13 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.UpdatedDate)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AddedUserID)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AddedUserID)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedUserID)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedUserID)
-        </dd>
     </dl>
 </div>
 
+<hr />
+@*Dodany class margin do pierwszego buttona*@
 <div>
-    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model.RecentNewsID">
+    <a class="btn btn-primary buttMargin" role="button" asp-action="Edit" asp-route-id="@Model.RecentNewsID">
         <span class="fas fa-pen"></span> Edytuj
     </a>
     <a class="btn btn-outline-primary" role="button" asp-action="Index">

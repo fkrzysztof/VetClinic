@@ -4,61 +4,67 @@
     ViewData["Title"] = "Create";
 }
 
-<h4>Dodaj nowy element:</h4>
+<h4>Dodaj:</h4>
 <h2>RecentNews</h2>
 <hr />
 
 
-<form asp-action="Create"  enctype="multipart/form-data">
-
-    <div class="form-row"> @*jeden rząd*@
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @*kolumna w rzędzie o szerokości 6*@
-        <div class="form-group col-md-6">
-            <label asp-for="LinkTitle" class="control-label"></label>
-            <input asp-for="LinkTitle" class="form-control" placeholder="Tytuł linku" />
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="row inputGroupMargin">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="label1">@Html.DisplayNameFor(model => model.LinkTitle)</span>
+            </div>
+            <input type="text" asp-for="LinkTitle" class="form-control" aria-describedby="label1">
             <span asp-validation-for="LinkTitle" class="text-danger"></span>
         </div>
-        <div class="form-group col-md-6">
-            <label asp-for="Title" class="control-label"></label>
-            <input asp-for="Title" class="form-control" placeholder="Tytuł" /> @*Pamiętać o zmianie placeholder*@
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="label2">@Html.DisplayNameFor(model => model.Title)</span>
+            </div>
+            <input type="text" asp-for="Title" class="form-control" aria-describedby="label2">
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
-    </div> @*koniec rzędu*@
+    </div>
 
-    <div class="form-group">
-        <label asp-for="Text" class="control-label"></label>
-        @*<input asp-for="Text" class="form-control" /> <---- w przypadku większego pola tekstowego zmieniamy na to co niżej. Gosia*@
-        <textarea asp-for="Text" class="form-control" id="exampleFormControlTextarea1" rows="5" placeholder="Tekst aktualności..."></textarea>
-        <span asp-validation-for="Text" class="text-danger"></span>
+    <div class="row inputGroupMargin">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">@Html.DisplayNameFor(model => model.Text)</span>
+            </div>
+            <textarea class="form-control" asp-for="Text" rows="4"></textarea>
+            <span asp-validation-for="Text" class="text-danger"></span>
+        </div>
     </div>
 
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label asp-for="Position" class="control-label"></label>
-            <input asp-for="Position" class="form-control" placeholder="Lp. pozycji" /> @*Pamiętać o zmianie placeholder*@
-            <span asp-validation-for="Position" class="text-danger"></span>
-        </div>      
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span asp-for="Position" class="input-group-text">@Html.DisplayNameFor(model => model.Position)</span>
+                </div>
+                <input asp-for="Position" class="form-control">
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+        </div>
         <div class="form-group col-md-8">
-            <label>Zdjęcie</label>
-            <input type="file" class="form-control-file" id="file" name="file" />
-            <span asp-validation-for="Photo" class="text-danger"></span>
+            <div class="input-group">
+                <div class="input-group-append">
+                    <input type="file" class="form-control-file" id="file" name="file" />
+                    <span asp-validation-for="Photo" class="text-danger"></span>
+                </div>
+            </div>
         </div>
     </div>
 
-    
-
-    <div class="form-group">
-        <input type="submit" value="Zapisz" class="btn btn-primary" />
-    </div>
+    <hr />
+    <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
+    <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
+    <a class="btn btn-outline-primary" role="button" asp-action="Index">
+        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+    </a>
 </form>
 
-    <div>
-        <a class="btn btn-outline-primary" role="button" asp-action="Index">
-            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-        </a>
-    </div>
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
