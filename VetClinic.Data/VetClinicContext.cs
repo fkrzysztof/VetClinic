@@ -28,5 +28,6 @@ namespace VetClinic.Data
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<VisitTreatment> VisitTreatment { get; set; }
         public DbSet<ScheduleBlock> ScheduleBlocks { get; set; }
+        public DbSet<InaccessibleDay> InaccessibleDays { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace VetClinic.Data.Data.Clinic
         [Key]
         public int ScheduleBlockID { get; set; }
         public TimeSpan Time { get; set; }
+        public TimeSpan TimeInterval { get; set; }
     }
 }
