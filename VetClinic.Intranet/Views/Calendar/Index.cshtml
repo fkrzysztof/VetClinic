@@ -83,6 +83,9 @@
         @{
             TimeSpan lastHour = new TimeSpan(Model.ScheduleBlock.ElementAt(0).Time.Hours, 0, 0);
             DateTime block;
+            int reservationIdFromCalendar;
+
+            bool BlockFree = true;
           
             <tr class="m-5">
                 <td colspan="7" class="text-left">
@@ -105,20 +108,27 @@
                 <tr>
                     @for (int j = 0; j < 7; j++)
                     {
-                         <td>
-                            @foreach (var item in Model.Reservation)
+                    <td>
+                        @foreach (var item in Model.Reservation)
+                        {
+
+                            if (item.DateOfVisit.Equals(block))
                             {
-                                if (item.DateOfVisit.Equals(block))
-                                {
-                                    <button type="button" class="btn btn-outline-danger mr-3 ml-3" disabled>@block.ToString("HH/mm") Zajęty</button>
-                                }
-                                else
-                                {
-                                    <button type="button" class="btn btn-outline-success  mr-3 ml-3">@block.ToString("HH/mm") Wolny</button>
-                                }
+                                BlockFree = false;
+                                <a asp-action="Edit" asp-controller="Reservations" asp-route-id="@item.ReservationID" type="button" class="btn btn-outline-danger mr-3 ml-3">@block.ToString("HH/mm") Zajęty</a>
                             }
-                        </td>
+                        }
+                        @if(BlockFree == true)
+                        {
+                        <form asp-action="CreateFromCalendar" method="post">
+                            <input type="hidden" name="DateOfVisit" value="@block" />
+                            <button type="submit" class="btn btn-outline-success  mr-3 ml-3">@block.ToString("HH/mm") Wolny</button>
+                        </form>
+                        }
+
+                    </td>
                         block = block.AddDays(1);
+                        BlockFree = true;
                     }
                 </tr>
                 block = block - new TimeSpan(7, 0, 0, 0);

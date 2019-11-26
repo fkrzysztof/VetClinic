@@ -3,7 +3,8 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    DateTime DateOfVisit = Convert.ToDateTime( ViewData["DateOfVisit"]);
+ }
 
 <h4>Dodaj nowy element:</h4>
 <h2>Rezerwacje</h2>
@@ -12,6 +13,8 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="DateOfVisitFromCalendar" value="@DateOfVisit" />
+            @*klient*@
             <div class="form-group">
                 <label asp-for="ReservationUserID" class="control-label"></label>
                 <select asp-for="ReservationUserID" class="form-control" asp-items="ViewBag.ReservationUserID"></select>
@@ -25,34 +28,37 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="DateOfVisit" class="control-label"></label>
                 <input asp-for="DateOfVisit" class="form-control" />
                 <span asp-validation-for="DateOfVisit" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
+            </div>*@            
+        <div class="form-group">
+            @DateOfVisit data wizyty
+        </div>
+            @*<div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
                 </label>
-            </div>
-            <div class="form-group">
+            </div>*@
+            @*<div class="form-group">
                 <label asp-for="AddedDate" class="control-label"></label>
                 <input asp-for="AddedDate" class="form-control" />
                 <span asp-validation-for="AddedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+            @*<div class="form-group">
                 <label asp-for="UpdatedDate" class="control-label"></label>
                 <input asp-for="UpdatedDate" class="form-control" />
                 <span asp-validation-for="UpdatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div>*@
+            @*<div class="form-group">
                 <label asp-for="AddedUserID" class="control-label"></label>
                 <select asp-for="AddedUserID" class="form-control" asp-items="ViewBag.AddedUserID"></select>
-            </div>
-            <div class="form-group">
+            </div>*@
+            @*<div class="form-group">
                 <label asp-for="UpdatedUserID" class="control-label"></label>
                 <select asp-for="UpdatedUserID" class="form-control" asp-items="ViewBag.UpdatedUserID"></select>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

@@ -756,7 +756,6 @@ namespace VetClinic.Data.Migrations
                     b.ToTable("VisitMedicines");
                 });
 
-<<<<<<< HEAD
             modelBuilder.Entity("VetClinic.Data.Data.Clinic.VisitTreatment", b =>
                 {
                     b.Property<int>("VisitTreatmentID")
@@ -779,8 +778,6 @@ namespace VetClinic.Data.Migrations
                     b.ToTable("VisitTreatment");
                 });
 
-=======
->>>>>>> sprawdza-dostepnosc-daty
             modelBuilder.Entity("VetClinic.Data.Data.CMS.RecentNews", b =>
                 {
                     b.HasOne("VetClinic.Data.Data.Clinic.User", "RecentNewsAddedUser")
@@ -1030,7 +1027,6 @@ namespace VetClinic.Data.Migrations
                         .WithMany("VisitMedicines")
                         .HasForeignKey("VisitID");
                 });
-<<<<<<< HEAD
 
             modelBuilder.Entity("VetClinic.Data.Data.Clinic.VisitTreatment", b =>
                 {
@@ -1042,8 +1038,6 @@ namespace VetClinic.Data.Migrations
                         .WithMany()
                         .HasForeignKey("VisitID");
                 });
-=======
->>>>>>> sprawdza-dostepnosc-daty
 #pragma warning restore 612, 618
         }
     }
