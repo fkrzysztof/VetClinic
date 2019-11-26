@@ -29,27 +29,26 @@ nav > div a.nav-item.nav-link.active {
     background: #fdfdfd;
     line-height: 12px;
     border: 1px solid #ddd;
-    border-top: 5px solid #e74c3c;
-    border-bottom: 5px solid #e74c3c;
-    padding: 12px 25px;
+    border-top: 5px solid #f3715b; 
 }
 
 nav > div a.nav-item.nav-link:hover,
 nav > div a.nav-item.nav-link:focus {
     border: none;
-    background: #e74c3c;
+    background: #f3715b;
     color: #fff;
     border-radius: 0;
     transition: background 0.20s linear;
 }
 
 .odstep {
-    padding-left: 10px;
+    padding: 12px;
 }
 
 .wiersz
 {
     height:56px;
+    padding:12px;
 }
 
 .komorka
