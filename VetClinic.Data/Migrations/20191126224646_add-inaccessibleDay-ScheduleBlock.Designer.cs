@@ -10,8 +10,8 @@ using VetClinic.Data;
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    [Migration("20191126200537_add-InaccessibleDay-Table")]
-    partial class addInaccessibleDayTable
+    [Migration("20191126224646_add-inaccessibleDay-ScheduleBlock")]
+    partial class addinaccessibleDayScheduleBlock
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -404,7 +404,7 @@ namespace VetClinic.Data.Migrations
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
 
-                    b.Property<TimeSpan>("TimeInterval")
+                    b.Property<TimeSpan?>("TimeInterval")
                         .HasColumnType("time");
 
                     b.HasKey("ScheduleBlockID");

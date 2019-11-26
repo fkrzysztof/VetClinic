@@ -402,7 +402,7 @@ namespace VetClinic.Data.Migrations
                     b.Property<TimeSpan>("Time")
                         .HasColumnType("time");
 
-                    b.Property<TimeSpan>("TimeInterval")
+                    b.Property<TimeSpan?>("TimeInterval")
                         .HasColumnType("time");
 
                     b.HasKey("ScheduleBlockID");

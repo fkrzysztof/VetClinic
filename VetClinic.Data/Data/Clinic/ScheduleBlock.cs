@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace VetClinic.Data.Data.Clinic
 {
@@ -10,6 +8,6 @@ namespace VetClinic.Data.Data.Clinic
         [Key]
         public int ScheduleBlockID { get; set; }
         public TimeSpan Time { get; set; }
-        public TimeSpan TimeInterval { get; set; }
+        public TimeSpan? TimeInterval { get; set; }
     }
 }

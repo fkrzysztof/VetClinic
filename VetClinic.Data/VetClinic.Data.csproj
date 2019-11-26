@@ -5,8 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191125171242_ScheduleBlock-datetimetimeSpan.cs" />
+    <Compile Remove="Migrations\20191125171242_ScheduleBlock-datetimetimeSpan.Designer.cs" />
     <Compile Remove="Migrations\20191125175331_VisitTreatment.cs" />
     <Compile Remove="Migrations\20191125175331_VisitTreatment.Designer.cs" />
+    <Compile Remove="Migrations\20191125175809_VisitTreatment.cs" />
+    <Compile Remove="Migrations\20191125175809_VisitTreatment.Designer.cs" />
+    <Compile Remove="Migrations\20191126200537_add-InaccessibleDay-Table.cs" />
+    <Compile Remove="Migrations\20191126200537_add-InaccessibleDay-Table.Designer.cs" />
+    <Compile Remove="Migrations\20191126223030_add-ScheduleBlock-add-null-timeInterval.cs" />
+    <Compile Remove="Migrations\20191126223030_add-ScheduleBlock-add-null-timeInterval.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
