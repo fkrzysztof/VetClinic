@@ -11,5 +11,7 @@ namespace VetClinic.Data.Helpers
         public string Navigation { get; set; }
         public ICollection<Reservation> Reservation { get; set; }
         public ICollection<ScheduleBlock> ScheduleBlock { get; set; }
+        public ICollection<DateTime> InaccessibleDay { get; set; }
+
     }
 }

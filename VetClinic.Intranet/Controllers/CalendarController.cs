@@ -33,14 +33,19 @@ namespace VetClinic.Intranet.Controllers
             sb.First = now;
             //dodaje kolekcje rezerwacji w zakresie aktualnie ogladanym
             sb.Reservation = _context.Reservations.Where(w => w.DateOfVisit >= now && w.DateOfVisit <= now.AddDays(7)).ToList();
+            //sb.Reservation = _context.Reservations.ToList();
+
+            //dodanie kolekcji dni wolnych
+            sb.InaccessibleDay = _context.InaccessibleDays.Select( s => s.Date).ToList();
             //dodanie kolekcji godzin pracy przychodni
             sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy( o => o.Time).ToList();
+            ViewBag.UserID = null;
+
             return View(sb); 
         }
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        //public IActionResult Index (string navigation)
         public async Task<IActionResult> Index ( [Bind("First,Navigation")] ScheduleBlocks c)
         {
             if (c.Navigation == "next")
@@ -49,6 +54,12 @@ namespace VetClinic.Intranet.Controllers
             if (c.Navigation == "previous")
                 c.First -= (new TimeSpan(7, 0, 0, 0, 0));
             sb.First = c.First;
+            sb.Reservation = _context.Reservations.Where(w => w.DateOfVisit >= sb.First && w.DateOfVisit <= sb.First.AddDays(7)).ToList();
+            //dodanie kolekcji dni wolnych
+            sb.InaccessibleDay = _context.InaccessibleDays.Select(s => s.Date).ToList();
+            //dodanie kolekcji godzin pracy przychodni
+            sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy(o => o.Time).ToList();
+
             return View(sb);
         }
 
@@ -56,8 +67,9 @@ namespace VetClinic.Intranet.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateFromCalendar(DateTime DateOfVisit)
         {
+            
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name");
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName");
             ViewData["DateOfVisit"] = DateOfVisit;
             
             return View("Create");

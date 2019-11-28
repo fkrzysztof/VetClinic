@@ -15,6 +15,7 @@
                 </td>
                 <td colspan="5">
                     @{
+                        //informacja o przegladanym tygodniu
                         DateTime nextWeek = Model.First.AddDays(7);
                     }
                     Tydzień @Model.First.ToString("dd/MM/yyyy") - @nextWeek.ToString("dd/MM/yyyy")
@@ -53,9 +54,9 @@
             </td>
         </tr>
 
-
         <tr>
             @{
+                //daty poszczegolnych dni w tygodniu
                 DateTime renderedDay = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 0, 0, 0);
                 for (int d = 0; d < 7; d++)
                 {
@@ -80,13 +81,13 @@
                 }
             }
         </tr>
-        @{
+        @{ 
+            //do sprawdzania czy zmienila sie godzina - wyswietlona zostanie aktualna
             TimeSpan lastHour = new TimeSpan(Model.ScheduleBlock.ElementAt(0).Time.Hours, 0, 0);
             DateTime block;
-            int reservationIdFromCalendar;
 
             bool BlockFree = true;
-          
+
             <tr class="m-5">
                 <td colspan="7" class="text-left">
                     <h5 class="mt-2 ml-3">@lastHour.Hours:00</h5>
@@ -108,25 +109,38 @@
                 <tr>
                     @for (int j = 0; j < 7; j++)
                     {
-                    <td>
-                        @foreach (var item in Model.Reservation)
-                        {
-
-                            if (item.DateOfVisit.Equals(block))
+                        <td>
+                            @foreach (var item in Model.Reservation)
                             {
-                                BlockFree = false;
-                                <a asp-action="Edit" asp-controller="Reservations" asp-route-id="@item.ReservationID" type="button" class="btn btn-outline-danger mr-3 ml-3">@block.ToString("HH/mm") Zajęty</a>
-                            }
-                        }
-                        @if(BlockFree == true)
-                        {
-                        <form asp-action="CreateFromCalendar" method="post">
-                            <input type="hidden" name="DateOfVisit" value="@block" />
-                            <button type="submit" class="btn btn-outline-success  mr-3 ml-3">@block.ToString("HH/mm") Wolny</button>
-                        </form>
-                        }
 
-                    </td>
+                                if (item.DateOfVisit.Equals(block))
+                                {
+                                    BlockFree = false;
+                                    <button class="btn btn-danger mr-3 ml-3" onclick="location.href='@Url.Action("Edit","Reservations", new {@id = @item.ReservationID})'">
+                                        @block.ToString("HH/mm") Zajęty
+
+
+                                    </button>
+                                }
+                            }
+                            @if (BlockFree == true)
+                            {
+
+                                @if (Model.InaccessibleDay.Contains(new DateTime(block.Year, block.Month, block.Day, 0, 0, 0)))
+                                {
+                                    <button type="button" class="btn btn-info  mr-3 ml-3" disabled>Dzień Wolny</button>
+                                    BlockFree = false;
+                                }
+                                else
+                                {
+                                    <form asp-action="CreateFromCalendar" method="post">
+                                        <input type="hidden" name="DateOfVisit" value="@block" />
+                                        <button type="submit" class="btn btn-success  mr-3 ml-3">@block.ToString("HH/mm") Wolny</button>
+                                    </form>
+                                }
+                            }
+
+                        </td>
                         block = block.AddDays(1);
                         BlockFree = true;
                     }
