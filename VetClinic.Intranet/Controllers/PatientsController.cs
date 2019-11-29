@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace VetClinic.Intranet.Controllers
         {
 
             ViewData["CurrentFilter"] = searchString;
-            ViewData["PatientUserID"] = new SelectList(_context.MedicineTypes, "PatientUserID", "Name");
+            ViewData["PatientUserID"] = new SelectList(_context.PatientTypes, "PatientUserID", "Name");
 
             var vetClinicContext = _context.Patients.Include(m => m.PatientUser).Include(m => m.PatientType);
             if (!String.IsNullOrEmpty(searchString))
@@ -41,6 +42,39 @@ namespace VetClinic.Intranet.Controllers
 
             }
             return View(await vetClinicContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> PokazMoje(string searchString2)
+        {
+          
+            if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+            {
+                int UserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                IEnumerable<int?> listpatientsID = _context.Visits.Where(v => v.VetID == UserID).Select(p => p.PatientID).ToList();
+                var listaWlasnych = _context.Patients.Include(p=>p.PatientType).Include(p=>p.PatientUser).Where(v => listpatientsID.Contains(v.PatientID));
+
+                ViewData["CurrentFilter2"] = searchString2;
+                ViewData["PatientUserID"] = new SelectList(_context.PatientTypes, "PatientUserID", "Name");
+
+                if (!String.IsNullOrEmpty(searchString2))
+                {
+                    listaWlasnych = (from order in _context.Patients
+                                        where order.Name.Contains(searchString2) || order.PatientNumber.Contains(searchString2)
+                                                                                || order.PatientUser.FirstName.Contains(searchString2)
+                                                                                || order.PatientUser.LastName.Contains(searchString2)
+                                                                                || order.PatientType.Name.Contains(searchString2)
+                                        select order)
+                                        .Include(m => m.PatientUser)
+                                        .Include(m => m.PatientType)
+                                        .Include(m=>m.Visits);
+
+                }
+
+                return View(await listaWlasnych.ToListAsync());
+
+            }
+            return View();
+                                 
         }
 
         // GET: Patient/Details/5

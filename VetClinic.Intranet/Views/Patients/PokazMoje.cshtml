@@ -22,10 +22,10 @@
                         <label>Szukaj: </label>
                     </div>
                     <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Imię,Numer,Typ,Właściciel" /> @*Podpiąć swoje dane*@
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter2"]" placeholder="Imię,Numer,Typ,Właściciel" /> @*Podpiąć swoje dane*@
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
-                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="Index" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
+                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="PokazMoje" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
                 </form>
             </div>
         </div>
@@ -37,8 +37,7 @@
         <i class="fas fa-plus-circle"></i>
         Dodaj nowy element
     </a>
- 
-    <input class="btn btn-outline-primary" type="button" value="Pokaż moich" onclick="location.href='@Url.Action("PokazMoje", "Patients")'" />  
+    <input class="btn btn-outline-primary" type="button" value="Pokaż wszystkich" onclick="location.href='@Url.Action("Index", "Patients")'" />
 </p>
 
 
@@ -71,10 +70,10 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td>                     
                         <a asp-action="Visit" asp-route-id="@item.PatientID">
                             @Html.DisplayFor(modelItem => item.Name)
-                        </a>
+                        </a>        
                     </td>
                     <td>
                         @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.BirthDate))
