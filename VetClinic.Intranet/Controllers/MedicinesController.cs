@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -82,8 +83,10 @@ namespace VetClinic.Intranet.Controllers
             {
                 medicine.IsActive = true;
                 medicine.AddedDate = DateTime.Now;
-                //dodac urzytkownika
-                //medicine.AddedUserID = current;
+                if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+                {
+                    medicine.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                }
                 _context.Add(medicine);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -130,7 +133,10 @@ namespace VetClinic.Intranet.Controllers
                 try
                 {
                     medicine.UpdatedDate = DateTime.Now;
-                    //dodac urzytkownika
+                    if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+                    {
+                        medicine.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    }
                     _context.Update(medicine);
                     await _context.SaveChangesAsync();
                 }
