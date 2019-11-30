@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -63,6 +64,12 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+                {                     
+                    medicineType.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                }
+                medicineType.IsActive = true;
+                medicineType.AddedDate = DateTime.Now;
                 _context.Add(medicineType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -106,6 +113,11 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+                    {
+                        medicineType.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    }
+                    medicineType.UpdatedDate = DateTime.Now;
                     _context.Update(medicineType);
                     await _context.SaveChangesAsync();
                 }
