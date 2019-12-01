@@ -63,6 +63,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
                     <a class="dropdown-item"><b> @Context.Session.GetString("Login")</b></a>
                     <a class="dropdown-item" href="#">Ustawienia</a>
+                    <a class="dropdown-item" asp-action="Index" asp-controller="PasswordChange">Zmień hasło</a>
                     <a class="dropdown-item" href="#">Opcje</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Wyloguj się</a>
