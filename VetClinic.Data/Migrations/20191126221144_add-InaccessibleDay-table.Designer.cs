@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20191126221144_add-InaccessibleDay-table")]
+    partial class addInaccessibleDaytable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -390,24 +392,6 @@ namespace VetClinic.Data.Migrations
                     b.HasIndex("UpdatedUserID");
 
                     b.ToTable("Reservations");
-                });
-
-            modelBuilder.Entity("VetClinic.Data.Data.Clinic.ScheduleBlock", b =>
-                {
-                    b.Property<int>("ScheduleBlockID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
-
-                    b.Property<TimeSpan?>("TimeInterval")
-                        .HasColumnType("time");
-
-                    b.HasKey("ScheduleBlockID");
-
-                    b.ToTable("ScheduleBlocks");
                 });
 
             modelBuilder.Entity("VetClinic.Data.Data.Clinic.Specialization", b =>
