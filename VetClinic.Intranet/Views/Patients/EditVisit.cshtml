@@ -8,6 +8,9 @@
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Visit.VisitID" />
+        <input type="hidden" asp-for="Visit.IsActive" />
+        <input type="hidden" asp-for="Visit.AddedDate" />
+        <input type="hidden" asp-for="Visit.AddedUserID" />
         <div class="form-group col-md-4">
             <label>Weterynarz</label>
             <select asp-for="Visit.VetID" class="form-control" asp-items="ViewBag.VetID"></select>

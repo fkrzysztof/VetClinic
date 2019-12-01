@@ -13,6 +13,9 @@
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="PatientID" />
+        <input type="hidden" asp-for="IsActive" />
+        <input type="hidden" asp-for="AddedDate" />
+        <input type="hidden" asp-for="AddedUserID" />
         <div class="form-group col-md-6">
             <label asp-for="PatientTypeID" class="control-label"></label>
             <select asp-for="PatientTypeID" class="form-control" asp-items="ViewBag.PatientTypeID"></select>

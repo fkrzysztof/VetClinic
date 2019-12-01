@@ -1,0 +1,46 @@
+﻿@model VetClinic.Data.Data.Clinic.User
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    @*<img class="card-img-top" src="~/images/logo.svg" width="100" height="100" alt="VetClinic">*@
+
+                    <h4 class="card-title text-center">Zmiana Hasła</h4>
+                    <form class="form-signin" asp-controller="PasswordChange" asp-action="Index" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-label-group">
+                            <input type="password" name="Password" class="form-control" autofocus required>
+                            <label>Stare Hasło</label>
+                        </div>
+                        <br />
+                        <div class="form-label-group">
+                            <input type="password" class="form-control" name="NewPassword">
+                            <label>Nowe Hasło</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <div class="form-label-group">
+                            <input type="password" class="form-control" name="NewPasswordConfirm">
+                            <label>Potwierdzenie Hasła</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <br />
+                        <button class="btn btn-lg btn-secondary btn-block text-uppercase" type="submit">Zapisz</button>
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
