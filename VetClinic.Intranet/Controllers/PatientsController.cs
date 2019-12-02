@@ -15,6 +15,8 @@ namespace VetClinic.Intranet.Controllers
     public class PatientsController : Controller
     {
         private readonly VetClinicContext _context;
+        private readonly string CustomerUserName = "Klient";
+        private readonly int CustomerUserId = 4;
 
         public PatientsController(VetClinicContext context)
         {
@@ -75,6 +77,25 @@ namespace VetClinic.Intranet.Controllers
             }
             return View();
                                  
+        }
+        public async Task<IActionResult> dodajWlasciciela (string searchString)
+        {
+
+            ViewData["CurrentFilter"] = searchString;
+            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == CustomerUserName);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vetClinicContext = (from user in vetClinicContext
+                                    where user.Login.Contains(searchString)
+                                    || user.LastName.Contains(searchString)
+                                    || user.Email.Contains(searchString)
+                                    || user.City.Contains(searchString)
+                                    select user)
+                                            .Include(m => m.UserType);
+
+
+            }
+            return View(await vetClinicContext.ToListAsync());
         }
 
         // GET: Patient/Details/5

@@ -16,8 +16,18 @@
             <select asp-for="PatientTypeID" class="form-control" asp-items="ViewBag.PatientTypeID"></select>
         </div>
         <div class="form-group col-md-6">
-            <label asp-for="PatientUserID" class="control-label"></label>
-            <select asp-for="PatientUserID" class="form-control" asp-items="ViewBag.PatientUserID"></select>
+            @*<label asp-for="PatientUserID" class="control-label"></label>
+        <select asp-for="PatientUserID" class="form-control" asp-items="ViewBag.PatientUserID"></select>*@
+            <label>Właściciel</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <input readonly="readonly" id="patientInput" asp-for="PatientUserID" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <button onclick="addUser()"  class="btn btn-primary w-100">Dodaj</button>
+                </div>
+                <span asp-validation-for="PatientUserID" class="text-danger"></span>
+            </div>
         </div>
     </div>
 
@@ -97,3 +107,30 @@
     @section Scripts {
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
+<script>
+    @*function addUser() {
+    $.ajax({
+    url: '@Url.Action("Index", "Customers")',
+    method: "GET", //typ połączenia, domyślnie get
+
+    data        : { //dane do wysyłki
+        name : 'Marcin',
+        country : 'Polska'
+    })
+})
+};*@
+
+function addUser() {
+   
+    $.ajax({
+            type: 'GET',
+        url: ''@Url.Action("dodajWlasciciela","Patients")',',
+
+         data        : { //dane do wysyłki
+        
+        },
+            success: function(response){ console.log(response)},
+        })
+       
+};
+</script>
