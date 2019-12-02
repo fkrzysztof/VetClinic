@@ -3,7 +3,7 @@
     ViewData["Title"] = "Wizyty";
 }
 
-
+<link href="~/css/Zakladki.css" rel="stylesheet" />
 <p>
     <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="AddVisit" asp-route-id=@ViewData["PatientID"]>
         <i class="fas fa-plus-circle"></i>
@@ -12,10 +12,10 @@
 </p>
 <div class="form-row">
     <div class="form-group col-md-3">
-        <h2>@ViewData["PatientName"]  (ID @ViewData["PatientID"])</h2>
+        <h2 class="kolorH2">@ViewData["PatientName"]  (ID @ViewData["PatientID"])</h2>
         <div class="table-responsive">
             <table class="table table-hover">
-                <thead class="thead-dark">
+                <thead class="komorka">
                     <tr>
                         <th>
                             Data wizyty
@@ -43,7 +43,7 @@
             </table>
         </div>
     </div>
-    <div id="maincont" class="form-group col-md-9" style="padding-top:45px"></div>
+    <div id="maincont" class="form-group col-md-9" style="padding-top:45px" ></div>
 </div>
 
 @section Scripts {

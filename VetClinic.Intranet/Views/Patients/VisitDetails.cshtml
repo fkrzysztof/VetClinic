@@ -9,7 +9,7 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-@*<link href="~/css/Zakladki.css" rel="stylesheet" />*@
+<link href="~/css/Zakladki.css" rel="stylesheet" />
 
 <!------ Include the above in your HEAD tag ---------->
 
@@ -23,7 +23,7 @@
                     <a class="nav-item nav-link" id="nav-leki-tab" data-toggle="tab" href="#nav-leki" role="tab" aria-controls="nav-leki" aria-selected="false">Leki</a>
                 </div>
             </nav>
-            <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+            <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-dane" role="tabpanel" aria-labelledby="nav-dane-tab">
                     <div>
                         <div class="row">
@@ -32,72 +32,56 @@
                                 <p class="odstep">Imię</p>
                             </div>
                             <div class="col-sm-6 wiersz">
-                                @Html.DisplayFor(model => model.Visit.Patient.Name)
+                               <p class="odstep"> @Html.DisplayFor(model => model.Visit.Patient.Name)</p>
                             </div>
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep">Data urodzenia</p>
                             </div>
                             <div class="col-sm-6 wiersz">
-                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Visit.Patient.BirthDate))
+                                <p class="odstep"> @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Visit.Patient.BirthDate))</p>
                             </div>
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep">Wlasciciel</p>
                             </div>
                             <div class="col-sm-6 wiersz">
-                                @Html.DisplayFor(model => model.Visit.VisitUser.FirstName)
-                                @Html.DisplayFor(model => model.Visit.VisitUser.LastName)
+                                <p class="odstep">
+                                    @Html.DisplayFor(model => model.Visit.VisitUser.FirstName)
+                                    @Html.DisplayFor(model => model.Visit.VisitUser.LastName)
+                                </p>
                             </div>
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep">Opis</p>
                             </div>
                             <div class="col-sm-6 wiersz">
-                                @Html.DisplayFor(model => model.Visit.Description)
+                                <p class="odstep">  @Html.DisplayFor(model => model.Visit.Description)</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-zabieg" role="tabpanel" aria-labelledby="nav-zabieg-tab">
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>
-                                        Nazwa
-                                    </th>
-                                    @*<th>
-                        Ilosc
-                    </th>*@
-                                    <th>
-                                        Typ leku
-                                    </th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.VisitTreatments)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Treatment.Name)
-                                        </td>
-                                        @*<td>
-                            @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                        </td>*@
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Treatment.Description)
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-6 wiersz">
+                                <p class="odstep">Nazwa</p>
+                            </div>
+                            <div class="col-sm-6 wiersz">
+                                <p class="odstep"> @Html.DisplayFor(model => model.Visit.Treatment.Name)</p>
+                            </div>                       
+                            <div class="col-sm-6 wiersz">
+                                <p class="odstep">Opis</p>
+                            </div>
+                            <div class="col-sm-6 wiersz">
+                                <p class="odstep"> @Html.DisplayFor(model => model.Visit.Treatment.Description)</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
 
                 <div class="tab-pane fade" id="nav-leki" role="tabpanel" aria-labelledby="nav-leki-tab">
-                    <div class="table-responsive">
+                    <div class="table-responsive odstep">
                         <table class="table table-hover">
-                            <thead class="thead-dark">
+                            <thead class="komorka">
                                 <tr>
                                     <th>
                                         Nazwa
@@ -135,57 +119,3 @@
     </div>
 </div>
 
-<style>
-    nav > .nav.nav-tabs {
-    border: none;
-    color: #fff;
-    background: #272e38;
-    border-radius: 0;
-    min-height:44px;
-}
-
-nav > div a.nav-item.nav-link,
-nav > div a.nav-item.nav-link.active {
-    border: none;
-    padding: 10px 25px;
-    color: #fff;
-    background: #272e38;
-    border-radius: 0;
-}
-
-    nav > div a.nav-item.nav-link.active:after {
-        content: "";
-        position: relative;
-        bottom: -50px;
-        left: -10%;
-        border: 15px solid transparent;
-        border-top-color: #e74c3c;
-    }
-
-.tab-content {
-    background: #fdfdfd;
-    line-height: 12px;
-    border: 1px solid #ddd;
-    border-top: 5px solid #e74c3c;
-    border-bottom: 5px solid #e74c3c;
-    padding: 12px 25px;
-}
-
-nav > div a.nav-item.nav-link:hover,
-nav > div a.nav-item.nav-link:focus {
-    border: none;
-    background: #e74c3c;
-    color: #fff;
-    border-radius: 0;
-    transition: background 0.20s linear;
-}
-
-.odstep {
-    padding-left: 10px;
-}
-
-.wiersz
-{
-    height:56px;
-}
-</style>
