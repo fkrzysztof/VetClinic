@@ -76,26 +76,44 @@ namespace VetClinic.Intranet.Controllers
 
             }
             return View();
-                                 
+                       
         }
+
         public async Task<IActionResult> dodajWlasciciela (string searchString)
         {
 
+            //ViewData["CurrentFilter"] = searchString;
+            //var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == CustomerUserName);
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+            //    vetClinicContext = (from user in vetClinicContext
+            //                        where user.Login.Contains(searchString)
+            //                        || user.LastName.Contains(searchString)
+            //                        || user.Email.Contains(searchString)
+            //                        || user.City.Contains(searchString)
+            //                        select user)
+            //                                .Include(m => m.UserType);
+
+
+            //}
+            //return PartialView(await vetClinicContext.ToListAsync());
             ViewData["CurrentFilter"] = searchString;
-            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == CustomerUserName);
+            ViewData["PatientUserID"] = new SelectList(_context.MedicineTypes, "PatientUserID", "Name");
+
+            var vetClinicContext = _context.Patients.Include(m => m.PatientUser).Include(m => m.PatientType);
             if (!String.IsNullOrEmpty(searchString))
             {
-                vetClinicContext = (from user in vetClinicContext
-                                    where user.Login.Contains(searchString)
-                                    || user.LastName.Contains(searchString)
-                                    || user.Email.Contains(searchString)
-                                    || user.City.Contains(searchString)
-                                    select user)
-                                            .Include(m => m.UserType);
-
+                vetClinicContext = (from order in _context.Patients
+                                    where order.Name.Contains(searchString) || order.PatientNumber.Contains(searchString)
+                                                                            || order.PatientUser.FirstName.Contains(searchString)
+                                                                            || order.PatientUser.LastName.Contains(searchString)
+                                                                            || order.PatientType.Name.Contains(searchString)
+                                    select order)
+                                    .Include(m => m.PatientUser)
+                                    .Include(m => m.PatientType);
 
             }
-            return View(await vetClinicContext.ToListAsync());
+            return PartialView(await vetClinicContext.ToListAsync());
         }
 
         // GET: Patient/Details/5
