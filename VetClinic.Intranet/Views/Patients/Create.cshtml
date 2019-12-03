@@ -21,7 +21,7 @@
             <label>Właściciel</label>
             <div class="row">
                 <div class="col-md-6">
-                    <input readonly="readonly"  asp-for="PatientUserID" class="form-control" />
+                    <input readonly="readonly" id="wlasciciel"  asp-for="PatientUserID" class="form-control" />
                 </div>
                 <div class="col-md-6">
                     <button type="button" id="add"   class="btn btn-primary w-100">Dodaj</button>
@@ -139,7 +139,7 @@
 
             data:
             { //dane do wysyłki
-                searchString: test
+                //searchString: test
             },
               success: (data) => {
                         $('#exampleModal').find('.modal-body').html(data);
@@ -151,5 +151,5 @@
         })
                 });
             
-    
+        
 </script>

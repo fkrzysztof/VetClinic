@@ -83,7 +83,7 @@ namespace VetClinic.Intranet.Controllers
         {
 
             //ViewData["CurrentFilter"] = searchString;
-            //var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == CustomerUserName);
+            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == CustomerUserName);
             //if (!String.IsNullOrEmpty(searchString))
             //{
             //    vetClinicContext = (from user in vetClinicContext
@@ -96,24 +96,8 @@ namespace VetClinic.Intranet.Controllers
 
 
             //}
-            //return PartialView(await vetClinicContext.ToListAsync());
-            ViewData["CurrentFilter"] = searchString;
-            ViewData["PatientUserID"] = new SelectList(_context.MedicineTypes, "PatientUserID", "Name");
-
-            var vetClinicContext = _context.Patients.Include(m => m.PatientUser).Include(m => m.PatientType);
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                vetClinicContext = (from order in _context.Patients
-                                    where order.Name.Contains(searchString) || order.PatientNumber.Contains(searchString)
-                                                                            || order.PatientUser.FirstName.Contains(searchString)
-                                                                            || order.PatientUser.LastName.Contains(searchString)
-                                                                            || order.PatientType.Name.Contains(searchString)
-                                    select order)
-                                    .Include(m => m.PatientUser)
-                                    .Include(m => m.PatientType);
-
-            }
             return PartialView(await vetClinicContext.ToListAsync());
+
         }
 
         // GET: Patient/Details/5

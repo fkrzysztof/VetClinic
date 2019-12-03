@@ -45,6 +45,9 @@
         <thead class="thead-dark">
             <tr>
                 <th>
+                    
+                </th>
+                <th>
                     Imię
                 </th>
                 <th>
@@ -67,6 +70,7 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td><button type="button" @*onclick="pokaz()"*@ class="wspolna" id="@item.UserID @item.FirstName @item.LastName;"></button></td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
@@ -98,3 +102,26 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    
+     //$(document).ready(function(){
+	    //$(".wspolna").click(function(evt){          
+     //       console.log($(this).attr("id"));
+	        
+	    //});
+     //});
+
+    
+     $(document).ready(function(){
+	    $(".wspolna").click(function(evt){          
+            var item = $(this).attr("id");
+            if (window.opener != null && !window.opener.closed) {
+            var wlasciciel = window.opener.document.getElementById("wlasciciel");
+            wlasciciel.value = document.getElementById("item").value;
+        }
+           // wlasciciel.value = document.getElementById(wspolna).value();
+	        
+	    });
+     });
+</script>
