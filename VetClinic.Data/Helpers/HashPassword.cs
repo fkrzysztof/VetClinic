@@ -9,8 +9,10 @@ namespace VetClinic.Data.Helpers
 {
     public class HashPassword
     {
-        
-        public HashPassword() { }
+        public HashPassword() 
+        {
+           
+        }
         public static string GetMd5Hash( string input)
         {
             MD5 md5Hash = MD5.Create();
