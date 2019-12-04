@@ -30,7 +30,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["CurrentFilter"] = searchString;
             ViewData["PatientUserID"] = new SelectList(_context.PatientTypes, "PatientUserID", "Name");
 
-            var vetClinicContext = _context.Patients.Include(m => m.PatientUser).Include(m => m.PatientType);
+            var vetClinicContext = _context.Patients.Include(m => m.PatientUser).Include(m => m.PatientType).Where(m => m.IsActive == true);
             if (!String.IsNullOrEmpty(searchString))
             {
                 vetClinicContext = (from order in _context.Patients
@@ -40,7 +40,8 @@ namespace VetClinic.Intranet.Controllers
                                                                             || order.PatientType.Name.Contains(searchString)
                                     select order)
                                     .Include(m => m.PatientUser)
-                                    .Include(m => m.PatientType);
+                                    .Include(m => m.PatientType)
+                                    .Where(a => a.IsActive == true);
 
             }
             return View(await vetClinicContext.ToListAsync());
@@ -81,20 +82,21 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> dodajWlasciciela (string searchString)
         {
 
-            //ViewData["CurrentFilter"] = searchString;
-            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == CustomerUserName);
-            //if (!String.IsNullOrEmpty(searchString))
-            //{
-            //    vetClinicContext = (from user in vetClinicContext
-            //                        where user.Login.Contains(searchString)
-            //                        || user.LastName.Contains(searchString)
-            //                        || user.Email.Contains(searchString)
-            //                        || user.City.Contains(searchString)
-            //                        select user)
-            //                                .Include(m => m.UserType);
+            ViewData["CurrentFilter"] = searchString;
+            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == CustomerUserName).Where(u => u.IsActive == true); ;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vetClinicContext = (from user in vetClinicContext
+                                    where user.Login.Contains(searchString)
+                                    || user.LastName.Contains(searchString)
+                                    || user.Email.Contains(searchString)
+                                    || user.City.Contains(searchString)
+                                    select user)
+                                            .Include(m => m.UserType)
+                                            .Where(m => m.IsActive == true);
 
 
-            //}
+            }
             return View(await vetClinicContext.ToListAsync());
 
         }
@@ -127,7 +129,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name");
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "FirstName");
             return View();
         }
 
@@ -153,7 +155,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.AddedUserID);
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name", patient.PatientTypeID);
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.UpdatedUserID);
-            ViewData["PatientUserID"] =(_context.Users, "UserID", "FirstName", patient.PatientUserID);
+            ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "FirstName", patient.PatientUserID);
             return View(patient);
         }
 
@@ -249,7 +251,8 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var patient = await _context.Patients.FindAsync(id);
-            _context.Patients.Remove(patient);
+            patient.IsActive = false;
+            patient.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

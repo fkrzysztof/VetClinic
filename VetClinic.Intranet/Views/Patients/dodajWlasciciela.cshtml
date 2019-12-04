@@ -18,7 +18,7 @@
         <div id="collapse1" class="collapse show" aria-labelledby="Filtr" data-parent="#accordion">
             <div class="card-body">
 
-                <form class="form-inline" asp-action="Index" method="get">
+                <form class="form-inline" asp-action="dodajWlasciciela" method="get">
                     <div class="form-group mb-2">
                         <label>Szukaj: </label>
                     </div>
@@ -26,7 +26,7 @@
                         <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Login,Nazwisko,E-mail,Miasto" /> @*Podpiąć swoje dane*@
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
-                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="Index" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
+                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="dodajWlasciciela" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
                 </form>
             </div>
         </div>
@@ -69,7 +69,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><button type="button" @*onclick="pokaz()"*@ class="wspolna" id="@item.UserID"></button></td>
+                    <td><button type="button" style="width:16px;height:16px" @*onclick="pokaz()"*@ class="wspolna" id="@item.UserID"></button></td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
@@ -104,32 +104,15 @@
 
 <script>
 
-    //$(document).ready(function(){
-    //$(".wspolna").click(function(evt){
-    //       console.log($(this).attr("id"));
-
-    //});
-    //});
-
+  
 
     $(document).ready(function () {
         $(".wspolna").click(function (evt) {
-            var item = $(this).attr("id");
-            //if (window.opener != null && !window.opener.closed) {
-            //    var wlasciciel = window.opener.document.getElementById("wlasciciel");
-            //    wlasciciel.value = document.getElementById("item").value;
-            //}
-            // wlasciciel.value = document.getElementById(wspolna).value();
-             //var value = $('input').val();
-             //$('wlasciciel').html(value);
-
-            var value = $(this).attr("id");
-            console.log('value:', value);
-            var value2 = 5;
-            console.log(typeof (value));
-            console.log(typeof (value2));
-
+          
+            var value = $(this).attr("id");         
+         
             $('#PatientUserID').val(value);
+            $('#exampleModal').modal('hide');
         });
     });
 </script>
