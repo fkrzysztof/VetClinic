@@ -28,14 +28,14 @@
                             Sunday = Sunday + (new TimeSpan(6, 0, 0, 0));
                             //pokaz gdy jest  w zakresie przed lub po
 
-                            @if (DateTime.Compare(Today, Model.First) == -1 || DateTime.Compare(Today, Sunday) == 1)
-                            {
+                            @*@if (DateTime.Compare(Today, Model.First) == -1 || DateTime.Compare(Today, Sunday) == 1)*@
+                            //{
                                 <form class="m-sm-3" asp-action="Index" method="post">
                                     <input type="hidden" name="Navigation" value="previous" />
                                     <input type="hidden" value="@Model.First" name="first" />
                                     <input class="btn btn-outline-primary mb-sm-4" type="submit" value="<<" />
                                 </form>
-                            }
+                            @*}*@
                         }
                     </td>
                     <td colspan="5">

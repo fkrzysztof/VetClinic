@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
+    DateTime DateOfVisit = Convert.ToDateTime(ViewData["DateOfVisit"]);
 }
 
 <hr />
@@ -19,13 +20,17 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+            <label asp-for="DateOfVisit" class="control-label"></label>
+            <input asp-for="DateOfVisit" class="form-control" />
+            <span asp-validation-for="DateOfVisit" class="text-danger"></span>
+        </div>*@
+
+            <input type="hidden" name="DateOfVisitFromCalendar" value="@DateOfVisit" />
+            <h3>Data wizyty pobrana z harmonogramu @DateOfVisit.ToString("dd/MM/yyyy, hh:mm") </h3>
+
             <div class="form-group">
-                <label asp-for="DateOfVisit" class="control-label"></label>
-                <input asp-for="DateOfVisit" class="form-control" />
-                <span asp-validation-for="DateOfVisit" class="text-danger"></span>
-            </div>         
-            <div class="form-group">
-                <input type="submit" value="Zarezerwuj" class="btn btn-primary" asp-area="" asp-controller="Reservation" asp-action="Create"/>
+                <input type="submit" value="Zarezerwuj" class="btn btn-primary" asp-area="" asp-controller="Reservation" asp-action="Create" />
                 @*<a class="nav-link toggle" >*@
             </div>
         </form>
