@@ -75,8 +75,7 @@ namespace VetClinic.Intranet.Controllers
                 return View(await listaWlasnych.ToListAsync());
 
             }
-            return View();
-                       
+            return View();     
         }
 
         public async Task<IActionResult> dodajWlasciciela (string searchString)
@@ -96,7 +95,7 @@ namespace VetClinic.Intranet.Controllers
 
 
             //}
-            return PartialView(await vetClinicContext.ToListAsync());
+            return View(await vetClinicContext.ToListAsync());
 
         }
 
@@ -154,7 +153,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.AddedUserID);
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name", patient.PatientTypeID);
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.UpdatedUserID);
-            ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "City", patient.PatientUserID);
+            ViewData["PatientUserID"] =(_context.Users, "UserID", "FirstName", patient.PatientUserID);
             return View(patient);
         }
 
@@ -218,7 +217,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.AddedUserID);
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name", patient.PatientTypeID);
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.UpdatedUserID);
-            ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "City", patient.PatientUserID);
+            //ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "City", patient.PatientUserID);
             return View(patient);
         }
 

@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.User>
 
 @{
-    ViewData["Title"] = "Index";
+    Layout = null;
 }
-    
 
 <div id="accordion">
     <div class="card">
@@ -45,7 +44,7 @@
         <thead class="thead-dark">
             <tr>
                 <th>
-                    
+
                 </th>
                 <th>
                     Imię
@@ -70,7 +69,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><button type="button" @*onclick="pokaz()"*@ class="wspolna" id="@item.UserID @item.FirstName @item.LastName;"></button></td>
+                    <td><button type="button" @*onclick="pokaz()"*@ class="wspolna" id="@item.UserID"></button></td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
@@ -104,24 +103,33 @@
 </div>
 
 <script>
-    
-     //$(document).ready(function(){
-	    //$(".wspolna").click(function(evt){          
-     //       console.log($(this).attr("id"));
-	        
-	    //});
-     //});
 
-    
-     $(document).ready(function(){
-	    $(".wspolna").click(function(evt){          
+    //$(document).ready(function(){
+    //$(".wspolna").click(function(evt){
+    //       console.log($(this).attr("id"));
+
+    //});
+    //});
+
+
+    $(document).ready(function () {
+        $(".wspolna").click(function (evt) {
             var item = $(this).attr("id");
-            if (window.opener != null && !window.opener.closed) {
-            var wlasciciel = window.opener.document.getElementById("wlasciciel");
-            wlasciciel.value = document.getElementById("item").value;
-        }
-           // wlasciciel.value = document.getElementById(wspolna).value();
-	        
-	    });
-     });
+            //if (window.opener != null && !window.opener.closed) {
+            //    var wlasciciel = window.opener.document.getElementById("wlasciciel");
+            //    wlasciciel.value = document.getElementById("item").value;
+            //}
+            // wlasciciel.value = document.getElementById(wspolna).value();
+             //var value = $('input').val();
+             //$('wlasciciel').html(value);
+
+            var value = $(this).attr("id");
+            console.log('value:', value);
+            var value2 = 5;
+            console.log(typeof (value));
+            console.log(typeof (value2));
+
+            $('#PatientUserID').val(value);
+        });
+    });
 </script>
