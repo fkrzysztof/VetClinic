@@ -48,22 +48,6 @@ namespace VetClinic.Intranet.Controllers
             return View(reservation);
         }
 
-        // to nie bedzie potrzebne bo wizyty w intranecie dodawane beda z kalendarza.
-        // GET: Reservations/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name");
-        //    ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
-        //    ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
-        //    ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City");
-        //    return View();
-        //}
-
-        // POST: Reservations/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-
         //Czesc Bartek
         //do poprawienia masz swoja czesc zadania, ja robie tylko date wizyty z kalendarza!!
         //Krzysztof Franczyk
@@ -89,13 +73,13 @@ namespace VetClinic.Intranet.Controllers
             {
                 reservation.AddedDate = DateTime.Now;
                 reservation.IsActive = true;
-                reservation.AddedUserID = 2; //to ma byc z logowania
+                reservation.AddedUserID = 2; //to ma byc z logowania podabnie jak updateuser w edit
                 reservation.DateOfVisit = DateOfVisitFromCalendar;
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "Calendar");
             }
-            return Content("co poszlo nie tak");
+            return Content("cos poszlo nie tak");
         }
 
         // GET: Reservations/Edit/5
