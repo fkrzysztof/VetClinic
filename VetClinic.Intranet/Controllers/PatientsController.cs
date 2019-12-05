@@ -44,7 +44,7 @@ namespace VetClinic.Intranet.Controllers
             return View(await vetClinicContext.ToListAsync());
         }
 
-        public async Task<IActionResult> PokazMoje(string searchString)
+        public async Task<IActionResult> ShowOwnPatients(string searchString)
         {
           
             if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))

@@ -17,7 +17,7 @@
         <div id="collapse1" class="collapse show" aria-labelledby="Filtr" data-parent="#accordion">
             <div class="card-body">
 
-                <form class="form-inline" asp-action="PokazMoje" method="get">
+                <form class="form-inline" asp-action="ShowOwnPatients" method="get">
                     <div class="form-group mb-2">
                         <label>Szukaj: </label>
                     </div>
@@ -25,7 +25,7 @@
                         <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Imię,Numer,Typ,Właściciel" /> @*Podpiąć swoje dane*@
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
-                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="PokazMoje" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
+                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="ShowOwnPatients" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
                 </form>
             </div>
         </div>
@@ -71,9 +71,9 @@
             {
                 <tr>
                     <td>                     
-                        @*<a asp-action="Visit" asp-route-id="@item.PatientID">*@
+                        <a asp-action="Visit" asp-route-id="@item.PatientID">
                             @Html.DisplayFor(modelItem => item.Name)
-                        @*</a>*@        
+                        </a>        
                     </td>
                     <td>
                         @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.BirthDate))
