@@ -17,7 +17,7 @@
         <div id="collapse1" class="collapse show" aria-labelledby="Filtr" data-parent="#accordion">
             <div class="card-body">
 
-                <form class="form-inline" asp-action="Index" method="get">
+                <form class="form-inline" asp-action="PokazMoje" method="get">
                     <div class="form-group mb-2">
                         <label>Szukaj: </label>
                     </div>
@@ -71,9 +71,9 @@
             {
                 <tr>
                     <td>                     
-                        <a asp-action="Visit" asp-route-id="@item.PatientID">
+                        @*<a asp-action="Visit" asp-route-id="@item.PatientID">*@
                             @Html.DisplayFor(modelItem => item.Name)
-                        </a>        
+                        @*</a>*@        
                     </td>
                     <td>
                         @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.BirthDate))
