@@ -110,7 +110,7 @@
                     </td>
                     <td>
                         @*<input type="hidden" asp-route-id="@item.PatientID" />*@
-                        <button type="button" id="showDetails">
+                        <button type="button" id="@item.PatientID" class="showDetails">
                           Dodaj  @*<i class="fa fa-info" aria-hidden="true"></i>*@
                         </button>
                     </td>
@@ -143,14 +143,16 @@
 }
 <script>
     
-    $('#showDetails').click(function () {
+    $('.showDetails').click(function () {
+
+        var patient_id = $(this).attr("id");
         $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: '@Url.Action("DetailsUpdated","Patients")',
 
             data:
             {
-               
+                "PatientID": patient_id
             },
 
             success: (data) => {
