@@ -1,8 +1,12 @@
 ﻿@model VetClinic.Data.Data.Clinic.Patient
 
 @{
-   ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit";
 }
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
 
 <h4>Edytuj wybrany element:</h4>
 <h2>Pacjent</h2>
@@ -16,15 +20,24 @@
         <input type="hidden" asp-for="IsActive" />
         <input type="hidden" asp-for="AddedDate" />
         <input type="hidden" asp-for="AddedUserID" />
+        <input type="hidden" asp-for="PatientUserID" />
         <div class="form-group col-md-6">
             <label asp-for="PatientTypeID" class="control-label"></label>
             <select asp-for="PatientTypeID" class="form-control" asp-items="ViewBag.PatientTypeID"></select>
             <span asp-validation-for="PatientTypeID" class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
-            <label asp-for="PatientUserID" class="control-label"></label>
-            <select asp-for="PatientUserID" class="form-control" asp-items="ViewBag.PatientUserID"></select>
-            <span asp-validation-for="PatientUserID" class="text-danger"></span>
+            <label>Właściciel</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="hidden" id="PatientUserID" asp-for="PatientUserID" class="form-control" />
+                    <input id="daneWlasciciela" type="text" asp-for="PatientUserID" class="form-control" />
+                    <span asp-validation-for="PatientUserID" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" id="add" class="btn btn-primary w-100">Dodaj</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -60,8 +73,8 @@
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
-  
-    
+
+
     <div class="form-group">
         <input type="submit" value="Zapisz" class="btn btn-primary" />
     </div>
@@ -74,6 +87,54 @@
     </a>
 </div>
 
+
+<div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Wybierz Właściciela</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+
+
+    var test = '123';
+    $('#add').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("dodajWlasciciela","Patients")',
+
+            data:
+            { //dane do wysyłki
+                //searchString: test
+            },
+              success: (data) => {
+                        $('#exampleModal').find('.modal-body').html(data);
+                        $('#exampleModal').modal('show');
+                    }
+
+            //success: function (response) { console.log(response) },
+
+        })
+                });
+
+
+</script>

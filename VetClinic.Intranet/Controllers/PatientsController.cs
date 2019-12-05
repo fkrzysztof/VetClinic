@@ -126,9 +126,9 @@ namespace VetClinic.Intranet.Controllers
         // GET: Patient/Create
         public IActionResult Create()
         {
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName");
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name");
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName");
             ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "FirstName");
             return View();
         }
@@ -152,9 +152,9 @@ namespace VetClinic.Intranet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.AddedUserID);
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.AddedUserID);
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name", patient.PatientTypeID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.UpdatedUserID);
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.UpdatedUserID);
             ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "FirstName", patient.PatientUserID);
             return View(patient);
         }
@@ -172,10 +172,10 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.AddedUserID);
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.AddedUserID);
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name", patient.PatientTypeID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.UpdatedUserID);
-            ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "City", patient.PatientUserID);
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.UpdatedUserID);
+            ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.PatientUserID);
             return View(patient);
         }
 
@@ -216,10 +216,10 @@ namespace VetClinic.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.AddedUserID);
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.AddedUserID);
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name", patient.PatientTypeID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", patient.UpdatedUserID);
-            //ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "City", patient.PatientUserID);
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.UpdatedUserID);
+            ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.PatientUserID);
             return View(patient);
         }
 

@@ -69,7 +69,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><button type="button" style="width:16px;height:16px" @*onclick="pokaz()"*@ class="wspolna" id="@item.UserID"></button></td>
+                    <td><button type="button" style="width:16px;height:16px" @*onclick="pokaz()"*@ class="wspolna" id="@item.UserID" id2="@item.FirstName @item.LastName" ></button></td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
@@ -110,8 +110,10 @@
         $(".wspolna").click(function (evt) {
           
             var value = $(this).attr("id");         
-         
+            var value2=$(this).attr("id2")
+
             $('#PatientUserID').val(value);
+            $('#daneWlasciciela').val(value2);
             $('#exampleModal').modal('hide');
         });
     });

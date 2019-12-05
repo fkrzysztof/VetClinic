@@ -17,16 +17,17 @@
         </div>
         <div class="form-group col-md-6">
             @*<label asp-for="PatientUserID" class="control-label"></label>
-        <select asp-for="PatientUserID" class="form-control" asp-items="ViewBag.PatientUserID"></select>*@
+             <select asp-for="PatientUserID" class="form-control" asp-items="ViewBag.PatientUserID"></select>*@
             <label>Właściciel</label>
             <div class="row">
                 <div class="col-md-6">
-                    <input id="PatientUserID" type="text" name="PatientUserID"    class="form-control" />
+                    <input type="hidden" id="PatientUserID" asp-for="PatientUserID" class="form-control" />
+                    <input id="daneWlasciciela" type="text" class="form-control" />
+                    <span asp-validation-for="PatientUserID" class="text-danger"></span>
                 </div>
                 <div class="col-md-6">
                     <button type="button" id="add"   class="btn btn-primary w-100">Dodaj</button>
-                </div>
-                <span asp-validation-for="PatientUserID" class="text-danger"></span>
+                </div>               
             </div>
         </div>
     </div>
