@@ -1,0 +1,36 @@
+﻿@model VetClinic.Data.Data.Clinic.Patient
+
+@{
+    Layout = null;
+}
+
+
+@*<div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                <input type="hidden" id="idpatient" />
+                <h4>Data dodania:</h4> <p id="dataDodania"></p>
+                <h4>Data modyfikacji:</h4><p id="dataModyfikacji"></p>
+                <h4>Dodał:</h4><p id="dodal"></p>
+                <h4>Modyfikował:</h4><p id="modyfikowal"></p>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<dd class="col-sm-10">
+    @Html.DisplayFor(model => model.AddedDate)
+</dd>
+
+<dd class="col-sm-10">
+    @Html.DisplayFor(model => model.UpdatedDate)
+</dd>
+
+<dd class="col-sm-10">
+    @Html.DisplayFor(model => model.PatientAddedUser)
+</dd>
+
+<dd class="col-sm-10">
+    @Html.DisplayFor(model => model.PatientUpdatedUser)
+</dd>

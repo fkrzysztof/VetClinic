@@ -3,6 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
 <div id="accordion">
     <div class="card">
         <div class="card-header" id="Filtry">
@@ -35,7 +39,7 @@
 <p>
     <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
-        Dodaj 
+        Dodaj
     </a>
  
     <input class="btn btn-outline-primary" type="button" value="Pokaż moich" onclick="location.href='@Url.Action("ShowOwnPatients", "Patients")'" />  
@@ -64,6 +68,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.PatientUser)
                 </th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -103,8 +108,78 @@
                             <span class="fas fa-trash-alt"></span>
                         </a>
                     </td>
+                    <td>
+                        @*<input type="hidden" asp-route-id="@item.PatientID" />*@
+                        <button type="button" id="showDetails">
+                          Dodaj  @*<i class="fa fa-info" aria-hidden="true"></i>*@
+                        </button>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+
+<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Szczegóły</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+    
+    $('#showDetails').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("DetailsUpdated","Patients")',
+
+            data:
+            {
+               
+            },
+
+            success: (data) => {
+                        $('#exampleModal').find('.modal-body').html(data);
+                        $('#exampleModal').modal('show');
+                    }
+
+        })
+                });
+
+
+    // $(document).ready(function () {
+    //    $(".wspolna").click(function (evt) {
+
+    //        var ident=$(this).attr("identyfikator");         
+    //        var value = $(this).attr("dane1");         
+    //        var value2 = $(this).attr("dane2")
+    //        //var value3 = $(this).attr("dane3");         
+    //        //var value4 = $(this).attr("dane4")
+    //        console.log(ident);
+    //        console.log(value);
+    //        console.log(value2);
+    //        //console.log(value3);
+    //        //console.log(value4);
+    //        $('#idpatient').val(ident);
+    //        $('#dataDodania').val(value);
+    //        $('#dataModyfikacji').val(value2);
+    //        //$('#dodal').val(value3);
+    //        //$('#modyfikowal').val(value4);         
+    //    });
+    //});
+</script>

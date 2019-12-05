@@ -100,6 +100,27 @@ namespace VetClinic.Intranet.Controllers
             return View(await vetClinicContext.ToListAsync());
 
         }
+        public async Task<IActionResult> DetailsUpdated(int? id)
+        {
+            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "PatientID");
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var patientDetails = await _context.Patients
+                .Include(p => p.PatientAddedUser)              
+                .Include(p => p.PatientUpdatedUser)              
+                .Include(p=>p.AddedDate)
+                .Include(p=>p.UpdatedDate)
+                .FirstOrDefaultAsync(m => m.PatientID == id);
+            if (patientDetails == null)
+            {
+                return NotFound();
+            }
+
+            return View(patientDetails);
+        }
 
         // GET: Patient/Details/5
         public async Task<IActionResult> Details(int? id)
