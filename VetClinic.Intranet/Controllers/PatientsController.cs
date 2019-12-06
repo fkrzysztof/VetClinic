@@ -108,18 +108,25 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            var patientDetails = await _context.Patients
-                .Include(p => p.PatientAddedUser)              
-                .Include(p => p.PatientUpdatedUser)              
-                .Include(p=>p.AddedDate)
-                .Include(p=>p.UpdatedDate)
-                .FirstOrDefaultAsync(m => m.PatientID == id);
-            if (patientDetails == null)
+            var patient = await _context.Patients
+              .Include(p => p.PatientAddedUser)
+              .Include(p => p.PatientType)
+              .Include(p => p.PatientUpdatedUser)
+              .Include(p => p.PatientUser)
+              .FirstOrDefaultAsync(m => m.PatientID == id);
+
+            //var patientDetails = await _context.Patients 
+            //    .Include(p => p.PatientAddedUser)              
+            //    .Include(p => p.PatientUpdatedUser)              
+            //    .Include(p=>p.AddedDate)
+            //    .Include(p=>p.UpdatedDate)
+            //    .FirstOrDefaultAsync(m => m.PatientID == id);
+            if (patient == null)
             {
                 return NotFound();
             }
 
-            return View(patientDetails);
+            return View(patient);
         }
 
         // GET: Patient/Details/5
