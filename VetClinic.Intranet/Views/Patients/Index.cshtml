@@ -109,10 +109,9 @@
                         </a>
                     </td>
                     <td>
-                        @*<input type="hidden" asp-route-id="@item.PatientID" />*@
-                        <button type="button" id="@item.PatientID" class="showDetails">
-                          Dodaj  @*<i class="fa fa-info" aria-hidden="true"></i>*@
-                        </button>
+                        <a class="showDetails btn btn-outline-primary btn-sm" role="button"  id="@item.PatientID">
+                            <span class="fa fa-info"></span>
+                        </a>                       
                     </td>
                 </tr>
             }
@@ -121,7 +120,7 @@
 </div>
 
 
-<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" style="margin-top:20%;margin-left:25%">
     <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -162,26 +161,5 @@
 
         })
                 });
-
-
-    // $(document).ready(function () {
-    //    $(".wspolna").click(function (evt) {
-
-    //        var ident=$(this).attr("identyfikator");         
-    //        var value = $(this).attr("dane1");         
-    //        var value2 = $(this).attr("dane2")
-    //        //var value3 = $(this).attr("dane3");         
-    //        //var value4 = $(this).attr("dane4")
-    //        console.log(ident);
-    //        console.log(value);
-    //        console.log(value2);
-    //        //console.log(value3);
-    //        //console.log(value4);
-    //        $('#idpatient').val(ident);
-    //        $('#dataDodania').val(value);
-    //        $('#dataModyfikacji').val(value2);
-    //        //$('#dodal').val(value3);
-    //        //$('#modyfikowal').val(value4);         
-    //    });
-    //});
+ 
 </script>

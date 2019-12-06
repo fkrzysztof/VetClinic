@@ -23,7 +23,7 @@
                         <label>Szukaj: </label>
                     </div>
                     <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Login,Nazwisko,E-mail,Miasto" /> @*Podpiąć swoje dane*@
+                        <input type="text" class="form-control" id="myInput" @*name="SearchString" value="@ViewData["currentFilter"]"*@ placeholder="Login,Nazwisko,E-mail,Miasto" /> @*Podpiąć swoje dane*@
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
                     <a role="button" class="btn btn-outline-primary mb-2" asp-action="dodajWlasciciela" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
@@ -65,7 +65,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
             @foreach (var item in Model)
             {
                 <tr>
@@ -117,4 +117,14 @@
             $('#exampleModal').modal('hide');
         });
     });
+
+
+    $(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
 </script>
