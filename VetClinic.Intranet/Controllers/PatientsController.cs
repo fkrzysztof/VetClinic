@@ -26,7 +26,7 @@ namespace VetClinic.Intranet.Controllers
         {
 
             ViewData["CurrentFilter"] = searchString;
-            ViewData["PatientUserID"] = new SelectList(_context.MedicineTypes, "PatientUserID", "Name");
+            ViewData["PatientUserID"] = new SelectList(_context.PatientTypes, "PatientUserID", "Name");
 
             var vetClinicContext = _context.Patients.Include(m => m.PatientUser).Include(m => m.PatientType);
             if (!String.IsNullOrEmpty(searchString))
@@ -42,6 +42,39 @@ namespace VetClinic.Intranet.Controllers
 
             }
             return View(await vetClinicContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> ShowOwnPatients(string searchString)
+        {
+          
+            if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+            {
+                int UserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                IEnumerable<int?> listpatientsID = _context.Visits.Where(v => v.VetID == UserID).Select(p => p.PatientID).ToList();
+                var listaWlasnych = _context.Patients.Include(p=>p.PatientType).Include(p=>p.PatientUser).Where(v => listpatientsID.Contains(v.PatientID));
+
+                ViewData["CurrentFilter"] = searchString;
+                ViewData["PatientUserID"] = new SelectList(_context.PatientTypes, "PatientUserID", "Name");
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    listaWlasnych = (from order in listaWlasnych
+                                        where order.Name.Contains(searchString) || order.PatientNumber.Contains(searchString)
+                                                                                || order.PatientUser.FirstName.Contains(searchString)
+                                                                                || order.PatientUser.LastName.Contains(searchString)
+                                                                                || order.PatientType.Name.Contains(searchString)
+                                        select order)
+                                        .Include(m => m.PatientUser)
+                                        .Include(m => m.PatientType)
+                                        .Include(m=>m.Visits);
+
+                }
+
+                return View(await listaWlasnych.ToListAsync());
+
+            }
+            return View();
+                                 
         }
 
         // GET: Patient/Details/5
