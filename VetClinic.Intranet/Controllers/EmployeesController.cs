@@ -132,7 +132,11 @@ namespace VetClinic.Intranet.Controllers
                 {
                     user.UpdatedDate = DateTime.Now;
                     user.UserTypeID = EmployeeUserId;
-                    user.Password = HashPassword.GetMd5Hash(user.Password);
+                    if (user.Password.Length==8)
+                    {
+                        user.Password = HashPassword.GetMd5Hash(user.Password);
+                    }
+                    
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                     UploadPhoto(file, user.UserID);
@@ -217,16 +221,15 @@ namespace VetClinic.Intranet.Controllers
             }
         }
        
-        public IActionResult VerifyLogin(string login)
+        public IActionResult VerifyLogin(string login, int UserID)
         {
             var test = _context.Users.FirstOrDefault(a => a.Login == login);
-
-            if (test != null)
-            {
-                return Json($"Login {login} jest już zajęty.");
-            }
-
+            if(UserID == 0 && test != null)
+            {          
+               return Json($"Login {login} jest już zajęty.");           
+            }          
             return Json(true);
         }
+        
     }
 }

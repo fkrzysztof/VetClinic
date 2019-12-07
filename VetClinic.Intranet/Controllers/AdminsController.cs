@@ -83,8 +83,8 @@ namespace VetClinic.Intranet.Controllers
             {
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
-                user.UserTypeID = AdminUserId;
-                user.Password = HashPassword.GetMd5Hash(user.Password);
+                user.UserTypeID = AdminUserId;             
+                user.Password = HashPassword.GetMd5Hash(user.Password);                       
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 UploadPhoto(file, user.UserID);
@@ -129,7 +129,10 @@ namespace VetClinic.Intranet.Controllers
                 {
                    user.UpdatedDate = DateTime.Now;
                    user.UserTypeID = AdminUserId;
-                    user.Password = HashPassword.GetMd5Hash(user.Password);
+                    if (user.Password.Length == 8)
+                    {
+                        user.Password = HashPassword.GetMd5Hash(user.Password);
+                    }                 
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                    UploadPhoto(file, user.UserID);

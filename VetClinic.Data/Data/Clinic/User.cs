@@ -29,7 +29,7 @@ namespace VetClinic.Data.Data.Clinic
          ErrorMessage = "Adres email nie jest prawidłowy.")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Login jest wymagany")]
-        [Remote(action: "VerifyLogin", controller: "Employees")]
+        [Remote(action: "VerifyLogin", controller: "Employees", AdditionalFields = "UserID")]
         public string Login { get; set; }
         [Required(ErrorMessage = "Hasło jest wymagane")]
         public string Password { get; set; } // nie wiem czy potrzebnie, bo bedzie ta autoryzacja .NETowa
