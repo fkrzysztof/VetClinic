@@ -48,38 +48,38 @@ namespace VetClinic.Intranet.Controllers
             return View(reservation);
         }
 
-        // GET: Reservations/Create
-        public IActionResult Create()
+        //Czesc Bartek
+        //do poprawienia masz swoja czesc zadania, ja robie tylko date wizyty z kalendarza!!
+        //Krzysztof Franczyk
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateNew(DateTime DateOfVisit)
         {
+
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name");
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
             ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City");
-            return View();
+            ViewData["DateOfVisit"] = DateOfVisit;
+
+            return View("Create");
         }
 
-        // POST: Reservations/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReservationID,ReservationUserID,PatientID,Description,DateOfVisit,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Reservation reservation)
+        public async Task<IActionResult> Create(DateTime DateOfVisitFromCalendar, [Bind("ReservationID,ReservationUserID,PatientID,Description")] Data.Data.Clinic.Reservation reservation)
         {
             if (ModelState.IsValid)
             {
                 reservation.AddedDate = DateTime.Now;
+                reservation.IsActive = true;
+                reservation.AddedUserID = 2; //to ma byc z logowania podabnie jak updateuser w edit
+                reservation.DateOfVisit = DateOfVisitFromCalendar;
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Calendar");
             }
-
-
-
-            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", reservation.PatientID);
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.UpdatedUserID);
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
-            return View(reservation);
+            return Content("cos poszlo nie tak");
         }
 
         // GET: Reservations/Edit/5

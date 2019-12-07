@@ -1,27 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VetClinic.Data;
 using VetClinic.Data.Helpers;
 
-namespace VetClinic.PortalWWW.Controllers
+namespace VetClinic.Intranet.Controllers
 {
-    public class ClientPanelController : Controller
+    public class CalendarController : Controller
     {
-        private readonly VetClinicContext _context;
         public DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
         ScheduleBlocks sb = new ScheduleBlocks();
+        private readonly VetClinicContext _context;
 
-        public ClientPanelController(VetClinicContext context)
+        public CalendarController(VetClinicContext context)
         {
             _context = context;
         }
+
         public async Task<IActionResult> Index()
         {
-            ViewBag.UserFromSession = Int32.Parse(HttpContext.Session.GetString("UserID"));
             while (true)
             {
                 if (now.DayOfWeek != DayOfWeek.Monday)
@@ -45,7 +43,6 @@ namespace VetClinic.PortalWWW.Controllers
         [HttpPost]
         public async Task<IActionResult> Index([Bind("First,Navigation")] ScheduleBlocks c)
         {
-            ViewBag.UserFromSession = Int32.Parse(HttpContext.Session.GetString("UserID"));
             if (c.Navigation == "next")
                 c.First = c.First.Add(new TimeSpan(7, 0, 0, 0, 0));
             if (c.Navigation == "previous")
@@ -55,9 +52,10 @@ namespace VetClinic.PortalWWW.Controllers
             //dodanie kolekcji dni wolnych
             sb.InaccessibleDay = _context.InaccessibleDays.Select(s => s.Date).ToList();
             //dodanie kolekcji godzin pracy przychodni
-            sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy(o => o.Time).ToList();
+            sb.ScheduleBlock =  _context.ScheduleBlocks.OrderBy(o => o.Time).ToList();
 
             return View(sb);
         }
     }
 }
+

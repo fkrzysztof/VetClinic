@@ -4,7 +4,9 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
-
+<a class="btn btn-outline-primary" role="button" asp-action="Index" asp-controller="ClientPanel">
+    Kalendarz Rezerwacji
+</a>
 <table class="table">
     <thead>
         <tr>
@@ -13,32 +15,33 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DateOfVisit)
-            </th>            
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.AddedDate)
-            </th>            
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Patients)
-            </th>           
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateOfVisit)
-            </td>           
-            <td>
-                @Html.DisplayFor(modelItem => item.AddedDate)
-            </td>            
-            <td>
-                @Html.DisplayFor(modelItem => item.Patients.Name)
-            </td>          
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateOfVisit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Patients.Name)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
