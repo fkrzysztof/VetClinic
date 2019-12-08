@@ -4,8 +4,6 @@
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-
-
 <body>
     <div id="divReg" class="row justify-content-center">
         <div class="card card-signin my-5">
@@ -13,34 +11,43 @@
 
                 <h4 class="card-title text-center font-weight-normal" id="PinkH4">Formularz rejestracji</h4>
                 <hr class="my-4">
-                <form class="form-signin" asp-controller="Login" asp-action="Registration" method="post">
+                <form class="form-signin" asp-action="Registration" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-row">
                         <div class="form-label-group" style="width:100%">
-                            <input asp-for="Login" type="text" id="inputLogin" class="form-control" placeholder="Login">
+                            <input asp-for="Login" type="text" id="inputLogin" class="form-control" placeholder="Login" required>
                             <label asp-for="Login" for="inputLogin">Login</label>
-                            <span asp-validation-for="Login" class="text-danger"></span>
+                            <span asp-validation-for="Login" controltoValidate="inputLogin" ErrorMessage="Wymagany!" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-label-group">
-                            <input asp-for="Password" type="password" id="inputPassword1" class="form-control" placeholder="Hasło" required>
+                            <input asp-for="Password" type="text" id="inputPassword1" class="form-control" placeholder="Hasło" required>
                             <label asp-for="Password" for="inputPassword1">Hasło</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-label-group">
-                            <input type="password" id="inputPassword2" class="form-control" placeholder="Powtórzone hasło" required>
-                            <label for="inputPassword2">Powtórz hasło</label>
+                            <input type="text" id="inputConfirmPassword" class="form-control" placeholder="Potwierdź hasło">
+                            <label asp-for="Password" for="inputConfirmPassword">Potwierdź hasło</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-label-group" style="width:100%">
-                            <input asp-for="Email" type="email" id="inputEmail" class="form-control" placeholder="E-mail">
+                            <input asp-for="Email" type="text" id="inputEmail" class="form-control" placeholder="E-mail" required>
                             <label asp-for="Email" for="inputEmail">E-mail</label>
                             <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-label-group" style="width:100%">
+                            <input asp-for="Phone" type="text" id="inputPhone" class="form-control" placeholder="Numer telefonu" required>
+                            <label asp-for="Phone" for="inputEmail">Telefon</label>
+                            <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -59,12 +66,12 @@
 
                     <div class="form-row">
                         <div class="form-label-group" style="width:61%">
-                            <input asp-for="Street" type="text" id="street" class="form-control" placeholder="Ulica" required>
+                            <input asp-for="Street" type="text" id="street" class="form-control" placeholder="Ulica">
                             <label asp-for="Street" for="street">Ulica</label>
                             <span asp-validation-for="Street" class="text-danger"></span>
                         </div>
                         <div class="form-label-group" style="width:32%">
-                            <input asp-for="HouseNumber" type="text" id="streetNo" class="form-control" placeholder="Numer ulicy, domu" required>
+                            <input asp-for="HouseNumber" type="text" id="streetNo" class="form-control" placeholder="Numer lokalu/domu">
                             <label asp-for="HouseNumber" for="streetNo">Nr </label>
                             <span asp-validation-for="HouseNumber" class="text-danger"></span>
                         </div>

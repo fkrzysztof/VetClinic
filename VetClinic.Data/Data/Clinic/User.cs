@@ -23,6 +23,8 @@ namespace VetClinic.Data.Data.Clinic
         [Required(ErrorMessage = "Miejscowość jest wymagana")]
         public string City { get; set; }
         [Required(ErrorMessage = "Kod pocztowy jest wymagany")]
+        [RegularExpression(@"[0-9]{2}-[0-9]{3}",
+         ErrorMessage = "Kod pocztowy nie jest poprawny.")]
         public string PostalCode { get; set; }
         [Required(ErrorMessage = "Email jest wymagany")]
         [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",
