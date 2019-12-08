@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.User>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pracownicy";
 }
 <div id="accordion">
     <div class="card">
@@ -32,38 +32,47 @@
     </div>
 </div>
 <br />
-<p>
-    <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-        <i class="fas fa-plus-circle"></i>
-        Dodaj Pracownika
-    </a>
-</p>
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>
-                    Imię
-                </th>
-                <th>
-                    Nazwisko
-                </th>
-                <th>
-                    Miasto
-                </th>
-                <th>
-                    E-mail
-                </th>
-                <th>
-                    Nr.Telefonu
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+@using (Html.BeginForm("Deactivate", "Admins", FormMethod.Post))
+{
+    <p>
+        <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+            <i class="fas fa-plus-circle"></i>
+            Dodaj Pracownika
+        </a>
+        <input class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
+    </p>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-dark">
                 <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        Imię
+                    </th>
+                    <th>
+                        Nazwisko
+                    </th>
+                    <th>
+                        Miasto
+                    </th>
+                    <th>
+                        E-mail
+                    </th>
+                    <th>
+                        Nr.Telefonu
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
@@ -90,7 +99,8 @@
                         </a>
                     </td>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+                }
+            </tbody>
+        </table>
+    </div>
+}

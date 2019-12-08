@@ -36,6 +36,7 @@ namespace VetClinic.Data.Data.Clinic
         [Required(ErrorMessage = "Numer telefonu jest wymagany")]
         public string Phone { get; set; }
         public string Photo { get; set; }
+        public byte[]? Image { get; set; }
         public string CardNumber { get; set; } // karta stałego klienta 
         public bool IsActive { get; set; } // jeżeli nie potwierdzi email to jest nieaktywny lub jeśli został deaktywowany przez admina
         public int LoginAttempt { get; set; } // ilosc prób logowanie użytkownika, po x próbach konto się blokuje

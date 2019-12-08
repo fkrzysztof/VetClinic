@@ -1,10 +1,9 @@
 ﻿@model VetClinic.Data.Data.Clinic.User
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegóły";
 }
-<h4>Szczegóły elementu:</h4>
-<h2>ADMIN</h2>
+<h4>Szczegóły Administratora:</h4>
 <hr />
 
 <div>
@@ -79,19 +78,24 @@
             Zdjęcie:
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Photo)
+            @{
+                if (Model.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Image);
+                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                    <img style="width: 250px; height:250px" src="@imgSrc" />
+                }
+                else
+                {
+                    <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
+                }
+            }
         </dd>
         <dt class="col-sm-2">
             Nr.Karty:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CardNumber)
-        </dd>
-        <dt class="col-sm-2">
-            Czy Aktywny:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
         </dd>
         <dt class="col-sm-2">
             Opis:
