@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
@@ -25,7 +24,6 @@ namespace VetClinic.PortalWWW.Controllers
             if(id == null)
                 return View("Views/Home/Index.cshtml");
 
-
             ViewBag.ModelRecentNews =
             (
                 from recentnews in _context.RecentNews
@@ -33,12 +31,13 @@ namespace VetClinic.PortalWWW.Controllers
                 select recentnews
             ).ToList();
 
-            ViewBag.ModelUser = _context.Users.Include(u => u.UserType);
-
-
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             User result  = _context.Users.FirstOrDefault(i => i.UserID == id);
+            ViewBag.Logged = !String.IsNullOrEmpty(HttpContext.Session.GetString("UserID"));
+            
             return View(result);
         }
+
 
     }
 }

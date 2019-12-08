@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VetClinic.Data;
@@ -31,7 +28,7 @@ namespace VetClinic.PortalWWW.Controllers
                 select recentnews
             ).ToList();
 
-            ViewBag.ModelUser = _context.Users.Include(u => u.UserType);
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where( w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             return View();
         }
 

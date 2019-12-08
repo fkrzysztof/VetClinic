@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Helpers;
 
@@ -37,7 +37,8 @@ namespace VetClinic.PortalWWW.Controllers
             //dodanie kolekcji godzin pracy przychodni
             sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy(o => o.Time).ToList();
             ViewBag.UserID = null;
-
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
+           
             return View(sb);
         }
 
