@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http;
+﻿
+@using Microsoft.AspNetCore.Http;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,8 +74,12 @@
                     <span>Lekarze</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" href="">Doktor House </a>
-                    <a class="dropdown-item" href="">Doktor Strange </a>
+                    @{
+                        foreach (var item in ViewBag.Doctors )
+                        {
+                           <a class="dropdown-item" asp-action="Index" asp-controller="Crews" asp-route-id="@item.UserID">@item.FirstName @item.LastName</a>
+                        }
+                    }
                 </div>
             </li>
 
