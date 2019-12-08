@@ -28,7 +28,7 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
             ViewData["CurrentFilter"] = searchString;
-            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name==EmployeeUserName);
+            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name==EmployeeUserName && u.IsActive == true);
             if (!String.IsNullOrEmpty(searchString))
             {
                 vetClinicContext = (from user in vetClinicContext
@@ -75,10 +75,18 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,Description")] User user, IFormFile file)
+        public async Task<IActionResult> Create(User user, List<Microsoft.AspNetCore.Http.IFormFile> Image)
         {
             if (ModelState.IsValid)
             {
+                foreach (var item in Image)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await item.CopyToAsync(stream);
+                        user.Image = stream.ToArray();
+                    }
+                }
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
                 user.UserTypeID = EmployeeUserId;
@@ -86,7 +94,6 @@ namespace VetClinic.Intranet.Controllers
                 user.Password = HashPassword.GetMd5Hash(user.Password);
                 _context.Add(user);
                 await _context.SaveChangesAsync();
-                UploadPhoto(file, user.UserID);
                 SmtpConf.MessageTo = user.Email;
                 SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + passwordUser;
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
@@ -119,7 +126,7 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,CardNumber,IsActive,Description")] User user, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,Image,CardNumber,IsActive,Description")] User user, List<Microsoft.AspNetCore.Http.IFormFile> Image)
         {
             if (id != user.UserID)
             {
@@ -130,6 +137,17 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    foreach (var item in Image)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            if (item != null)
+                            {
+                                await item.CopyToAsync(stream);
+                                user.Image = stream.ToArray();
+                            }
+                        }
+                    }
                     user.UpdatedDate = DateTime.Now;
                     user.UserTypeID = EmployeeUserId;
                     if (user.Password.Length==8)
@@ -139,7 +157,6 @@ namespace VetClinic.Intranet.Controllers
                     
                     _context.Update(user);
                     await _context.SaveChangesAsync();
-                    UploadPhoto(file, user.UserID);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -195,32 +212,6 @@ namespace VetClinic.Intranet.Controllers
             return _context.Users.Any(e => e.UserID == id);
         }
 
-        //Upload photo
-        public void UploadPhoto(IFormFile file, int id)
-        {
-            if (file != null)
-            {
-                var fileName = file.FileName;
-
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "../VetClinic.Intranet/wwwroot/uploads", fileName);
-
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    file.CopyTo(fileStream);
-                }
-
-                var user =
-                    (from item in _context.Users
-                     where item.UserID == id
-                     select item
-                    ).FirstOrDefault();
-
-                user.Photo = fileName;
-                _context.Update(user);
-                _context.SaveChanges();
-            }
-        }
-       
         public IActionResult VerifyLogin(string login, int UserID)
         {
             var test = _context.Users.FirstOrDefault(a => a.Login == login);
@@ -230,6 +221,31 @@ namespace VetClinic.Intranet.Controllers
             }          
             return Json(true);
         }
-        
+
+        [HttpPost, ActionName("Deactivate")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Deactivate(string[] ids)
+        {
+            int[] getid = null;
+            if (ids != null)
+            {
+                getid = new int[ids.Length];
+                int j = 0;
+                foreach (string i in ids)
+                {
+                    int.TryParse(i, out getid[j++]);
+                }
+            }
+
+            List<User> getusrids = new List<User>();
+            getusrids = _context.Users.Where(x => getid.Contains(x.UserID)).ToList();
+            foreach (var s in getusrids)
+            {
+                _context.Users.Update(s);
+                s.IsActive = false;
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

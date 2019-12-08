@@ -2,14 +2,11 @@
 
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Dodawanie";
 }
 
-<h4>Dodaj nowy element:</h4>
-<h2>LEKARZ</h2>
+<h4>Dodaj Lekarza:</h4>
 <hr />
-
-
 <form asp-action="Create" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -67,9 +64,9 @@
             <span asp-validation-for="Login" class="text-danger"></span>
         </div>
         @*<div class="form-group col-md-6">
-            <label asp-for="MedicalSpecialization" class="control-label"></label>
-            <select asp-for="M" class="form-control" asp-items="ViewBag.SpecializationID"></select>
-        </div>*@
+                <label asp-for="MedicalSpecialization" class="control-label"></label>
+                <select asp-for="M" class="form-control" asp-items="ViewBag.SpecializationID"></select>
+            </div>*@
         <div class="form-group col-md-4">
             <label class="control-label">Hasło</label>
             <div class="row">
@@ -87,8 +84,8 @@
     <div class="form-row">
         <div class="form-group col-md-4">
             <label class="control-label">Zdjęcie</label>
-            <input type="file" class="form-control-file" id="file" name="file" />
-            <span asp-validation-for="Photo" class="text-danger"></span>
+            <input type="file" id="files" asp-for="Image" />
+            <span asp-validation-for="Image" class="text-danger"></span>
         </div>
         <div class="form-group col-md-4">
             <label class="control-label">Nr.Telefonu</label>
@@ -103,9 +100,8 @@
         </div>
     </div>
     <div class="form-group form-check">
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-        </label>
+        <input class="form-check-input" asp-for="IsActive" />
+        <label class="control-label">Czy aktywny</label>
     </div>
     <div class="form-row">
         <div class="form-group col-md-4">

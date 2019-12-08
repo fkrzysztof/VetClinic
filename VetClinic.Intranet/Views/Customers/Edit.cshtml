@@ -1,19 +1,17 @@
 ﻿@model VetClinic.Data.Data.Clinic.User
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edycja";
 }
 
-<h4>Edytuj element:</h4>
-<h2>UŻYTKOWNIK</h2>
+<h4>Edytuj Klienta:</h4>
 <hr />
-
-
 <form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group col-md-4">
             <input type="hidden" asp-for="UserID" />
+            <input type="hidden" asp-for="Image" />
             <label class="control-label">Imię</label>
             <input asp-for="FirstName" class="form-control" />
             <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -82,32 +80,54 @@
     </div>
     <div class="form-row">
         <div class="form-group col-md-4">
-            <label class="control-label">Zdjęcie</label>
-            <input type="file" class="form-control-file" id="file" name="file" />
-            <span asp-validation-for="Photo" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Nr.Telefonu</label>
-            <input asp-for="Phone" class="form-control" />
-            <span asp-validation-for="Phone" class="text-danger"></span>
+            <div class="form-group">
+                <label class="control-label">Nr.Telefonu</label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Nr.Karty</label>
+                <input asp-for="CardNumber" class="form-control" />
+                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="control-label">Opis</label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
         </div>
 
         <div class="form-group col-md-4">
-            <label class="control-label">Nr.Karty</label>
-            <input asp-for="CardNumber" class="form-control" />
-            <span asp-validation-for="CardNumber" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group form-check">
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-        </label>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label class="control-label">Opis</label>
-            <input asp-for="Description" class="form-control" />
-            <span asp-validation-for="Description" class="text-danger"></span>
+            <div class="form-group">
+                <label>Zdjęcie</label>
+                <div class="card-image">
+                    @{
+                        if (Model.Image != null)
+                        {
+                            var base64 = Convert.ToBase64String(Model.Image);
+                            var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                            <img style="width: 250px; height:250px" src="@imgSrc" />
+                        }
+                        else
+                        {
+                            <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
+                        }
+                    }
+
+                    <br />
+                    <input type="file" id="files" asp-for="Image" class="inputfile" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="form-group">

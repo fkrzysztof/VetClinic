@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20191208095708_new_column_Image_in_Users")]
+    partial class new_column_Image_in_Users
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
