@@ -185,7 +185,8 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            var patient = await _context.Patients.FindAsync(id);
+            //var patient = await _context.Patients.FindAsync(id);
+            var patient = await _context.Patients.Include(p => p.PatientUser).FirstOrDefaultAsync(m => m.PatientID == id);
             if (patient == null)
             {
                 return NotFound();
