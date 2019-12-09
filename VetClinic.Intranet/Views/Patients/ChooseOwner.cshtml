@@ -23,10 +23,8 @@
                         <label>Szukaj: </label>
                     </div>
                     <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" class="form-control" id="myInput" @*name="SearchString" value="@ViewData["currentFilter"]"*@ placeholder="Login,Nazwisko,E-mail,Miasto" /> @*Podpiąć swoje dane*@
-                    </div>
-                    <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
-                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="dodajWlasciciela" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
+                        <input type="text" class="form-control" id="myInput"  placeholder="Login,Nazwisko,E-mail,Miasto" /> @*Podpiąć swoje dane*@
+                    </div>            
                 </form>
             </div>
         </div>
@@ -69,7 +67,11 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td><button type="button" style="width:16px;height:16px" @*onclick="pokaz()"*@ class="wspolna" id="@item.UserID" id2="@item.FirstName @item.LastName" ></button></td>
+                    <td>
+                        <a class="wspolna btn btn-outline-primary btn-sm" role="button" id="@item.UserID" dane="@item.FirstName @item.LastName">
+                            <span class="fas fa-check"></span>
+                        </a>
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
                     </td>
@@ -110,7 +112,7 @@
         $(".wspolna").click(function (evt) {
           
             var value = $(this).attr("id");         
-            var value2=$(this).attr("id2")
+            var value2=$(this).attr("dane")
 
             $('#PatientUserID').val(value);
             $('#daneWlasciciela').val(value2);

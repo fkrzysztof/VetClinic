@@ -79,7 +79,7 @@ namespace VetClinic.Intranet.Controllers
             return View();     
         }
 
-        public async Task<IActionResult> dodajWlasciciela (string searchString)
+        public async Task<IActionResult> ChooseOwner (string searchString)
         {
 
             ViewData["CurrentFilter"] = searchString;

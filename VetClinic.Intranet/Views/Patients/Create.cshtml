@@ -51,10 +51,17 @@
             <input asp-for="KennelName" class="form-control" placeholder="Przydomek hodowlany" />
             <span asp-validation-for="KennelName" class="text-danger"></span>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
             <label asp-for="PatientNumber" class="control-label"></label>
-            <input asp-for="PatientNumber" class="form-control" placeholder="Nr pacjenta" />
-            <span asp-validation-for="PatientNumber" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-6">
+                    <input readonly="readonly" id="numberInput" asp-for="PatientNumber" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <button onclick="generateNumber()" class="btn btn-primary w-100">Generuj numer</button>
+                </div>
+                <span asp-validation-for="PatientNumber" class="text-danger"></span>
+           </div>          
         </div>
     </div>
 
@@ -88,11 +95,7 @@
                 </div>
                 <div class="modal-body">
                     ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                </div>              
             </div>
         </div>
     </div>
@@ -104,26 +107,19 @@
         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     }
 <script>   
-
-    var test = '123';
+    
     $('#add').click(function () {
         $.ajax({
             type: 'GET',
-            url: '@Url.Action("dodajWlasciciela","Patients")',
-
-            data:
-            { //dane do wysyłki
-                //searchString: test
-            },
+            url: '@Url.Action("ChooseOwner","Patients")',
+          
               success: (data) => {
                         $('#exampleModal').find('.modal-body').html(data);
                         $('#exampleModal').modal('show');
                     }
-
-            //success: function (response) { console.log(response) },
-
-        })
-                });
+      
+                })
+                                });
             
         
 </script>
