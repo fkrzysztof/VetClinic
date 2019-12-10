@@ -371,10 +371,30 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            var visits = await _context.Visits.FindAsync(id);
-            var visit = new VisitDetails();
-            visit.Visit = visits;
-            if (visit == null)
+            var visit = _context.Visits
+                   .Include(v => v.Patient)
+                   .Include(v => v.VetUser)
+                   .Include(v => v.VisitUser)
+                   .Include(v => v.Treatment)
+                   .Include(v => v.VisitMedicines)
+                   .Where(v => v.VisitID == id)
+                   .FirstOrDefault();
+
+            var visitMedicine = _context.VisitMedicines
+                .Include(m => m.Medicine)
+                .Include(m => m.Medicine.MedicineType)
+                .Where(v => v.VisitID == id).ToList();
+            var visitTreatments = _context.VisitTreatment
+               .Include(m => m.Treatment)
+               .Where(v => v.VisitID == id).ToList();
+            var view = new VisitDetails
+            {
+                VisitTreatments = visitTreatments,
+                VisitMedicine = visitMedicine,
+                Visit = visit,
+                //Patient = visit.Patient                
+            };
+            if (view == null)
             {
                 return NotFound();
             }
@@ -382,7 +402,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["VetID"] = new SelectList(_context.Users.Where(u => u.UserTypeID == 2)/*2 to id lekarzy*/, "UserID", "LastName");
             ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name");
             ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name");
-            return View(visit);
+            return View(view);
         }
 
         // POST: Patient/Edit/5
