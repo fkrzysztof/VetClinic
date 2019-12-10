@@ -92,7 +92,7 @@
                 </div>
             </li>
 
-            <li class="nav-item dropdown">
+            @*<li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-fw fa-folder"></i>
@@ -106,7 +106,7 @@
                     <a class="dropdown-item" asp-area="" asp-controller="MedicalSpecializations" asp-action="Index">Spec. Lekarza</a>
                     <a class="dropdown-item" asp-area="" asp-controller="Specializations" asp-action="Index"> Lista Specjalizacji</a>
                 </div>
-            </li>
+            </li>*@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
@@ -127,6 +127,7 @@
                     <span>Rodzaje</span><span> użytkowników</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" asp-area="" asp-controller="AllUsers" asp-action="Index">Wszyscy</a>
                     <a class="dropdown-item" asp-area="" asp-controller="Admins" asp-action="Index">Admin</a>
                     <a class="dropdown-item" asp-area="" asp-controller="Doctors" asp-action="Index">Lekarz</a>
                     <a class="dropdown-item" asp-area="" asp-controller="Employees" asp-action="Index">Pracownik</a>

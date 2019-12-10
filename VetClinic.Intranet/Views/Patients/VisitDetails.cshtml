@@ -59,61 +59,96 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-zabieg" role="tabpanel" aria-labelledby="nav-zabieg-tab">
-                    <div>
-                        <div class="row">
-                            <div class="col-sm-6 wiersz">
-                                <p class="odstep">Nazwa</p>
+                    
+                        @if (Model.VisitTreatments.Count == 0)
+                        {
+                            <br />
+                    <p><b>Nie ma dodanych Zabiegow</b></p>
+                        }
+                        else
+                        {
+                            <div class="table-responsive odstep">
+                                <table class="table table-hover">
+                                    <thead class="komorka">
+                                        <tr>
+                                            <th>
+                                                Nazwa
+                                            </th>
+                                            @*<th>
+                                    Ilosc
+                                </th>*@
+                                            <th>
+                                                Typ leku
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.VisitTreatments)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Treatment.Name)
+                                                </td>
+                                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.Medicine.Quantity)
+                                    </td>*@
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Treatment.Description)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="col-sm-6 wiersz">
-                                <p class="odstep"> @Html.DisplayFor(model => model.Visit.Treatment.Name)</p>
-                            </div>                       
-                            <div class="col-sm-6 wiersz">
-                                <p class="odstep">Opis</p>
-                            </div>
-                            <div class="col-sm-6 wiersz">
-                                <p class="odstep"> @Html.DisplayFor(model => model.Visit.Treatment.Description)</p>
-                            </div>
-                        </div>
+                        }
                     </div>
-                </div>
-
 
                 <div class="tab-pane fade" id="nav-leki" role="tabpanel" aria-labelledby="nav-leki-tab">
-                    <div class="table-responsive odstep">
-                        <table class="table table-hover">
-                            <thead class="komorka">
-                                <tr>
-                                    <th>
-                                        Nazwa
-                                    </th>
-                                    @*<th>
-                                        Ilosc
-                                    </th>*@
-                                    <th>
-                                        Typ leku
-                                    </th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.VisitMedicine)
-                                    {
+                    @if (Model.VisitMedicine.Count == 0)
+                    {<br />
+                        <p>
+                            <b>Nie ma dodanych lekow</b>
+                            </p>
+                            }
+                            else
+                            {
+                            <div class="table-responsive odstep">
+                                <table class="table table-hover">
+                                    <thead class="komorka">
                                         <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Medicine.Name)
-                                            </td>
-                                            @*<td>
-                                                @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                                            </td>*@
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
-                                            </td>
+                                            <th>
+                                                Nazwa
+                                            </th>
+                                            @*<th>
+                                    Ilosc
+                                </th>*@
+                                            <th>
+                                                Typ leku
+                                            </th>
+                                            <th></th>
                                         </tr>
-                                    }
-                            </tbody>
-                        </table>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.VisitMedicine)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Medicine.Name)
+                                                </td>
+                                                @*<td>
+                                        @Html.DisplayFor(modelItem => item.Medicine.Quantity)
+                                    </td>*@
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            }
                     </div>
-                </div>
             </div>
         </div>
     </div>
