@@ -6,8 +6,34 @@
 
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 </head>
 
+<style>
+    .select2-container .select2-selection--single {
+        height: 38px;
+    }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            display: block;
+            padding-left: 8px;
+            padding-right: 20px;
+            padding-top: 2px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 26px;
+        position: absolute;
+        top: 3px;
+        right: 1px;
+        width: 20px;
+    }
+</style>
 <h4>Edytuj wybrany element:</h4>
 <h2>Pacjent</h2>
 <hr />
@@ -23,7 +49,10 @@
         <input type="hidden" asp-for="PatientUserID" />
         <div class="form-group col-md-6">
             <label asp-for="PatientTypeID" class="control-label"></label>
-            <select asp-for="PatientTypeID" class="form-control" asp-items="ViewBag.PatientTypeID"></select>
+            <select style="background-color:red" class="myselect select2-container .select2-selection--single
+                                                        select2-container .select2-selection--single .select2-selection__rendered
+                                                        select2-container--default .select2-selection--single .select2-selection__arrow"
+                                                        asp-for="PatientTypeID" asp-items="ViewBag.PatientTypeID" data-width="100%"></select>
             <span asp-validation-for="PatientTypeID" class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
@@ -121,17 +150,19 @@
 }
 
 <script>
-  
+
+     $(".myselect").select2();
+
     $('#add').click(function () {
         $.ajax({
             type: 'GET',
             url: '@Url.Action("ChooseOwner","Patients")',
-         
+
               success: (data) => {
                         $('#exampleModal').find('.modal-body').html(data);
                         $('#exampleModal').modal('show');
                     }
-           
+
         })
                 });
 
