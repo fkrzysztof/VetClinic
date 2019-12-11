@@ -285,7 +285,7 @@ namespace VetClinic.Intranet.Controllers
                     visit.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                 }
                 //do usuniecia jak baza bedize poprawiona
-                visit.TreatmentID = 1;
+                visit.TreatmentID = _context.Treatments.Select(p => p.TreatmentID).First();
                 _context.Add(visit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -301,38 +301,7 @@ namespace VetClinic.Intranet.Controllers
             return View(visit);
         }
         
-        public IActionResult AddMedicine(int id)
-        {
-
-            ViewData["VetID"] = new SelectList(_context.Users.Where(u => u.UserTypeID == 2)/*2 to id lekarzy*/, "UserID", "LastName");
-            //tu pewnie trzeba przekazac typ leku
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddMedicine(int id, [Bind("VisitMedicineID,VisitID,MedicineID,MedicineTypeID,Name,Description,Price,Quantity,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] VisitMedicine visitmedicine
-                                                                )
-        {
-
-            if (ModelState.IsValid)
-            {
-                //visit.VisitUserID
-                visitmedicine.VisitID = id;
-                //visit.VetID
-                visitmedicine.Medicine.AddedDate = DateTime.Now;
-                visitmedicine.Medicine.IsActive = true;
-                //visit.AddedUserID
-                _context.Add(visitmedicine);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            ViewData["MedicineTypeID"] = new SelectList(_context.Medicines, "MedicineTypeID", "Name", visitmedicine.Medicine.MedicineTypeID);
-
-            return View(visitmedicine);
-        }
-
-
+        
         public IActionResult VisitDetails(int id)
         {
 
@@ -448,7 +417,7 @@ namespace VetClinic.Intranet.Controllers
                     
                 }
                 //do usuniecia jak baza bedize poprawiona
-                visit.TreatmentID = 1;
+                visit.TreatmentID = _context.Treatments.Select(p=>p.TreatmentID).First();
                 _context.Update(visit);
                    
                     await _context.SaveChangesAsync();

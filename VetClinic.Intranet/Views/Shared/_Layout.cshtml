@@ -93,20 +93,20 @@
             </li>
 
             @*<li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Użytkownicy</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Wykaz</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Create">Dodaj</a>
+            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
+               role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Użytkownicy</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Index">Wykaz</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Users" asp-action="Create">Dodaj</a>
 
-                    <a class="dropdown-item" asp-area="" asp-controller="UserTypes" asp-action="Index">Grupy uprawnień</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="MedicalSpecializations" asp-action="Index">Spec. Lekarza</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Specializations" asp-action="Index"> Lista Specjalizacji</a>
-                </div>
-            </li>*@
+                <a class="dropdown-item" asp-area="" asp-controller="UserTypes" asp-action="Index">Grupy uprawnień</a>
+                <a class="dropdown-item" asp-area="" asp-controller="MedicalSpecializations" asp-action="Index">Spec. Lekarza</a>
+                <a class="dropdown-item" asp-area="" asp-controller="Specializations" asp-action="Index"> Lista Specjalizacji</a>
+            </div>
+        </li>*@
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
@@ -138,6 +138,12 @@
             <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="Medicines" asp-action="Index">
                     <span>Leki</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="ScheduleBlocks" asp-action="Index">
+                    <span>Bloki</span>
                 </a>
             </li>
 
