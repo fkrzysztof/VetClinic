@@ -19,6 +19,9 @@ namespace VetClinic.Data.Data.Clinic
         public DateTime AddedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
+        [InverseProperty("ReceiverUserTypes")]
+        public ICollection<News> ReceiversNews { get; set; }
+
         public int? AddedUserID { get; set; } // użytkownik dodający
         [ForeignKey("AddedUserID")]
         public User UserTypeAddedUser { get; set; }
