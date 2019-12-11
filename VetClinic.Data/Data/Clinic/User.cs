@@ -30,13 +30,9 @@ namespace VetClinic.Data.Data.Clinic
         [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",
          ErrorMessage = "Adres email nie jest prawidłowy.")]
         public string Email { get; set; }
-<<<<<<< HEAD
+
         [Required(ErrorMessage = "Login jest wymagany")]
         [Remote(action: "VerifyLogin", controller: "Employees", AdditionalFields = "UserID")]
-=======
-        //[Required(ErrorMessage = "Login jest wymagany")]
-        //[Remote(action: "VerifyLogin", controller: "Employees")]
->>>>>>> generate client login and send mail
         public string Login { get; set; }
         [Required(ErrorMessage = "Hasło jest wymagane")]
         public string Password { get; set; } // nie wiem czy potrzebnie, bo bedzie ta autoryzacja .NETowa
