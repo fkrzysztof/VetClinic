@@ -1,7 +1,7 @@
 ﻿@model VetClinic.Data.Data.Clinic.Patient
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edycja";
 }
 
 <head>
@@ -34,8 +34,8 @@
         width: 20px;
     }
 </style>
-<h4>Edytuj wybrany element:</h4>
-<h2>Pacjent</h2>
+<h4>Edytuj:</h4>
+<h2>Pacjenta</h2>
 <hr />
 
 
@@ -64,7 +64,7 @@
                     <span asp-validation-for="PatientUserID" class="text-danger"></span>
                 </div>
                 <div class="col-md-6">
-                    <button type="button" id="add" class="btn btn-primary w-100">Dodaj</button>
+                    <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
                 </div>
             </div>
         </div>
@@ -90,16 +90,9 @@
             <span asp-validation-for="KennelName" class="text-danger"></span>
         </div>
         <div class="form-group col-md-6">
-            <label asp-for="PatientNumber" class="control-label"></label>
-            <div class="row">
-                <div class="col-md-6">
-                    <input readonly="readonly" id="numberInput" asp-for="PatientNumber" class="form-control" />
-                </div>
-                <div class="col-md-6">
-                    <button onclick="generateNumber()" class="btn btn-primary w-100">Generuj numer</button>
-                </div>
-                <span asp-validation-for="PatientNumber" class="text-danger"></span>
-            </div>
+            <label asp-for="PatientNumber" class="control-label"></label>                       
+            <input readonly="readonly"  asp-for="PatientNumber" class="form-control" />                         
+            <span asp-validation-for="PatientNumber" class="text-danger"></span>         
         </div>
     </div>
 
@@ -128,18 +121,14 @@
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Wybierz Właściciela</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Lista Właścicieli</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+            </div>           
         </div>
     </div>
 </div>

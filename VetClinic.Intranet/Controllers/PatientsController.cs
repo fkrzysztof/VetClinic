@@ -166,7 +166,11 @@ namespace VetClinic.Intranet.Controllers
                 {
                     patient.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                 }
-                _context.Add(patient);
+               
+                _context.Add(patient);               
+                await _context.SaveChangesAsync();
+                string stala = "240";               
+                patient.PatientNumber = stala + patient.PatientID;
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -220,6 +224,8 @@ namespace VetClinic.Intranet.Controllers
                         patient.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                     }
                     _context.Update(patient);
+                    string stala = "240";
+                    patient.PatientNumber = stala + patient.PatientID;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
