@@ -66,7 +66,12 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
                     <a class="dropdown-item" asp-area="" asp-controller="AllUsers" asp-action="Index">Wszyscy</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Admins" asp-action="Index">Administratorzy</a>
+
+                    @if (ViewBag.HasAccessToAdmins != null)
+                    {
+                        <a class="dropdown-item" asp-area="" asp-controller="Admins" asp-action="Index">Administratorzy</a>
+                    }
+
                     <a class="dropdown-item" asp-area="" asp-controller="Doctors" asp-action="Index">Lekarz</a>
                     <a class="dropdown-item" asp-area="" asp-controller="Employees" asp-action="Index">Pracownik</a>
                     <a class="dropdown-item" asp-area="" asp-controller="Customers" asp-action="Index">Klient</a>
@@ -107,13 +112,13 @@
                 <a class="nav-link" asp-area="" asp-controller="Treatments" asp-action="Index">
                     <span>Zabiegi</span>
                 </a>
-            </li>
+             </li>
 
-            <li class="nav-item">
+             <li class="nav-item">
                 <a class="nav-link toggle" asp-area="" asp-controller="Calendar" asp-action="Index">
                     <i class="fas fa-calendar-alt"></i> <span>Rezerwacje</span>
                 </a>
-            </li>
+              </li>
         </ul>
 
         <div id="content-wrapper">

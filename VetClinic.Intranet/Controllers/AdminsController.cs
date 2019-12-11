@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
+using VetClinic.Intranet.Policy;
 
 namespace VetClinic.Intranet.Controllers
 {
@@ -27,6 +28,10 @@ namespace VetClinic.Intranet.Controllers
         // GET: Admin
         public async Task<IActionResult> Index(string searchString)
         {
+            UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
+            if (await policy.hasNoAccess()) return await policy.RedirectUser();
+            ViewData = policy.PopulateViewData(ViewData);
+
             ViewData["CurrentFilter"] = searchString;
 
             var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == AdminUserName && u.IsActive == true);
@@ -48,6 +53,10 @@ namespace VetClinic.Intranet.Controllers
         // GET: Admin/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
+            if (await policy.hasNoAccess()) return await policy.RedirectUser();
+            ViewData = policy.PopulateViewData(ViewData);
+
             if (id == null)
             {
                 return NotFound();
@@ -65,9 +74,12 @@ namespace VetClinic.Intranet.Controllers
         }
 
         // GET: Admin/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            
+            UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
+            if (await policy.hasNoAccess()) return await policy.RedirectUser();
+            ViewData = policy.PopulateViewData(ViewData);
+
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name");
             return View();
         }
@@ -104,6 +116,10 @@ namespace VetClinic.Intranet.Controllers
         // GET: Admin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
+            if (await policy.hasNoAccess()) return await policy.RedirectUser();
+            ViewData = policy.PopulateViewData(ViewData);
+
             if (id == null)
             {
                 return NotFound();
@@ -174,6 +190,10 @@ namespace VetClinic.Intranet.Controllers
         // GET: Admin/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
+            if (await policy.hasNoAccess()) return await policy.RedirectUser();
+            ViewData = policy.PopulateViewData(ViewData);
+
             if (id == null)
             {
                 return NotFound();
