@@ -16,38 +16,9 @@
 
                     <div class="form-row">
                         <div class="form-label-group" style="width:100%">
-                            <input asp-for="Login" type="text" id="inputLogin" class="form-control" placeholder="Login" required>
-                            <label asp-for="Login" for="inputLogin">Login</label>
-                            <span asp-validation-for="Login" controltoValidate="inputLogin" ErrorMessage="Wymagany!" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-label-group">
-                            <input asp-for="Password" type="text" id="inputPassword1" class="form-control" placeholder="Hasło" required>
-                            <label asp-for="Password" for="inputPassword1">Hasło</label>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="form-label-group">
-                            <input type="text" id="inputConfirmPassword" class="form-control" placeholder="Potwierdź hasło">
-                            <label asp-for="Password" for="inputConfirmPassword">Potwierdź hasło</label>
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-label-group" style="width:100%">
                             <input asp-for="Email" type="text" id="inputEmail" class="form-control" placeholder="E-mail" required>
                             <label asp-for="Email" for="inputEmail">E-mail</label>
                             <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-label-group" style="width:100%">
-                            <input asp-for="Phone" type="text" id="inputPhone" class="form-control" placeholder="Numer telefonu" required>
-                            <label asp-for="Phone" for="inputEmail">Telefon</label>
-                            <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -63,6 +34,37 @@
                             <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-label-group">
+                            <input asp-for="Password" type="password" id="inputPassword1" class="form-control" placeholder="Hasło" required>
+                            <label asp-for="Password" for="inputPassword1">Hasło</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-label-group">
+                            <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Potwierdź hasło">
+                            <label asp-for="Password" for="inputConfirmPassword">Potwierdź hasło</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    @*<div class="form-row">
+            <div class="form-label-group" style="width:100%">
+                <input asp-for="Login" type="text" id="inputLogin" class="form-control" placeholder="Login">
+                <label asp-for="Login" for="inputLogin">Login</label>
+                <span asp-validation-for="Login" controltoValidate="inputLogin" ErrorMessage="Wymagany!" class="text-danger"></span>
+            </div>
+        </div>*@
+
+                    <div class="form-row">
+                        <div class="form-label-group" style="width:100%">
+                            <input asp-for="Phone" type="text" id="inputPhone" class="form-control" placeholder="Numer telefonu" required>
+                            <label asp-for="Phone" for="inputEmail">Telefon</label>
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
 
                     <div class="form-row">
                         <div class="form-label-group" style="width:61%">

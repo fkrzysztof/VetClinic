@@ -69,8 +69,38 @@ namespace VetClinic.PortalWWW.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(User user)
         {
+            // generowanie loginu
+            var rnd = new Random();
+            string login;
+
+            login = user.FirstName.Substring(0, 3).ToLower() + user.LastName.Substring(0, 3).ToLower();
+
+            var users =
+                (from uzytkownicy in _context.Users
+                 select uzytkownicy.Login
+                 ).ToList();
+
+           for (int i=0; i<users.Count(); i++)
+            {
+                if (users.Contains(login))
+                {
+                    login += rnd.Next(0, 9);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            // ====================
+
             if (ModelState.IsValid)
-            {                
+            {
+                user.Login = login;
+
+                SmtpConf.MessageTo = user.Email;
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + user.Password;
+                SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
+                SmtpConf.send();
 
                 var typeid =
                     (from item in _context.UserTypes
@@ -78,21 +108,16 @@ namespace VetClinic.PortalWWW.Controllers
                      select item.UserTypeID
                      ).FirstOrDefault();
 
-                user.Password = HashPassword.GetMd5Hash(user.Password);
+                user.Password = HashPassword.GetMd5Hash(user.Password);   
 
                 user.UserTypeID = typeid;
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
 
-
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
                 ModelState.Clear();
 
-                //SmtpConf.MessageTo = user.Email;
-                //SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + user.Password;
-                //SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
-                //SmtpConf.send();
 
                 //ViewBag.Message = user.FirstName + " " + user.LastName + " pomyślnie zarejestrowano konto.";
                 //string message = "Witaj " + user.FirstName + " " + user.LastName + "\n";
