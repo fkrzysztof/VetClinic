@@ -7,11 +7,14 @@ using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
 
+
 namespace VetClinic.PortalWWW.Controllers
 {
     public class LoginController : Controller
     {
         private readonly VetClinicContext _context;
+
+        SmtpConfiguration SmtpConf = new SmtpConfiguration();
 
         public LoginController(VetClinicContext context)
         {
@@ -26,15 +29,16 @@ namespace VetClinic.PortalWWW.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(User user)
         {
-            User account = _context.Users.First(u => u.Login == user.Login);
+            User account = _context.Users.FirstOrDefault(u => u.Login == user.Login);
+
             var veryfyHashPassword =  HashPassword.VerifyMd5Hash(user.Password, account.Password);
+
             if (account.IsActive == false)
             {
                 ModelState.AddModelError("", "Twoje konto jest zablokowane.");
                 return View();
             }
-
-            if (account != null && (account.Password == user.Password || veryfyHashPassword))
+            else if (account != null && (account.Password == user.Password || veryfyHashPassword))
             {
                 HttpContext.Session.SetString("UserID", account.UserID.ToString());
                 HttpContext.Session.SetString("Login", account.Login.ToString());
@@ -52,8 +56,6 @@ namespace VetClinic.PortalWWW.Controllers
                     _context.SaveChanges();
                     ModelState.AddModelError("", "Twoje konto zostalo zablokowane.");
                 }
-                          
-                //ModelState.AddModelError("", "Login lub hasło jest niepoprawne.");
             }
 
             return View();
@@ -65,36 +67,75 @@ namespace VetClinic.PortalWWW.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registration(User user)
+        public async Task<IActionResult> Registration(User user)
         {
+            // generowanie loginu
+            var rnd = new Random();
+            string login;
+
+            login = user.FirstName.Substring(0, 3).ToLower() + user.LastName.Substring(0, 3).ToLower();
+
+            var users =
+                (from uzytkownicy in _context.Users
+                 select uzytkownicy.Login
+                 ).ToList();
+
+           for (int i=0; i<users.Count(); i++)
+            {
+                if (users.Contains(login))
+                {
+                    login += rnd.Next(0, 9);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            // ====================
+
             if (ModelState.IsValid)
             {
-                _context.Users.Add(user);
-                
+                user.Login = login;
+
+                SmtpConf.MessageTo = user.Email;
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + user.Password;
+                SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
+                SmtpConf.send();
+
                 var typeid =
                     (from item in _context.UserTypes
                      where item.Name == "klient"
                      select item.UserTypeID
                      ).FirstOrDefault();
-                
-                user.UserTypeID = typeid;
 
-                _context.SaveChanges();
+                user.Password = HashPassword.GetMd5Hash(user.Password);   
+
+                user.UserTypeID = typeid;
+                user.AddedDate = DateTime.Now;
+                user.IsActive = true;
+
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
                 ModelState.Clear();
 
-                ViewBag.Message = user.FirstName + " " + user.LastName + " pomyślnie zarejestrowano konto.";
-                string message = "Witaj " + user.FirstName + " " + user.LastName + "\n";
-                message += "\n";
-                message += "TwojeDane\n";
-                message += "Login - " + user.Login;
-                message += "Haslo - " + user.Password;
-                message += "\n";
-                message += "Z Powazaniem \nVet Clinic";
-                EMaill eMail = new EMaill(user.Email, "Vet Clinic rejestracja",message);
-                eMail.send();
 
+                //ViewBag.Message = user.FirstName + " " + user.LastName + " pomyślnie zarejestrowano konto.";
+                //string message = "Witaj " + user.FirstName + " " + user.LastName + "\n";
+                //message += "\n";
+                //message += "TwojeDane\n";
+                //message += "Login - " + user.Login;
+                //message += "Haslo - " + user.Password;
+                //message += "\n";
+                //message += "Z Powazaniem \nVet Clinic";
+                //EMaill eMail = new EMaill(user.Email, "Vet Clinic rejestracja", message);
+                //eMail.send();
+
+                return RedirectToAction("Index", "Login");
             }
-            return RedirectToAction("Index", "ClientPanel");
+            else
+            {
+                return View();
+            }
         }
 
         public IActionResult Logout()
