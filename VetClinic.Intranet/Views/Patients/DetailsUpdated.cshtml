@@ -1,0 +1,10 @@
+﻿@model VetClinic.Data.Data.Clinic.Patient
+
+@{
+    Layout = null;
+}
+
+<p>Data dodania: <b>@Html.DisplayFor(model => model.AddedDate)</b></p>
+<p>Data modyfikacji: <b>@Html.DisplayFor(model => model.UpdatedDate)</b></p>
+<p>Dodał: <b>@Html.DisplayFor(model => model.PatientAddedUser.LastName)</b></p>
+<p>Modyfikował: <b>@Html.DisplayFor(model => model.PatientUpdatedUser.LastName)</b></p>
