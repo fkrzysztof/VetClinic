@@ -17,7 +17,7 @@ namespace VetClinic.Data
         public DbSet<PatientType> PatientTypes { get; set; }
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<Statement> Statements { get; set; }
+        public DbSet<News> News { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<Visit> Visits { get; set; }

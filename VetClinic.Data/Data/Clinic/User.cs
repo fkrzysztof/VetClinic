@@ -82,13 +82,9 @@ namespace VetClinic.Data.Data.Clinic
         public ICollection<Reservation> UpdatedReservation { get; set; }
 
         [InverseProperty("SenderUser")]
-        public ICollection<Statement> SendersStatement { get; set; }
-        [InverseProperty("ReceiverUser")]
-        public ICollection<Statement> ReceiversStatement { get; set; }
-        [InverseProperty("StatementAddedUser")]
-        public ICollection<Statement> AddedStatements { get; set; }
-        [InverseProperty("StatementUpdatedUser")]
-        public ICollection<Statement> UpdatedStatements { get; set; }
+        public ICollection<News> SendersNews { get; set; }
+        [InverseProperty("NewsUpdatedUser")]
+        public ICollection<News> UpdatedNews { get; set; }
 
         [InverseProperty("UserTypeAddedUser")]
         public ICollection<UserType> AddedUserTypes { get; set; }
