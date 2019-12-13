@@ -49,6 +49,9 @@
 
                     </th>
                     <th>
+                        Login
+                    </th>
+                    <th>
                         Imię
                     </th>
                     <th>
@@ -72,6 +75,9 @@
                 <tr>
                     <td>
                         <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Login)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
@@ -100,10 +106,11 @@
                         <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.UserID">
                             <span class="fas fa-trash-alt"></span>
                         </a>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="lockUnlock" asp-route-id="@item.UserID">
-                            @if (item.IsActive) { <span class="fas fa-unlock"></span>}
-                            else {<span class="fas fa-lock"></span> }
-                            
+                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="lockUnlock" asp-route-id="@item.UserID">
+                            @if (item.IsActive)
+                            {<span class="fas fa-unlock"></span>}
+                            else
+                            {<span class="fas fa-lock"></span>}
                         </a>
                     </td>
                 </tr>
