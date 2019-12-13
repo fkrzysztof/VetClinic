@@ -26,6 +26,7 @@ namespace VetClinic.Data.Data.CMS
         public int Position { get; set; }
         [Display(Name = "Wybierz zdjęcie")]
         public string Photo { get; set; }
+        public byte[]? Image { get; set; }
         public bool IsActive { get; set; }
         public DateTime AddedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
