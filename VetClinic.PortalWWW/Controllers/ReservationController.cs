@@ -26,7 +26,8 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: Reservation
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.Reservations.Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
+            int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+            var vetClinicContext = _context.Reservations.Where(r=>r.ReservationUserID==UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
             return View(await vetClinicContext.ToListAsync());
         }
 
@@ -80,10 +81,6 @@ namespace VetClinic.PortalWWW.Controllers
                 {
                     reservation.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                     reservation.ReservationUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
-                }
-                if(DateOfVisitFromCalendar == DateTime.MinValue)
-                {
-
                 }
 
                 reservation.DateOfVisit = DateOfVisitFromCalendar;
