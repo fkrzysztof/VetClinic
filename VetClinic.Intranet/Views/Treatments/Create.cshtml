@@ -3,38 +3,79 @@
 @{
     ViewData["Title"] = "Create";
 }
-
-<h4>Dodaj nowy element:</h4>
+<h4>Dodaj:</h4>
 <h2>Zabieg</h2>
 <hr />
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label>Nazwa</label>
-                <input asp-for="Name" class="form-control" placeholder="Nazwa zabiegu"/>
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="form-row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*<div class="row inputGroupMargin col-12">*@
+        <div class="form-group col-md-12">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Nazwa</span>
+                </div>
+                <input type="text" asp-for="Name" class="form-control" aria-describedby="label1" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label>Opis</label>
-                <input asp-for="Description" class="form-control" placeholder="Opis zabiegu"/>
+        </div>
+    </div>
+    @*</div>*@
+    <div class="form-row">
+        @*<div class="row inputGroupMargin col-12">*@
+        <div class="form-group col-12">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Opis</span>
+                </div>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <input type="submit" value="Zapisz" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    @*</div>*@
 
-<div>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
-</div>
+    <hr />
+    <div class="form-row">
+        <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
+        <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </div>
+</form>
+
+@*<h4>Dodaj nowy element:</h4>
+    <h2>Zabieg</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label>Nazwa</label>
+                    <input asp-for="Name" class="form-control" placeholder="Nazwa zabiegu"/>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Opis</label>
+                    <input asp-for="Description" class="form-control" placeholder="Opis zabiegu"/>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Zapisz" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

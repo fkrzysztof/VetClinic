@@ -4,58 +4,99 @@
     ViewData["Title"] = "Dodawanie";
 }
 
-<h4>Dodaj wiadomość:</h4>
+<h4>Dodaj:</h4>
+<h2>Wiadomość</h2>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="form-group">
-                    <label asp-for="UserID" class="control-label"></label>
-                    <select asp-for="UserID" class ="form-control" asp-items="ViewBag.UserID"></select>
-                </div>*@
-            <div class="form-group">
-                <label class="control-label">Grupa odbiorców</label>
-                <select asp-for="UserTypeID" class="form-control" asp-items="ViewBag.UserTypeID"></select>
+@*<div class="row">
+    <div class="col-md-4">*@
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="form-row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*<div class="form-group">
+                <label asp-for="UserID" class="control-label"></label>
+                <select asp-for="UserID" class ="form-control" asp-items="ViewBag.UserID"></select>
+            </div>*@
+        @*<div class="form-group">
+            <label class="control-label">Grupa odbiorców</label>*@
+        <div class="form-group col-md-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Grupa odbiorców</span>
+                </div>
+                <select asp-for="UserTypeID" class="form-control" aria-describedby="label1" asp-items="ViewBag.UserTypeID"></select>
             </div>
-            <div class="form-group">
-                <label class="control-label">Tytuł</label>
-                <input asp-for="Title" class="form-control" />
+        </div>
+        @*<div class="form-group">
+            <label class="control-label">Tytuł</label>*@
+        <div class="form-group col-md-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Tytuł</span>
+                </div>
+                <input asp-for="Title" class="form-control" aria-describedby="label1" />
                 <span asp-validation-for="Title" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label class="control-label">Treść wiadomości</label>
-                <input asp-for="Message" class="form-control" />
-                <span asp-validation-for="Message" class="text-danger"></span>
+        </div>
+    </div>
+    @*<div class="form-group">
+            <label class="control-label">Treść wiadomości</label>
+            <input asp-for="Message" class="form-control" />
+            <span asp-validation-for="Message" class="text-danger"></span>
+        </div>*@
+    @*<div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsActive" />
+                <label class="control-label">Czy aktywny</label>
+            </label>
+        </div>*@
+    @*<div class="form-group">
+        <label class="control-label">Data od</label>*@
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Data od</span>
+                </div>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+        </div>
+        @*<div class="form-group">
+            <label class="control-label">Data do</label>*@
+        <div class="form-group col-md-6">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Data do</span>
+                </div>
+                <input asp-for="ExpirationDate" class="form-control" />
+                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+            </div>
+        </div>
+        @*<div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsActive" />
                     <label class="control-label">Czy aktywny</label>
                 </label>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Data od</label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Data do</label>
-                <input asp-for="ExpirationDate" class="form-control" />
-                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+            </div>*@
     </div>
-</div>
+    @*<div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>*@
+    <hr />
+    <div class="form-row">
+        <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
+        <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </div>
+</form>
 
-<div>
+@*<div>
     <a class="btn btn-outline-primary" role="button" asp-action="Index">
         <span class="fas fa-arrow-circle-left"></span> Wróć do listy
     </a>
-</div>
+</div>*@
 
 <script>
     function generatePassword() {

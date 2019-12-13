@@ -4,7 +4,8 @@
     ViewData["Title"] = "Edycja";
 }
 
-<h4>Edytuj Administratora:</h4>
+<h4>Edytuj:</h4>
+<h2>Administrator</h2>
 <hr />
 <form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-row">
@@ -12,123 +13,299 @@
         <div class="form-group col-md-4">
             <input type="hidden" asp-for="UserID" />
             <input type="hidden" asp-for="Image" />
-            <label class="control-label">Imię</label>
-            <input asp-for="FirstName" class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Nazwisko</label>
-            <input asp-for="LastName" class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-2">
-            <label class="control-label">Nr.Domu</label>
-            <input asp-for="HouseNumber" class="form-control" />
-            <span asp-validation-for="HouseNumber" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-2">
-            <label class="control-label">Nr.Lokalu</label>
-            <input asp-for="ApartmentNumber" class="form-control" />
-            <span asp-validation-for="ApartmentNumber" class="text-danger"></span>
-        </div>
 
-        <div class="form-group col-md-3">
-            <label class="control-label">Ulica</label>
-            <input asp-for="Street" class="form-control" />
-            <span asp-validation-for="Street" class="text-danger"></span>
-        </div>
-
-
-        <div class="form-group col-md-3">
-            <label class="control-label">Miasto</label>
-            <input asp-for="City" class="form-control" />
-            <span asp-validation-for="City" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-2">
-            <label class="control-label">Kod Pocztowy</label>
-            <input asp-for="PostalCode" class="form-control" />
-            <span asp-validation-for="PostalCode" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <label class="control-label">E-mail</label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-
-        <div class="form-group col-md-4">
-            <label asp-for="Login" class="control-label"></label>
-            <input asp-for="Login" class="form-control" readonly="readonly" />
-            <span asp-validation-for="Login" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Hasło</label>
-            <div class="row">
-                <div class="col-md-6">
-                    <input readonly="readonly" id="passwordInput" asp-for="Password" class="form-control" />
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Imię</span>
                 </div>
-                <div class="col-md-6">
-                    <button onclick="generatePassword()" class="btn btn-primary w-100">Generuj hasło</button>
-                </div>
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <input type="text" asp-for="FirstName" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-
         </div>
-    </div>
-    <div class="form-row">
+
         <div class="form-group col-md-4">
-            <div class="form-group">
-                <label class="control-label">Nr.Telefonu</label>
-                <input asp-for="Phone" class="form-control" />
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Nazwisko</span>
+                </div>
+                <input type="text" asp-for="LastName" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Nr.Telefonu</span>
+                </div>
+                <input type="text" asp-for="Phone" class="form-control" aria-describedby="label1" />
                 <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label class="control-label">Opis</label>
-                    <input asp-for="Description" class="form-control" />
-                    <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-row">
+        @*<div class="row inputGroupMargin">*@
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Ulica</span>
                 </div>
+                <input type="text" asp-for="Street" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="Street" class="text-danger"></span>
             </div>
         </div>
 
-        <div class="form-group col-md-4">
-            <div class="form-group">
-                <label>Zdjęcie</label>
-                <div class="card-image">
-                    @{
-                        if (Model.Image != null)
-                        {
-                            var base64 = Convert.ToBase64String(Model.Image);
-                            var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                            <img style="width: 250px; height:250px" src="@imgSrc" />
-                        }
-                        else
-                        {
-                            <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
-                        }
-                    }
-
-                    <br />
-                    <input type="file" id="files" asp-for="Image" class="inputfile" />
-                    <span asp-validation-for="Image" class="text-danger"></span>
+        <div class="form-group col-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Numer</span>
                 </div>
+                <input type="text" asp-for="HouseNumber" class="form-control col-md-5" aria-describedby="label1" placeholder="Domu" />
+                <span asp-validation-for="HouseNumber" class="text-danger"></span>
+                <input type="text" asp-for="ApartmentNumber" class="form-control col-md-5" aria-describedby="label1" placeholder="Lokalu" />
+                <span asp-validation-for="ApartmentNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Miasto</span>
+                </div>
+                <input type="text" asp-for="City" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+        </div>
+        @*</div>*@
+    </div>
+    <div class="form-row">
+        @*<div class="row inputGroupMargin">*@
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Kod Pocztowy</span>
+                </div>
+                <input type="text" asp-for="PostalCode" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Nr.Karty</span>
+                </div>
+                <input type="text" asp-for="CardNumber" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="CardNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Opis</span>
+                </div>
+                <input type="text" asp-for="Description" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        @*</div>*@
+    </div>
+    <div class="form-row">
+        @*<div class="row inputGroupMargin">*@
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">E-mail</span>
+                </div>
+                <input type="text" asp-for="Email" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Login</span>
+                </div>
+                <input type="text" asp-for="Login" class="form-control" aria-describedby="label1" readonly="readonly" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Hasło</span>
+                </div>
+                <input readonly="readonly" id="passwordInput" asp-for="Password" class="form-control" aria-describedby="label1" />
+                <a role="button" onclick="generatePassword()" class="btn btn-primary w-100">Generuj hasło</a>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+        @*<div class="form-group col-md-4">
+                <div class="input-group mb-3">
+                    <div class="input-group-append">
+                        <input type="file" class="form-control-file" id="file" name="file" />
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>*@
+        @*</div>*@
+    </div>
+    <div class="form-row">
+        @*<div class="row inputGroupMargin">*@
+        <div class="form-group col-md-10">
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <div class="card-image">
+                        @{
+                            if (Model.Image != null)
+                            {
+                                var base64 = Convert.ToBase64String(Model.Image);
+                                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                <img style="width: 250px; height:250px" src="@imgSrc" />
+                            }
+                            else
+                            {
+                                <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
+                            }
+                        }
+
+                        <br />
+                        <input type="file" id="files" asp-for="Image" class="inputfile" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                </div>
+                @*<input type="file" class="form-control-file" id="file" name="file" />
+                    <span asp-validation-for="Photo" class="text-danger"></span>*@
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <input type="submit" value="Zapisz" class="btn btn-primary" />
+    @*</div>*@
+
+
+    <hr />
+    <div class="form-row">
+        <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
+        <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
     </div>
 </form>
+@*<label class="control-label">Imię</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Nazwisko</label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label class="control-label">Nr.Domu</label>
+                <input asp-for="HouseNumber" class="form-control" />
+                <span asp-validation-for="HouseNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label class="control-label">Nr.Lokalu</label>
+                <input asp-for="ApartmentNumber" class="form-control" />
+                <span asp-validation-for="ApartmentNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label class="control-label">Ulica</label>
+                <input asp-for="Street" class="form-control" />
+                <span asp-validation-for="Street" class="text-danger"></span>
+            </div>
 
 
-<div>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
-</div>
+            <div class="form-group col-md-3">
+                <label class="control-label">Miasto</label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-2">
+                <label class="control-label">Kod Pocztowy</label>
+                <input asp-for="PostalCode" class="form-control" />
+                <span asp-validation-for="PostalCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label class="control-label">E-mail</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-4">
+                <label asp-for="Login" class="control-label"></label>
+                <input asp-for="Login" class="form-control" readonly="readonly" />
+                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label class="control-label">Hasło</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <input readonly="readonly" id="passwordInput" asp-for="Password" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <button onclick="generatePassword()" class="btn btn-primary w-100">Generuj hasło</button>
+                    </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Nr.Telefonu</label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="control-label">Opis</label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-4">
+                <div class="form-group">
+                    <label>Zdjęcie</label>
+                    <div class="card-image">
+                        @{
+                            if (Model.Image != null)
+                            {
+                                var base64 = Convert.ToBase64String(Model.Image);
+                                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                <img style="width: 250px; height:250px" src="@imgSrc" />
+                            }
+                            else
+                            {
+                                <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
+                            }
+                        }
+
+                        <br />
+                        <input type="file" id="files" asp-for="Image" class="inputfile" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Zapisz" class="btn btn-primary" />
+        </div>
+    </form>
+
+
+    <div>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </div>*@
 
 <script>
     function generatePassword() {

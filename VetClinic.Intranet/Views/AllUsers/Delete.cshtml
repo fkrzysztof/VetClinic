@@ -4,21 +4,21 @@
     ViewData["Title"] = "Usuwanie";
 }
 
-<h4>Usuń Administratora:</h4>
+<h4>Usuń:</h4>
+<h2>Administrator</h2>
 <hr />
+<div class="row inputGroupMargin">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Imię i nazwisko</span>
+        </div>
+        <input type="text" class="form-control col-3" value="@Model.FirstName @Model.LastName">
+    </div>
+</div>
 <div>
     <dl class="row">
-        <dt class="col-sm-2">
-            Imię:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-           Nazwisko:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
+        <dd class="col-sm-12">
+            <img src="~/uploads/@Model.Photo" class="img-thumbnail rounded thumb-size listButtMargin" />
         </dd>
         <dt class="col-sm-2">
             Nr.Domu:
@@ -87,17 +87,19 @@
             @Html.DisplayFor(model => model.IsActive)
         </dd>
         <dt class="col-sm-2">
-           Opis:
+            Opis:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
 
     </dl>
-
+    </div>
+<hr/>
+<div>
     <form asp-action="Delete">
         <input type="hidden" asp-for="UserID" />
-        <input type="submit" value="Usuń" class="btn btn-primary" />
+        <input type="submit" value="Usuń" class="btn btn-primary buttMargin" />
 
         <a class="btn btn-outline-primary" role="button" asp-action="Index">
             <span class="fas fa-arrow-circle-left"></span> Wróć do listy

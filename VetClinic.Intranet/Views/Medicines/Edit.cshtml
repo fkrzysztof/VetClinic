@@ -3,52 +3,120 @@
 @{
     ViewData["Title"] = "Edycja leku";
 }
-
-<form asp-action="Edit">
+<h4>Edytuj:</h4>
+<h2>Lek</h2>
+<hr />
+<form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*<div class="row inputGroupMargin col-12">*@
         <input type="hidden" asp-for="MedicineID" />
         <input type="hidden" asp-for="IsActive" />
         <input type="hidden" asp-for="AddedDate" />
         <input type="hidden" asp-for="AddedUserID" />
-
-
         <div class="form-group col-md-6">
-            <label class="control-label">Typ leku</label>
-            <select asp-for="MedicineTypeID" class="form-control" asp-items="ViewBag.MedicineTypeID"></select>
-            <span asp-validation-for="MedicineTypeID" class="text-danger"></span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Typ Leku</span>
+                </div>
+                <select type="select" asp-for="MedicineTypeID" class="form-control" aria-describedby="label1" asp-items="ViewBag.MedicineTypeID"></select>
+                <span asp-validation-for="MedicineTypeID" class="text-danger"></span>
+            </div>
         </div>
-
         <div class="form-group col-md-6">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Nazwa Leku</span>
+                </div>
+                <input type="text" asp-for="Name" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
+    @*</div>*@
     <div class="form-row">
-        <div class="form-group col-md-2">
-            <label asp-for="Price" class="control-label"></label>
-            <input asp-for="Price" class="form-control" />
-            <span asp-validation-for="Price" class="text-danger"></span>
+        @*<div class="row inputGroupMargin col-12">*@
+        <div class="form-group col-12">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Opis</span>
+                </div>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+        </div>
+        @*</div>*@
+    </div>
+    <div class="form-row">
+        @*<div class="row inputGroupMargin col-4">*@
+        <div class="form-group col-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Cena</span>
+                </div>
+                <input type="text" asp-for="Price" class="form-control" aria-describedby="label1" />
+                <div class="input-group-append">
+                    <span asp-validation-for="Price" class="input-group-text">zł</span>
+                </div>
+                @*<span asp-validation-for="Price" class="text-danger"></span>*@
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <input type="submit" value="Zapisz" class="btn btn-primary" />
+    @*</div>*@
+    <hr />
+    <div class="form-row">
+        <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
+        <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
     </div>
 </form>
+@*<form asp-action="Edit">
+        <div class="form-row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MedicineID" />
+            <input type="hidden" asp-for="IsActive" />
+            <input type="hidden" asp-for="AddedDate" />
+            <input type="hidden" asp-for="AddedUserID" />
 
-<div>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
-</div>
+
+            <div class="form-group col-md-6">
+                <label class="control-label">Typ leku</label>
+                <select asp-for="MedicineTypeID" class="form-control" asp-items="ViewBag.MedicineTypeID"></select>
+                <span asp-validation-for="MedicineTypeID" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-2">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Zapisz" class="btn btn-primary" />
+        </div>
+    </form>
+
+    <div>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

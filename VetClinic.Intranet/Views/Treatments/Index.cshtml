@@ -3,11 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
-
 <p>
     <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
-        Dodaj nowy element
+        Dodaj nowy
     </a>
 </p>
 
@@ -27,26 +26,81 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AddedDate)
-                </td>
-                <td>
-                    <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.TreatmentID">
-                        <span class="fas fa-pen"></span>
-                    </a>
-                    <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.TreatmentID">
-                        <span class="fas fa-list-alt"></span>
-                    </a>
-                    <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.TreatmentID">
-                        <span class="fas fa-trash-alt"></span>
-                    </a>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddedDate)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.TreatmentID">
+                            <span class="fas fa-pen"></span>
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Details" asp-route-id="@item.TreatmentID">
+                            <span class="fas fa-list-alt"></span>
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.TreatmentID">
+                            <span class="fas fa-trash-alt"></span>
+                        </a>
+                        @*<a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.TreatmentID">
+                                <span class="fas fa-pen"></span>
+                            </a>
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.TreatmentID">
+                                <span class="fas fa-list-alt"></span>
+                            </a>
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.TreatmentID">
+                                <span class="fas fa-trash-alt"></span>
+                            </a>*@
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
+@*<p>
+        <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+            <i class="fas fa-plus-circle"></i>
+            Dodaj nowy element
+        </a>
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        Nazwa
+                    </th>
+                    <th>
+                        Data dodania
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AddedDate)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.TreatmentID">
+                            <span class="fas fa-pen"></span>
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.TreatmentID">
+                            <span class="fas fa-list-alt"></span>
+                        </a>
+                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.TreatmentID">
+                            <span class="fas fa-trash-alt"></span>
+                        </a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>*@

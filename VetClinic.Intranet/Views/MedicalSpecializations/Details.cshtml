@@ -4,8 +4,8 @@
     ViewData["Title"] = "Details";
 }
 
-<h4>Szczegóły elementu:</h4>
-<h2>Specjalizacja Lekarza</h2>
+<h4>Szczegóły:</h4>
+<h2>Specjalizacja lekarza</h2>
 <hr />
 
 <div>
@@ -54,10 +54,11 @@
         </dd>
     </dl>
 </div>
+<hr/>
 <div>
-    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model.MedicalSpecializationID">
+    <a class="btn btn-primary buttMargin" role="button" asp-action="Edit" asp-route-id="@Model.MedicalSpecializationID">
         <span class="fas fa-pen"></span> Edytuj
-    </a> 
+    </a>
     <a class="btn btn-outline-primary" role="button" asp-action="Index">
         <span class="fas fa-arrow-circle-left"></span> Wróć do listy
     </a>

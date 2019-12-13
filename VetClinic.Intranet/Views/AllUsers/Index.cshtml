@@ -91,16 +91,16 @@
                         @Html.DisplayFor(modelItem => item.Phone)
                     </td>
                     <td>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.UserID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.UserID">
                             <span class="fas fa-pen"></span>
                         </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.UserID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Details" asp-route-id="@item.UserID">
                             <span class="fas fa-list-alt"></span>
                         </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.UserID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.UserID">
                             <span class="fas fa-trash-alt"></span>
                         </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="lockUnlock" asp-route-id="@item.UserID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="lockUnlock" asp-route-id="@item.UserID">
                             @if (item.IsActive) { <span class="fas fa-unlock"></span>}
                             else {<span class="fas fa-lock"></span> }
                             
