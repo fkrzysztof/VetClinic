@@ -26,7 +26,8 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: Reservation
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.Reservations.Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
+            int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+            var vetClinicContext = _context.Reservations.Where(r=>r.ReservationUserID==UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
             return View(await vetClinicContext.ToListAsync());
         }
 
@@ -60,10 +61,11 @@ namespace VetClinic.PortalWWW.Controllers
         public IActionResult CreateNew(DateTime DateOfVisit)
         {
 
-            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name");
+            int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+            ViewData["PatientID"] = new SelectList(_context.Patients.Where(p => p.PatientUserID == UserId), "PatientID", "Name");
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City");            
             ViewData["DateOfVisit"] = DateOfVisit;
 
             return View("Create");
@@ -80,6 +82,7 @@ namespace VetClinic.PortalWWW.Controllers
                     reservation.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                     reservation.ReservationUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                 }
+
                 reservation.DateOfVisit = DateOfVisitFromCalendar;
                 reservation.AddedDate = DateTime.Now;
                 reservation.IsActive = true;
@@ -87,63 +90,30 @@ namespace VetClinic.PortalWWW.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index", "ClientPanel");
             }
+
+            ViewData["PatientID"] = new SelectList(_context.Reservations, "Name", "PatientID", reservation.PatientID);
+
             return Content("cos poszlo nie tak");
+       
         }
 
 
 
 
 
-        // GET: Reservation/Create
-        //public IActionResult Create()
-        //{
-        //    if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
-        //    {
-        //        int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
-        //        ViewData["PatientID"] = new SelectList(_context.Patients.
-        //                Where(p => p.PatientUserID != null).
-        //                Where(p => p.PatientUserID == UserId).Select(n => n.Name)
-        //               );
-        //    }
+        //GET: Reservation/Create
+        public IActionResult Create()
+        {
 
-        //    //ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
-        //    return View();
-        //}
+            int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+            ViewData["PatientID"] = new SelectList(_context.Patients.Where(p=>p.PatientUserID == UserId), "PatientID", "Name");
+            ViewData["BlokCzasowy"] = new SelectList(_context.ScheduleBlocks.OrderBy(b => b.Time), "ScheduleBlockID", "Time");
+            return View();
+        }
 
 
 
-        // POST: Reservation/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("ReservationID,ReservationUserID,PatientID,Description,DateOfVisit,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Reservation reservation)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
-        //        {
-        //            reservation.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
-        //            reservation.ReservationUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
-        //        }
-        //        reservation.AddedDate = DateTime.Now;
-        //        reservation.IsActive = true;
-        //        _context.Add(reservation);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
-        //    {
-        //        int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
-        //        ViewData["PatientID"] = new SelectList(_context.Patients.
-        //                Where(p => p.PatientUserID != null).
-        //                Where(p => p.PatientUserID == UserId).Select(n => n.Name)
-        //               );
-        //    }
-
-        //    return View(reservation);
-        //}
+       
 
         // GET: Reservation/Edit/5
         public async Task<IActionResult> Edit(int? id)
