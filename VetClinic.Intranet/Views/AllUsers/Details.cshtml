@@ -3,22 +3,36 @@
 @{
     ViewData["Title"] = "Szczegóły";
 }
-<h4>Szczegóły Administratora:</h4>
+<h4>Szczegóły:</h4>
+<h2>Administrator</h2>
 <hr />
+<div class="row inputGroupMargin">
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Imię i nazwisko</span>
+        </div>
+        <input type="text" class="form-control col-3" value="@Model.FirstName @Model.LastName">
+    </div>
+</div>
 
 <div>
     <dl class="row">
         <dt class="col-sm-2">
-            Imię:
+            Zdjęcie:
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class="col-sm-2">
-            Nazwisko:
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
+            @{
+                if (Model.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Image);
+                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                    <img style="width: 250px; height:250px" src="@imgSrc" />
+                }
+                else
+                {
+                    <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
+                }
+            }
         </dd>
         <dt class="col-sm-2">
             Nr.Domu:
@@ -74,37 +88,37 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Phone)
         </dd>
-        <dt class="col-sm-2">
-            Zdjęcie:
-        </dt>
-        <dd class="col-sm-10">
-            @{
-                if (Model.Image != null)
-                {
-                    var base64 = Convert.ToBase64String(Model.Image);
-                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                    <img style="width: 250px; height:250px" src="@imgSrc" />
+        @*<dt class="col-sm-2">
+                Zdjęcie:
+            </dt>
+            <dd class="col-sm-10">
+                @{
+                    if (Model.Image != null)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Image);
+                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                        <img style="width: 250px; height:250px" src="@imgSrc" />
+                    }
+                    else
+                    {
+                        <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
+                    }
                 }
-                else
-                {
-                    <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
-                }
-            }
-        </dd>
+            </dd>*@
         <dt class="col-sm-2">
             Nr.Karty:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CardNumber)
         </dd>
-        </dd>
+
         <dt class="col-sm-2">
             Czy Aktywny:
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.IsActive)
         </dd>
-        </dd>
+
         <dt class="col-sm-2">
             Prob Logowania:
         </dt>
@@ -119,11 +133,20 @@
         </dd>
     </dl>
 </div>
+<hr />
 <div>
-    <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model.UserID">
+    <a class="btn btn-primary buttMargin" role="button" asp-action="Edit" asp-route-id="@Model.UserID">
         <span class="fas fa-pen"></span> Edytuj
     </a>
     <a class="btn btn-outline-primary" role="button" asp-action="Index">
         <span class="fas fa-arrow-circle-left"></span> Wróć do listy
     </a>
 </div>
+@*<div>
+        <a class="btn btn-primary" role="button" asp-action="Edit" asp-route-id="@Model.UserID">
+            <span class="fas fa-pen"></span> Edytuj
+        </a>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </div>*@

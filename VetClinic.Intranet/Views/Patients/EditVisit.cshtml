@@ -17,96 +17,139 @@
         </script>
     </head>
     <body>
-        <form asp-action="Edit">
+        <h4>Edytuj:</h4>
+        <h2>Wizyta</h2>
+        <hr />
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div class="form-row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Visit.VisitID" />
                 <input type="hidden" asp-for="Visit.IsActive" />
                 <input type="hidden" asp-for="Visit.AddedDate" />
                 <input type="hidden" asp-for="Visit.AddedUserID" />
-                <div class="form-group col-md-4">
-                    <label>Weterynarz</label>
-                    <select asp-for="Visit.VetID" class="form-control" asp-items="ViewBag.VetID"></select>
-                    <span asp-validation-for="Visit.VetID" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-4">
-                    <label>Data wizyty</label>
-                    <input asp-for="Visit.DateOfVisit" class="form-control" />
-                    <span asp-validation-for="Visit.DateOfVisit" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-4">
-                    
-                    
-                        <p>
-                            <a class="btn btn-primary" data-toggle="collapse" href="#Leki" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                Dodane Leki
-                            </a>
-                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Zabiegi" aria-expanded="false" aria-controls="collapseExample">
-                                Dodane Zabiegi
-                            </button>
-                        </p>
-                        <div class="collapse" id="Leki">
-                            <div class="card card-body">
-                                @if (Model.VisitMedicine.Count == 0)
-                                {
-                                    <b>Nie ma dodanych lekow</b>
-                                }
-                                else
-                                {
-                                    <b>Leki</b>
-                                }
-                                <ul>
-                                    @foreach (var item in Model.VisitMedicine)
-                                    {
-
-                                        <li>@Html.DisplayFor(modelItem => item.Medicine.Name)</li>
-
-                                    }
-                                </ul>
-                            </div>
+                @*<div class="form-group col-md-4">
+            <label>Weterynarz</label>*@
+                <div class="form-group col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Weterynarz</span>
                         </div>
-                        <div class="collapse" id="Zabiegi">
-                            <div class="card card-body">
-                                @if (Model.VisitTreatments.Count == 0)
-                                {
-                                    <b>Nie ma dodanych Zabiegow</b>
-                                }
-                                else
-                                {
-                                    <b>Zabiegi</b>
-                                }
-                                <ul>
-                                    @foreach (var item in Model.VisitTreatments)
-                                    {
-
-                                        <li>@Html.DisplayFor(modelItem => item.Treatment.Name)</li>
-
-                                    }
-                                </ul>
-                            </div>
+                        <select type="select" asp-for="Visit.VetID" class="form-control" aria-describedby="label1" asp-items="ViewBag.VetID"></select>
+                        <span asp-validation-for="Visit.VetID" class="text-danger"></span>
+                    </div>
+                </div>
+                @*<div class="form-group col-md-4">
+                <label>Data wizyty</label>
+                <input asp-for="Visit.DateOfVisit" class="form-control" />
+                <span asp-validation-for="Visit.DateOfVisit" class="text-danger"></span>
+            </div>*@
+                <div class="form-group col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Data wizyty</span>
                         </div>
-                    
+                        <input type="date" asp-for="Visit.DateOfVisit" class="form-control" aria-describedby="label1" />
+                        <span asp-validation-for="Visit.DateOfVisit" class="text-danger"></span>
+                    </div>
                 </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label>Zabieg</label>
-                        <select asp-for="Treatment.TreatmentID" class="form-control" asp-items="ViewBag.TreatmentID">
-                            <option disabled selected>--Dodaj Zabieg--</option>
-                        </select>
+            </div>
+            <div class="form-row">
+                @*<div class="row inputGroupMargin col-12">*@
+                <div class="form-group col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Zabieg</span>
+                        </div>
+                        <select type="select" asp-for="Treatment.TreatmentID" class="form-control" aria-describedby="label1" asp-items="ViewBag.TreatmentID"></select>
                         <span asp-validation-for="Treatment.TreatmentID" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-4">
-                        <label>Lek</label>
-                        <select asp-for="Medicine.MedicineID" class="form-control" asp-items="ViewBag.MedicineID">
-                            <option disabled selected>--Wybierz lek--</option>
-                        </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Lek</span>
+                        </div>
+                        <select type="select" asp-for="Medicine.MedicineID" class="form-control" aria-describedby="label1" asp-items="ViewBag.MedicineID">                    </select>
                         <span asp-validation-for="Medicine.MedicineID" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+
+
+                    <p>
+                        <a class="btn btn-primary" data-toggle="collapse" href="#Leki" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Dodane Leki
+                        </a>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#Zabiegi" aria-expanded="false" aria-controls="collapseExample">
+                            Dodane Zabiegi
+                        </button>
+                    </p>
+                    <div class="collapse" id="Leki">
+                        <div class="card card-body">
+                            @if (Model.VisitMedicine.Count == 0)
+                            {
+                                <b>Nie ma dodanych lekow</b>
+                            }
+                            else
+                            {
+                                <b>Leki</b>
+                            }
+                            <ul>
+                                @foreach (var item in Model.VisitMedicine)
+                                {
+
+                                    <li>@Html.DisplayFor(modelItem => item.Medicine.Name)</li>
+
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="collapse" id="Zabiegi">
+                        <div class="card card-body">
+                            @if (Model.VisitTreatments.Count == 0)
+                            {
+                                <b>Nie ma dodanych Zabiegow</b>
+                            }
+                            else
+                            {
+                                <b>Zabiegi</b>
+                            }
+                            <ul>
+                                @foreach (var item in Model.VisitTreatments)
+                                {
+
+                                    <li>@Html.DisplayFor(modelItem => item.Treatment.Name)</li>
+
+                                }
+                            </ul>
+                        </div>
                     </div>
 
                 </div>
-                <div class="form-group">
+            </div>
+            @*</div>*@
+
+            @*<div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Zabieg</label>
+                <select asp-for="Treatment.TreatmentID" class="form-control" asp-items="ViewBag.TreatmentID">
+                    <option disabled selected>--Dodaj Zabieg--</option>
+                </select>
+                <span asp-validation-for="Treatment.TreatmentID" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Lek</label>
+                <select asp-for="Medicine.MedicineID" class="form-control" asp-items="ViewBag.MedicineID">
+                    <option disabled selected>--Wybierz lek--</option>
+                </select>
+                <span asp-validation-for="Medicine.MedicineID" class="text-danger"></span>
+            </div>
+
+        </div>*@
+            @*<div class="form-group">
                     <label>Opis</label>
                     <textarea asp-for="Visit.Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
                     <span asp-validation-for="Visit.Description" class="text-danger"></span>
@@ -117,10 +160,35 @@
 
 
                 </div>
-</form>
+        </form>
         <div>
             <a class="btn btn-outline-primary" role="button" asp-action="Index">
                 <span class="fas fa-arrow-circle-left"></span> Wróć do listy
             </a>
-        </div>
-    </body>
+        </div>*@
+            <div class="form-row">
+                @*<div class="row inputGroupMargin col-12">*@
+                <div class="form-group col-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Opis</span>
+                        </div>
+                        <textarea asp-for="Visit.Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Visit.Description" class="text-danger"></span>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+            <hr />
+
+            <div class="form-row">
+                <input type="submit" value="Zapisz" asp-action="EditVisit" asp-route-id="@Model.Visit.VisitID" class="btn btn-primary buttMargin" />
+                <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
+                @*<a class="btn btn-outline-primary buttMargin" role="button" asp-action="AddMedicine" asp-route-id="@Model.Visit.VisitID">Dodaj leki</a>*@
+                <a class="btn btn-outline-primary buttMargin" role="button" asp-action="Index">
+                    <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+                </a>
+
+            </div>
+            </form>
+</body>

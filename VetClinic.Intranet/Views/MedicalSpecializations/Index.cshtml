@@ -7,7 +7,7 @@
 <p>
     <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
-        Dodaj nowy element
+        Dodaj nowy
     </a>
 </p>
 
@@ -15,26 +15,12 @@
     <table class="table table-hover">
         <thead class="thead-dark">
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AddedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UpdatedDate)
-                </th>
+               
                 <th>
                     @Html.DisplayNameFor(model => model.MedicalSpecializationUser)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Specialization)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MedicalSpecializationAddedUser)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MedicalSpecializationUpdatedUser)
                 </th>
                 <th></th>
             </tr>
@@ -43,15 +29,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AddedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UpdatedDate)
-                    </td>
+   
                     <td>
                         @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.City)
                     </td>
@@ -59,19 +37,13 @@
                         @Html.DisplayFor(modelItem => item.Specialization.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.MedicalSpecializationAddedUser.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MedicalSpecializationUpdatedUser.City)
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.MedicalSpecializationID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.MedicalSpecializationID">
                             <span class="fas fa-pen"></span>
                         </a> 
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.MedicalSpecializationID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Details" asp-route-id="@item.MedicalSpecializationID">
                             <span class="fas fa-list-alt"></span>
                         </a> 
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.MedicalSpecializationID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.MedicalSpecializationID">
                             <span class="fas fa-trash-alt"></span>
                         </a>
                     </td>

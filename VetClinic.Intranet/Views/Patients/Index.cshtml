@@ -98,13 +98,13 @@
                         @Html.DisplayFor(modelItem => item.PatientUser.LastName)
                     </td>
                     <td>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.PatientID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.PatientID">
                             <span class="fas fa-pen"></span>
                         </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.PatientID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Details" asp-route-id="@item.PatientID">
                             <span class="fas fa-list-alt"></span>
                         </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
                             <span class="fas fa-trash-alt"></span>
                         </a>
                     </td>

@@ -35,11 +35,12 @@
     }
 </style>
 <h4>Edytuj:</h4>
-<h2>Pacjenta</h2>
+<h2>Pacjent/Zwierzak</h2>
 <hr />
 
 
-<form asp-action="Edit">
+
+<form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="PatientID" />
@@ -47,74 +48,145 @@
         <input type="hidden" asp-for="AddedDate" />
         <input type="hidden" asp-for="AddedUserID" />
         <input type="hidden" asp-for="PatientUserID" />
-        <div class="form-group col-md-6">
-            <label asp-for="PatientTypeID" class="control-label"></label>
-            <select style="background-color:red" class="myselect select2-container .select2-selection--single
+        @*<div class="form-group col-md-6">*@
+        <div class="form-group col-md-5">
+            @*<label asp-for="PatientTypeID" class="control-label"></label>*@
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="label1">Rodzaj Zwierzaka</span>
+                <select style="background-color:red" class="myselect select2-container .select2-selection--single
                                                         select2-container .select2-selection--single .select2-selection__rendered
                                                         select2-container--default .select2-selection--single .select2-selection__arrow"
-                                                        asp-for="PatientTypeID" asp-items="ViewBag.PatientTypeID" data-width="100%"></select>
-            <span asp-validation-for="PatientTypeID" class="text-danger"></span>
+                        asp-for="PatientTypeID" asp-items="ViewBag.PatientTypeID" data-width="100%" aria-describedby="label1"></select>
+                <span asp-validation-for="PatientTypeID" class="text-danger"></span>
+            </div>
         </div>
-        <div class="form-group col-md-6">
+        @*<div class="form-group col-md-6">
             <label>Właściciel</label>
             <div class="row">
-                <div class="col-md-6">
-                    <input type="hidden" id="PatientUserID" asp-for="PatientUserID" class="form-control" />
-                    <input id="daneWlasciciela" type="text" asp-for="PatientUser.LastName" class="form-control" />
-                    <span asp-validation-for="PatientUserID" class="text-danger"></span>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-6">*@
+        <div class="form-group col-md-4">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="label1">Właściciel</span>
+                <input type="hidden" id="PatientUserID" asp-for="PatientUserID" class="form-control" aria-describedby="label1" />
+                <input id="daneWlasciciela" type="text" asp-for="PatientUser.LastName" class="form-control" />
+                <span asp-validation-for="PatientUserID" class="text-danger"></span>
+            </div>
+            @*<div class="col-md-6">
                     <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
+                </div>*@
+        </div>
+        <div class="col-md-3">
+            <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-5">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Przy.Hodowlany</span>
                 </div>
+
+                <input type="text" asp-for="KennelName" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="KennelName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-4">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Data Ur.</span>
+                </div>
+                <input type="date" asp-for="BirthDate" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Imię</span>
+                </div>
+                <input type="text" asp-for="Name" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
     </div>
-
     <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="form-group col-md-5">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Numer pacjenta</span>
+                </div>
+                @*<label asp-for="PatientNumber" class="control-label"></label>*@
+                <input readonly="readonly" asp-for="PatientNumber" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="PatientNumber" class="text-danger"></span>
+            </div>
         </div>
-        <div class="form-group col-md-6">
-            <label asp-for="BirthDate" class="control-label"></label>
-            <input asp-for="BirthDate" class="form-control" />
-            <span asp-validation-for="BirthDate" class="text-danger"></span>
         </div>
-    </div>
-
     <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="KennelName" class="control-label"></label>
-            <input asp-for="KennelName" class="form-control" />
-            <span asp-validation-for="KennelName" class="text-danger"></span>
+        @*<div class="row inputGroupMargin col-12">*@
+        <div class="form-group col-12">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Opis</span>
+                </div>
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
         </div>
-        <div class="form-group col-md-6">
-            <label asp-for="PatientNumber" class="control-label"></label>                       
-            <input readonly="readonly"  asp-for="PatientNumber" class="form-control" />                         
-            <span asp-validation-for="PatientNumber" class="text-danger"></span>         
+    </div>
+    <hr />
+    <div class="form-row">
+        <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
+        <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
+        <a class="btn btn-outline-primary" role="button" asp-action="Index">
+            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
+        </a>
+    </div>
+
+    @*<div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="BirthDate" class="control-label"></label>
+                <input asp-for="BirthDate" class="form-control" />
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
         </div>
-    </div>
 
-    <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="KennelName" class="control-label"></label>
+                <input asp-for="KennelName" class="form-control" />
+                <span asp-validation-for="KennelName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-6">
+                <label asp-for="PatientNumber" class="control-label"></label>
+                <input readonly="readonly" asp-for="PatientNumber" class="form-control" />
+                <span asp-validation-for="PatientNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
 
 
 
-    <div class="form-group">
-        <input type="submit" value="Zapisz" class="btn btn-primary" />
-    </div>
+        <div class="form-group">
+            <input type="submit" value="Zapisz" class="btn btn-primary" />
+        </div>*@
 </form>
 
 
-<div>
+@*<div>
     <a class="btn btn-outline-primary" role="button" asp-action="Index">
         <span class="fas fa-arrow-circle-left"></span> Wróć do listy
     </a>
-</div>
+</div>*@
 
 
 <div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
@@ -128,7 +200,7 @@
             </div>
             <div class="modal-body">
                 ...
-            </div>           
+            </div>
         </div>
     </div>
 </div>
