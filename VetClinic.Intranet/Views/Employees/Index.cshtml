@@ -49,6 +49,9 @@
 
                     </th>
                     <th>
+                        Login
+                    </th>
+                    <th>
                         Imię
                     </th>
                     <th>
@@ -74,6 +77,9 @@
                             <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.Login)
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.FirstName)
                         </td>
                         <td>
@@ -87,26 +93,16 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Phone)
-                        </td>
                         <td>
-                            <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.UserID">
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.UserID">
                                 <span class="fas fa-pen"></span>
                             </a>
-                            <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Details" asp-route-id="@item.UserID">
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.UserID">
                                 <span class="fas fa-list-alt"></span>
                             </a>
-                            <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.UserID">
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.UserID">
                                 <span class="fas fa-trash-alt"></span>
                             </a>
-                            @*<a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.UserID">
-                                    <span class="fas fa-pen"></span>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.UserID">
-                                    <span class="fas fa-list-alt"></span>
-                                </a>
-                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.UserID">
-                                    <span class="fas fa-trash-alt"></span>
-                                </a>*@
                         </td>
                     </tr>
                 }

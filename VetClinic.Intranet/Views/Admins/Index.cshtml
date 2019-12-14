@@ -46,6 +46,12 @@
             <thead class="thead-dark">
                 <tr>
                     <th>
+
+                    </th>
+                    <th>
+                        Login
+                    </th>
+                    <th>
                         Imię
                     </th>
                     <th>
@@ -69,6 +75,9 @@
                 <tr>
                     <td>
                         <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Login)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.FirstName)
