@@ -1,11 +1,9 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.ScheduleBlock>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Bloki";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 <p>
     <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
@@ -29,11 +27,11 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Time)
+                    <td style="text-align:right">
+                        @Convert.ToString($"{ item.Time:hh}"+":"+$"{item.Time:mm}")
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TimeInterval)
+                    <td style="text-align:right">
+                        @Convert.ToString($"{ item.TimeInterval:hh}"+":"+$"{item.TimeInterval:mm}")
                     </td>
                     <td>
                         <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.ScheduleBlockID">
