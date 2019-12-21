@@ -56,7 +56,7 @@
                             <span class="input-group-text" id="label1">Hasło</span>
                         </div>
                         <input type="hidden" id="passwordInput" asp-for="Password" class="form-control" aria-describedby="label1" />
-                        <input onclick="generatePassword()" class="generate-pass btn-primary form-control valid" type="button" value="Generuj hasło" aria-invalid="false">
+                        <input onclick="generatePassword()" class="generate-pass btn-primary form-control valid" type="button" value="Generuj nowe hasło" aria-invalid="false">
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
 
     </div>
     <div>
-        <input type="submit" value="Zapisz zmiany" class="btn btn-primary float-right buttMargin" />
+        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
     </div>
 </form>
 
@@ -177,13 +177,13 @@
         <input type="hidden" asp-for="UserID" />
         <input type="submit" value="Usuń użytkownika" class="btn btn-danger buttMargin" />
     </form>
-}
+} 
 else
 {
-    <form asp-action="Restore" asp-route-id="@Model.UserID">
-        <input type="hidden" asp-for="UserID" />
-        <input type="submit" value="Przywróć użytkownika" class="btn btn-success buttMargin" />
-    </form>
+<form asp-action="Restore" asp-route-id="@Model.UserID">
+    <input type="hidden" asp-for="UserID" />
+    <input type="submit" value="Przywróć użytkownika" class="btn btn-success buttMargin" />
+</form>
 }
 
 

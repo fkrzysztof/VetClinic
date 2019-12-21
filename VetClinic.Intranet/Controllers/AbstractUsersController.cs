@@ -10,24 +10,32 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
+using VetClinic.Intranet.Policy;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class AllUsersController : Controller
+    public abstract class AbstractUsersController : Controller
     {
-        private readonly VetClinicContext _context;
+        protected readonly VetClinicContext _context;
 
-        public AllUsersController(VetClinicContext context)
+        protected int _userTypeId;
+        public AbstractUsersController(VetClinicContext context, int UserTypeId)
         {
             _context = context;
+            _userTypeId = UserTypeId;
         }
 
         // GET: Admin
         public async Task<IActionResult> Index(string searchString)
         {
+            //UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
+            //if (await policy.hasNoAccess()) return await policy.RedirectUser();
+            //ViewData = policy.PopulateViewData(ViewData);
+
             ViewData["CurrentFilter"] = searchString;
 
-            var vetClinicContext = _context.Users.Include(u => u.UserType);
+            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.UserTypeID == _userTypeId);
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 vetClinicContext = (from user in vetClinicContext
@@ -37,16 +45,58 @@ namespace VetClinic.Intranet.Controllers
                                     || user.City.Contains(searchString)
                                     select user)
                                             .Include(m => m.UserType);
-
-
             }
-            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+
+            return View("../AbstractUsers/Index", await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
+        // GET: Admin/Create
+        public async Task<IActionResult> Create()
+        {
+            //UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
+            //if (await policy.hasNoAccess()) return await policy.RedirectUser();
+            //ViewData = policy.PopulateViewData(ViewData);
+
+            return View("../AbstractUsers/Create");
+        }
+
+        // POST: Admin/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(User user, List<Microsoft.AspNetCore.Http.IFormFile> Image)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in Image)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await item.CopyToAsync(stream);
+                        user.Image = stream.ToArray();
+                    }
+                }
+                user.AddedDate = DateTime.Now;
+                user.IsActive = true;
+                user.UserTypeID = _userTypeId;
+                user.Password = HashPassword.GetMd5Hash(user.Password);
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(user);
+        }
 
         // GET: Admin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            //UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
+            //if (await policy.hasNoAccess()) return await policy.RedirectUser();
+            //ViewData = policy.PopulateViewData(ViewData);
+
             if (id == null)
             {
                 return NotFound();
@@ -58,7 +108,7 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            return View(user);
+            return View("../AbstractUsers/Edit", user);
         }
 
         // POST: Admin/Edit/5
@@ -89,6 +139,7 @@ namespace VetClinic.Intranet.Controllers
                         }
                     }
                     user.UpdatedDate = DateTime.Now;
+                    user.UserTypeID = _userTypeId;
                     if (user.Password.Length == 8)
                     {
                         user.Password = HashPassword.GetMd5Hash(user.Password);
@@ -123,8 +174,10 @@ namespace VetClinic.Intranet.Controllers
             user.LoginAttempt = 5;
             user.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
+
 
         // POST: Admin/Restore/5
         [HttpPost, ActionName("Restore")]
@@ -168,30 +221,6 @@ namespace VetClinic.Intranet.Controllers
                 s.IsActive = false;
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction(nameof(Index));
-        }
-        public IActionResult lockUnlock(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var user = _context.Users.Find(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            if (user.LoginAttempt > 4)
-            {
-                user.IsActive = true;
-                user.LoginAttempt = 0;
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-            user.IsActive = false;
-            user.LoginAttempt = 5;
-            _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }

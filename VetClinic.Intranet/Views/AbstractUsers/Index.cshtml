@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.User>
 
 @{
-    ViewData["Title"] = "Wszyscy użytkownicy";
+    ViewData["Title"] = "Użytkownicy";
 }
 <div id="accordion">
     <div class="card">
@@ -38,6 +38,10 @@
 {
 <p>
     <input class="btn btn-outline-secondary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
+    <a class="btn btn-outline-primary float-right" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+        <i class="fas fa-plus-circle"></i>
+        Dodaj nowego użytkownika
+    </a>
 </p>
     <div class="table-responsive">
         <table class="table table-hover">
@@ -56,9 +60,6 @@
                         Adres
                     </th>
                     <th>
-                        Rola
-                    </th>
-                    <th>
                         Ostatnia modyfikacja
                     </th>
                 </tr>
@@ -66,35 +67,33 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
-                        <td>
-                            <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.UserID">
-                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-                            </a>
-                            <span class="login">(Login: @Html.DisplayFor(modelItem => item.Login))</span>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Email)
-                        </td>
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                    <td>
+                        <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.UserID">
+                            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                        </a>
+                        <span class="login">(Login: @Html.DisplayFor(modelItem => item.Login))</span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
 
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Street) @Html.DisplayFor(modelItem => item.HouseNumber)
-                            @if (item.ApartmentNumber != null)
-                            {@Html.DisplayFor(modelItem => item.ApartmentNumber)},
-                            @Html.DisplayFor(modelItem => item.PostalCode) @Html.DisplayFor(modelItem => item.City)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.UserType.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.UpdatedDate)
-                        </td>
-                    </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Street) @Html.DisplayFor(modelItem => item.HouseNumber)
+                        @if (item.ApartmentNumber != null)
+                        {@Html.DisplayFor(modelItem => item.ApartmentNumber)},
+                        @Html.DisplayFor(modelItem => item.PostalCode) @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdatedDate)
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
     </div>
 }
+ 

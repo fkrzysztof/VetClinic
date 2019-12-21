@@ -69,3 +69,25 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+input[name="SearchString"] {
+    width: 100% !important;
+}
+
+span.login {
+    display: block;
+    font-size: small;
+    color: gray;
+}
+
+.card-header {
+    cursor: pointer;
+}
+
+.generate-pass {
+    border-radius: 0 0.25rem 0.25rem 0 !important;
+}
+
+.item-not-active {
+    background: #de00005e !important;
+}
