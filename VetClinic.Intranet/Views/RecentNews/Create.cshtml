@@ -1,66 +1,74 @@
 ﻿@model VetClinic.Data.Data.CMS.RecentNews
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nowa aktualność";
 }
 
-<h4>Dodaj:</h4>
-<h2>RecentNews</h2>
-<hr />
+<form asp-action="Edit" method="post" metenctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RecentNewsID" />
+            <input type="hidden" asp-for="Image" />
 
-
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="row inputGroupMargin">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="label1">@Html.DisplayNameFor(model => model.LinkTitle)</span>
-            </div>
-            <input type="text" asp-for="LinkTitle" class="form-control" aria-describedby="label1">
-            <span asp-validation-for="LinkTitle" class="text-danger"></span>
-        </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="label2">@Html.DisplayNameFor(model => model.Title)</span>
-            </div>
-            <input type="text" asp-for="Title" class="form-control" aria-describedby="label2">
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="row inputGroupMargin">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">@Html.DisplayNameFor(model => model.Text)</span>
-            </div>
-            <textarea class="form-control" asp-for="Text" rows="4"></textarea>
-            <span asp-validation-for="Text" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-4">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span asp-for="Position" class="input-group-text">@Html.DisplayNameFor(model => model.Position)</span>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Tytuł linku</span>
+                    </div>
+                    <input type="text" asp-for="LinkTitle" class="form-control" aria-describedby="label1">
+                    <span asp-validation-for="LinkTitle" class="text-danger"></span>
                 </div>
-                <input asp-for="Position" class="form-control">
-                <span asp-validation-for="Position" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-group col-md-4">
-            <label class="control-label">Zdjęcie</label>
-            <input type="file" id="files" asp-for="Image" />
-            <span asp-validation-for="Image" class="text-danger"></span>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label2">Tytuł</span>
+                    </div>
+                    <input type="text" asp-for="Title" class="form-control" aria-describedby="label2">
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span asp-for="Position" class="input-group-text">Pozycja</span>
+                    </div>
+                    <input asp-for="Position" class="form-control">
+                    <span asp-validation-for="Position" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-append">
+                        <input type="file" class="form-control-file" id="files" asp-for="Image" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <hr />
-    <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
-    <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <div class="input-group">
+                    <textarea class="form-control" asp-for="Text" rows="8"></textarea>
+                    <span asp-validation-for="Text" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <input type="submit" value="Utwórz aktualność" class="btn btn-success float-right buttMargin" />
+    </div>
 </form>
+
+<script>tinymce.init({selector:'textarea', height : "400"});</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

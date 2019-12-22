@@ -162,7 +162,7 @@ sup {
 }
 
 a {
-    color: #007bff;
+    color: #c34732;
     text-decoration: none;
     background-color: transparent;
 }
@@ -170,7 +170,7 @@ a {
 
 
     a:hover {
-        color: #0056b3;
+        color: #ef705a;
         text-decoration: underline;
     }
 

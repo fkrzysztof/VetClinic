@@ -91,3 +91,47 @@ span.login {
 .item-not-active {
     background: #de00005e !important;
 }
+
+li.break {
+    height: 3px;
+    background: #343a40;
+    margin: 3px 0;
+}
+
+.nav-link i {
+    width: 27px;
+}
+
+table label {
+    margin-bottom: 0 !important;
+}
+
+.form-group select {
+    -webkit-appearance: none;
+}
+
+.tox-tinymce {
+    width: 100% !important;
+}
+
+.select2-container .select2-selection--single {
+     height: 38px !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    display: block !important;
+    padding-left: 8px !important;
+    padding-right: 20px !important;
+    padding-top: 2px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px !important;
+    position: absolute !important;
+    top: 3px !important;
+    right: 1px !important;
+    width: 20px !important;
+}

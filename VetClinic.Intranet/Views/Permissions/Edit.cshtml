@@ -1,29 +1,16 @@
 ﻿@model VetClinic.Data.Data.Clinic.Permission
 
 @{
-    ViewBag.Title = "Edycja Uprawnienia";
+    ViewBag.Title = String.Format("Edycja uprawnienia {0}", @Model.Name);
 }
 
-<div class="row">
 
-    <div class="col-sm-6">
-        <h1>Edycja Uprawnienia</h1>
-    </div>
-    <div class="col-sm-6 text-right float-right">
-        <a class="btn btn-outline-primary" asp-controller="Permissions" asp-action="Index">
-            Powrót
-        </a>
-    </div>
-</div>
-<hr />
-@*<div class="row">
-    <div class="col-md-4">*@
 <form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="PermissionID" />
-        <div class="form-group col-md-6">
-            <div class="input-group mb-3">
+        <div class="form-group col-12">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Nazwa</span>
                 </div>
@@ -31,42 +18,35 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="form-group">
-            <label asp-for="Description" class="control-label"></label>
-            <label class="control-label">Opis</label>*@
-        <div class="form-group col-md-6">
-            <div class="input-group mb-3">
+
+        <div class="form-group col-12">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Opis</span>
                 </div>
-                <input asp-for="Description" class="form-control" aria-describedby="label1" />
+                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
-    </div>
-    <hr />
-    <div class="form-row">
-        <input type="submit" class="btn btn-outline-primary" value="Zapisz" />
     </div>
 
+
+    <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
 </form>
-@*<div class="form-group">
-                <label class="control-label">Nazwa</label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Opis</label>
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Zapisz" class="btn btn-primary" />
-            </div>
-    </form>
-        </div>
-    </div>*@
+
+@if (Model.IsActive)
+{
+<form asp-action="Delete" asp-route-id="@Model.PermissionID" onsubmit="alert('Na pewno chcesz usunąć uprawnienie?')">
+    <input type="hidden" asp-for="@Model.PermissionID" />
+    <input type="submit" value="Usuń grupę uprawnień" class="btn btn-outline-danger buttMargin" />
+</form>
+} else
+{
+<form asp-action="Restore" asp-route-id="@Model.PermissionID">
+    <input type="hidden" asp-for="@Model.PermissionID" />
+    <input type="submit" value="Przywróć grupę uprawnień" class="btn btn-outline-success buttMargin" />
+</form>
+}
 
 
 @section Scripts {

@@ -1,35 +1,24 @@
 ﻿@model VetClinic.Data.Data.Clinic.News
 
 @{
-    ViewData["Title"] = "Dodawanie";
+    ViewData["Title"] = "Nowa wiadomość";
 }
 
-<h4>Dodaj:</h4>
-<h2>Wiadomość</h2>
-<hr />
-@*<div class="row">
-    <div class="col-md-4">*@
 <form asp-action="Create" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @*<div class="form-group">
-                <label asp-for="UserID" class="control-label"></label>
-                <select asp-for="UserID" class ="form-control" asp-items="ViewBag.UserID"></select>
-            </div>*@
-        @*<div class="form-group">
-            <label class="control-label">Grupa odbiorców</label>*@
+
         <div class="form-group col-md-6">
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Grupa odbiorców</span>
                 </div>
                 <select asp-for="UserTypeID" class="form-control" aria-describedby="label1" asp-items="ViewBag.UserTypeID"></select>
             </div>
         </div>
-        @*<div class="form-group">
-            <label class="control-label">Tytuł</label>*@
+
         <div class="form-group col-md-6">
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Tytuł</span>
                 </div>
@@ -38,22 +27,10 @@
             </div>
         </div>
     </div>
-    @*<div class="form-group">
-            <label class="control-label">Treść wiadomości</label>
-            <input asp-for="Message" class="form-control" />
-            <span asp-validation-for="Message" class="text-danger"></span>
-        </div>*@
-    @*<div class="form-group form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" asp-for="IsActive" />
-                <label class="control-label">Czy aktywny</label>
-            </label>
-        </div>*@
-    @*<div class="form-group">
-        <label class="control-label">Data od</label>*@
+
     <div class="form-row">
         <div class="form-group col-md-6">
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Data od</span>
                 </div>
@@ -61,10 +38,9 @@
                 <span asp-validation-for="StartDate" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="form-group">
-            <label class="control-label">Data do</label>*@
+
         <div class="form-group col-md-6">
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Data do</span>
                 </div>
@@ -72,40 +48,11 @@
                 <span asp-validation-for="ExpirationDate" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" />
-                    <label class="control-label">Czy aktywny</label>
-                </label>
-            </div>*@
+
     </div>
-    @*<div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </div>*@
-    <hr />
-    <div class="form-row">
-        <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
-        <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
-        <a class="btn btn-outline-primary" role="button" asp-action="Index">
-            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-        </a>
-    </div>
+
+    <input type="submit" value="Utwórz wiadomość" class="btn btn-success float-right buttMargin" />
 </form>
-
-@*<div>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
-</div>*@
-
-<script>
-    function generatePassword() {
-        event.preventDefault();
-        var buf = new Uint8Array(6);
-        window.crypto.getRandomValues(buf);
-        document.getElementById("passwordInput").value = btoa(String.fromCharCode.apply(null, buf));
-    }
-</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -2,12 +2,11 @@
 
 @{
     ViewData["Title"] = "Bloki";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <p>
-    <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
-        Dodaj
+        Dodaj nowy blok
     </a>
 </p>
 <div class="table-responsive">
@@ -18,7 +17,7 @@
                     Czas
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.TimeInterval)
+                    Przedział czasowy
                 </th>
                 <th></th>
             </tr>
@@ -34,9 +33,10 @@
                         @Convert.ToString($"{ item.TimeInterval:hh}"+":"+$"{item.TimeInterval:mm}")
                     </td>
                     <td>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.ScheduleBlockID">
-                            <span class="fas fa-trash-alt"></span>
-                        </a>
+                        <form asp-action="Delete" asp-route-id="@item.ScheduleBlockID" onsubmit="alert('Na pewno chcesz usunąć blok?')">
+                            <input type="hidden" asp-for="@item.ScheduleBlockID" />
+                            <input type="submit" value="Usuń blok" class="btn btn-outline-danger buttMargin" />
+                        </form>
                     </td>
                 </tr>
             }

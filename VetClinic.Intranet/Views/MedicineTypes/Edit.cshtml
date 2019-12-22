@@ -1,13 +1,9 @@
 ﻿@model VetClinic.Data.Data.Clinic.MedicineType
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = String.Format("Edycja typu leku {0}", Model.Name);
 }
 
-<h4>Edytuj wybrany element:</h4>
-<h2>RecentNews</h2>
-
-<hr />
 <form asp-action="Edit">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -16,61 +12,46 @@
         <input type="hidden" asp-for="AddedDate" />
         <input type="hidden" asp-for="AddedUserID" />
 
-        <div class="form-group col-md-6">
-            <label asp-for="Name" class="control-label"></label>
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
+        <div class="form-group col-md-12">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Nazwa</span>
+                </div>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
         </div>
     </div>
 
     <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
-        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="label1">Opis</span>
+            </div>
+            <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
     </div>  
 
-    <div class="form-group form-check">
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-        </label>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="AddedDate" class="control-label"></label>
-            <input asp-for="AddedDate" class="form-control" />
-            <span asp-validation-for="AddedDate" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-6">
-            <label asp-for="UpdatedDate" class="control-label"></label>
-            <input asp-for="UpdatedDate" class="form-control" />
-            <span asp-validation-for="UpdatedDate" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="AddedUserID" class="control-label"></label>
-            <input asp-for="AddedUserID" class="form-control" />
-            <span asp-validation-for="AddedUserID" class="text-danger"></span>
-        </div>
-        <div class="form-group col-md-6">
-            <label asp-for="UpdatedUserID" class="control-label"></label>
-            <input asp-for="UpdatedUserID" class="form-control" />
-            <span asp-validation-for="UpdatedUserID" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Zapisz" class="btn btn-primary" />
+    <div>
+        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
     </div>
 </form>
 
-<div>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
-</div>
+@if (Model.IsActive)
+{
+    <form asp-action="Delete" asp-route-id="@Model.MedicineTypeID" onsubmit="alert('Na pewno chcesz usunąć typ leku?')">
+        <input type="hidden" asp-for="MedicineTypeID" />
+        <input type="submit" value="Usuń typ leku" class="btn btn-outline-danger buttMargin" />
+    </form>
+} 
+else
+{
+<form asp-action="Restore" asp-route-id="@Model.MedicineTypeID">
+    <input type="hidden" asp-for="MedicineTypeID" />
+    <input type="submit" value="Przywróć typ leku" class="btn btn-outline-success buttMargin" />
+</form>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

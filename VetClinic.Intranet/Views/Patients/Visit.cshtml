@@ -1,18 +1,19 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Visit>
 @{
-    ViewData["Title"] = "Wizyty";
+    ViewData["Title"] = String.Format("Wizyty pacjenta {0} (ID: {1})", ViewData["PatientName"], @ViewData["PatientID"]);
 }
 
 <link href="~/css/Zakladki.css" rel="stylesheet" />
-<p>
-    <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="AddVisit" asp-route-id=@ViewData["PatientID"]>
-        <i class="fas fa-plus-circle"></i>
-        Dodaj nowy
-    </a>
-</p>
+<div class="row col">
+    <p class="w-100">
+        <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="AddVisit" asp-route-id=@ViewData["PatientID"]>
+            <i class="fas fa-plus-circle"></i>
+            Dodaj nową wizytę
+        </a>
+    </p>
+</div>
 <div class="form-row">
     <div class="form-group col-md-3">
-        <h2 class="kolorH2">@ViewData["PatientName"]  (ID @ViewData["PatientID"])</h2>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead class="komorka">
@@ -26,15 +27,17 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
                             <td>
-                                <a href="" class="visitdetails-id" data-VisitId="@item.VisitID">
+                                <a asp-action="EditVisit" asp-route-id="@item.VisitID">
                                     @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOfVisit))
+                                    
                                 </a>
                             </td>                         
                             <td>
-                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="EditVisit" asp-route-id="@item.VisitID">
-                                    <span class="fas fa-pen"></span>
+                                <a href="" data-VisitId="@item.VisitID" class="visitdetails-id btn btn-outline-primary btn-sm" role="button" >
+                                    <span class="fas fa-eye"></span>
+                                    Podgląd
                                 </a>
                             </td>
                         </tr>
@@ -43,7 +46,7 @@
             </table>
         </div>
     </div>
-    <div id="maincont" class="form-group col-md-9" style="padding-top:45px" ></div>
+    <div id="maincont" class="form-group col-md-9"></div>
 </div>
 
 @section Scripts {

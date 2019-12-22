@@ -1,67 +1,48 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Permission>
 
 @{
-  ViewBag.Title = "Lista uprawnień";
+  ViewBag.Title = "Uprawnienia";
 }
 
 
-<div class="row">
-
-    <div class="col-sm-6">
-        <h1>Lista uprawnień</h1>
-    </div>
-    <div class="col-sm-6 text-right float-right">
-        <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-            <i class="fas fa-plus-circle"></i>
-            Dodaj
-        </a>
-        <a class="btn btn-outline-primary" asp-controller="UserTypes" asp-action="Index">
-            Powrót
-        </a>
+<div class="row mb-3">
+    <div class="col-12">
+        <a class="btn btn-outline-success float-right" asp-action="Create"><i class="fas fa-plus-circle"></i> Dodaj nowe uprawnienie</a>
     </div>
 </div>
 
-<br />
-<hr />
-<br />
-<table class="table-borderless col-sm-8 table-hover text-right">
-    <thead>
-        <tr>
-            <th class="text-left">
-                Nazwa
-            </th>
-            <th class="text-center">
-                Opis
-            </th>
-            <th class="text-right"></th>
-            <th class="text-right"></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
             <tr>
-                <td class="text-left">
-                   @item.Name
+                <th>
+                    Nazwa
+                </th>
+                <th>
+                    Opis
+                </th>
+                <th>
+                    Ostatnia modyfikacja
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PermissionID">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </a>
                 </td>
-                <td class="text-center">
-                    @item.Description
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td class="d-inline-flex">
-                   
-                     <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.PermissionID">
-                        Edycja
-                     </a>
-                </td>
-                <td class="d-inline-flex">
-                     <form asp-action="Delete" asp-controller="Permissions" method="post">
-                     <input type="hidden" value="@item.PermissionID" name="id" />
-                     <input type="submit" value="Usuń" class="btn btn-danger btn-sm" />
-                     </form>
-
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedDate)
                 </td>
             </tr>
-        }
-    </tbody>
-</table>
-
+            }
+        </tbody>
+    </table>
+</div>

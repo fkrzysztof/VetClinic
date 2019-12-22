@@ -12,7 +12,7 @@ using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
 using VetClinic.Intranet.Policy;
 
-namespace VetClinic.Intranet.Controllers
+namespace VetClinic.Intranet.Controllers.Abastract
 {
     public abstract class AbstractUsersController : Controller
     {
@@ -78,7 +78,9 @@ namespace VetClinic.Intranet.Controllers
                     }
                 }
                 user.AddedDate = DateTime.Now;
+                user.UpdatedDate = user.AddedDate;
                 user.IsActive = true;
+
                 user.UserTypeID = _userTypeId;
                 user.Password = HashPassword.GetMd5Hash(user.Password);
                 _context.Add(user);
@@ -139,6 +141,7 @@ namespace VetClinic.Intranet.Controllers
                         }
                     }
                     user.UpdatedDate = DateTime.Now;
+                    user.IsActive = true;
                     user.UserTypeID = _userTypeId;
                     if (user.Password.Length == 8)
                     {

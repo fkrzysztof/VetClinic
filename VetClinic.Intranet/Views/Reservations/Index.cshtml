@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Rezerwacje";
 }
 
 <p>
-    <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Calendar">
+    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Calendar">
         <i class="fas fa-plus-circle"></i>
-        Dodaj nowy element
+        Dodaj nową rezerwacje
     </a>
 </p>
 
@@ -16,52 +16,39 @@
         <thead class="thead-dark">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.ReservationUser)
+                    Pacjent
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.AddedDate)
+                    Data wizyty
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.DateOfVisit)
+                    Użytkownik rezerwujący
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Patients)
+                    Ostatnia modyfikacja
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                     <td>
-                        @Html.DisplayFor(modelItem => item.ReservationUser.LastName)
-                    </td>
-                     <td>
-                        @Html.DisplayFor(modelItem => item.AddedDate)
-                    </td>
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
                     <td>
+                        <a asp-action="Edit" asp-route-id="@item.ReservationID">
+                            @Html.DisplayFor(modelItem => item.Patients.Name)
+                        </a>
+                    </td>
+                     <td>
                         @Html.DisplayFor(modelItem => item.DateOfVisit)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Patients.Name)
+                        <a asp-action="Edit" asp-controller="AllUsers" asp-route-id="@item.ReservationUser.UserID">
+                            @Html.DisplayFor(modelItem => item.ReservationUser.FirstName)
+                            @Html.DisplayFor(modelItem => item.ReservationUser.LastName)
+                        </a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.ReservationID">
-                            <span class="fas fa-pen"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.ReservationID">
-                            <span class="fas fa-list-alt"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.ReservationID">
-                            <span class="fas fa-trash-alt"></span>
-                        </a>
+                        @Html.DisplayFor(modelItem => item.UpdatedDate)
                     </td>
                 </tr>
             }

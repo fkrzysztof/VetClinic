@@ -1,31 +1,27 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.UserType>
 
 @{
-    ViewBag.Title = "Grupy Uprawnień";
+    ViewBag.Title = "Grupy uprawnień";
 }
 
-<div class="row">
-    <div class="col-sm-6">
-        <h1>Grupy uprawnien</h1>
-    </div>
-    <div class="col-sm-6 float-right">
-        <a class="btn btn-outline-primary float-right" asp-action="Details"><i class="fas fa-plus-circle"></i> Nowa Grupa</a>
-        <a class="btn btn-outline-primary float-right mr-2" asp-action="Index" asp-controller="Permissions">Uprawniena</a>
+<div class="row mb-3">
+    <div class="col-12">
+        <a class="btn btn-primary" asp-action="Index" asp-controller="Permissions">Uprawniena</a>
+        <a class="btn btn-outline-success float-right" asp-action="Details"><i class="fas fa-plus-circle"></i> Dodaj nową grupę uprawnień</a>
     </div>
 </div>
-<hr />
+
 <div class="justify-content-end" >
-    <div class="row col-sm-10">
+    <div class="row">
         @foreach (var item in Model)
         {
             <div class="col-sm-6">
                 <div class="card mb-4 border-danger">
                     <div class="card-body">
-                        <h3 class="card-title text-right"> @Html.DisplayFor(modelItem => item.Name)</h3>
+                        <h3 class="card-title"> @Html.DisplayFor(modelItem => item.Name)</h3>
 
-                        <h6 class="card-title">Opis</h6>
                         <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                        <a asp-action="Details" asp-route-id="@item.UserTypeID" class="btn btn-outline-primary">Zarządzaj</a>
+                        <a asp-action="Edit" asp-route-id="@item.UserTypeID" class="btn float-right btn-outline-primary"><i class="fas fa-edit"></i> Zarządzaj</a>
                     </div>
                 </div>
             </div>

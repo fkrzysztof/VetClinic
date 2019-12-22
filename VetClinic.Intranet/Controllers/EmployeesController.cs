@@ -1,4 +1,5 @@
 ﻿using VetClinic.Data;
+using VetClinic.Intranet.Controllers.Abastract;
 
 namespace VetClinic.Intranet.Controllers
 {

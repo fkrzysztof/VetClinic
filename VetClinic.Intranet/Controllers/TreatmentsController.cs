@@ -23,27 +23,7 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Index()
         {
             var vetClinicContext = _context.Treatments.Include(t => t.TreatmentAddedUser).Include(t => t.TreatmentUpdatedUser);
-            return View(await vetClinicContext.ToListAsync());
-        }
-
-        // GET: Treatment/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var treatment = await _context.Treatments
-                .Include(t => t.TreatmentAddedUser)
-                .Include(t => t.TreatmentUpdatedUser)
-                .FirstOrDefaultAsync(m => m.TreatmentID == id);
-            if (treatment == null)
-            {
-                return NotFound();
-            }
-
-            return View(treatment);
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: Treatment/Create
@@ -109,6 +89,7 @@ namespace VetClinic.Intranet.Controllers
                 try
                 {
                     treatment.UpdatedDate = DateTime.Now;
+                    treatment.IsActive = true;
                     _context.Update(treatment);
                     await _context.SaveChangesAsync();
                 }
@@ -130,34 +111,28 @@ namespace VetClinic.Intranet.Controllers
             return View(treatment);
         }
 
-        // GET: Treatment/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var treatment = await _context.Treatments
-                .Include(t => t.TreatmentAddedUser)
-                .Include(t => t.TreatmentUpdatedUser)
-                .FirstOrDefaultAsync(m => m.TreatmentID == id);
-            if (treatment == null)
-            {
-                return NotFound();
-            }
-
-            return View(treatment);
-        }
-
         // POST: Treatment/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var treatment = await _context.Treatments.FindAsync(id);
-            _context.Treatments.Remove(treatment);
+            treatment.IsActive = false;
+            treatment.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var treatment = await _context.Treatments.FindAsync(id);
+            treatment.IsActive = true;
+            treatment.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

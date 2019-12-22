@@ -22,7 +22,7 @@ namespace VetClinic.Intranet.Controllers
         // GET: ScheduleBlocks
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ScheduleBlocks.OrderBy(t=>t.Time).ToListAsync());
+            return View(await _context.ScheduleBlocks.OrderBy(t => t.Time).ToListAsync());
         }
 
         public IActionResult Create()
@@ -43,22 +43,6 @@ namespace VetClinic.Intranet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(scheduleBlock);
-        }
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var scheduleBlock = await _context.ScheduleBlocks
-                .FirstOrDefaultAsync(m => m.ScheduleBlockID == id);
-            if (scheduleBlock == null)
-            {
-                return NotFound();
-            }
-
             return View(scheduleBlock);
         }
 

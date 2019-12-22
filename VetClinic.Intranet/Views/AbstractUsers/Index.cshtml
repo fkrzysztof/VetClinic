@@ -21,7 +21,7 @@
                         <label>Wyszukaj po: </label>
                     </div>
                     <div class="form-group mx-sm-3 mb-2 col-md-6">
-                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Login, Nazwisko, E-mail, Miasto" />
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Loginie, Nazwisku, E-mailu, Mieście..." />
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
                     @if (ViewData["currentFilter"] != null)
@@ -38,7 +38,7 @@
 {
 <p>
     <input class="btn btn-outline-secondary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
-    <a class="btn btn-outline-primary float-right" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+    <a class="btn btn-outline-success float-right" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
         Dodaj nowego użytkownika
     </a>

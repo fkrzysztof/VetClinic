@@ -14,6 +14,8 @@
     <link href="~/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
     <!-- Custom styles for this template-->
     <link href="~/css/sb-admin.css" rel="stylesheet">
+
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 
 
@@ -46,89 +48,116 @@
     <div id="wrapper">
         <!-- SIDEBAR -->
         <ul class="sidebar navbar-nav">
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-paw"></i>
                     <span>Pacjenci</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-area="" asp-controller="Patients" asp-action="Index">Lista</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="PatientTypes" asp-action="Index">Typ pacjenta</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Patients" asp-action="Index">Pacjenci</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="PatientTypes" asp-action="Index">Typy pacjentów</a>
                 </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Treatments" asp-action="Index">
+                    <i class="fas fa-syringe"></i>
+                    <span>Zabiegi</span>
+                </a>
             </li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Użytkownicy</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-area="" asp-controller="AllUsers" asp-action="Index">Wszyscy</a>
-
-                    @if (ViewBag.HasAccessToAdmins != null)
-                    {
-                        <a class="dropdown-item" asp-area="" asp-controller="Admins" asp-action="Index">Administratorzy</a>
-                    }
-
-                    <a class="dropdown-item" asp-area="" asp-controller="Doctors" asp-action="Index">Lekarz</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Employees" asp-action="Index">Pracownik</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Customers" asp-action="Index">Klient</a>
-                </div>
-            </li>
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Specjalizacje</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" asp-area="" asp-controller="MedicalSpecializations" asp-action="Index">Spec. Lekarza</a>
-                    <a class="dropdown-item" asp-area="" asp-controller="Specializations" asp-action="Index"> Lista Specjalizacji</a>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="RecentNews" asp-action="Index">
-                    <span>Aktualności</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="UserTypes" asp-action="Index">
-                    <span>Grupy uprawnień</span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Medicines" asp-action="Index">
+                    <i class="fas fa-pills"></i>
                     <span>Leki</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" asp-area="" asp-controller="Medicines" asp-action="Index">Leki</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="MedicineTypes" asp-action="Index">Typy leków</a>
+                </div>
+            </li>
+
+            <li class="break"></li>
+
+            <li class="nav-item">
+                <a class="nav-link toggle" asp-area="" asp-controller="Calendar" asp-action="Index">
+                    <i class="fas fa-calendar-alt"></i> <span>Kalendarz rezerwacji</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link toggle" asp-area="" asp-controller="Reservations" asp-action="Index">
+                    <i class="fas fa-calendar-times"></i> <span>Rezerwacje</span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" asp-area="" asp-controller="ScheduleBlocks" asp-action="Index">
+                    <i class="fas fa-th"></i>
                     <span>Bloki</span>
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Treatments" asp-action="Index">
-                    <span>Zabiegi</span>
+            <li class="break"></li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-users"></i>
+                    <span>Użytkownicy</span>
                 </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" asp-area="" asp-controller="AllUsers" asp-action="Index">Wszyscy użytkownicy</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Customers" asp-action="Index">Klienci</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Doctors" asp-action="Index">Lekarze</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="Employees" asp-action="Index">Pracownicy</a>
+                    @if (ViewBag.HasAccessToAdmins != null)
+                    {
+                        <a class="dropdown-item" asp-area="" asp-controller="Admins" asp-action="Index">Administratorzy</a>
+                    }
+                </div>
             </li>
 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Uprawnienia</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" asp-area="" asp-controller="Permissions" asp-action="Index">Uprawnienia</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="UserTypes" asp-action="Index">Grupy uprawnień</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
+                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-nurse"></i>
+                    <span>Specjalizacje</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                     <a class="dropdown-item" asp-area="" asp-controller="Specializations" asp-action="Index">Specjalizacje</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="MedicalSpecializations" asp-action="Index">Specjalizacje lekarza</a>
+                </div>
+            </li>
+
+            <li class="break"></li>
+
             <li class="nav-item">
-                <a class="nav-link toggle" asp-area="" asp-controller="Calendar" asp-action="Index">
-                    <i class="fas fa-calendar-alt"></i> <span>Rezerwacje</span>
+                <a class="nav-link" asp-area="" asp-controller="RecentNews" asp-action="Index">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Aktualności</span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link toggle" asp-area="" asp-controller="News" asp-action="Index">
-                    <i class="fas fa-calendar-alt"></i> <span>Wiadomości</span>
+                    <i class="fas fa-envelope-open-text"></i>
+                    <span>Wiadomości</span>
                 </a>
             </li>
         </ul>
@@ -138,9 +167,10 @@
                 <!-- TREŚĆ STRON -->
                 <div class="card">
                     <div class="card-header">
-                        @if (ViewContext.RouteData.Values["action"].ToString() == "Edit" || ViewContext.RouteData.Values["action"].ToString() == "Create")
+                        @if (ViewContext.RouteData.Values["action"].ToString() == "Edit" || ViewContext.RouteData.Values["action"].ToString() == "Create" ||
+                            ViewContext.RouteData.Values["action"].ToString() == "AddVisit" || ViewContext.RouteData.Values["action"].ToString() == "EditVisit")
                         {
-                            <a class="btn btn-outline-secondary mr-3" role="button" asp-action="Index">
+                            <a class="btn btn-outline-secondary mr-3 btn-sm" role="button" asp-action="Index">
                                 <span class="fas fa-arrow-circle-left"></span> Wróć do listy
                             </a>
                         }

@@ -22,13 +22,6 @@ namespace VetClinic.Intranet.Controllers
             _context = context;
         }
 
-        //// GET: News
-        //public async Task<IActionResult> Index()
-        //{
-        //    var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser);
-        //    return View(await vetClinicContext.ToListAsync());
-        //}
-
         // GET: Admin
         public async Task<IActionResult> Index()
         {
@@ -38,36 +31,14 @@ namespace VetClinic.Intranet.Controllers
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
                 .Where(n => n.UserTypeID == usertypeid && n.IsActive == true);
 
-            return View(await vetClinicContext.ToListAsync());
-        }
-
-        // GET: News/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var news = await _context.News
-                .Include(n => n.NewsUpdatedUser)
-                .Include(n => n.ReceiverUserTypes)
-                .Include(n => n.SenderUser)
-                .FirstOrDefaultAsync(m => m.NewsID == id);
-            if (news == null)
-            {
-                return NotFound();
-            }
-
-            return View(news);
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: News/Create
         public IActionResult Create()
         {
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name");
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true), "UserTypeID", "Name");
+
             return View();
         }
 
@@ -84,13 +55,12 @@ namespace VetClinic.Intranet.Controllers
                 news.UserID = LoggedUserID;
                 news.AddedDate = DateTime.Now;
                 news.IsActive = true;
+
                 _context.Add(news);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", news.UpdatedUserID);
-            ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name", news.UserTypeID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "City", news.UserID);
+
             return View(news);
         }
 
@@ -107,9 +77,9 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", news.UpdatedUserID);
-            ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name", news.UserTypeID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "City", news.UserID);
+
+            ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true), "UserTypeID", "Name", news.UserTypeID);
+
             return View(news);
         }
 
@@ -130,6 +100,8 @@ namespace VetClinic.Intranet.Controllers
                 try
                 {
                     news.UpdatedDate = DateTime.Now;
+                    news.IsActive = true;
+
                     _context.Update(news);
                     await _context.SaveChangesAsync();
                 }
@@ -146,29 +118,6 @@ namespace VetClinic.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", news.UpdatedUserID);
-            ViewData["UserTypeID"] = new SelectList(_context.UserTypes, "UserTypeID", "Name", news.UserTypeID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "City", news.UserID);
-            return View(news);
-        }
-
-        // GET: News/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var news = await _context.News
-                .Include(n => n.NewsUpdatedUser)
-                .Include(n => n.ReceiverUserTypes)
-                .Include(n => n.SenderUser)
-                .FirstOrDefaultAsync(m => m.NewsID == id);
-            if (news == null)
-            {
-                return NotFound();
-            }
 
             return View(news);
         }
@@ -179,8 +128,23 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var news = await _context.News.FindAsync(id);
-            _context.News.Remove(news);
+            news.UpdatedDate = DateTime.Now;
+            news.IsActive = false;
+
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var news = await _context.News.FindAsync(id);
+            news.IsActive = true;
+            news.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

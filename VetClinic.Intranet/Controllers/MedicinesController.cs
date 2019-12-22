@@ -39,28 +39,7 @@ namespace VetClinic.Intranet.Controllers
                                  .Include(m => m.MedicineUpdatedUser)
                                  .Where(a => a.IsActive == true);
             }
-            return View(await vetClinicContext.ToListAsync());
-        }
-
-        // GET: Medicines/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var medicine = await _context.Medicines
-                .Include(m => m.MedicineAddedUser)
-                .Include(m => m.MedicineType)
-                .Include(m => m.MedicineUpdatedUser)
-                .FirstOrDefaultAsync(m => m.MedicineID == id);
-            if (medicine == null)
-            {
-                return NotFound();
-            }
-
-            return View(medicine);
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: Medicines/Create
@@ -133,6 +112,7 @@ namespace VetClinic.Intranet.Controllers
                 try
                 {
                     medicine.UpdatedDate = DateTime.Now;
+                    medicine.IsActive = true;
                     if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
                     {
                         medicine.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
@@ -159,35 +139,28 @@ namespace VetClinic.Intranet.Controllers
             return View(medicine);
         }
 
-        // GET: Medicines/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var medicine = await _context.Medicines
-                .Include(m => m.MedicineAddedUser)
-                .Include(m => m.MedicineType)
-                .Include(m => m.MedicineUpdatedUser)
-                .FirstOrDefaultAsync(m => m.MedicineID == id);
-            if (medicine == null)
-            {
-                return NotFound();
-            }
-
-            return View(medicine);
-        }
-
         // POST: Medicines/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var medicine = await _context.Medicines.FindAsync(id);
-            medicine.IsActive=false;
+            medicine.IsActive = false;
+            medicine.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var medicine = await _context.Medicines.FindAsync(id);
+            medicine.IsActive = true;
+            medicine.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

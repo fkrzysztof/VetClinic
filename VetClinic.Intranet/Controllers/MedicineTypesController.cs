@@ -24,27 +24,7 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Index()
         {
             var vetClinicContext = _context.MedicineTypes.Include(m => m.MedicineTypeAddedUser).Include(m => m.MedicineTypeUpdatedUser);
-            return View(await vetClinicContext.ToListAsync());
-        }
-
-        // GET: MedicineTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var medicineType = await _context.MedicineTypes
-                .Include(m => m.MedicineTypeAddedUser)
-                .Include(m => m.MedicineTypeUpdatedUser)
-                .FirstOrDefaultAsync(m => m.MedicineTypeID == id);
-            if (medicineType == null)
-            {
-                return NotFound();
-            }
-
-            return View(medicineType);
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: MedicineTypes/Create
@@ -118,6 +98,7 @@ namespace VetClinic.Intranet.Controllers
                         medicineType.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                     }
                     medicineType.UpdatedDate = DateTime.Now;
+                    medicineType.IsActive = true;
                     _context.Update(medicineType);
                     await _context.SaveChangesAsync();
                 }
@@ -138,35 +119,28 @@ namespace VetClinic.Intranet.Controllers
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", medicineType.UpdatedUserID);
             return View(medicineType);
         }
-
-        // GET: MedicineTypes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var medicineType = await _context.MedicineTypes
-                .Include(m => m.MedicineTypeAddedUser)
-                .Include(m => m.MedicineTypeUpdatedUser)
-                .FirstOrDefaultAsync(m => m.MedicineTypeID == id);
-            if (medicineType == null)
-            {
-                return NotFound();
-            }
-
-            return View(medicineType);
-        }
-
         // POST: MedicineTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var medicineType = await _context.MedicineTypes.FindAsync(id);
-            _context.MedicineTypes.Remove(medicineType);
+            medicineType.UpdatedDate = DateTime.Now;
+            medicineType.IsActive = false;
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var medicineType = await _context.MedicineTypes.FindAsync(id);
+            medicineType.IsActive = true;
+            medicineType.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
