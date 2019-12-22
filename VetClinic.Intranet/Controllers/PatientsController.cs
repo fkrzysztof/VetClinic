@@ -465,7 +465,7 @@ namespace VetClinic.Intranet.Controllers
             visit.IsActive = false;
             visit.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Visit));
+            return RedirectToAction(nameof(Visit), new { id = visit.PatientID });
         }
 
         // POST: Admin/Restore/5
@@ -478,7 +478,7 @@ namespace VetClinic.Intranet.Controllers
             visit.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Visit));
+            return RedirectToAction(nameof(Visit), new { id = visit.PatientID });
         }
     }
 }
