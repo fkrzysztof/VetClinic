@@ -3,9 +3,7 @@
 @{
     ViewData["Title"] = String.Format("Edycja typu pacjenta {0}", Model.Name);
 }
-<h4>Edytuj:</h4>
-<h2>Typ pacjenta</h2>
-<hr />
+
 <form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>

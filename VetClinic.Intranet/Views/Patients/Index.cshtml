@@ -35,14 +35,12 @@
     </div>
 </div>
 <br />
-<p>
-    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-        <i class="fas fa-plus-circle"></i>
-        Dodaj nowego pacjenta
-    </a>
+<a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+    <i class="fas fa-plus-circle"></i>
+    Dodaj nowego pacjenta
+</a>
  
-    <input class="btn btn-outline-primary" type="button" value="Pokaż moich pacjentów" onclick="location.href='@Url.Action("ShowOwnPatients", "Patients")'" />  
-</p>
+<input class="btn btn-outline-primary" type="button" value="Pokaż moich pacjentów" onclick="location.href='@Url.Action("ShowOwnPatients", "Patients")'" />  
 
 
 <div class="table-responsive">
