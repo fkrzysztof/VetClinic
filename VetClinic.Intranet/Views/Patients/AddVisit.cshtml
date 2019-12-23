@@ -1,27 +1,16 @@
 @model VetClinic.Data.Helpers.VisitDetails
 @{
-    ViewData["Title"] = "Dodaj wizyte";
+    ViewData["Title"] = "Nowa wizyta";
 }
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#operation').click(function () {
-                $("#oper").load("AddOperation/1");
-            });
-        });
-    </script>
-</head>
-<h4>Dodaj:</h4>
-<h2>Wizyta</h2>
-<hr />
+
+
 <form asp-action="AddVisit">
 
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         @*<div class="row inputGroupMargin col-12">*@
         <div class="form-group col-md-6">
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Lekarz</span>
                 </div>
@@ -45,7 +34,7 @@
     <div class="form-row">
         @*<div class="row inputGroupMargin col-12">*@
         <div class="form-group col-12">
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text">Opis</span>
                 </div>
@@ -56,58 +45,12 @@
         @*</div>*@
     </div>
 
-    <hr />
-    <div class="form-row">
-        <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
-        <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
-        <a class="btn btn-outline-primary" role="button" asp-action="Index">
-            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-        </a>
-        </div>
-        @*<div class="form-group col-md-4" id="oper">
-
-            </div>*@
-
-</form>
-@*<form asp-action="AddVisit">
-
-        <div class="form-row">
-            <div class="form-group col-md-8">
-                <div class="form-row">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group col-md-5">
-                        <label>Weterynarz</label>
-                        <select asp-for="Visit.VetID" class="form-control" asp-items="ViewBag.VetID"></select>
-                        <span asp-validation-for="Visit.VetID" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-5">
-                        <label>Data wizyty</label>
-                        <input asp-for="Visit.DateOfVisit" class="form-control" />
-                        <span asp-validation-for="Visit.DateOfVisit" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Opis</label>
-                    <textarea asp-for="Visit.Description" class="form-control" rows="5"></textarea>
-                    <span asp-validation-for="Visit.Description" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Zapisz" class="btn btn-primary" />
-                </div>
-            </div>
-            <div class="form-group col-md-4" id="oper">
-
-            </div>
-        </div>
-    </form>
 
     <div>
-        <a class="btn btn-outline-primary" role="button" asp-action="Index">
-            <span class="fas fa-arrow-circle-left">Wróć do listy</span>
-        </a>
+        <input type="submit" value="Utwórz wizytę" class="btn btn-success float-right buttMargin" />
+    </div>
+</form>
 
-    </div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

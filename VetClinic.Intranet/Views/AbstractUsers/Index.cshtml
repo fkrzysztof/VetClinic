@@ -1,0 +1,99 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.User>
+
+@{
+    ViewData["Title"] = ViewBag.Title;
+}
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="Filtry">
+            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                <strong>Filtry</strong>
+                <button class="btn btn-link">
+                    <i class="fa fa-bars text-black"></i>
+                </button>
+            </div>
+        </div>
+        <div id="collapse1" class="collapse @(ViewData["currentFilter"] == null ? "" : "show")" aria-labelledby="Filtry" data-parent="#accordion">
+            <div class="card-body">
+
+                <form class="form-inline" asp-action="Index" method="get">
+                    <div class="form-group mb-2">
+                        <label>Wyszukaj po: </label>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2 col-md-6">
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Loginie, Nazwisku, E-mailu, Mieście..." />
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
+                    @if (ViewData["currentFilter"] != null)
+                    {
+                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+@using (Html.BeginForm("Deactivate", "Admins", FormMethod.Post))
+{
+<p>
+    <input class="btn btn-outline-secondary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
+    <a class="btn btn-outline-success float-right" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+        <i class="fas fa-plus-circle"></i>
+        @ViewBag.New
+    </a>
+</p>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+
+                    </th>
+                    <th>
+                        Nazwa
+                    </th>
+                    <th>
+                        E-mail
+                    </th>
+                    <th>
+                        Adres
+                    </th>
+                    <th>
+                        Ostatnia modyfikacja
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                    <td>
+                        <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.UserID">
+                            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                        </a>
+                        <span class="login">(Login: @Html.DisplayFor(modelItem => item.Login))</span>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Street) @Html.DisplayFor(modelItem => item.HouseNumber)
+                        @if (item.ApartmentNumber != null)
+                        {@Html.DisplayFor(modelItem => item.ApartmentNumber)},
+                        @Html.DisplayFor(modelItem => item.PostalCode) @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdatedDate)
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+ 

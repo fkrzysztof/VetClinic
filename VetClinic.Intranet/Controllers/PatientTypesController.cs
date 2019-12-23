@@ -23,27 +23,7 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Index()
         {
             var vetClinicContext = _context.PatientTypes.Include(p => p.PatientTypeAddedUser).Include(p => p.PatientTypeUpdatedUser);
-            return View(await vetClinicContext.ToListAsync());
-        }
-
-        // GET: PatientType/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var patientType = await _context.PatientTypes
-                .Include(p => p.PatientTypeAddedUser)
-                .Include(p => p.PatientTypeUpdatedUser)
-                .FirstOrDefaultAsync(m => m.PatientTypeID == id);
-            if (patientType == null)
-            {
-                return NotFound();
-            }
-
-            return View(patientType);
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: PatientType/Create
@@ -106,6 +86,8 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    patientType.IsActive = true;
+                    patientType.UpdatedDate = DateTime.Now;
                     _context.Update(patientType);
                     await _context.SaveChangesAsync();
                 }
@@ -127,34 +109,28 @@ namespace VetClinic.Intranet.Controllers
             return View(patientType);
         }
 
-        // GET: PatientType/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var patientType = await _context.PatientTypes
-                .Include(p => p.PatientTypeAddedUser)
-                .Include(p => p.PatientTypeUpdatedUser)
-                .FirstOrDefaultAsync(m => m.PatientTypeID == id);
-            if (patientType == null)
-            {
-                return NotFound();
-            }
-
-            return View(patientType);
-        }
-
         // POST: PatientType/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var patientType = await _context.PatientTypes.FindAsync(id);
-            _context.PatientTypes.Remove(patientType);
+            patientType.IsActive = false;
+            patientType.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var patientType = await _context.PatientTypes.FindAsync(id);
+            patientType.IsActive = true;
+            patientType.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

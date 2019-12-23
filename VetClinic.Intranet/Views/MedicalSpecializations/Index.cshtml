@@ -1,54 +1,50 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.MedicalSpecialization>
 
 @{
-    ViewData["Title"] = "Index";
+  ViewBag.Title = "Specjalizacje lekarza";
 }
 
-<p>
-    <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-        <i class="fas fa-plus-circle"></i>
-        Dodaj nowy
-    </a>
-</p>
+
+<div class="row mb-3">
+    <div class="col-12">
+        <a class="btn btn-outline-success float-right" asp-action="Create"><i class="fas fa-plus-circle"></i> Dodaj nową specjalizację lekarza</a>
+    </div>
+</div>
 
 <div class="table-responsive">
     <table class="table table-hover">
         <thead class="thead-dark">
             <tr>
-               
                 <th>
-                    @Html.DisplayNameFor(model => model.MedicalSpecializationUser)
+                    Użytkownik
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Specialization)
+                    Specjalizacja
                 </th>
-                <th></th>
+                <th>
+                    Ostatnia modyfikacja
+                </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-   
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Specialization.Name)
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.MedicalSpecializationID">
-                            <span class="fas fa-pen"></span>
-                        </a> 
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Details" asp-route-id="@item.MedicalSpecializationID">
-                            <span class="fas fa-list-alt"></span>
-                        </a> 
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.MedicalSpecializationID">
-                            <span class="fas fa-trash-alt"></span>
-                        </a>
-                    </td>
-                </tr>
+            <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.MedicalSpecializationID">
+                        @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.FirstName)
+                        @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.LastName)
+                    </a>
+                    <span class="login">(Login: @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.Login))</span>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Specialization.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedDate)
+                </td>
+            </tr>
             }
         </tbody>
     </table>
-    </div>
+</div>

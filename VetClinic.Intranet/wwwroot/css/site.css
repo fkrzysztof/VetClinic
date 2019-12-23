@@ -69,3 +69,123 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+input[name="SearchString"] {
+    width: 100% !important;
+}
+
+span.login {
+    display: block;
+    font-size: small;
+    color: gray;
+}
+
+.card-header {
+    cursor: pointer;
+}
+
+.generate-pass {
+    border-radius: 0 0.25rem 0.25rem 0 !important;
+}
+
+.item-not-active {
+    background: #b34a4a5e !important
+}
+
+li.break {
+    height: 3px;
+    background: #343a40;
+    margin: 3px 0;
+}
+
+.nav-link i {
+    width: 27px;
+}
+
+table label {
+    margin-bottom: 0 !important;
+}
+
+.form-group select {
+    -webkit-appearance: none;
+}
+
+.tox-tinymce {
+    width: 100% !important;
+}
+
+.select2-container .select2-selection--single {
+     height: 38px !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    display: block !important;
+    padding-left: 8px !important;
+    padding-right: 20px !important;
+    padding-top: 2px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px !important;
+    position: absolute !important;
+    top: 3px !important;
+    right: 1px !important;
+    width: 20px !important;
+}
+
+.nav-item.show > a {
+    color: #f37159 !important;
+}
+
+.nav-item {
+    overflow: hidden;
+}
+
+.nav-item.active .nav-link {
+    background: #f37159;
+}
+
+.nav-item .nav-link:hover {
+    background: #343a40;
+}
+
+.dropdown-menu.show {
+    margin-bottom: 10px !important;
+}
+
+.dropdown-menu {
+    margin: 0 !important;
+    background: #343a40 !important;
+    border-radius: 0;
+}
+
+a.dropdown-item {
+    color: #909294;
+}
+
+.sidebar .nav-item.dropdown .dropdown-toggle::after {
+    margin-right: 10px !important;
+}
+
+.show-force {
+    display: block !important;
+}
+
+.show-force > .nav-link {
+    cursor: initial;
+}
+
+.show-force > .nav-link:hover {
+    background: #222529;
+}
+
+.show-force > .nav-link:after {
+    content: '\f107' !important;
+}
+
+.dropdown-menu.show-force {
+    margin-bottom: 10px !important;
+}

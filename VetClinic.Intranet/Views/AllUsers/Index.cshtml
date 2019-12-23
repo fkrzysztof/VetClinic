@@ -1,31 +1,33 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.User>
 
 @{
-    ViewData["Title"] = "Administratorzy";
+    ViewData["Title"] = "Wszyscy użytkownicy";
 }
 <div id="accordion">
     <div class="card">
         <div class="card-header" id="Filtry">
-            <div class="mb-0">
-                Filtr
-                <button class="btn btn-link" data-toggle="collapse"
-                        data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                <strong>Filtry</strong>
+                <button class="btn btn-link">
                     <i class="fa fa-bars text-black"></i>
                 </button>
             </div>
         </div>
-        <div id="collapse1" class="collapse show" aria-labelledby="Filtr" data-parent="#accordion">
+        <div id="collapse1" class="collapse @(ViewData["currentFilter"] == null ? "" : "show")" aria-labelledby="Filtry" data-parent="#accordion">
             <div class="card-body">
 
                 <form class="form-inline" asp-action="Index" method="get">
                     <div class="form-group mb-2">
-                        <label>Szukaj: </label>
+                        <label>Wyszukaj po: </label>
                     </div>
-                    <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Login,Nazwisko,E-mail,Miasto" /> @*Podpiąć swoje dane*@
+                    <div class="form-group mx-sm-3 mb-2 col-md-6">
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Login, Nazwisko, E-mail, Miasto" />
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
-                    <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
+                    @if (ViewData["currentFilter"] != null)
+                    {
+                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
+                    }
                 </form>
             </div>
         </div>
@@ -34,13 +36,9 @@
 <br />
 @using (Html.BeginForm("Deactivate", "Admins", FormMethod.Post))
 {
-    <p>
-        <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-            <i class="fas fa-plus-circle"></i>
-            Dodaj Administratora
-        </a>
-        <input class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
-    </p>
+<p>
+    <input class="btn btn-outline-secondary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
+</p>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark">
@@ -49,22 +47,19 @@
 
                     </th>
                     <th>
-                        Login
-                    </th>
-                    <th>
-                        Imię
-                    </th>
-                    <th>
-                        Nazwisko
-                    </th>
-                    <th>
-                        Miasto
+                        Nazwa
                     </th>
                     <th>
                         E-mail
                     </th>
                     <th>
-                        Nr.Telefonu
+                        Adres
+                    </th>
+                    <th>
+                        Rola
+                    </th>
+                    <th>
+                        Ostatnia modyfikacja
                     </th>
                     <th></th>
                 </tr>
@@ -72,48 +67,42 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>
-                        <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Login)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
+                    <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                        <td>
+                            <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.UserID">
+                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                            </a>
+                            <span class="login">(Login: @Html.DisplayFor(modelItem => item.Login))</span>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Phone)
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.UserID">
-                            <span class="fas fa-pen"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Details" asp-route-id="@item.UserID">
-                            <span class="fas fa-list-alt"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.UserID">
-                            <span class="fas fa-trash-alt"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="lockUnlock" asp-route-id="@item.UserID">
-                            @if (item.IsActive)
-                            {<span class="fas fa-unlock"></span>}
-                            else
-                            {<span class="fas fa-lock"></span>}
-                        </a>
-                    </td>
-                </tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Street) @Html.DisplayFor(modelItem => item.HouseNumber)
+                            @if (item.ApartmentNumber != null)
+                            {@Html.DisplayFor(modelItem => item.ApartmentNumber)},
+                            @Html.DisplayFor(modelItem => item.PostalCode) @Html.DisplayFor(modelItem => item.City)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UpdatedDate)
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="lockUnlock" asp-route-id="@item.UserID"
+                               title="@String.Format("{0} użytkownika {1} {2}", (item.IsActive ? "Zablokuj" : "Oblokuj"), item.FirstName, item.LastName)">
+                                @if (item.IsActive)
+                                {<span class="fas fa-lock"></span>}
+                                else
+                                {<span class="fas fa-unlock"></span>}
+                            </a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>

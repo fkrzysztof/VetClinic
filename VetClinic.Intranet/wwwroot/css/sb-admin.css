@@ -162,7 +162,7 @@ sup {
 }
 
 a {
-    color: #007bff;
+    color: #c34732;
     text-decoration: none;
     background-color: transparent;
 }
@@ -170,7 +170,7 @@ a {
 
 
     a:hover {
-        color: #0056b3;
+        color: #ef705a;
         text-decoration: underline;
     }
 
@@ -1845,7 +1845,7 @@ pre {
     }
 
     .table thead th {
-        vertical-align: bottom;
+        vertical-align: middle;
         border-bottom: 2px solid #dee2e6;
     }
 
@@ -3664,13 +3664,13 @@ input[type="button"].btn-block {
     .dropdown-item:hover, .dropdown-item:focus {
         color: #f3715b; /*PINK*/
         text-decoration: none;
-        background-color: #ededed; /*jasno szary*/
+        background-color: #2a2f33; /*jasno szary*/
     }
 
     .dropdown-item.active, .dropdown-item:active {
         color: #fff;
         text-decoration: none;
-        background-color: #007bff;
+        background-color: #f3715a;
     }
 
     .dropdown-item.disabled, .dropdown-item:disabled {

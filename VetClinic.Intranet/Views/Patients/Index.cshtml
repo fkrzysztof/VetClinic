@@ -1,35 +1,34 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Patient>
 
 @{
-    ViewData["Title"] = "Lista pacjentów";
+    ViewData["Title"] = "Pacjenci";
 }
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-</head>
 
 <div id="accordion">
     <div class="card">
         <div class="card-header" id="Filtry">
-            <div class="mb-0">
-                Filtr
-                <button class="btn btn-link" data-toggle="collapse"
-                        data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                <strong>Filtry</strong>
+                <button class="btn btn-link">
                     <i class="fa fa-bars text-black"></i>
                 </button>
             </div>
         </div>
-        <div id="collapse1" class="collapse show" aria-labelledby="Filtr" data-parent="#accordion">
+        <div id="collapse1" class="collapse @(ViewData["currentFilter"] == null ? "" : "show")" aria-labelledby="Filtry" data-parent="#accordion">
             <div class="card-body">
 
                 <form class="form-inline" asp-action="Index" method="get">
                     <div class="form-group mb-2">
-                        <label>Szukaj: </label>
+                        <label>Wyszukaj po: </label>
                     </div>
-                    <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Imię,Numer,Typ,Właściciel" /> @*Podpiąć swoje dane*@
+                    <div class="form-group mx-sm-3 mb-2 col-md-6">
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Imieniu, numerze, właścicielu..." />
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
-                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="Index" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
+                    @if (ViewData["currentFilter"] != null)
+                    {
+                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
+                    }
                 </form>
             </div>
         </div>
@@ -37,12 +36,12 @@
 </div>
 <br />
 <p>
-    <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
-        Dodaj
+        Dodaj nowego pacjenta
     </a>
  
-    <input class="btn btn-outline-primary" type="button" value="Pokaż moich" onclick="location.href='@Url.Action("ShowOwnPatients", "Patients")'" />  
+    <input class="btn btn-outline-primary" type="button" value="Pokaż moich pacjentów" onclick="location.href='@Url.Action("ShowOwnPatients", "Patients")'" />  
 </p>
 
 
@@ -51,16 +50,13 @@
         <thead class="thead-dark">
             <tr>
                 <th>
-                    Imię
+                    Nazwa
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.BirthDate)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.PatientNumber)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.KennelName)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.PatientType)
@@ -77,18 +73,16 @@
             {
                 <tr>
                     <td>
-                        <a asp-action="Visit" asp-route-id="@item.PatientID">
+                        <a asp-action="Edit" asp-route-id="@item.PatientID">
                             @Html.DisplayFor(modelItem => item.Name)
                         </a>
+                        <span class="login">(Przydomek: @Html.DisplayFor(modelItem => item.KennelName))</span>
                     </td>
                     <td>
                         @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.BirthDate))
                     </td>
                     <td style="text-align:right">
                         @Html.DisplayFor(modelItem => item.PatientNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.KennelName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.PatientType.Name)
@@ -98,18 +92,13 @@
                         @Html.DisplayFor(modelItem => item.PatientUser.LastName)
                     </td>
                     <td>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.PatientID">
-                            <span class="fas fa-pen"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Details" asp-route-id="@item.PatientID">
-                            <span class="fas fa-list-alt"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
-                            <span class="fas fa-trash-alt"></span>
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Visit" asp-route-id="@item.PatientID">
+                            <span class="fa fa-ambulance"></span>
+                            Wizyty pacjenta
                         </a>
                     </td>
                     <td>
-                        <a class="showDetails btn btn-outline-primary btn-sm" role="button"  id="@item.PatientID">
+                        <a class="showDetails btn btn-outline-primary btn-sm listButtMargin" role="button"  id="@item.PatientID">
                             <span class="fa fa-info"></span>
                         </a>                       
                     </td>
@@ -140,6 +129,9 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <script>
     
     $('.showDetails').click(function () {

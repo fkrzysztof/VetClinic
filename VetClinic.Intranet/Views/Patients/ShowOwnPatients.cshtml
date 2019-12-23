@@ -1,31 +1,34 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Patient>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pacjenci";
 }
+
 <div id="accordion">
     <div class="card">
         <div class="card-header" id="Filtry">
-            <div class="mb-0">
-                Filtr
-                <button class="btn btn-link" data-toggle="collapse"
-                        data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                <strong>Filtry</strong>
+                <button class="btn btn-link">
                     <i class="fa fa-bars text-black"></i>
                 </button>
             </div>
         </div>
-        <div id="collapse1" class="collapse show" aria-labelledby="Filtr" data-parent="#accordion">
+        <div id="collapse1" class="collapse @(ViewData["currentFilter"] == null ? "" : "show")" aria-labelledby="Filtry" data-parent="#accordion">
             <div class="card-body">
 
-                <form class="form-inline" asp-action="ShowOwnPatients" method="get">
+                <form class="form-inline" asp-action="Index" method="get">
                     <div class="form-group mb-2">
-                        <label>Szukaj: </label>
+                        <label>Wyszukaj po: </label>
                     </div>
-                    <div class="form-group mx-sm-3 mb-2">
-                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Imię,Numer,Typ,Właściciel" /> @*Podpiąć swoje dane*@
+                    <div class="form-group mx-sm-3 mb-2 col-md-6">
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Imieniu, numerze, właścicielu..." />
                     </div>
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
-                    <a role="button" class="btn btn-outline-primary mb-2" asp-action="ShowOwnPatients" id="usunFiltry"> <i class="fas fa-minus-circle"></i> Usuń filtry</a> @*Podpiąć swoje dane*@
+                    @if (ViewData["currentFilter"] != null)
+                    {
+                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
+                    }
                 </form>
             </div>
         </div>
@@ -33,11 +36,12 @@
 </div>
 <br />
 <p>
-    <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
-        Dodaj nowy
+        Dodaj nowego pacjenta
     </a>
-    <input class="btn btn-outline-primary" type="button" value="Pokaż wszystkich" onclick="location.href='@Url.Action("Index", "Patients")'" />
+ 
+    <input class="btn btn-outline-primary" type="button" value="Pokaż wszystkich pacjentów" onclick="location.href='@Url.Action("Index", "Patients")'" />  
 </p>
 
 
@@ -46,7 +50,7 @@
         <thead class="thead-dark">
             <tr>
                 <th>
-                    Imię
+                    Nazwa
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.BirthDate)
@@ -55,14 +59,12 @@
                     @Html.DisplayNameFor(model => model.PatientNumber)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.KennelName)
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.PatientType)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.PatientUser)
                 </th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -70,19 +72,17 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>                     
-                        <a asp-action="Visit" asp-route-id="@item.PatientID">
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.PatientID">
                             @Html.DisplayFor(modelItem => item.Name)
-                        </a>        
+                        </a>
+                        <span class="login">(Przydomek: @Html.DisplayFor(modelItem => item.KennelName))</span>
                     </td>
                     <td>
                         @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.BirthDate))
                     </td>
                     <td style="text-align:right">
                         @Html.DisplayFor(modelItem => item.PatientNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.KennelName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.PatientType.Name)
@@ -92,18 +92,66 @@
                         @Html.DisplayFor(modelItem => item.PatientUser.LastName)
                     </td>
                     <td>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Edit" asp-route-id="@item.PatientID">
-                            <span class="fas fa-pen"></span>
+                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Visit" asp-route-id="@item.PatientID">
+                            <span class="fa fa-ambulance"></span>
+                            Wizyty pacjenta
                         </a>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Details" asp-route-id="@item.PatientID">
-                            <span class="fas fa-list-alt"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm listButtMargin" role="button" asp-action="Delete" asp-route-id="@item.PatientID">
-                            <span class="fas fa-trash-alt"></span>
-                        </a>
+                    </td>
+                    <td>
+                        <a class="showDetails btn btn-outline-primary btn-sm listButtMargin" role="button"  id="@item.PatientID">
+                            <span class="fa fa-info"></span>
+                        </a>                       
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+
+<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" style="margin-top:20%;margin-left:25%">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Szczegóły</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+    
+    $('.showDetails').click(function () {
+
+        var patient_id = $(this).attr("id");
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DetailsUpdated","Patients")',
+
+            data:
+            {
+                id: patient_id
+            },
+
+            success: (data) => {
+                        $('#exampleModal').find('.modal-body').html(data);
+                        $('#exampleModal').modal('show');
+                    }
+
+        })
+                });
+ 
+</script>

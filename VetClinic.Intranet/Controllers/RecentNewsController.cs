@@ -22,27 +22,11 @@ namespace VetClinic.Intranet.Controllers
         }
 
         // GET: RecentNews
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.RecentNews.ToListAsync());
-        }
+            ViewData["CurrentFilter"] = searchString;
 
-        // GET: RecentNews/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var recentNews = await _context.RecentNews
-                .FirstOrDefaultAsync(m => m.RecentNewsID == id);
-            if (recentNews == null)
-            {
-                return NotFound();
-            }
-
-            return View(recentNews);
+            return View(await _context.RecentNews.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: RecentNews/Create
@@ -121,6 +105,7 @@ namespace VetClinic.Intranet.Controllers
                         }
                     }
                     recentNews.UpdatedDate = DateTime.Now;
+                    recentNews.IsActive = true;
                     _context.Update(recentNews);
                     await _context.SaveChangesAsync();
                 }
@@ -140,34 +125,28 @@ namespace VetClinic.Intranet.Controllers
             return View(recentNews);
         }
 
-        // GET: RecentNews/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var recentNews = await _context.RecentNews
-                .FirstOrDefaultAsync(m => m.RecentNewsID == id);
-            if (recentNews == null)
-            {
-                return NotFound();
-            }
-
-            return View(recentNews);
-        }
-
         // POST: RecentNews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var recentNews = await _context.RecentNews.FindAsync(id);
-            _context.RecentNews.Remove(recentNews);
             recentNews.IsActive = false;
             recentNews.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var recentNews = await _context.RecentNews.FindAsync(id);
+            recentNews.IsActive = true;
+            recentNews.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

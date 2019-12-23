@@ -23,35 +23,15 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Index()
         {
             var vetClinicContext = _context.MedicalSpecializations.Include(m => m.MedicalSpecializationAddedUser).Include(m => m.MedicalSpecializationUpdatedUser).Include(m => m.MedicalSpecializationUser).Include(m => m.Specialization);
-            return View(await vetClinicContext.ToListAsync());
-        }
-
-        // GET: MedicalSpecialization/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var medicalSpecialization = await _context.MedicalSpecializations
-                .Include(m => m.MedicalSpecializationAddedUser)
-                .Include(m => m.MedicalSpecializationUpdatedUser)
-                .Include(m => m.MedicalSpecializationUser)
-                .Include(m => m.Specialization)
-                .FirstOrDefaultAsync(m => m.MedicalSpecializationID == id);
-            if (medicalSpecialization == null)
-            {
-                return NotFound();
-            }
-
-            return View(medicalSpecialization);
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: MedicalSpecialization/Create
         public IActionResult Create()
         {
-            ViewData["SpecializationID"] = new SelectList(_context.Specializations, "SpecializationID", "Name");
+            ViewData["UserID"] = new SelectList(from user in _context.Users where user.IsActive == true where user.UserTypeID == 2 select new { user.UserID, Display_Name = user.FirstName + " " + user.LastName}, "UserID", "Display_Name");
+            ViewData["SpecializationID"] = new SelectList(_context.Specializations.Where(s => s.IsActive == true), "SpecializationID", "Name");
+
             return View();
         }
 
@@ -64,14 +44,15 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                medicalSpecialization.AddedDate = DateTime.Now;
+                medicalSpecialization.UpdatedDate = medicalSpecialization.AddedDate;
+                medicalSpecialization.IsActive = true;
+
                 _context.Add(medicalSpecialization);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", medicalSpecialization.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", medicalSpecialization.UpdatedUserID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "City", medicalSpecialization.UserID);
-            ViewData["SpecializationID"] = new SelectList(_context.Specializations, "SpecializationID", "Name", medicalSpecialization.SpecializationID);
+            
             return View(medicalSpecialization);
         }
 
@@ -88,10 +69,10 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", medicalSpecialization.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", medicalSpecialization.UpdatedUserID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "City", medicalSpecialization.UserID);
-            ViewData["SpecializationID"] = new SelectList(_context.Specializations, "SpecializationID", "Name", medicalSpecialization.SpecializationID);
+
+            ViewData["UserID"] = new SelectList(from user in _context.Users where user.IsActive == true where user.UserTypeID == 2 select new { user.UserID, Display_Name = user.FirstName + " " + user.LastName }, "UserID", "Display_Name", medicalSpecialization.UserID);
+            ViewData["SpecializationID"] = new SelectList(_context.Specializations.Where(s => s.IsActive == true), "SpecializationID", "Name", medicalSpecialization.SpecializationID);
+
             return View(medicalSpecialization);
         }
 
@@ -111,6 +92,9 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    medicalSpecialization.UpdatedDate = DateTime.Now;
+                    medicalSpecialization.IsActive = true;
+
                     _context.Update(medicalSpecialization);
                     await _context.SaveChangesAsync();
                 }
@@ -127,31 +111,6 @@ namespace VetClinic.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", medicalSpecialization.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", medicalSpecialization.UpdatedUserID);
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "City", medicalSpecialization.UserID);
-            ViewData["SpecializationID"] = new SelectList(_context.Specializations, "SpecializationID", "Name", medicalSpecialization.SpecializationID);
-            return View(medicalSpecialization);
-        }
-
-        // GET: MedicalSpecialization/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var medicalSpecialization = await _context.MedicalSpecializations
-                .Include(m => m.MedicalSpecializationAddedUser)
-                .Include(m => m.MedicalSpecializationUpdatedUser)
-                .Include(m => m.MedicalSpecializationUser)
-                .Include(m => m.Specialization)
-                .FirstOrDefaultAsync(m => m.MedicalSpecializationID == id);
-            if (medicalSpecialization == null)
-            {
-                return NotFound();
-            }
 
             return View(medicalSpecialization);
         }
@@ -162,8 +121,24 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var medicalSpecialization = await _context.MedicalSpecializations.FindAsync(id);
-            _context.MedicalSpecializations.Remove(medicalSpecialization);
+            medicalSpecialization.IsActive = false;
+            medicalSpecialization.UpdatedDate = DateTime.Now;
+
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var medicalSpecialization = await _context.MedicalSpecializations.FindAsync(id);
+            medicalSpecialization.IsActive = true;
+
+            medicalSpecialization.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

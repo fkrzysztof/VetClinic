@@ -23,29 +23,7 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Index()
         {
             var vetClinicContext = _context.Reservations.Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
-            return View(await vetClinicContext.ToListAsync());
-        }
-
-        // GET: Reservations/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reservation = await _context.Reservations
-                .Include(r => r.Patients)
-                .Include(r => r.ReservationAddedUser)
-                .Include(r => r.ReservationUpdatedUser)
-                .Include(r => r.ReservationUser)
-                .FirstOrDefaultAsync(m => m.ReservationID == id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
-
-            return View(reservation);
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         //Czesc Bartek
@@ -57,9 +35,7 @@ namespace VetClinic.Intranet.Controllers
         {
 
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name");
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["ReservationUserID"] = new SelectList(from user in _context.Users where user.IsActive == true where user.UserTypeID == 4 select new { user.UserID, Display_Name = user.FirstName + " " + user.LastName }, "UserID", "Display_Name");
             ViewData["DateOfVisit"] = DateOfVisit;
 
             return View("Create");
@@ -102,9 +78,6 @@ namespace VetClinic.Intranet.Controllers
             Where(p => p.PatientUserID == reservation.ReservationUserID).Select(n => n.Name)
            );
 
-           
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.UpdatedUserID);
             ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
             return View(reservation);
         }
@@ -126,6 +99,7 @@ namespace VetClinic.Intranet.Controllers
                 try
                 {
                     reservation.UpdatedDate = DateTime.Now;
+                    reservation.IsActive = true;
                     _context.Update(reservation);
                     await _context.SaveChangesAsync();
                 }
@@ -143,30 +117,7 @@ namespace VetClinic.Intranet.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", reservation.PatientID);
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.UpdatedUserID);
             ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
-            return View(reservation);
-        }
-
-        // GET: Reservations/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var reservation = await _context.Reservations
-                .Include(r => r.Patients)
-                .Include(r => r.ReservationAddedUser)
-                .Include(r => r.ReservationUpdatedUser)
-                .Include(r => r.ReservationUser)
-                .FirstOrDefaultAsync(m => m.ReservationID == id);
-            if (reservation == null)
-            {
-                return NotFound();
-            }
 
             return View(reservation);
         }
@@ -177,8 +128,22 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var reservation = await _context.Reservations.FindAsync(id);
-            _context.Reservations.Remove(reservation);
+            reservation.IsActive = false;
+            reservation.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var reservation = await _context.Reservations.FindAsync(id);
+            reservation.IsActive = true;
+            reservation.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

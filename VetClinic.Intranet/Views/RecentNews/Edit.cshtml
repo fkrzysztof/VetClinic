@@ -1,82 +1,101 @@
 ﻿@model VetClinic.Data.Data.CMS.RecentNews
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = String.Format("Edycja aktualności {0}", Model.Title);
 }
 
-<h4>Edytuj:</h4>
-<h2>RecentNews</h2>
-<hr />
-
 <form asp-action="Edit" method="post" metenctype="multipart/form-data">
-    <div class="row inputGroupMargin">
-
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="RecentNewsID" /> @*WAŻNE NIE PODMIENIAĆ - POZWALA IDENTYFIKOWAĆ EDYCJE*@
-        <input type="hidden" asp-for="Image" />
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="label1">@Html.DisplayNameFor(model => model.LinkTitle)</span>
-            </div>
-            <input type="text" asp-for="LinkTitle" class="form-control" aria-describedby="label1">
-            <span asp-validation-for="LinkTitle" class="text-danger"></span>
-        </div>
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="label2">@Html.DisplayNameFor(model => model.Title)</span>
-            </div>
-            <input type="text" asp-for="Title" class="form-control" aria-describedby="label2">
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="row inputGroupMargin">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">@Html.DisplayNameFor(model => model.Text)</span>
-            </div>
-            <textarea class="form-control" asp-for="Text" rows="4"></textarea>
-            <span asp-validation-for="Text" class="text-danger"></span>
-        </div>
-    </div>
-
-    <div class="form-row">
+    <div class="row">
         <div class="form-group col-md-4">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span asp-for="Position" class="input-group-text">@Html.DisplayNameFor(model => model.Position)</span>
-                </div>
-                <input asp-for="Position" class="form-control">
-                <span asp-validation-for="Position" class="text-danger"></span>
+            <div>
+                @{
+                    if (Model.Image != null)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Image);
+                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                        <img style="width: 250px; height:250px" src="@imgSrc" />
+                    }
+                    else
+                    {
+                        <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
+                    }
+                }
+
+                <br />
+                <input type="file" id="files" asp-for="Image" class="form-control-file mt-3"  />
+                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group col-md-8">
-            @{
-                if (Model.Image != null)
-                {
-                    var base64 = Convert.ToBase64String(Model.Image);
-                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                    <img style="width: 250px; height:250px" src="@imgSrc" />
-                }
-                else
-                {
-                    <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
-                }
-            }
 
-            <br />
-            <input type="file" id="files" asp-for="Image" class="form-control-file"  />
-            <span asp-validation-for="Image" class="text-danger"></span>
+        <div class="col-md-8">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RecentNewsID" />
+            <input type="hidden" asp-for="Image" />
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Tytuł linku</span>
+                    </div>
+                    <input type="text" asp-for="LinkTitle" class="form-control" aria-describedby="label1">
+                    <span asp-validation-for="LinkTitle" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label2">Tytuł</span>
+                    </div>
+                    <input type="text" asp-for="Title" class="form-control" aria-describedby="label2">
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span asp-for="Position" class="input-group-text">@Html.DisplayNameFor(model => model.Position)</span>
+                    </div>
+                    <input asp-for="Position" class="form-control">
+                    <span asp-validation-for="Position" class="text-danger"></span>
+                </div>
+            </div>
         </div>
     </div>
 
-    <hr />
-    <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
-    <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <div class="input-group">
+                    <textarea class="form-control" asp-for="Text" rows="8"></textarea>
+                    <span asp-validation-for="Text" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+    </div>
 </form>
+
+@if (Model.IsActive)
+{
+    <form asp-action="Delete" asp-route-id="@Model.RecentNewsID" onsubmit="alert('Na pewno chcesz usunąć aktualność?')">
+        <input type="hidden" asp-for="RecentNewsID" />
+        <input type="submit" value="Usuń aktualność" class="btn btn-outline-danger buttMargin" />
+    </form>
+} 
+else
+{
+<form asp-action="Restore" asp-route-id="@Model.RecentNewsID">
+    <input type="hidden" asp-for="RecentNewsID" />
+    <input type="submit" value="Przywróć aktualność" class="btn btn-outline-success buttMargin" />
+</form>
+}
+
+<script>tinymce.init({selector:'textarea', height : "400"});</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

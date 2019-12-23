@@ -15,7 +15,6 @@ namespace VetClinic.Intranet.Controllers
     public class PatientsController : Controller
     {
         private readonly VetClinicContext _context;
-        private readonly string CustomerUserName = "Klient";
         private readonly int CustomerUserId = 4;
 
         public PatientsController(VetClinicContext context)
@@ -44,7 +43,7 @@ namespace VetClinic.Intranet.Controllers
                                     .Where(a => a.IsActive == true);
 
             }
-            return View(await vetClinicContext.ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         public async Task<IActionResult> ShowOwnPatients(string searchString)
@@ -54,15 +53,15 @@ namespace VetClinic.Intranet.Controllers
             {
                 int UserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                 IEnumerable<int?> listpatientsID = _context.Visits.Where(v => v.VetID == UserID).Select(p => p.PatientID).ToList();
-                var listaWlasnych = _context.Patients.Include(p=>p.PatientType).Include(p=>p.PatientUser).Where(v => listpatientsID.Contains(v.PatientID));
+                var ownPatients = _context.Patients.Include(p=>p.PatientType).Include(p=>p.PatientUser).Where(v => listpatientsID.Contains(v.PatientID));
 
                 ViewData["CurrentFilter"] = searchString;
                 ViewData["PatientUserID"] = new SelectList(_context.PatientTypes, "PatientUserID", "Name");
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    listaWlasnych = (from order in listaWlasnych
-                                        where order.Name.Contains(searchString) || order.PatientNumber.Contains(searchString)
+                    ownPatients = (from order in ownPatients
+                                   where order.Name.Contains(searchString) || order.PatientNumber.Contains(searchString)
                                                                                 || order.PatientUser.FirstName.Contains(searchString)
                                                                                 || order.PatientUser.LastName.Contains(searchString)
                                                                                 || order.PatientType.Name.Contains(searchString)
@@ -73,7 +72,7 @@ namespace VetClinic.Intranet.Controllers
 
                 }
 
-                return View(await listaWlasnych.ToListAsync());
+                return View(await ownPatients.OrderByDescending(u => u.UpdatedDate).ToListAsync());
 
             }
             return View();     
@@ -83,7 +82,7 @@ namespace VetClinic.Intranet.Controllers
         {
 
             ViewData["CurrentFilter"] = searchString;
-            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.Name == CustomerUserName).Where(u => u.IsActive == true); ;
+            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.UserTypeID == CustomerUserId).Where(u => u.IsActive == true); 
             if (!String.IsNullOrEmpty(searchString))
             {
                 vetClinicContext = (from user in vetClinicContext
@@ -97,7 +96,7 @@ namespace VetClinic.Intranet.Controllers
 
 
             }
-            return View(await vetClinicContext.ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
 
         }
         public async Task<IActionResult> DetailsUpdated(int? id)
@@ -111,28 +110,6 @@ namespace VetClinic.Intranet.Controllers
               .Include(p => p.PatientAddedUser)           
               .Include(p => p.PatientUpdatedUser)          
               .FirstOrDefaultAsync(m => m.PatientID == id);           
-            if (patient == null)
-            {
-                return NotFound();
-            }
-
-            return View(patient);
-        }
-
-        // GET: Patient/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var patient = await _context.Patients
-                .Include(p => p.PatientAddedUser)
-                .Include(p => p.PatientType)
-                .Include(p => p.PatientUpdatedUser)
-                .Include(p => p.PatientUser)
-                .FirstOrDefaultAsync(m => m.PatientID == id);
             if (patient == null)
             {
                 return NotFound();
@@ -248,28 +225,6 @@ namespace VetClinic.Intranet.Controllers
             return View(patient);
         }
 
-        // GET: Patient/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var patient = await _context.Patients
-                .Include(p => p.PatientAddedUser)
-                .Include(p => p.PatientType)
-                .Include(p => p.PatientUpdatedUser)
-                .Include(p => p.PatientUser)
-                .FirstOrDefaultAsync(m => m.PatientID == id);
-            if (patient == null)
-            {
-                return NotFound();
-            }
-
-            return View(patient);
-        }
-
         // POST: Patient/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -279,6 +234,19 @@ namespace VetClinic.Intranet.Controllers
             patient.IsActive = false;
             patient.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var patient = await _context.Patients.FindAsync(id);
+            patient.IsActive = true;
+            patient.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -303,6 +271,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["PatientID"] = id;
             return View(await patient.AsNoTracking().ToListAsync());
         }
+
         public IActionResult AddVisit(int id)
         {
 
@@ -418,7 +387,7 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
             ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "LastName");
-            ViewData["VetID"] = new SelectList(_context.Users.Where(u => u.UserTypeID == 2)/*2 to id lekarzy*/, "UserID", "LastName");
+            ViewData["VetID"] = new SelectList(from user in _context.Users where user.UserTypeID == 2 select new { user.UserID, Display_Name = user.FirstName + " " + user.LastName }, "UserID", "Display_Name");
             ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name");
             ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name");
             return View(view);
@@ -485,6 +454,31 @@ namespace VetClinic.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Visit), new { @id = visit.PatientID });
 
+        }
+
+        // POST: Patient/Delete/5
+        [HttpPost, ActionName("DeleteVisit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteVisitConfirmed(int id)
+        {
+            var visit = await _context.Visits.FindAsync(id);
+            visit.IsActive = false;
+            visit.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Visit), new { id = visit.PatientID });
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("RestoreVisit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreVisitConfirmed(int id)
+        {
+            var visit = await _context.Visits.FindAsync(id);
+            visit.IsActive = true;
+            visit.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Visit), new { id = visit.PatientID });
         }
     }
 }

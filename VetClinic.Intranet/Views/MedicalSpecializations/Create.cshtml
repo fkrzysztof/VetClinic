@@ -1,56 +1,32 @@
 ﻿@model VetClinic.Data.Data.Clinic.MedicalSpecialization
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Nowa specjalizacja lekarza";
 }
-<h4>Dodaj:</h4>
-<h2>Specjalizacja lekarza</h2>
-<hr />
 
 <form asp-action="Create" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @*<div class="form-group col-md-6">
-            <label asp-for="UserID" class="control-label"></label>*@
-        <div class="form-group col-md-6">
-            <div class="input-group mb-3">
+        <div class="form-group col-12">
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Rodzaj użytkownika</span>
+                    <span class="input-group-text" id="label1">Użytkownik</span>
                 </div>
-                <select type="select" asp-for="UserID" class="form-control" aria-describedby="label1" asp-items="ViewBag.UserID"></select>
+                <select type="select" asp-for="@Model.MedicalSpecializationUser" class="form-control" aria-describedby="label1" asp-items="ViewBag.UserID"></select>
             </div>
         </div>
-        @*<div class="form-group col-md-6">
-            <label asp-for="SpecializationID" class="control-label"></label>*@
-        <div class="form-group col-md-6">
-            <div class="input-group mb-3">
+        <div class="form-group col-12">
+            <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Rodzaj specjalizacji</span>
+                    <span class="input-group-text" id="label1">Specjalizacja</span>
                 </div>
-                <select type="select" asp-for="SpecializationID" class="form-control" aria-describedby="label1" asp-items="ViewBag.SpecializationID"></select>
+                <select type="select" asp-for="@Model.SpecializationID" class="form-control" aria-describedby="label1" asp-items="ViewBag.SpecializationID"></select>
             </div>
         </div>
     </div>
 
-    @*<div class="form-group">
-            <input type="submit" value="Zapisz" class="btn btn-primary" />
-        </div*@
-    <hr />
-    <div class="form-row">
-        <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
-        <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
-        <a class="btn btn-outline-primary" role="button" asp-action="Index">
-            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-        </a>
-    </div>
+    <input type="submit" value="Utwórz specjalizacje lekarza" class="btn btn-success float-right buttMargin" />
 </form>
-
-
-@*<div>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
-</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

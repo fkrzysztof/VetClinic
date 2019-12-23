@@ -1,44 +1,8 @@
 ﻿@model VetClinic.Data.Data.Clinic.Patient
 
 @{
-    ViewData["Title"] = "Edycja";
+    ViewData["Title"] = String.Format("Edycja pacjenta {0}", Model.Name);
 }
-
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-</head>
-
-<style>
-    .select2-container .select2-selection--single {
-        height: 38px;
-    }
-
-        .select2-container .select2-selection--single .select2-selection__rendered {
-            display: block;
-            padding-left: 8px;
-            padding-right: 20px;
-            padding-top: 2px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 26px;
-        position: absolute;
-        top: 3px;
-        right: 1px;
-        width: 20px;
-    }
-</style>
-<h4>Edytuj:</h4>
-<h2>Pacjent/Zwierzak</h2>
-<hr />
-
-
 
 <form asp-action="Edit" enctype="multipart/form-data">
     <div class="form-row">
@@ -48,11 +12,20 @@
         <input type="hidden" asp-for="AddedDate" />
         <input type="hidden" asp-for="AddedUserID" />
         <input type="hidden" asp-for="PatientUserID" />
-        @*<div class="form-group col-md-6">*@
-        <div class="form-group col-md-5">
-            @*<label asp-for="PatientTypeID" class="control-label"></label>*@
+
+        <div class="form-group col-md-6">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Imię</span>
+                </div>
+                <input type="text" asp-for="Name" class="form-control" aria-describedby="label1" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
             <div class="input-group-prepend">
-                <span class="input-group-text" id="label1">Rodzaj Zwierzaka</span>
+                <span class="input-group-text" id="label1">Typ pacjenta</span>
                 <select style="background-color:red" class="myselect select2-container .select2-selection--single
                                                         select2-container .select2-selection--single .select2-selection__rendered
                                                         select2-container--default .select2-selection--single .select2-selection__arrow"
@@ -60,10 +33,7 @@
                 <span asp-validation-for="PatientTypeID" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="form-group col-md-6">
-            <label>Właściciel</label>
-            <div class="row">
-                <div class="col-md-6">*@
+
         <div class="form-group col-md-4">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="label1">Właściciel</span>
@@ -71,17 +41,13 @@
                 <input id="daneWlasciciela" type="text" asp-for="PatientUser.LastName" class="form-control" />
                 <span asp-validation-for="PatientUserID" class="text-danger"></span>
             </div>
-            @*<div class="col-md-6">
-                    <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
-                </div>*@
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
         </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-5">
-            <div class="input-group mb-3">
+
+        <div class="form-group col-md-6">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Przy.Hodowlany</span>
                 </div>
@@ -90,8 +56,9 @@
                 <span asp-validation-for="KennelName" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group col-md-4">
-            <div class="input-group mb-3">
+
+        <div class="form-group col-md-6">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Data Ur.</span>
                 </div>
@@ -99,19 +66,9 @@
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group col-md-3">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Imię</span>
-                </div>
-                <input type="text" asp-for="Name" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-md-5">
-            <div class="input-group mb-3">
+        
+        <div class="form-group col-md-6">
+            <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Numer pacjenta</span>
                 </div>
@@ -120,9 +77,8 @@
                 <span asp-validation-for="PatientNumber" class="text-danger"></span>
             </div>
         </div>
-        </div>
+    </div>
     <div class="form-row">
-        @*<div class="row inputGroupMargin col-12">*@
         <div class="form-group col-12">
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
@@ -133,61 +89,26 @@
             </div>
         </div>
     </div>
-    <hr />
-    <div class="form-row">
-        <input type="submit" value="Zapisz" class="btn btn-primary buttMargin" />
-        <button type="reset" class="btn btn-danger buttMargin">Resetuj</button>
-        <a class="btn btn-outline-primary" role="button" asp-action="Index">
-            <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-        </a>
+
+    <div>
+        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
     </div>
-
-    @*<div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-6">
-                <label asp-for="BirthDate" class="control-label"></label>
-                <input asp-for="BirthDate" class="form-control" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="KennelName" class="control-label"></label>
-                <input asp-for="KennelName" class="form-control" />
-                <span asp-validation-for="KennelName" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-6">
-                <label asp-for="PatientNumber" class="control-label"></label>
-                <input readonly="readonly" asp-for="PatientNumber" class="form-control" />
-                <span asp-validation-for="PatientNumber" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label asp-for="Description" class="control-label"></label>
-            <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-
-
-
-        <div class="form-group">
-            <input type="submit" value="Zapisz" class="btn btn-primary" />
-        </div>*@
 </form>
 
-
-@*<div>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
-</div>*@
-
+@if (Model.IsActive)
+{
+    <form asp-action="Delete" asp-route-id="@Model.PatientID" onsubmit="alert('Na pewno chcesz usunąć pacjenta?')">
+        <input type="hidden" asp-for="PatientID" />
+        <input type="submit" value="Usuń pacjenta" class="btn btn-danger buttMargin" />
+    </form>
+} 
+else
+{
+<form asp-action="Restore" asp-route-id="@Model.PatientID">
+    <input type="hidden" asp-for="PatientID" />
+    <input type="submit" value="Przywróć pacjenta" class="btn btn-success buttMargin" />
+</form>
+}
 
 <div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
@@ -209,6 +130,11 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
 <script>
 

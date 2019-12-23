@@ -1,68 +1,70 @@
 ﻿@model VetClinic.Data.Data.Clinic.Reservation
 
 @{
-    ViewData["Title"] = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Edycja rezerwacji";
 }
-<h4>Edytuj wybrany element:</h4>
-<h2>Rezerwacje</h2>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div class="form-row">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="ReservationUserID" />
-                <div class="form-group col-md-12">
-                    <label asp-for="ReservationUserID" class="control-label"></label>
-                    <select asp-for="ReservationUserID" class="form-control" asp-items="ViewBag.ReservationUserID"></select>
-                    <span asp-validation-for="ReservationUserID" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-12">
-                    <label asp-for="PatientID" class="control-label"></label>
-                    <select asp-for="PatientID" class="form-control" asp-items="ViewBag.PatientID"></select>
-                    <span asp-validation-for="PatientID" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label asp-for="AddedDate" class="control-label"></label>
-                    <input asp-for="AddedDate" class="form-control" />
-                    <span asp-validation-for="AddedDate" class="text-danger"></span>
-                </div>
-                <div class="form-group col-md-12">
-                    <label asp-for="DateOfVisit" class="control-label"></label>
-                    <input asp-for="DateOfVisit" class="form-control" />
-                    <span asp-validation-for="DateOfVisit" class="text-danger"></span>
-                </div>
-            </div>
 
-            <div class="form-row">
-                <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+<form asp-action="Edit">
+    <div class="form-row">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ReservationUserID" />
+
+        <div class="form-group col-md-12">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Klient</span>
+                </div>
+                <select asp-for="ReservationUserID" class="form-control" asp-items="ViewBag.ReservationUserID"></select>
+                <span asp-validation-for="ReservationUserID" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Pacjent</span>
+                </div>
+                <select asp-for="PatientID" class="form-control" asp-items="ViewBag.PatientID"></select>
+                <span asp-validation-for="PatientID" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Data wizyty</span>
+                </div>
+                <input asp-for="DateOfVisit" class="form-control" />
+                <span asp-validation-for="DateOfVisit" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group col-md-12">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Opis</span>
+                </div>
+                <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Zapisz" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index">
-        <span class="fas fa-arrow-circle-left"></span> Wróć do listy
-    </a>
-    <a class="btn btn-outline-primary" role="button" asp-action="Index" asp-controller="Calendar">
-        Kalendarz Rezerwacji
-    </a>
-</div>
+    <input type="submit" value="Zapisz zmiany" class="btn btn-primary float-right buttMargin" />
+</form>
+
+@if (Model.IsActive)
+{
+    <form asp-action="Delete" asp-route-id="@Model.ReservationID" onsubmit="alert('Na pewno chcesz usunąć rezerwacje?')">
+        <input type="hidden" asp-for="ReservationID" />
+        <input type="submit" value="Usuń rezerwacje" class="btn btn-danger buttMargin" />
+    </form>
+}
+else
+{
+    <form asp-action="Restore" asp-route-id="@Model.ReservationID">
+        <input type="hidden" asp-for="ReservationID" />
+        <input type="submit" value="Przywróć rezerwacje" class="btn btn-success buttMargin" />
+    </form>
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

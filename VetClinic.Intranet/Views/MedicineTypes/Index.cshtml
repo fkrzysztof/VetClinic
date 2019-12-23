@@ -1,15 +1,13 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.MedicineType>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Typy leków";
 }
 
-<h5>Przykładowa strona CRUD (Layout) </h5>
-
 <p>
-    <a class="btn btn-outline-primary" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+    <a class="btn btn-outline-primary float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
-        Dodaj nowy element
+        Dodaj nowy typ leku
     </a>
 </p>
 
@@ -24,59 +22,26 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
+                
                 <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
+                    Ostatnia modyfikacja
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.AddedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UpdatedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MedicineTypeAddedUser)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.MedicineTypeUpdatedUser)
-                </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        <a asp-action="Edit" asp-route-id="@item.MedicineTypeID">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </a>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.AddedDate)
-                    </td>
-                    <td>
                         @Html.DisplayFor(modelItem => item.UpdatedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MedicineTypeAddedUser.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.MedicineTypeUpdatedUser.City)
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.MedicineTypeID">
-                            <span class="fas fa-pen"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.MedicineTypeID">
-                            <span class="fas fa-list-alt"></span>
-                        </a>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.MedicineTypeID">
-                            <span class="fas fa-trash-alt"></span>
-                        </a>
                     </td>
                 </tr>
             }

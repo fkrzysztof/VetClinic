@@ -21,16 +21,14 @@ namespace VetClinic.Intranet.Controllers
         // GET: Permissions
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.Permissions.Include(p => p.PermissionAddedUser).Include(p => p.PermissionUpdatedUser).Where(w => w.IsActive == true);
-            return View(await vetClinicContext.ToListAsync());
+            var vetClinicContext = _context.Permissions.Include(p => p.PermissionAddedUser).Include(p => p.PermissionUpdatedUser);
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
 
         // GET: Permissions/Create
         public IActionResult Create()
         {
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
             return View();
         }
 
@@ -41,17 +39,17 @@ namespace VetClinic.Intranet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PermissionID,Name,Description,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Permission permission)
         {
-            permission.IsActive = true;
-            permission.AddedDate = DateTime.Now;
-            
             if (ModelState.IsValid)
             {
+                permission.AddedDate = DateTime.Now;
+                permission.UpdatedDate = permission.AddedDate;
+                permission.IsActive = true;
+
                 _context.Add(permission);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", permission.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", permission.UpdatedUserID);
+
             return View(permission);
         }
 
@@ -68,8 +66,7 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", permission.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", permission.UpdatedUserID);
+
             return View(permission);
         }
 
@@ -86,13 +83,13 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            permission.IsActive = true;
-            permission.UpdatedDate = DateTime.Now;
-
             if (ModelState.IsValid)
             {
                 try
                 {
+
+                    permission.IsActive = true;
+                    permission.UpdatedDate = DateTime.Now;
                     _context.Update(permission);
                     await _context.SaveChangesAsync();
                 }
@@ -109,8 +106,7 @@ namespace VetClinic.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", permission.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", permission.UpdatedUserID);
+
             return View(permission);
         }
 
@@ -123,6 +119,7 @@ namespace VetClinic.Intranet.Controllers
             var permission = await _context.Permissions.FindAsync(id);
 
             permission.IsActive = false;
+            permission.UpdatedDate = DateTime.Now;
             _context.SaveChanges();
 
             var permissionList = _context.UserTypePermissions.Where(w => w.PermissionID == id).ToList();
@@ -132,6 +129,19 @@ namespace VetClinic.Intranet.Controllers
                 _context.SaveChanges();
             }
             
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var permission = await _context.Permissions.FindAsync(id);
+            permission.IsActive = true;
+            permission.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

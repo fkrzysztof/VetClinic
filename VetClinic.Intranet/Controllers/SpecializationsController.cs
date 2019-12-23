@@ -23,34 +23,13 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Index()
         {
             var vetClinicContext = _context.Specializations.Include(s => s.SpecializationAddedUser).Include(s => s.SpecializationUpdatedUser);
-            return View(await vetClinicContext.ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
-        // GET: Specialization/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var specialization = await _context.Specializations
-                .Include(s => s.SpecializationAddedUser)
-                .Include(s => s.SpecializationUpdatedUser)
-                .FirstOrDefaultAsync(m => m.SpecializationID == id);
-            if (specialization == null)
-            {
-                return NotFound();
-            }
-
-            return View(specialization);
-        }
-
+        
         // GET: Specialization/Create
         public IActionResult Create()
         {
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
             return View();
         }
 
@@ -63,12 +42,15 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                specialization.AddedDate = DateTime.Now;
+                specialization.UpdatedDate = specialization.AddedDate;
+                specialization.IsActive = true;
+
                 _context.Add(specialization);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", specialization.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", specialization.UpdatedUserID);
+
             return View(specialization);
         }
 
@@ -85,8 +67,7 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", specialization.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", specialization.UpdatedUserID);
+
             return View(specialization);
         }
 
@@ -102,10 +83,14 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
+            specialization.UpdatedDate = DateTime.Now;
+
             if (ModelState.IsValid)
             {
                 try
                 {
+                    specialization.IsActive = true;
+                    specialization.UpdatedDate = DateTime.Now;
                     _context.Update(specialization);
                     await _context.SaveChangesAsync();
                 }
@@ -122,27 +107,6 @@ namespace VetClinic.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City", specialization.AddedUserID);
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", specialization.UpdatedUserID);
-            return View(specialization);
-        }
-
-        // GET: Specialization/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var specialization = await _context.Specializations
-                .Include(s => s.SpecializationAddedUser)
-                .Include(s => s.SpecializationUpdatedUser)
-                .FirstOrDefaultAsync(m => m.SpecializationID == id);
-            if (specialization == null)
-            {
-                return NotFound();
-            }
 
             return View(specialization);
         }
@@ -153,8 +117,23 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var specialization = await _context.Specializations.FindAsync(id);
-            _context.Specializations.Remove(specialization);
+            specialization.IsActive = false;
+            specialization.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Restore/5
+        [HttpPost, ActionName("Restore")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RestoreConfirmed(int id)
+        {
+            var specialization = await _context.Specializations.FindAsync(id);
+            specialization.IsActive = true;
+            specialization.UpdatedDate = DateTime.Now;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

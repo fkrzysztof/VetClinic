@@ -22,13 +22,12 @@ namespace VetClinic.Intranet.Controllers
         // GET: UserTypes
         public async Task<IActionResult> Index()
         {
-
-            var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser).Where(w => w.IsActive == true && w.Name != "No7818Permissions");
-            return View(await vetClinicContext.ToListAsync());
+            var vetClinicContext = _context.UserTypes.Include(u => u.UserTypeAddedUser).Include(u => u.UserTypeUpdatedUser).Where(w => w.Name != "No7818Permissions");
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: UserTypes/Details/5
-        public async Task<IActionResult> Details(int? id/*,string searchString*/)
+        public async Task<IActionResult> Edit(int? id/*,string searchString*/)
         {
             DateTime time = DateTime.Now;
             if (id == null)
@@ -38,7 +37,8 @@ namespace VetClinic.Intranet.Controllers
                     Name = "nazwa",
                     Description = "opis",
                     IsActive = true,
-                    AddedDate = time
+                    AddedDate = time,
+                    UpdatedDate = time
                 }
                );
                 _context.SaveChanges();
@@ -95,7 +95,7 @@ namespace VetClinic.Intranet.Controllers
         }
 
         [HttpPost]
-        public IActionResult Details(UserTypesDetails hd, List<int> select_permission, List<int> select_user, List<int> select_new_user)
+        public IActionResult Edit(UserTypesDetails hd, List<int> select_permission, List<int> select_user, List<int> select_new_user)
         {
             //userType ktory przegladamy
             //IsActive wykluczamy juz wczesniej na liscie w index
@@ -221,6 +221,7 @@ namespace VetClinic.Intranet.Controllers
         {
             var userType = await _context.UserTypes.FindAsync(id);
             userType.IsActive = false;
+            userType.UpdatedDate = DateTime.Now;
 
             var userTypePermission = _context.UserTypePermissions.Where(w => w.UserTypeID == id).ToList();
             foreach (var item in userTypePermission)
