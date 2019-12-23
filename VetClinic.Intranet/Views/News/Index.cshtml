@@ -4,13 +4,14 @@
     ViewData["Title"] = "Wiadomości";
 }
 
-<p>
-     <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+<div class="row mb-3">
+    <div class="col-12">
+        <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
         Dodaj nową wiadomość
-    </a>
-</p>
-
+        </a>
+    </div>
+</div>
 
 <div class="row">
     @foreach (var item in Model)
@@ -20,17 +21,11 @@
                 <div class="row no-gutters">
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
-                            <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
                             <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.NewsID">
-                                <span class="fas fa-pen"></span>
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
                             </a>
-                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Details" asp-route-id="@item.NewsID">
-                                <span class="fas fa-list-alt"></span>
-                            </a>
-                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Delete" asp-route-id="@item.NewsID">
-                                <span class="fas fa-trash-alt"></span>
-                            </a>
+                            
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
                         </div>
                     </div>
                     <div class="col-md-4">

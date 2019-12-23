@@ -36,13 +36,13 @@
 <br />
 @using (Html.BeginForm("Deactivate", "Admins", FormMethod.Post))
 {
-<p>
-    <input class="btn btn-outline-secondary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
-    <a class="btn btn-outline-success float-right" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+
+    <input class="btn btn-outline-secondary mb-3" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
+    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
         @ViewBag.New
     </a>
-</p>
+
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark">
