@@ -22,5 +22,6 @@
   
   <ItemGroup>
     <Folder Include="Controllers\Abstract\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
 </Project>

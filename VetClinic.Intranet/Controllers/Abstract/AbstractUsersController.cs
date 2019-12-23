@@ -26,7 +26,7 @@ namespace VetClinic.Intranet.Controllers.Abastract
         }
 
         // GET: Admin
-        public async Task<IActionResult> Index(string searchString)
+        public virtual async Task<IActionResult> Index(string searchString)
         {
             //UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
             //if (await policy.hasNoAccess()) return await policy.RedirectUser();
@@ -51,7 +51,7 @@ namespace VetClinic.Intranet.Controllers.Abastract
         }
 
         // GET: Admin/Create
-        public async Task<IActionResult> Create()
+        public virtual async Task<IActionResult> Create()
         {
             //UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
             //if (await policy.hasNoAccess()) return await policy.RedirectUser();
@@ -93,7 +93,7 @@ namespace VetClinic.Intranet.Controllers.Abastract
         }
 
         // GET: Admin/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public virtual async Task<IActionResult> Edit(int? id)
         {
             //UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
             //if (await policy.hasNoAccess()) return await policy.RedirectUser();

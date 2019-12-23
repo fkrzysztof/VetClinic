@@ -61,6 +61,7 @@
                     <th>
                         Ostatnia modyfikacja
                     </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -91,6 +92,15 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.UpdatedDate)
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="lockUnlock" asp-route-id="@item.UserID"
+                               title="@String.Format("{0} użytkownika {1} {2}", (item.IsActive ? "Zablokuj" : "Oblokuj"), item.FirstName, item.LastName)">
+                                @if (item.IsActive)
+                                {<span class="fas fa-lock"></span>}
+                                else
+                                {<span class="fas fa-unlock"></span>}
+                            </a>
                         </td>
                     </tr>
                 }

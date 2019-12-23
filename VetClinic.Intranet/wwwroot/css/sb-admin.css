@@ -3664,13 +3664,13 @@ input[type="button"].btn-block {
     .dropdown-item:hover, .dropdown-item:focus {
         color: #f3715b; /*PINK*/
         text-decoration: none;
-        background-color: #ededed; /*jasno szary*/
+        background-color: #2a2f33; /*jasno szary*/
     }
 
     .dropdown-item.active, .dropdown-item:active {
         color: #fff;
         text-decoration: none;
-        background-color: #007bff;
+        background-color: #f3715a;
     }
 
     .dropdown-item.disabled, .dropdown-item:disabled {

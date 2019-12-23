@@ -135,3 +135,57 @@ table label {
     right: 1px !important;
     width: 20px !important;
 }
+
+.nav-item.show > a {
+    color: #f37159 !important;
+}
+
+.nav-item {
+    overflow: hidden;
+}
+
+.nav-item.active .nav-link {
+    background: #f37159;
+}
+
+.nav-item .nav-link:hover {
+    background: #343a40;
+}
+
+.dropdown-menu.show {
+    margin-bottom: 10px !important;
+}
+
+.dropdown-menu {
+    margin: 0 !important;
+    background: #343a40 !important;
+    border-radius: 0;
+}
+
+a.dropdown-item {
+    color: #909294;
+}
+
+.sidebar .nav-item.dropdown .dropdown-toggle::after {
+    margin-right: 10px !important;
+}
+
+.show-force {
+    display: block !important;
+}
+
+.show-force > .nav-link {
+    cursor: initial;
+}
+
+.show-force > .nav-link:hover {
+    background: #222529;
+}
+
+.show-force > .nav-link:after {
+    content: '\f107' !important;
+}
+
+.dropdown-menu.show-force {
+    margin-bottom: 10px !important;
+}

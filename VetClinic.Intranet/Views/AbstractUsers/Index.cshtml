@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.User>
 
 @{
-    ViewData["Title"] = "Użytkownicy";
+    ViewData["Title"] = ViewBag.Title;
 }
 <div id="accordion">
     <div class="card">
@@ -40,7 +40,7 @@
     <input class="btn btn-outline-secondary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
     <a class="btn btn-outline-success float-right" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
         <i class="fas fa-plus-circle"></i>
-        Dodaj nowego użytkownika
+        @ViewBag.New
     </a>
 </p>
     <div class="table-responsive">

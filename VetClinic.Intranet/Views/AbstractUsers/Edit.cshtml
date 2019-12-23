@@ -1,7 +1,7 @@
 ﻿@model VetClinic.Data.Data.Clinic.User
 
 @{
-    ViewData["Title"] = String.Format("Edycja użytkownika {0} {1} (Login: {2})", Model.FirstName, Model.LastName, Model.Login);
+    ViewData["Title"] = String.Format("{0} {1} {2} (Login: {3})", ViewBag.Title, Model.FirstName, Model.LastName, Model.Login);
 }
 
 <form asp-action="Edit" enctype="multipart/form-data">
@@ -175,14 +175,14 @@
 {
     <form asp-action="Delete" asp-route-id="@Model.UserID" onsubmit="alert('Na pewno chcesz usunąć użytkownika?')">
         <input type="hidden" asp-for="UserID" />
-        <input type="submit" value="Usuń użytkownika" class="btn btn-outline-danger buttMargin" />
+        <input type="submit" value="@ViewBag.Delete" class="btn btn-outline-danger buttMargin" />
     </form>
 } 
 else
 {
 <form asp-action="Restore" asp-route-id="@Model.UserID">
     <input type="hidden" asp-for="UserID" />
-    <input type="submit" value="Przywróć użytkownika" class="btn btn-outline-success buttMargin" />
+    <input type="submit" value="@ViewBag.Restore" class="btn btn-outline-success buttMargin" />
 </form>
 }
 

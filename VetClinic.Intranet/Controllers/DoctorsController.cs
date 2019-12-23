@@ -1,4 +1,6 @@
-﻿using VetClinic.Data;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using VetClinic.Data;
 using VetClinic.Intranet.Controllers.Abastract;
 
 namespace VetClinic.Intranet.Controllers
@@ -8,6 +10,31 @@ namespace VetClinic.Intranet.Controllers
         public DoctorsController(VetClinicContext context)
             : base(context, 2)
         {
+        }
+
+        public override async Task<IActionResult> Index(string searchString)
+        {
+            ViewBag.Title = "Lekarze";
+            ViewBag.New = "Dodaj nowego lekarza";
+
+            return await base.Index(searchString);
+        }
+
+        public override async Task<IActionResult> Create()
+        {
+            ViewBag.Title = "Nowy lekarz";
+            ViewBag.Button = "Dodaj lekarza";
+
+            return await base.Create();
+        }
+
+        public override async Task<IActionResult> Edit(int? id)
+        {
+            ViewBag.Title = "Edycja lekarza";
+            ViewBag.Delete = "Usuń lekarza";
+            ViewBag.Restore = "Przywróć lekarza";
+
+            return await base.Edit(id);
         }
     }
 }

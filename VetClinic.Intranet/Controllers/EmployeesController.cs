@@ -1,4 +1,6 @@
-﻿using VetClinic.Data;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using VetClinic.Data;
 using VetClinic.Intranet.Controllers.Abastract;
 
 namespace VetClinic.Intranet.Controllers
@@ -8,6 +10,31 @@ namespace VetClinic.Intranet.Controllers
         public EmployeesController(VetClinicContext context)
             : base(context, 3)
         {
+        }
+
+        public override async Task<IActionResult> Index(string searchString)
+        {
+            ViewBag.Title = "Pracownicy";
+            ViewBag.New = "Dodaj nowego pracownika";
+
+            return await base.Index(searchString);
+        }
+
+        public override async Task<IActionResult> Create()
+        {
+            ViewBag.Title = "Nowy pracownik";
+            ViewBag.Button = "Dodaj pracownika";
+
+            return await base.Create();
+        }
+
+        public override async Task<IActionResult> Edit(int? id)
+        {
+            ViewBag.Title = "Edycja pracownika";
+            ViewBag.Delete = "Usuń pracownika";
+            ViewBag.Restore = "Przywróć pracownika";
+
+            return await base.Edit(id);
         }
     }
 }
