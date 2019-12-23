@@ -3,43 +3,31 @@
 @{
     ViewData["Title"] = "Bloki";
 }
-<p>
-    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-        <i class="fas fa-plus-circle"></i>
-        Dodaj nowy blok
-    </a>
-</p>
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>
-                    Czas
-                </th>
-                <th>
-                    Przedział czasowy
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td style="text-align:right">
-                        @Convert.ToString($"{ item.Time:hh}"+":"+$"{item.Time:mm}")
-                    </td>
-                    <td style="text-align:right">
-                        @Convert.ToString($"{ item.TimeInterval:hh}"+":"+$"{item.TimeInterval:mm}")
-                    </td>
-                    <td>
+<div class="row mb-3">
+    <div class="col-12">
+        <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+            <i class="fas fa-plus-circle"></i>
+            Dodaj nowy blok
+        </a>
+    </div>
+</div>
+
+<div class="justify-content-end" >
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-xl-3 col-lg-4 col-md-6">
+                <div class="card mb-4 border-danger">
+                    <div class="card-body">
+                        <h3 class="card-title">@Convert.ToString($"{ item.Time:hh}"+":"+$"{item.Time:mm}")</h3>
+
                         <form asp-action="Delete" asp-route-id="@item.ScheduleBlockID" onsubmit="alert('Na pewno chcesz usunąć blok?')">
                             <input type="hidden" asp-for="@item.ScheduleBlockID" />
-                            <input type="submit" value="Usuń blok" class="btn btn-outline-danger buttMargin" />
+                            <input type="submit" value="Usuń blok" class="btn btn-outline-danger float-right buttMargin" />
                         </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
+</div>

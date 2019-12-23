@@ -18,14 +18,14 @@
                     <span asp-validation-for="@Model.typeUser.Name" class="text-danger"></span>
                 </div>
             </div>
-            <div class="mb-3 col-12">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Opis</span>
-                    </div>
-                    <textarea asp-for="@Model.typeUser.Description" class="form-control" rows="4"></textarea>
-                    <span asp-validation-for="@Model.typeUser.Description" class="text-danger"></span>
+         </div>
+        <div class="mb-3 col-12">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Opis</span>
                 </div>
+                <textarea asp-for="@Model.typeUser.Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="@Model.typeUser.Description" class="text-danger"></span>
             </div>
         </div>
     </div>
