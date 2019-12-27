@@ -226,5 +226,15 @@ namespace VetClinic.Intranet.Controllers.Abastract
             }
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult VerifyLogin(string login, int UserID)
+        {
+            var test = _context.Users.FirstOrDefault(a => a.Login == login);
+            if (UserID == 0 && test != null)
+            {
+                return Json($"Login {login} jest już zajęty.");
+            }
+            return Json(true);
+        }
     }
 }
