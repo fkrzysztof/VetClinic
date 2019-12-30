@@ -76,10 +76,10 @@
                         </a>
                         <span class="login">(Przydomek: @Html.DisplayFor(modelItem => item.KennelName))</span>
                     </td>
-                    <td>
+                    <td class="text-right">
                         @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.BirthDate))
                     </td>
-                    <td style="text-align:right">
+                    <td class="text-right">
                         @Html.DisplayFor(modelItem => item.PatientNumber)
                     </td>
                     <td>

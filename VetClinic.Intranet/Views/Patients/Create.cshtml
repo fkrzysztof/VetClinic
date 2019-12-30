@@ -59,7 +59,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Data Ur.</span>
                 </div>
-                <input type="date" asp-for="BirthDate" class="form-control" aria-describedby="label1" />
+                <input type="date" asp-for="BirthDate" class="form-control text-right" aria-describedby="label1" />
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
         </div>
@@ -70,7 +70,7 @@
                     <span class="input-group-text" id="label1">Numer pacjenta</span>
                 </div>
                 @*<label asp-for="PatientNumber" class="control-label"></label>*@
-                <input readonly="readonly" asp-for="PatientNumber" class="form-control" aria-describedby="label1" />
+                <input readonly="readonly" asp-for="PatientNumber" class="form-control text-right" aria-describedby="label1" />
                 <span asp-validation-for="PatientNumber" class="text-danger"></span>
             </div>
         </div>
