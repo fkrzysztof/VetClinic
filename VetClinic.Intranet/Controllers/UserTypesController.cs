@@ -7,17 +7,13 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.HelpersClass;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class UserTypesController : Controller
+    public class UserTypesController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
-
-        public UserTypesController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public UserTypesController(VetClinicContext context) : base(context) { }
 
         // GET: UserTypes
         public async Task<IActionResult> Index()

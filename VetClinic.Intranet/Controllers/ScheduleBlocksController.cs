@@ -7,17 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class ScheduleBlocksController : Controller
+    public class ScheduleBlocksController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
-
-        public ScheduleBlocksController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public ScheduleBlocksController(VetClinicContext context) : base(context) { }
 
         // GET: ScheduleBlocks
         public async Task<IActionResult> Index()

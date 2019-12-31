@@ -51,111 +51,153 @@
         <!-- SIDEBAR -->
         <ul class="sidebar navbar-nav">
 
-            <li class="nav-item dropdown @Html.IsActive(controllers: "Patients") @Html.IsActive(controllers: "PatientTypes")">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
-                    <i class="fas fa-paw"></i>
-                    <span>Pacjenci</span>
-                </a>
-                <div class="dropdown-menu  @Html.IsActive(controllers: "Patients") @Html.IsActive(controllers: "PatientTypes")">
-                    <a class="dropdown-item @Html.IsActive(controllers: "Patients", cssClass: "active")" asp-controller="Patients" asp-action="Index">Pacjenci</a>
-                    <a class="dropdown-item @Html.IsActive(controllers: "PatientTypes", cssClass: "active")" asp-controller="PatientTypes" asp-action="Index">Typy pacjentów</a>
-                </div>
-            </li>
+            @if (ViewBag.HasAccessToPatients != null)
+            {
+                <li class="nav-item dropdown @Html.IsActive(controllers: "Patients") @Html.IsActive(controllers: "PatientTypes")">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
+                        <i class="fas fa-paw"></i>
+                        <span>Pacjenci</span>
+                    </a>
+                    <div class="dropdown-menu  @Html.IsActive(controllers: "Patients") @Html.IsActive(controllers: "PatientTypes")">
+                        <a class="dropdown-item @Html.IsActive(controllers: "Patients", cssClass: "active")" asp-controller="Patients" asp-action="Index">Pacjenci</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "PatientTypes", cssClass: "active")" asp-controller="PatientTypes" asp-action="Index">Typy pacjentów</a>
+                    </div>
+                </li>
+            }
 
-            <li class="nav-item @Html.IsActive(controllers: "Treatments", cssClass: "active")">
-                <a class="nav-link" asp-area="" asp-controller="Treatments" asp-action="Index">
-                    <i class="fas fa-syringe"></i>
-                    <span>Zabiegi</span>
-                </a>
-            </li>
+            @if (ViewBag.HasAccessToTreatments != null)
+            {
+                <li class="nav-item @Html.IsActive(controllers: "Treatments", cssClass: "active")">
+                    <a class="nav-link" asp-area="" asp-controller="Treatments" asp-action="Index">
+                        <i class="fas fa-syringe"></i>
+                        <span>Zabiegi</span>
+                    </a>
+                </li>
+            }
 
-            <li class="nav-item dropdown @Html.IsActive(controllers: "Medicines") @Html.IsActive(controllers: "MedicineTypes")">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
-                    <i class="fas fa-pills"></i>
-                    <span>Leki</span>
-                </a>
-                <div class="dropdown-menu @Html.IsActive(controllers: "Medicines") @Html.IsActive(controllers: "MedicineTypes")">
-                    <a class="dropdown-item @Html.IsActive(controllers: "Medicines", cssClass: "active")" asp-controller="Medicines" asp-action="Index">Leki</a>
-                    <a class="dropdown-item @Html.IsActive(controllers: "MedicineTypes", cssClass: "active")" asp-controller="MedicineTypes" asp-action="Index">Typy leków</a>
-                </div>
-            </li>
+            @if (ViewBag.HasAccessToMedicines != null)
+            {
+                <li class="nav-item dropdown @Html.IsActive(controllers: "Medicines") @Html.IsActive(controllers: "MedicineTypes")">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
+                        <i class="fas fa-pills"></i>
+                        <span>Leki</span>
+                    </a>
+                    <div class="dropdown-menu @Html.IsActive(controllers: "Medicines") @Html.IsActive(controllers: "MedicineTypes")">
+                        <a class="dropdown-item @Html.IsActive(controllers: "Medicines", cssClass: "active")" asp-controller="Medicines" asp-action="Index">Leki</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "MedicineTypes", cssClass: "active")" asp-controller="MedicineTypes" asp-action="Index">Typy leków</a>
+                    </div>
+                </li>
+            }
 
-            <li class="break"></li>
+            @if (ViewBag.HasAccessToPatients != null || ViewBag.HasAccessToTreatments != null || ViewBag.HasAccessToMedicines != null)
+            {
+                <li class="break"></li>
+            }
 
-            <li class="nav-item @Html.IsActive(controllers: "Calendar", cssClass: "active")">
-                <a class="nav-link" asp-controller="Calendar" asp-action="Index">
-                    <i class="fas fa-calendar-alt"></i> <span>Kalendarz rezerwacji</span>
-                </a>
-            </li>
+            @if (ViewBag.HasAccessToCalendar != null)
+            {
+                <li class="nav-item @Html.IsActive(controllers: "Calendar", cssClass: "active")">
+                    <a class="nav-link" asp-controller="Calendar" asp-action="Index">
+                        <i class="fas fa-calendar-alt"></i> <span>Kalendarz rezerwacji</span>
+                    </a>
+                </li>
+            }
 
-            <li class="nav-item @Html.IsActive(controllers: "Reservations", cssClass: "active")">
-                <a class="nav-link" asp-controller="Reservations" asp-action="Index">
-                    <i class="fas fa-calendar-times"></i> <span>Rezerwacje</span>
-                </a>
-            </li>
+            @if (ViewBag.HasAccessToReservations != null)
+            {
+                <li class="nav-item @Html.IsActive(controllers: "Reservations", cssClass: "active")">
+                    <a class="nav-link" asp-controller="Reservations" asp-action="Index">
+                        <i class="fas fa-calendar-times"></i> <span>Rezerwacje</span>
+                    </a>
+                </li>
+            }
 
-            <li class="nav-item @Html.IsActive(controllers: "ScheduleBlocks", cssClass: "active")">
-                <a class="nav-link" asp-controller="ScheduleBlocks" asp-action="Index">
-                    <i class="fas fa-th"></i>
-                    <span>Bloki</span>
-                </a>
-            </li>
+            @if (ViewBag.HasAccessToScheduleBlocks != null)
+            {
+                <li class="nav-item @Html.IsActive(controllers: "ScheduleBlocks", cssClass: "active")">
+                    <a class="nav-link" asp-controller="ScheduleBlocks" asp-action="Index">
+                        <i class="fas fa-th"></i>
+                        <span>Bloki</span>
+                    </a>
+                </li>
+            }
 
-            <li class="break"></li>
+            @if (ViewBag.HasAccessToCalendar != null || ViewBag.HasAccessToReservations != null || ViewBag.HasAccessToScheduleBlocks != null)
+            {
+                <li class="break"></li>
+            }
 
-            <li class="nav-item dropdown @Html.IsActive(controllers: "AllUsers") @Html.IsActive(controllers: "Customers")
-                @Html.IsActive(controllers: "Doctors") @Html.IsActive(controllers: "Employees") @Html.IsActive(controllers: "Admins")">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
-                    <i class="fas fa-users"></i>
-                    <span>Użytkownicy</span>
-                </a>
-                <div class="dropdown-menu @Html.IsActive(controllers: "AllUsers") @Html.IsActive(controllers: "Customers")
-                @Html.IsActive(controllers: "Doctors") @Html.IsActive(controllers: "Employees") @Html.IsActive(controllers: "Admins")">
-                    <a class="dropdown-item @Html.IsActive(controllers: "AllUsers", cssClass: "active")" asp-controller="AllUsers" asp-action="Index">Wszyscy użytkownicy</a>
-                    <a class="dropdown-item @Html.IsActive(controllers: "Customers", cssClass: "active")" asp-controller="Customers" asp-action="Index">Klienci</a>
-                    <a class="dropdown-item @Html.IsActive(controllers: "Doctors", cssClass: "active")" asp-controller="Doctors" asp-action="Index">Lekarze</a>
-                    <a class="dropdown-item @Html.IsActive(controllers: "Employees", cssClass: "active")" asp-controller="Employees" asp-action="Index">Pracownicy</a>
-                    <a class="dropdown-item @Html.IsActive(controllers: "Admins", cssClass: "active")" asp-controller="Admins" asp-action="Index">Administratorzy</a>
-                </div>
-            </li>
+            @if (ViewBag.HasAccessToUsers != null)
+            {
+                <li class="nav-item dropdown @Html.IsActive(controllers: "AllUsers") @Html.IsActive(controllers: "Customers")
+                        @Html.IsActive(controllers: "Doctors") @Html.IsActive(controllers: "Employees") @Html.IsActive(controllers: "Admins")">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
+                        <i class="fas fa-users"></i>
+                        <span>Użytkownicy</span>
+                    </a>
+                    <div class="dropdown-menu @Html.IsActive(controllers: "AllUsers") @Html.IsActive(controllers: "Customers")
+                        @Html.IsActive(controllers: "Doctors") @Html.IsActive(controllers: "Employees") @Html.IsActive(controllers: "Admins")">
+                        <a class="dropdown-item @Html.IsActive(controllers: "AllUsers", cssClass: "active")" asp-controller="AllUsers" asp-action="Index">Wszyscy użytkownicy</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "Customers", cssClass: "active")" asp-controller="Customers" asp-action="Index">Klienci</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "Doctors", cssClass: "active")" asp-controller="Doctors" asp-action="Index">Lekarze</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "Employees", cssClass: "active")" asp-controller="Employees" asp-action="Index">Pracownicy</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "Admins", cssClass: "active")" asp-controller="Admins" asp-action="Index">Administratorzy</a>
+                    </div>
+                </li>
+            }
 
-            <li class="nav-item dropdown @Html.IsActive(controllers: "Permissions") @Html.IsActive(controllers: "UserTypes")">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"role="button" data-toggle="dropdown">
-                    <i class="fas fa-user-shield"></i>
-                    <span>Uprawnienia</span>
-                </a>
-                <div class="dropdown-menu @Html.IsActive(controllers: "Permissions") @Html.IsActive(controllers: "UserTypes")">
-                    <a class="dropdown-item @Html.IsActive(controllers: "Permissions", cssClass: "active")" asp-controller="Permissions" asp-action="Index">Uprawnienia</a>
-                    <a class="dropdown-item @Html.IsActive(controllers: "UserTypes", cssClass: "active")" asp-controller="UserTypes" asp-action="Index">Grupy uprawnień</a>
-                </div>
-            </li>
+            @if (ViewBag.HasAccessToPermissions != null)
+            {
+                <li class="nav-item dropdown @Html.IsActive(controllers: "Permissions") @Html.IsActive(controllers: "UserTypes")">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
+                        <i class="fas fa-user-shield"></i>
+                        <span>Uprawnienia</span>
+                    </a>
+                    <div class="dropdown-menu @Html.IsActive(controllers: "Permissions") @Html.IsActive(controllers: "UserTypes")">
+                        <a class="dropdown-item @Html.IsActive(controllers: "Permissions", cssClass: "active")" asp-controller="Permissions" asp-action="Index">Uprawnienia</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "UserTypes", cssClass: "active")" asp-controller="UserTypes" asp-action="Index">Grupy uprawnień</a>
+                    </div>
+                </li>
+            }
 
-            <li class="nav-item dropdown @Html.IsActive(controllers: "Specializations") @Html.IsActive(controllers: "MedicalSpecializations")">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
-                    <i class="fas fa-user-nurse"></i>
-                    <span>Specjalizacje</span>
-                </a>
-                <div class="dropdown-menu @Html.IsActive(controllers: "Specializations") @Html.IsActive(controllers: "MedicalSpecializations")">
-                     <a class="dropdown-item @Html.IsActive(controllers: "Specializations", cssClass: "active")" asp-controller="Specializations" asp-action="Index">Specjalizacje</a>
-                    <a class="dropdown-item @Html.IsActive(controllers: "MedicalSpecializations", cssClass: "active")" asp-controller="MedicalSpecializations" asp-action="Index">Specjalizacje lekarza</a>
-                </div>
-            </li>
+            @if (ViewBag.HasAccessToSpecializations != null)
+            {
+                <li class="nav-item dropdown @Html.IsActive(controllers: "Specializations") @Html.IsActive(controllers: "MedicalSpecializations")">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
+                        <i class="fas fa-user-nurse"></i>
+                        <span>Specjalizacje</span>
+                    </a>
+                    <div class="dropdown-menu @Html.IsActive(controllers: "Specializations") @Html.IsActive(controllers: "MedicalSpecializations")">
+                        <a class="dropdown-item @Html.IsActive(controllers: "Specializations", cssClass: "active")" asp-controller="Specializations" asp-action="Index">Specjalizacje</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "MedicalSpecializations", cssClass: "active")" asp-controller="MedicalSpecializations" asp-action="Index">Specjalizacje lekarza</a>
+                    </div>
+                </li>
+            }
 
-            <li class="break"></li>
+            @if (ViewBag.HasAccessToRecentNews != null || ViewBag.HasAccessToNews != null)
+            {
+                <li class="break"></li>
+            }
 
-            <li class="nav-item @Html.IsActive(controllers: "RecentNews", cssClass: "active")">
-                <a class="nav-link" asp-controller="RecentNews" asp-action="Index">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Aktualności</span>
-                </a>
-            </li>
+            @if (ViewBag.HasAccessToRecentNews != null)
+            {
+                <li class="nav-item @Html.IsActive(controllers: "RecentNews", cssClass: "active")">
+                    <a class="nav-link" asp-controller="RecentNews" asp-action="Index">
+                        <i class="fas fa-newspaper"></i>
+                        <span>Aktualności</span>
+                    </a>
+                </li>
+            }
 
-            <li class="nav-item @Html.IsActive(controllers: "News", cssClass: "active")">
-                <a class="nav-link toggle" asp-controller="News" asp-action="Index">
-                    <i class="fas fa-envelope-open-text"></i>
-                    <span>Wiadomości</span>
-                </a>
-            </li>
+            @if (ViewBag.HasAccessToNews != null)
+            {
+                <li class="nav-item @Html.IsActive(controllers: "News", cssClass: "active")">
+                    <a class="nav-link toggle" asp-controller="News" asp-action="Index">
+                        <i class="fas fa-envelope-open-text"></i>
+                        <span>Wiadomości</span>
+                    </a>
+                </li>
+            }
         </ul>
 
         <div id="content-wrapper">

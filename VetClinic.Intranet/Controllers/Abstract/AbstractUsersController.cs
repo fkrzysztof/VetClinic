@@ -10,18 +10,16 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
+using VetClinic.Intranet.Controllers.Abstract;
 using VetClinic.Intranet.Policy;
 
 namespace VetClinic.Intranet.Controllers.Abastract
 {
-    public abstract class AbstractUsersController : Controller
+    public abstract class AbstractUsersController : AbstractPolicyController
     {
-        protected readonly VetClinicContext _context;
-
         protected int _userTypeId;
-        public AbstractUsersController(VetClinicContext context, int UserTypeId)
+        public AbstractUsersController(VetClinicContext context, int UserTypeId) : base(context)
         {
-            _context = context;
             _userTypeId = UserTypeId;
         }
 
