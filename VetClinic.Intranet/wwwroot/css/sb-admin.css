@@ -11790,3 +11790,9 @@ input[type=text]:disabled {
     margin-right: 5px; 
 }
 
+.infoButton {
+    width:31px;
+    height:31px;
+}
+
+
