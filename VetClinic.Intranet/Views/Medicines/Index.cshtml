@@ -68,13 +68,13 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </a>
                     </td>
-                    <td style="text-align:right">
+                    <td class="text-right">
                         @Convert.ToString(string.Format("{0:0.00} PLN", item.Price))
                     </td>
                     <td>
                         @Html.DisplayFor(m => item.MedicineType.Name)
                     </td>
-                    <td>
+                    <td class="text-right">
                         @Html.DisplayFor(m => item.UpdatedDate)
                     </td>
                 </tr>
