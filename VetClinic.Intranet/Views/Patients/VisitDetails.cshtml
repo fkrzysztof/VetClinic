@@ -26,29 +26,13 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-dane" role="tabpanel" aria-labelledby="nav-dane-tab">
                     <div>
-                        <div class="row">
-
-                            <div class="col-sm-6 wiersz" >
-                                <p class="odstep">Imię</p>
-                            </div>
-                            <div class="col-sm-6 wiersz">
-                               <p class="odstep"> @Html.DisplayFor(model => model.Visit.Patient.Name)</p>
-                            </div>
+                        <div class="row">                        
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep">Data urodzenia</p>
                             </div>
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep"> @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Visit.Patient.BirthDate))</p>
-                            </div>
-                            <div class="col-sm-6 wiersz">
-                                <p class="odstep">Wlasciciel</p>
-                            </div>
-                            <div class="col-sm-6 wiersz">
-                                <p class="odstep">
-                                    @Html.DisplayFor(model => model.Visit.VisitUser.FirstName)
-                                    @Html.DisplayFor(model => model.Visit.VisitUser.LastName)
-                                </p>
-                            </div>
+                            </div>                       
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep">Opis</p>
                             </div>

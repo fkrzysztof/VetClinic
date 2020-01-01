@@ -269,6 +269,8 @@ namespace VetClinic.Intranet.Controllers
             }
             ViewData["PatientName"] = _context.Patients.Where(p => p.PatientID == id).Select(a => a.Name).FirstOrDefault();
             ViewData["PatientID"] = id;
+            ViewData["PatientUserFirstName"] = _context.Patients.Where(p => p.PatientID == id).Select(a => a.PatientUser.FirstName).FirstOrDefault();
+            ViewData["PatientUserLastName"] = _context.Patients.Where(p => p.PatientID == id).Select(a => a.PatientUser.LastName).FirstOrDefault();
             return View(await patient.AsNoTracking().ToListAsync());
         }
 
