@@ -144,8 +144,9 @@ table label {
     overflow: hidden;
 }
 
-.nav-item.active .nav-link {
-    background: #f37159;
+.nav-item.active .nav-link,
+.nav-item.active .nav-link:hover {
+    background: #f37159 !important;
 }
 
 .nav-item .nav-link:hover {
@@ -188,4 +189,9 @@ a.dropdown-item {
 
 .dropdown-menu.show-force {
     margin-bottom: 10px !important;
+}
+
+.navbar-nav .nav-item.active .nav-link,
+.navbar-nav .nav-item.active .nav-link:hover {
+    color: #fff !important;
 }
