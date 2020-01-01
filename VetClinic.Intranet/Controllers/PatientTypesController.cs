@@ -43,6 +43,7 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                patientType.IsActive = true;
                 _context.Add(patientType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
