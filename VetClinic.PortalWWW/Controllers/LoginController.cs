@@ -67,13 +67,13 @@ namespace VetClinic.PortalWWW.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registration(User user)
+        public async Task<IActionResult> Registration(User user, string Password, string ConfirmPassword)
         {
             // generowanie loginu
             var rnd = new Random();
             string login;
 
-            login = user.FirstName.Substring(0, 3).ToLower() + user.LastName.Substring(0, 3).ToLower();
+            login = user.Login;
 
             var users =
                 (from uzytkownicy in _context.Users
@@ -85,6 +85,8 @@ namespace VetClinic.PortalWWW.Controllers
                 if (users.Contains(login))
                 {
                     login += rnd.Next(0, 9);
+                    ModelState.AddModelError("", "Taki login już istnieje! Wybierz inny: " +  login);
+                    return View();           
                 }
                 else
                 {
@@ -93,6 +95,86 @@ namespace VetClinic.PortalWWW.Controllers
             }
             // ====================
 
+            // sprawdzanie hasła
+            var length = user.Password.Length;
+            if (length < 7)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej 8 znaków");
+                return View();
+            }
+            var passCharArray = user.Password.ToCharArray();
+            var capitalLeter = false;
+            foreach (Char c in passCharArray)
+            {
+                if (Char.IsUpper(c))
+                {
+                    capitalLeter = true;
+                }
+            }
+            if (!capitalLeter)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej jedną dużą Literę");
+                return View();
+            }
+            var lowerCase = false;
+            foreach (Char c in passCharArray)
+            {
+                if (Char.IsLower(c))
+                {
+                    lowerCase = true;
+                }
+            }
+            if (!lowerCase)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej jedną małą Literę");
+                return View();
+            }
+            var digit = false;
+            foreach (Char c in passCharArray)
+            {
+                if (Char.IsDigit(c))
+                {
+                    digit = true;
+                }
+            }
+            if (!digit)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej jedną cyfrę");
+                return View();
+            }
+            var special = false;
+            foreach (Char c in passCharArray)
+            {
+                switch (c)
+                {
+                    case '!':
+                    case '@':
+                    case '#':
+                    case '$':
+                    case '%':
+                    case '^':
+                    case '&':
+                    case '*':
+                        special = true; break;
+                }
+            }
+            if (!special)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej jeden znak specjalny");
+                return View();
+            }
+            //if (Password != ConfirmPassword)
+            //{
+            //    ModelState.AddModelError("", "Hasła nie są taki same");
+            //    return View();
+            //}
+
+            var typeid =
+                    (from item in _context.UserTypes
+                     where item.Name == "Klient"
+                     select item.UserTypeID
+                     ).FirstOrDefault();
+
             if (ModelState.IsValid)
             {
                 user.Login = login;
@@ -100,37 +182,22 @@ namespace VetClinic.PortalWWW.Controllers
                 SmtpConf.MessageTo = user.Email;
                 SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + user.Password;
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
-                SmtpConf.send();
 
-                var typeid =
-                    (from item in _context.UserTypes
-                     where item.Name == "klient"
-                     select item.UserTypeID
-                     ).FirstOrDefault();
-
-                user.Password = HashPassword.GetMd5Hash(user.Password);   
+                user.Password = HashPassword.GetMd5Hash(user.Password);
 
                 user.UserTypeID = typeid;
                 user.AddedDate = DateTime.Now;
                 user.IsActive = true;
+                user.LoginAttempt = 0;
 
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
                 ModelState.Clear();
+         
+                SmtpConf.send();
 
-
-                //ViewBag.Message = user.FirstName + " " + user.LastName + " pomyślnie zarejestrowano konto.";
-                //string message = "Witaj " + user.FirstName + " " + user.LastName + "\n";
-                //message += "\n";
-                //message += "TwojeDane\n";
-                //message += "Login - " + user.Login;
-                //message += "Haslo - " + user.Password;
-                //message += "\n";
-                //message += "Z Powazaniem \nVet Clinic";
-                //EMaill eMail = new EMaill(user.Email, "Vet Clinic rejestracja", message);
-                //eMail.send();
-
-                return RedirectToAction("Index", "Login");
+                ModelState.AddModelError("", "Pomyślnie utworzono konto");
+                return RedirectToAction("Index", "Login");           
             }
             else
             {

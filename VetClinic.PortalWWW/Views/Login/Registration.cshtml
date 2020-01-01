@@ -36,25 +36,25 @@
                     </div>
 
                     <div class="form-row">
+                        <div class="form-label-group" style="width:100%">
+                            <input asp-for="Login" type="text" id="inputLogin" class="form-control" placeholder="Login">
+                            <label asp-for="Login" for="inputLogin">Login</label>
+                            <span asp-validation-for="Login" controltoValidate="inputLogin" ErrorMessage="Wymagany!" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-label-group">
-                            <input asp-for="Password" type="password" id="inputPassword1" class="form-control" placeholder="Hasło" required>
+                            <input asp-for="Password" type="password" id="inputPassword" name="Password" class="form-control" placeholder="Hasło" required>
                             <label asp-for="Password" for="inputPassword1">Hasło</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-label-group">
-                            <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Potwierdź hasło">
+                            <input type="password" id="inputConfirmPassword" name="ConfirmePassword" class="form-control" placeholder="Potwierdź hasło">
                             <label asp-for="Password" for="inputConfirmPassword">Potwierdź hasło</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
-
-                    @*<div class="form-row">
-            <div class="form-label-group" style="width:100%">
-                <input asp-for="Login" type="text" id="inputLogin" class="form-control" placeholder="Login">
-                <label asp-for="Login" for="inputLogin">Login</label>
-                <span asp-validation-for="Login" controltoValidate="inputLogin" ErrorMessage="Wymagany!" class="text-danger"></span>
-            </div>
-        </div>*@
 
                     <div class="form-row">
                         <div class="form-label-group" style="width:100%">
