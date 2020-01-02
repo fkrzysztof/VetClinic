@@ -11,11 +11,11 @@ namespace VetClinic.Data.Data.CMS
         public int RecentNewsID { get; set; }
 
         [Required(ErrorMessage = "Wpisz tytuł linku")]
-        [MaxLength(20, ErrorMessage = "Tytul linku moze miec max 20 znakow")]
+        [MaxLength(44, ErrorMessage = "Tytuł linku moze mieć max 44 znaków")]
         [Display(Name = "Tytuł linku")]
         public string LinkTitle { get; set; }
-        [Required(ErrorMessage = "Wpisz tytul aktualności")]
-        [MaxLength(50, ErrorMessage = "Tytul aktualności moze miec max 50 znakow")]
+        [Required(ErrorMessage = "Wpisz tytuł aktualności")]
+        [MaxLength(135, ErrorMessage = "Tytul aktualności moze mieć max 135 znaków")]
         [Display(Name = "Tytuł aktualności")]
         public string Title { get; set; }
         [Display(Name = "Treść")]

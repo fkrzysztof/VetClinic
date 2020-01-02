@@ -22,4 +22,11 @@
     <ProjectReference Include="..\VetClinic.Data\VetClinic.Data.csproj" />
   </ItemGroup>
     
+  <ItemGroup>
+    <Content Update="wwwroot\images\empty_image.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+    
 </Project>
