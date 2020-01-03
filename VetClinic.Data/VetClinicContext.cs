@@ -30,5 +30,12 @@ namespace VetClinic.Data
         public DbSet<VisitTreatment> VisitTreatment { get; set; }
         public DbSet<ScheduleBlock> ScheduleBlocks  { get; set; }
         public DbSet<InaccessibleDay> InaccessibleDays  { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ScheduleBlock>()
+                .HasIndex(p => new { p.Time })
+                .IsUnique(true);
+        }
     }
 }

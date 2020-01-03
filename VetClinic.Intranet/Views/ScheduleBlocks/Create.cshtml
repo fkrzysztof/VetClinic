@@ -4,22 +4,23 @@
     ViewData["Title"] = "Nowy blok";
 }
 
-<form asp-action="Create">
+    <form asp-action="Create">
+        <div class="form-row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Czas</span>
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Czas</span>
+                    </div>
+                    <input asp-for="Time" class="form-control text-right" placeholder="Czas" aria-describedby="label1" />
+                    <span asp-validation-for="Time" class="text-danger"></span>
                 </div>
-                <input asp-for="Time" class="form-control text-right" placeholder="Czas" aria-describedby="label1" />
-                <span asp-validation-for="Time" class="text-danger"></span>
             </div>
         </div>
-    </div>
 
-    <input type="submit" value="Utwórz blok" class="btn btn-success float-right buttMargin" />
-</form>
+        <input type="submit" value="Utwórz blok" class="btn btn-success float-right buttMargin" />
+    </form>
 
 
 @section Scripts {
