@@ -31,13 +31,20 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ScheduleBlockID,Time,TimeInterval")] ScheduleBlock scheduleBlock)
+        public async Task<IActionResult> Create([Bind("ScheduleBlockID,Time")] ScheduleBlock scheduleBlock)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(scheduleBlock);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                } catch (Exception) {}
+
+                ModelState.AddModelError("", "Blok czasowy o takiej godzinie już istnieje");
+                return View();
             }
             return View(scheduleBlock);
         }
