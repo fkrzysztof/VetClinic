@@ -31,7 +31,7 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ScheduleBlockID,Time,TimeInterval")] ScheduleBlock scheduleBlock)
+        public async Task<IActionResult> Create([Bind("ScheduleBlockID,Time")] ScheduleBlock scheduleBlock)
         {
             if (ModelState.IsValid)
             {
