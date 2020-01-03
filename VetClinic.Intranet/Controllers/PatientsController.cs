@@ -9,18 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class PatientsController : Controller
+    public class PatientsController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
         private readonly int CustomerUserId = 4;
 
-        public PatientsController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public PatientsController(VetClinicContext context) : base(context) { }
 
         // GET: Patient     
         public async Task<IActionResult> Index(string searchString)

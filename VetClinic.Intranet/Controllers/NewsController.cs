@@ -9,18 +9,13 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class NewsController : Controller
+    public class NewsController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
-        
-
-        public NewsController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public NewsController(VetClinicContext context) : base(context) { }
 
         // GET: Admin
         public async Task<IActionResult> Index()

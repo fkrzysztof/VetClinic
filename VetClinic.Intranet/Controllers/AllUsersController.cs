@@ -10,17 +10,13 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class AllUsersController : Controller
+    public class AllUsersController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
-
-        public AllUsersController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public AllUsersController(VetClinicContext context) : base(context) { }
 
         // GET: Admin
         public async Task<IActionResult> Index(string searchString)

@@ -7,17 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class TreatmentsController : Controller
+    public class TreatmentsController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
-
-        public TreatmentsController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public TreatmentsController(VetClinicContext context) : base(context) { }
 
         // GET: Treatment
         public async Task<IActionResult> Index()

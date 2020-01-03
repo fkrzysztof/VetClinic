@@ -7,26 +7,25 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VetClinic.Data;
+using VetClinic.Intranet.Controllers.Abstract;
 using VetClinic.Intranet.Models;
 using VetClinic.Intranet.Policy;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(VetClinicContext context, ILogger<HomeController> logger)
+        public HomeController(VetClinicContext context, ILogger<HomeController> logger) : base(context)
         {
-            _context = context;
             _logger = logger;
         }
 
         public async Task<IActionResult> Index()
         {
-            UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
-            ViewData = policy.PopulateViewData(ViewData);
+            //UserPolicy policy = new UserPolicy(_context, HttpContext, this.ControllerContext.RouteData);
+            //ViewData = policy.PopulateViewData(ViewData);
 
             if (HttpContext.Session.GetString("Login") != null)
             {

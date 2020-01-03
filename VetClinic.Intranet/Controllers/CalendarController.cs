@@ -4,19 +4,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using VetClinic.Data;
 using VetClinic.Data.Helpers;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class CalendarController : Controller
+    public class CalendarController : AbstractPolicyController
     {
         public DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
         ScheduleBlocks sb = new ScheduleBlocks();
-        private readonly VetClinicContext _context;
 
-        public CalendarController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public CalendarController(VetClinicContext context) : base(context) { }
 
         public async Task<IActionResult> Index()
         {
