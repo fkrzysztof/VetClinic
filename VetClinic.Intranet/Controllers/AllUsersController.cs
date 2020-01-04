@@ -57,7 +57,6 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserTypeID"] = _context.Users.Where(u => u.UserID == user.UserID).Select(u => u.UserTypeID).FirstOrDefault();
             return View(user);
         }
 
