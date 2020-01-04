@@ -46,21 +46,21 @@ namespace VetClinic.Intranet.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", account.LoginAttempt+"Błędny login lub hasło");
+                    ModelState.AddModelError("", "Błędny login lub hasło");
                     account.LoginAttempt++;
                     _context.SaveChanges();
                     if (account.LoginAttempt > 4)
                     {
                         account.IsActive = false;
                         _context.SaveChanges();
-                        ModelState.AddModelError(" ", account.LoginAttempt+"Twoje konto jest zablokowane");
+                        ModelState.AddModelError(" ","Twoje konto jest zablokowane");
                     }
                 }
                 return View();
             }
             if (account == null)
             {
-                ModelState.AddModelError("", account.LoginAttempt+"Błędny login lub hasło");
+                ModelState.AddModelError("","Błędny login lub hasło");
                 return View();
             }
             else
