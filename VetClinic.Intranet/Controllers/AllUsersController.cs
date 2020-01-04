@@ -57,7 +57,7 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-
+            ViewData["UserTypeID"] = _context.Users.Where(u => u.UserID == user.UserID).Select(u => u.UserTypeID).FirstOrDefault();
             return View(user);
         }
 
@@ -93,8 +93,6 @@ namespace VetClinic.Intranet.Controllers
                     {
                         user.Password = HashPassword.GetMd5Hash(user.Password);
                     }
-                    int userTypeId = _context.Users.Where(u => u.UserID == user.UserID).Select(u => u.UserTypeID).FirstOrDefault();
-                    user.UserTypeID = userTypeId;
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
