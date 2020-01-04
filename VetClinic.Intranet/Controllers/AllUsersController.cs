@@ -53,7 +53,6 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
-
             return View(user);
         }
 
