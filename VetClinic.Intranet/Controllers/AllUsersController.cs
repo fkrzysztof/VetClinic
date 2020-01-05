@@ -36,7 +36,7 @@ namespace VetClinic.Intranet.Controllers
 
 
             }
-            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.IsActive).ThenByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
 
@@ -161,6 +161,7 @@ namespace VetClinic.Intranet.Controllers
             {
                 _context.Users.Update(s);
                 s.IsActive = false;
+                s.UpdatedDate = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
@@ -186,6 +187,7 @@ namespace VetClinic.Intranet.Controllers
             }
             user.IsActive = false;
             user.LoginAttempt = 5;
+            user.UpdatedDate = DateTime.Now;
             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }

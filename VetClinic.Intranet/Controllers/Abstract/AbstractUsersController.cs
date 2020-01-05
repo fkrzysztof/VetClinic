@@ -45,7 +45,7 @@ namespace VetClinic.Intranet.Controllers.Abastract
                                             .Include(m => m.UserType);
             }
 
-            return View("../AbstractUsers/Index", await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View("../AbstractUsers/Index", await vetClinicContext.OrderByDescending(u => u.IsActive).ThenByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: Admin/Create
@@ -220,6 +220,7 @@ namespace VetClinic.Intranet.Controllers.Abastract
             {
                 _context.Users.Update(s);
                 s.IsActive = false;
+                s.UpdatedDate = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));
