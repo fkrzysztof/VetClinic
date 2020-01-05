@@ -16,11 +16,11 @@ namespace VetClinic.Data.Helpers
         public string MessageTo { get; set; } // adres na jaki wysyłamy maila
 
         // adres mailowy kliniki: vetclinicwsbnl2016@gmail.com
-        // haslo:wsbnlu2016
+        // haslo:wsbnlu2016!
         public SmtpConfiguration()
         {
             this.AddressMail = "vetclinicwsbnl2016@gmail.com";
-            this.Password = "wsbnlu2016";
+            this.Password = "wsbnlu2016!";
         }
         public void send()
         {

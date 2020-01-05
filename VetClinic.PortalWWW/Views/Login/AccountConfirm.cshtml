@@ -1,0 +1,27 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.User>
+@{
+    ViewData["Title"] = "AccountConfirm";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+    <form class="form-inline" asp-action="AccountConfirm" method="get" enctype="multipart/form-data">
+        <div class="form-group mx-sm-3 mb-2 col-md-6">
+            @*<label type="text" class="form-control" name="Email" value="@ViewData["email"]"></label>
+            <label type="text" class="form-control" name="Token" value="@ViewData["token"]"></label>*@
+        </div>
+        <div class="form-group mb-2">
+
+            @ViewBag.Result
+
+        </div>
+        <div>
+            @if (ViewBag.test == "true")
+            {
+                <label>Przejdź do trony logowania</label>
+            <a asp-area="" asp-controller="Login" asp-action="Index" class="btn secColor" role="button">Zaloguj</a>
+            }
+        </div>
+        
+    </form>
+
+

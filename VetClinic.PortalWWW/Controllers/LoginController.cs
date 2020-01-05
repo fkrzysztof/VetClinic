@@ -1,12 +1,16 @@
 ﻿using System;
+
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
-
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace VetClinic.PortalWWW.Controllers
 {
@@ -31,7 +35,13 @@ namespace VetClinic.PortalWWW.Controllers
         {
             User account = _context.Users.FirstOrDefault(u => u.Login == user.Login);
 
-            var veryfyHashPassword =  HashPassword.VerifyMd5Hash(user.Password, account.Password);
+            var veryfyHashPassword = HashPassword.VerifyMd5Hash(user.Password, account.Password);
+
+            if (account.ActivationToken != "activate")
+            {
+                ModelState.AddModelError("", "Twoje konto nie zostało jeszcze aktywowane. Sprawdź swoją skrzynkę pocztową!");
+                return View();
+            }
 
             if (account.IsActive == false)
             {
@@ -47,7 +57,7 @@ namespace VetClinic.PortalWWW.Controllers
             }
             else
             {
-                ModelState.AddModelError("","Login lub hasło jest niepoprawne.");
+                ModelState.AddModelError("", "Login lub hasło jest niepoprawne.");
                 account.LoginAttempt++;
                 _context.SaveChanges();
                 if (account.LoginAttempt >= 5)
@@ -80,13 +90,13 @@ namespace VetClinic.PortalWWW.Controllers
                  select uzytkownicy.Login
                  ).ToList();
 
-           for (int i=0; i<users.Count(); i++)
+            for (int i = 0; i < users.Count(); i++)
             {
                 if (users.Contains(login))
                 {
                     login += rnd.Next(0, 9);
-                    ModelState.AddModelError("", "Taki login już istnieje! Wybierz inny: " +  login);
-                    return View();           
+                    ModelState.AddModelError("", "Taki login już istnieje! Wybierz inny: " + login);
+                    return View();
                 }
                 else
                 {
@@ -171,33 +181,37 @@ namespace VetClinic.PortalWWW.Controllers
 
             var typeid =
                     (from item in _context.UserTypes
-                     where item.Name == "Klient"
+                     where item.Name == "Klient" || item.Name == "Klienci"
                      select item.UserTypeID
                      ).FirstOrDefault();
+
+            var token = Guid.NewGuid().ToString();
 
             if (ModelState.IsValid)
             {
                 user.Login = login;
 
                 SmtpConf.MessageTo = user.Email;
-                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + user.Password;
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + user.Password + "<br>"
+                                        + "Link aktywacyjny: https://localhost:44343/Login/AccountConfirm?email=" + user.Email + "&token=" + token + "";
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
 
                 user.Password = HashPassword.GetMd5Hash(user.Password);
 
                 user.UserTypeID = typeid;
                 user.AddedDate = DateTime.Now;
-                user.IsActive = true;
+                user.ActivationToken = token;
+                user.IsActive = false;
                 user.LoginAttempt = 0;
 
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
                 ModelState.Clear();
-         
+
                 SmtpConf.send();
 
                 ModelState.AddModelError("", "Pomyślnie utworzono konto");
-                return RedirectToAction("Index", "Login");           
+                return RedirectToAction("Index", "Login");
             }
             else
             {
@@ -210,5 +224,64 @@ namespace VetClinic.PortalWWW.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
+
+        //public IActionResult AccountConfirm()
+        //{
+        //    return View();
+        //}
+
+        
+        public async Task<IActionResult> AccountConfirm(string email, string token)
+        {
+            ViewData["Email"] = email;
+            ViewData["Token"] = token;
+
+            var vetClinicContext = _context.Users.Include(u => u.UserType);
+            if (!String.IsNullOrEmpty(email) || !String.IsNullOrEmpty(token))
+            {
+                vetClinicContext = (from user in vetClinicContext
+                                    where user.Email.Contains(email)
+                                    && user.ActivationToken.Contains(token)
+                                    select user)
+                                            .Include(m => m.UserType);
+            }
+
+            var usersEmail =
+                (from uzytkownicy in _context.Users
+                 where uzytkownicy.Email == email
+                 select uzytkownicy.Email
+                 ).FirstOrDefault();
+
+            var usersToken =
+                (from uzytkownicy in _context.Users
+                 where uzytkownicy.ActivationToken == token
+                 select uzytkownicy.ActivationToken
+                 ).FirstOrDefault();
+
+             if ((usersEmail == email && usersToken == token))
+            {
+                ViewData["Result"] = "Twój adres email " + email + " został poprawnie zweryfikowany!";
+                ViewData["test"] = "true";
+
+            List<User> getusrids = new List<User>();
+            getusrids = _context.Users.Where(x => email.Contains(x.Email)).Where(x => token.Contains(x.ActivationToken)).ToList();
+            foreach (var s in getusrids)
+            {
+                _context.Users.Update(s);
+                s.IsActive = true;
+                s.ActivationToken = "activate";
+                s.UpdatedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+            }
+
+            return View(await vetClinicContext.ToListAsync());
+            }
+            else
+            {
+                ViewData["Result"] = "Twój adres email " + email + " nie został poprawnie zweryfikowany!";
+
+                return View();
+            }
+        } 
     }
 }
