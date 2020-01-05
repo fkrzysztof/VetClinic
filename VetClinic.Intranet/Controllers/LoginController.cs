@@ -46,7 +46,8 @@ namespace VetClinic.Intranet.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Błędny login lub hasło");
+                    ModelState.AddModelError("","Błędny login lub hasło");
+
                     account.LoginAttempt++;
                     _context.SaveChanges();
                     if (account.LoginAttempt > 4)
