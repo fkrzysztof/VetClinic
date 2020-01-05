@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
+using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
 
 namespace VetClinic.PortalWWW.Controllers
@@ -38,7 +40,14 @@ namespace VetClinic.PortalWWW.Controllers
             sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy(o => o.Time).ToList();
             ViewBag.UserID = null;
             ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
-           
+
+            var UserFromSession = Int32.Parse(HttpContext.Session.GetString("UserID"));
+            ViewBag.Patients =
+                           (
+                           from patients in _context.Patients
+                           where patients.PatientUserID == UserFromSession
+                           select patients
+                           ).ToList();
             return View(sb);
         }
 
