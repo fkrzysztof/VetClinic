@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20200102185806_Changed_RecentNews_Title_TitleLink_MaxLengths")]
+    partial class Changed_RecentNews_Title_TitleLink_MaxLengths
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -462,9 +464,6 @@ namespace VetClinic.Data.Migrations
                         .HasColumnType("time");
 
                     b.HasKey("ScheduleBlockID");
-
-                    b.HasIndex("Time")
-                        .IsUnique();
 
                     b.ToTable("ScheduleBlocks");
                 });

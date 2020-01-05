@@ -4,14 +4,30 @@
     {
         Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
     }
+    else Layout = "~/Views/Shared/_SimpleLayout.cshtml";
+
 }
-<img class="col-sm-3" src="@Model.Photo" />
+@*<img class="col-sm-3" src="@Model.Image" />*@
+<div class="col">
+    <br /><br />
+    @{
+        if (Model.Image != null)
+        {
+            var base64 = Convert.ToBase64String(Model.Image);
+            var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+            <img style="max-height: 350px" src="@imgSrc" />
+        }
+        else
+        {
+            <img style="max-height: 350px" src="~/images/empty_image.png" />
+        }
+    }
+</div>
 <div class="col-sm-12">
     <h1 class="display-4">@Model.FirstName @Model.LastName</h1>
     <h4>Lekarz weterynarii</h4>
     <p class="lead">@Model.AddedMedicalSpecialization</p>
     <hr class="my-4">
     <p>@Model.Description</p>
-    <p>@Model.Phone</p>
 </div>
 
