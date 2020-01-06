@@ -58,7 +58,8 @@
                     <span>Moje zwierzaki</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    @if (ViewBag.Patients != null) {
+                    @if (ViewBag.Patients != null)
+                    {
 
                         foreach (var patient in ViewBag.Patients)
                         {
@@ -67,8 +68,8 @@
                     }
                 </div>
             </li>
-            @* Obie listy wyświetlają dobrze Pacjentów i Lekarzy, ale nie działają żadne odnośniki do nich 
-                Jeśli zakomentujemy pętlę z Patiends, to odnośniki do Doctors wtedy działają poprawnie....*@
+            @* Obie listy wyświetlają dobrze Pacjentów i Lekarzy, ale nie działają żadne odnośniki do nich
+        Jeśli zakomentujemy pętlę z Patiends, to odnośniki do Doctors wtedy działają poprawnie....*@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -86,17 +87,10 @@
                 </div>
             </li>
 
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Rezerwacje</span>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Reservation" asp-action="Index">
+                    <i class="fas fa-calendar-alt"></i> <span>Rezerwacje</span>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" href="">Aktualne (CRUD wizyt)</a>
-                    <a class="dropdown-item" href="">Archiwum</a>
-                </div>
             </li>
         </ul>
         <!-- /SIDEBAR -->
