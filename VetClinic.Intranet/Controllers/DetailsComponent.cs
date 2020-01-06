@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
-using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
@@ -18,15 +17,22 @@ namespace VetClinic.Intranet.Controllers
         private readonly VetClinicContext _context;
 
         public DetailsComponent(VetClinicContext context) { _context = context; }
-        public async Task<IViewComponentResult> InvokeAsync(DateTime AddedDate, string AddedName, DateTime UpdatedDate, string UpdatedName)
+        public async Task<IViewComponentResult> InvokeAsync(DateTime AddedDate, String AddedName, DateTime UpdatedDate, String UpdatedName)
         {
             var list = new List<string>();
-            list.Add(AddedDate.ToString());
-            list.Add(AddedName);
-            list.Add(UpdatedDate.ToString());
-            list.Add(UpdatedName);
 
-            return View("DetailsComponent", list);
+            if (AddedDate == null) list.Add("Brak danych");
+                else list.Add(AddedDate.ToString());
+            if (AddedName == null) list.Add("Brak danych"); 
+                else list.Add(AddedName);
+            if(UpdatedDate == null) list.Add("Brak danych"); 
+                else list.Add(UpdatedDate.ToString());
+            if (UpdatedName == null) list.Add("Brak danych");
+                else list.Add(UpdatedName);
+
+            return await Task.Run(() => View("DetailsComponent", list));
+            //return View("DetailsComponent", list);
+
         }
 
     }

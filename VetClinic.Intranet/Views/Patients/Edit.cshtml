@@ -101,11 +101,12 @@
                 </div>
             </div>
 
-            @await Component.InvokeAsync("DetailsComponent", new { 
-               AddedDate = @Model.AddedDate, 
+            @await Component.InvokeAsync("DetailsComponent", new {
+               AddedDate = @Model.AddedDate,
                AddedName = @Model.PatientAddedUser.LastName,
                UpdatedDate = @Model.UpdatedDate,
-               UpdatedName = @Model.PatientAddedUser.LastName});
+               UpdatedName = @Model.PatientUpdatedUser.LastName
+            })
 
 
             @*<div id="accordion">
