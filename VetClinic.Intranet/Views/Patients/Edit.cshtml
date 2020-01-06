@@ -4,117 +4,209 @@
     ViewData["Title"] = String.Format("Edycja pacjenta {0}", Model.Name);
 }
 
-<form asp-action="Edit" enctype="multipart/form-data">
-    <div class="form-row">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="PatientID" />
-        <input type="hidden" asp-for="IsActive" />
-        <input type="hidden" asp-for="AddedDate" />
-        <input type="hidden" asp-for="AddedUserID" />
-        <input type="hidden" asp-for="PatientUserID" />
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Imię</span>
+<div class="container">
+    @*<div class="row">
+            <div class="col" style="padding-right:0">
+                <div class="float-right">
+                    <a class="showDetails btn btn-outline-primary btn-sm listButtMargin infoButton" role="button" id="@Model.PatientID">
+                        <span class="fa fa-info"></span>
+                    </a>
                 </div>
-                <input type="text" asp-for="Name" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-        </div>
+        </div>*@
+    <div class="row">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div class="form-row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="PatientID" />
+                <input type="hidden" asp-for="IsActive" />
+                <input type="hidden" asp-for="AddedDate" />
+                <input type="hidden" asp-for="AddedUserID" />
+                <input type="hidden" asp-for="PatientUserID" />
 
-        <div class="form-group col-md-6">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="label1">Typ pacjenta</span>
-                <select style="background-color:red" class="myselect select2-container .select2-selection--single
+                <div class="form-group col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Imię</span>
+                        </div>
+                        <input type="text" asp-for="Name" class="form-control" aria-describedby="label1" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Typ pacjenta</span>
+                        <select style="background-color:red" class="myselect select2-container .select2-selection--single
                                                         select2-container .select2-selection--single .select2-selection__rendered
                                                         select2-container--default .select2-selection--single .select2-selection__arrow"
-                        asp-for="PatientTypeID" asp-items="ViewBag.PatientTypeID" data-width="100%" aria-describedby="label1"></select>
-                <span asp-validation-for="PatientTypeID" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group col-md-4">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="label1">Właściciel</span>
-                <input type="hidden" id="PatientUserID" asp-for="PatientUserID" class="form-control" aria-describedby="label1" />
-                <input id="daneWlasciciela" type="text" asp-for="PatientUser.LastName" class="form-control" />
-                <span asp-validation-for="PatientUserID" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
-        </div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Przy.Hodowlany</span>
+                                asp-for="PatientTypeID" asp-items="ViewBag.PatientTypeID" data-width="100%" aria-describedby="label1"></select>
+                        <span asp-validation-for="PatientTypeID" class="text-danger"></span>
+                    </div>
                 </div>
 
-                <input type="text" asp-for="KennelName" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="KennelName" class="text-danger"></span>
-            </div>
-        </div>
+                <div class="form-group col-md-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Właściciel</span>
+                        <input type="hidden" id="PatientUserID" asp-for="PatientUserID" class="form-control" aria-describedby="label1" />
+                        <input id="daneWlasciciela" type="text" asp-for="PatientUser.LastName" class="form-control" />
+                        <span asp-validation-for="PatientUserID" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
+                </div>
 
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Data Ur.</span>
+                <div class="form-group col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Przy.Hodowlany</span>
+                        </div>
+
+                        <input type="text" asp-for="KennelName" class="form-control" aria-describedby="label1" />
+                        <span asp-validation-for="KennelName" class="text-danger"></span>
+                    </div>
                 </div>
-                <input type="date" asp-for="BirthDate" class="form-control text-right" aria-describedby="label1" />
-                <span asp-validation-for="BirthDate" class="text-danger"></span>
-            </div>
-        </div>
-        
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Numer pacjenta</span>
+
+                <div class="form-group col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Data Ur.</span>
+                        </div>
+                        <input type="date" asp-for="BirthDate" class="form-control text-right" aria-describedby="label1" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
                 </div>
-                @*<label asp-for="PatientNumber" class="control-label"></label>*@
-                <input readonly="readonly" asp-for="PatientNumber" class="form-control text-right" aria-describedby="label1" />
-                <span asp-validation-for="PatientNumber" class="text-danger"></span>
+
+                <div class="form-group col-md-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Numer pacjenta</span>
+                        </div>
+                        @*<label asp-for="PatientNumber" class="control-label"></label>*@
+                        <input readonly="readonly" asp-for="PatientNumber" class="form-control text-right" aria-describedby="label1" />
+                        <span asp-validation-for="PatientNumber" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
-        </div>
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Opis</span>
+                        </div>
+                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            @await Component.InvokeAsync("DetailsComponent", new { 
+               AddedDate = @Model.AddedDate, 
+               AddedName = @Model.PatientAddedUser.LastName,
+               UpdatedDate = @Model.UpdatedDate,
+               UpdatedName = @Model.PatientAddedUser.LastName});
+
+
+            @*<div id="accordion">
+            <div class="card">
+                <div class="card-header" id="Filtry">
+                    <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                        <medium>Dodatkowe informacje</medium>
+                        <span>
+                            <i class="fa fa-info-circle" style="color:dimgray"></i>
+                        </span>
+                    </div>
+                </div>
+                <div id="collapse1" class="collapse" aria-labelledby="Filtry" data-parent="#accordion">
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="label1">Data dodania:</span>
+                                    </div>
+                                    <input readonly="readonly" type="text" asp-for="AddedDate" class="form-control" aria-describedby="label1" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="label1">Dodał:</span>
+                                    </div>
+                                    <input readonly="readonly" type="text" asp-for="PatientAddedUser.LastName" class="form-control" aria-describedby="label1" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="label1">Data modyfikacji:</span>
+                                    </div>
+                                    <input readonly="readonly" type="text" asp-for="UpdatedDate" class="form-control" aria-describedby="label1" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="label1">Modyfikował:</span>
+                                    </div>
+                                    <input readonly="readonly" type="text" asp-for="PatientUpdatedUser.LastName" class="form-control" aria-describedby="label1" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>*@
+
+            <div class="row">
+                <div class="col">
+                    @if (Model.IsActive)
+                    {
+                        <form asp-action="Delete" asp-route-id="@Model.PatientID" onsubmit="alert('Na pewno chcesz usunąć pacjenta?')">
+                            <input type="hidden" asp-for="PatientID" />
+                            <input type="submit" value="Usuń pacjenta" class="btn btn-danger buttMargin" />
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Restore" asp-route-id="@Model.PatientID">
+                            <input type="hidden" asp-for="PatientID" />
+                            <input type="submit" value="Przywróć pacjenta" class="btn btn-success buttMargin" />
+                        </form>
+                    }
+                </div>
+                <div class="col">
+                    <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+                </div>
+            </div>
+        </form>
     </div>
-    <div class="form-row">
-        <div class="form-group col-12">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Opis</span>
-                </div>
-                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
+</div>
 
-    <div>
-        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
-    </div>
-</form>
-
-@if (Model.IsActive)
-{
-    <form asp-action="Delete" asp-route-id="@Model.PatientID" onsubmit="alert('Na pewno chcesz usunąć pacjenta?')">
-        <input type="hidden" asp-for="PatientID" />
-        <input type="submit" value="Usuń pacjenta" class="btn btn-danger buttMargin" />
-    </form>
-} 
-else
-{
-<form asp-action="Restore" asp-route-id="@Model.PatientID">
-    <input type="hidden" asp-for="PatientID" />
-    <input type="submit" value="Przywróć pacjenta" class="btn btn-success buttMargin" />
-</form>
-}
 
 <div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Lista Właścicieli</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-sm" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" style="margin-top:20%;margin-left:25%">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">Szczegóły</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -153,5 +245,28 @@ else
         })
                 });
 
+
+</script>
+<script>
+
+    $('.showDetails').click(function () {
+
+        var patient_id = $(this).attr("id");
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("DetailsUpdated","Patients")',
+
+            data:
+            {
+                id: patient_id
+            },
+
+            success: (data) => {
+                        $('#detailsModal').find('.modal-body').html(data);
+                        $('#detailsModal').modal('show');
+                    }
+
+        })
+                });
 
 </script>
