@@ -8,25 +8,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
-
-
-
+using VetClinic.PortalWWW.Controllers.Abstract;
 
 namespace VetClinic.PortalWWW.Controllers
 {
-    public class ReservationController : Controller
+    public class ReservationController : BaseController
     {
-        private readonly VetClinicContext _context;
 
-        public ReservationController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public ReservationController(VetClinicContext context) : base(context) { }
 
         // GET: Reservation
         public async Task<IActionResult> Index()
         {
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
             var vetClinicContext = _context.Reservations.Where(r=>r.ReservationUserID==UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
             return View(await vetClinicContext.ToListAsync());
@@ -35,7 +28,6 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: Reservation/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             if (id == null)
             {
                 return NotFound();
@@ -62,7 +54,6 @@ namespace VetClinic.PortalWWW.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateNew(DateTime DateOfVisit)
         {
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
             ViewData["PatientID"] = new SelectList(_context.Patients.Where(p => p.PatientUserID == UserId), "PatientID", "Name");        
             ViewData["DateOfVisit"] = DateOfVisit;
@@ -100,7 +91,6 @@ namespace VetClinic.PortalWWW.Controllers
         public IActionResult Create()
         {
 
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
             //ViewData["PatientID"] = new SelectList(_context.Patients.Where(p=>p.PatientUserID == UserId), "PatientID", "Name");
             //ViewData["BlokCzasowy"] = new SelectList(_context.ScheduleBlocks.OrderBy(b => b.Time), "ScheduleBlockID", "Time");
@@ -114,7 +104,6 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: Reservation/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             if (id == null)
             {
                 return NotFound();
@@ -144,7 +133,6 @@ namespace VetClinic.PortalWWW.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ReservationID,ReservationUserID,PatientID,Description,DateOfVisit,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Reservation reservation)
         {
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             if (id != reservation.ReservationID)
             {
                 return NotFound();
@@ -189,7 +177,6 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: Reservation/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             if (id == null)
             {
                 return NotFound();

@@ -21,7 +21,7 @@
 
 <body id="page-top">
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-        <a class="navbar-brand mr-0" href="#">
+        <a class="navbar-brand mr-0" asp-controller="ClientPanel" asp-action="Index">
             <img src="../images/logo.svg" width="35" height="35" class="d-inline-block align-top" alt="">
             VetClinic
         </a>
@@ -51,12 +51,6 @@
     <div id="wrapper">
         <!-- SIDEBAR -->
         <ul class="sidebar navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" asp-action="Index" asp-controller="ClientPanel">
-                    <span>PANEL KLIENTA</span>
-                </a>
-            </li>
-
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -64,7 +58,9 @@
                     <span>Moje zwierzaki</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    @{
+                    @if (ViewBag.Patients != null)
+                    {
+
                         foreach (var patient in ViewBag.Patients)
                         {
                             <a class="dropdown-item" asp-action="Details" asp-controller="Patient" asp-route-id="@patient.PatientID">@patient.Name</a>
@@ -72,8 +68,8 @@
                     }
                 </div>
             </li>
-            @* Obie listy wyświetlają dobrze Pacjentów i Lekarzy, ale nie działają żadne odnośniki do nich 
-                Jeśli zakomentujemy pętlę z Patiends, to odnośniki do Doctors wtedy działają poprawnie....*@
+            @* Obie listy wyświetlają dobrze Pacjentów i Lekarzy, ale nie działają żadne odnośniki do nich
+        Jeśli zakomentujemy pętlę z Patiends, to odnośniki do Doctors wtedy działają poprawnie....*@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -81,34 +77,21 @@
                     <span>Lekarze</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    @{
+                    @if (ViewBag.Doctors != null)
+                    {
                         foreach (var doctor in ViewBag.Doctors)
                         {
-                           <a class="dropdown-item" asp-action="Index" asp-controller="Crews" asp-route-id="@doctor.UserID">@doctor.FirstName @doctor.LastName</a>
+                            <a class="dropdown-item" asp-action="Index" asp-controller="Crews" asp-route-id="@doctor.UserID">@doctor.FirstName @doctor.LastName</a>
                         }
                     }
                 </div>
             </li>
 
-
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
-                   role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Rezerwacje</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" href="">Aktualne (CRUD wizyt)</a>
-                    <a class="dropdown-item" href="">Archiwum</a>
-                </div>
-            </li>
             <li class="nav-item">
-                <a class="nav-link toggle" asp-area="" asp-controller="ClientPanel" asp-action="Index">
-                    <i class="fas fa-calendar-alt"></i> <span>Rezerwuj wizytę</span> 
+                <a class="nav-link" asp-controller="Reservation" asp-action="Index">
+                    <i class="fas fa-calendar-alt"></i> <span>Rezerwacje</span>
                 </a>
             </li>
-
-
         </ul>
         <!-- /SIDEBAR -->
 

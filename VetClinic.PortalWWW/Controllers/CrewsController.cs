@@ -6,17 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.PortalWWW.Controllers.Abstract;
 
 namespace VetClinic.PortalWWW.Controllers
 {
-    public class CrewsController : Controller
+    public class CrewsController : BaseController
     {
         private readonly VetClinicContext _context;
 
-        public CrewsController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public CrewsController(VetClinicContext context) : base(context) { }
 
         // GET: Crews
         public async Task<IActionResult> Index(int? id)
@@ -31,7 +29,6 @@ namespace VetClinic.PortalWWW.Controllers
                 select recentnews
             ).ToList();
 
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             User result  = _context.Users.FirstOrDefault(i => i.UserID == id);
             ViewBag.Logged = !String.IsNullOrEmpty(HttpContext.Session.GetString("UserID"));
             
