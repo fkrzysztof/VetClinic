@@ -159,7 +159,7 @@
                                 else
                                 //jest wolny REZERWACJA
                                 {
-                                    <form asp-action="CreateNew" asp-controller="Reservation" method="post">
+                                    <form asp-action="CreateNew" asp-controller="Reservation" method="post" asp->
                                         <input type="hidden" name="DateOfVisit" value="@block" />
                                         <button type="submit" class="btn btn-success  mr-sm-3 ml-sm-3"
                                                 @if ((DateTime.Compare(block, DateTime.Now) == -1)) { @: disabled

@@ -64,7 +64,8 @@
                     <span>Moje zwierzaki</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    @{
+                    @if (ViewBag.Patients != null) {
+
                         foreach (var patient in ViewBag.Patients)
                         {
                             <a class="dropdown-item" asp-action="Details" asp-controller="Patient" asp-route-id="@patient.PatientID">@patient.Name</a>
@@ -81,10 +82,11 @@
                     <span>Lekarze</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    @{
+                    @if (ViewBag.Doctors != null)
+                    {
                         foreach (var doctor in ViewBag.Doctors)
                         {
-                           <a class="dropdown-item" asp-action="Index" asp-controller="Crews" asp-route-id="@doctor.UserID">@doctor.FirstName @doctor.LastName</a>
+                            <a class="dropdown-item" asp-action="Index" asp-controller="Crews" asp-route-id="@doctor.UserID">@doctor.FirstName @doctor.LastName</a>
                         }
                     }
                 </div>
@@ -103,7 +105,7 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link toggle" asp-area="" asp-controller="ClientPanel" asp-action="Index">
+                <a class="nav-link toggle" asp-area="" asp-controller="Reservations" asp-action="Create">
                     <i class="fas fa-calendar-alt"></i> <span>Rezerwuj wizytę</span> 
                 </a>
             </li>

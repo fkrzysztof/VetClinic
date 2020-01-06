@@ -8,17 +8,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.PortalWWW.Controllers.Abstract;
 
 namespace VetClinic.PortalWWW.Controllers
 {
-    public class PatientController : Controller
+    public class PatientController : BaseController
     {
-        private readonly VetClinicContext _context;
 
-        public PatientController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public PatientController(VetClinicContext context) : base(context) { }
 
         // GET: Patient
         public async Task<IActionResult> Index()

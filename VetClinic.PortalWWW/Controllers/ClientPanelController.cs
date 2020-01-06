@@ -8,19 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
+using VetClinic.PortalWWW.Controllers.Abstract;
 
 namespace VetClinic.PortalWWW.Controllers
 {
-    public class ClientPanelController : Controller
+    public class ClientPanelController : BaseController
     {
-        private readonly VetClinicContext _context;
         public DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
         ScheduleBlocks sb = new ScheduleBlocks();
 
-        public ClientPanelController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public ClientPanelController(VetClinicContext context) : base(context) { }
+
         public async Task<IActionResult> Index()
         {
             ViewBag.UserFromSession = Int32.Parse(HttpContext.Session.GetString("UserID"));
