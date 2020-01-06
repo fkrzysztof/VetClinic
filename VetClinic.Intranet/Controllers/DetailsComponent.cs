@@ -17,22 +17,26 @@ namespace VetClinic.Intranet.Controllers
         private readonly VetClinicContext _context;
 
         public DetailsComponent(VetClinicContext context) { _context = context; }
-        public async Task<IViewComponentResult> InvokeAsync(DateTime AddedDate, String AddedName, DateTime UpdatedDate, String UpdatedName)
+        public async Task<IViewComponentResult> InvokeAsync(DateTime? AddedDate, int? AddedUserID, DateTime? UpdatedDate, int? UpdatedUserID)
         {
-            var list = new List<string>();
+            var list = new Dictionary<string, string>();
 
-            if (AddedDate == null) list.Add("Brak danych");
-                else list.Add(AddedDate.ToString());
-            if (AddedName == null) list.Add("Brak danych"); 
-                else list.Add(AddedName);
-            if(UpdatedDate == null) list.Add("Brak danych"); 
-                else list.Add(UpdatedDate.ToString());
-            if (UpdatedName == null) list.Add("Brak danych");
-                else list.Add(UpdatedName);
+            if (AddedDate != null) list.Add("Data dodania:", AddedDate.ToString());
+            if (UpdatedDate != null) list.Add("Data modyfikacji:", UpdatedDate.ToString());
+
+            if (AddedUserID != null)
+            {
+                var user = await _context.Users.FindAsync(AddedUserID);
+                if (user != null) list.Add("Dodał:", $"{user.FirstName} {user.LastName}");
+            }
+
+            if (UpdatedUserID != null)
+            {
+                var user = await _context.Users.FindAsync(UpdatedUserID);
+                if (user != null) list.Add("Modyfikował:", $"{user.FirstName} {user.LastName}");
+            }
 
             return await Task.Run(() => View("DetailsComponent", list));
-            //return View("DetailsComponent", list);
-
         }
 
     }

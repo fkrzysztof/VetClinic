@@ -1,4 +1,4 @@
-﻿@model List<string>
+﻿@model Dictionary<string, string>
 
 <div id="accordion">
     <div class="card">
@@ -13,38 +13,17 @@
         <div id="collapse1" class="collapse" aria-labelledby="Filtry" data-parent="#accordion">
             <div class="card-body">
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="label1">Data dodania:</span>
+                    @foreach (KeyValuePair<string, string> item in Model)
+                    {
+                        <div class="form-group col-md-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="label1">@item.Key</span>
+                                </div>
+                                <input readonly="readonly" type="text" value="@item.Value" class="form-control" aria-describedby="label1" />
                             </div>
-                            <input readonly="readonly" type="text" value="@Model[0]" class="form-control" aria-describedby="label1" />
                         </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="label1">Dodał:</span>
-                            </div>
-                            <input readonly="readonly" type="text" value="@Model[1]" class="form-control" aria-describedby="label1" />
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="label1">Data modyfikacji:</span>
-                            </div>
-                            <input readonly="readonly" type="text" value="@Model[2]" class="form-control" aria-describedby="label1" />
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="label1">Modyfikował:</span>
-                            </div>
-                            <input readonly="readonly" type="text" value="@Model[3]" class="form-control" aria-describedby="label1" />
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
         </div>

@@ -103,9 +103,9 @@
 
             @await Component.InvokeAsync("DetailsComponent", new {
                AddedDate = @Model.AddedDate,
-               AddedName = @Model.PatientAddedUser.LastName,
+               AddedUserID = @Model.AddedUserID,
                UpdatedDate = @Model.UpdatedDate,
-               UpdatedName = @Model.PatientUpdatedUser.LastName
+               UpdatedUserID = @Model.UpdatedUserID
             })
 
 
