@@ -27,7 +27,8 @@ namespace VetClinic.Intranet.Controllers.Abstract
                 if (HttpContext.Session.GetString("UserID") != null)
                 {
                     filterContext.Result = new RedirectResult(Url.Action("Index", "Home"));
-                } else
+                }
+                else
                 {
                     filterContext.Result = new RedirectResult(Url.Action("Index", "Login"));
                 }
