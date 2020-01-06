@@ -24,8 +24,8 @@ namespace VetClinic.Data.Data.CMS
         [Required(ErrorMessage = "Wpisz pozycję aktualności")]
         [Display(Name = "Pozycja aktualności")]
         public int Position { get; set; }
-        [Display(Name = "Wybierz zdjęcie")]
         public string Photo { get; set; }
+        [Display(Name = "Wybierz zdjęcie")]
         public byte[]? Image { get; set; }
         public bool IsActive { get; set; }
         public DateTime AddedDate { get; set; }

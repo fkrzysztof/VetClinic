@@ -4,13 +4,10 @@
     ViewData["Title"] = "Nowa aktualność";
 }
 
-<form asp-action="Edit" method="post" metenctype="multipart/form-data">
+<form asp-action="Create" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="RecentNewsID" />
-            <input type="hidden" asp-for="Image" />
-
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-prepend">
