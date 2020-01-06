@@ -26,6 +26,7 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: Reservation
         public async Task<IActionResult> Index()
         {
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
             var vetClinicContext = _context.Reservations.Where(r=>r.ReservationUserID==UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
             return View(await vetClinicContext.ToListAsync());
@@ -34,6 +35,7 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: Reservation/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             if (id == null)
             {
                 return NotFound();
@@ -60,12 +62,9 @@ namespace VetClinic.PortalWWW.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateNew(DateTime DateOfVisit)
         {
-
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
-            ViewData["PatientID"] = new SelectList(_context.Patients.Where(p => p.PatientUserID == UserId), "PatientID", "Name");
-            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "City");            
+            ViewData["PatientID"] = new SelectList(_context.Patients.Where(p => p.PatientUserID == UserId), "PatientID", "Name");        
             ViewData["DateOfVisit"] = DateOfVisit;
 
             return View("Create");
@@ -97,17 +96,14 @@ namespace VetClinic.PortalWWW.Controllers
        
         }
 
-
-
-
-
         //GET: Reservation/Create
         public IActionResult Create()
         {
 
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
-            ViewData["PatientID"] = new SelectList(_context.Patients.Where(p=>p.PatientUserID == UserId), "PatientID", "Name");
-            ViewData["BlokCzasowy"] = new SelectList(_context.ScheduleBlocks.OrderBy(b => b.Time), "ScheduleBlockID", "Time");
+            //ViewData["PatientID"] = new SelectList(_context.Patients.Where(p=>p.PatientUserID == UserId), "PatientID", "Name");
+            //ViewData["BlokCzasowy"] = new SelectList(_context.ScheduleBlocks.OrderBy(b => b.Time), "ScheduleBlockID", "Time");
             return View();
         }
 
@@ -118,6 +114,7 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: Reservation/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             if (id == null)
             {
                 return NotFound();
@@ -147,6 +144,7 @@ namespace VetClinic.PortalWWW.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ReservationID,ReservationUserID,PatientID,Description,DateOfVisit,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Reservation reservation)
         {
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             if (id != reservation.ReservationID)
             {
                 return NotFound();
@@ -191,6 +189,7 @@ namespace VetClinic.PortalWWW.Controllers
         // GET: Reservation/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             if (id == null)
             {
                 return NotFound();

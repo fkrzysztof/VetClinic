@@ -66,7 +66,7 @@ namespace VetClinic.PortalWWW.Controllers
             sb.InaccessibleDay = _context.InaccessibleDays.Select(s => s.Date).ToList();
             //dodanie kolekcji godzin pracy przychodni
             sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy(o => o.Time).ToList();
-
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
             return View(sb);
         }
     }
