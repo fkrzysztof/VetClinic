@@ -85,18 +85,17 @@
             </div>
         </section>
         <!-- /BANNER GŁÓWNY ------------------------>
-        <div class="container page">
+
+        @*<div class="container page">
             @RenderBody()
-        </div>
+        </div>*@
     </main>
 
-    <!-- BANNER PRZEZ STRONĘ No. 1------------------------>
-    <figure class="full-width">
+    @*<figure class="full-width">
         <div class="row-full">
-            <img class="img-space" src="~/images/banSmall4.jpg" style="width:100%">
+            <img class="img-space" src="~/images/banSmall1.jpg" style="width:100%">
         </div>
-    </figure>
-    <!-- /BANNER PRZEZ STRONĘ No. 1------------------------>
+    </figure>*@
 
     <hr class="featurette-divider">
 
@@ -109,13 +108,9 @@
         </div>
     </div>
 
-    <br>
-
     <div class="container">
         <!-- AKTUALNOŚCI ------------------------>
-
         @await Html.PartialAsync("RecentNews", (IEnumerable<VetClinic.Data.Data.CMS.RecentNews>)ViewBag.ModelRecentNews)
-
         <hr class="featurette-divider">
     </div>
     <!-- /AKTUALNOŚCI ------------------------>
@@ -123,7 +118,7 @@
     <!-- BANNER PRZEZ STRONĘ No. 2 ------------------------>
     <figure class="full-width">
         <div class="row-full">
-            <img class="img-space" src="~/images/banSmall1.jpg" style="width:100%">
+            <img class="img-space" src="~/images/banSmall4.jpg" style="width:100%">
         </div>
     </figure>
     <hr class="featurette-divider">
