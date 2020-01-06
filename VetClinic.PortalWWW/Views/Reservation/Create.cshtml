@@ -9,16 +9,24 @@
     <div class="mt-5 mb-4">
         <h4>Rezerwuj wizyte w terminie: @DateOfVisit.ToString("dd/MM/yyyy, HH:mm")</h4>
     </div>
-       <form asp-action="Create">
+    <form asp-action="Create">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="label1">Pacjent</span>
-                    </div>
-                    <select asp-for="PatientID" class="form-control" asp-items="ViewBag.PatientID"></select>
+        <div class="form-group">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="label1">Pacjent</span>
                 </div>
+                <select asp-for="PatientID" class="form-control" asp-items="ViewBag.PatientID"></select>
+            </div>
         </div>
+        <div class="form-group float-right">
+            <div class="input-group">
+                <a class="btn btn-success float-right buttMargin" asp-area="" asp-controller="Patient" asp-action="CreatePatientFromReservation">
+                    <span>Dodaj</span>
+                </a>
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -32,7 +40,7 @@
 
 
         <input type="hidden" name="DateOfVisitFromCalendar" value="@DateOfVisit" />
-        
+
 
         <input type="submit" value="Utwórz rezerwacje" class="btn btn-success float-right buttMargin" />
     </form>
