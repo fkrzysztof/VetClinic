@@ -4,44 +4,73 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
-<a class="btn btn-outline-primary" role="button" asp-action="Index" asp-controller="ClientPanel">
+<br />
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="Filtry">
+            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                <strong>Filtry</strong>
+                <button class="btn btn-link">
+                    <i class="fa fa-bars text-black"></i>
+                </button>
+            </div>
+        </div>
+        <div id="collapse1" class="collapse @(ViewData["currentFilter"] == null ? "" : "show")" aria-labelledby="Filtry" data-parent="#accordion">
+            <div class="card-body">
+
+                <form class="form-inline" asp-action="Index" method="get">
+                    <div class="form-group mb-2">
+                        <label>Wyszukaj po: </label>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2 col-md-3">
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Imię zwierzaka..." />
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
+                    @if (ViewData["currentFilter"] != null)
+                    {
+                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+<a class="btn btn-outline-primary float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="ClientPanel">
     Kalendarz Rezerwacji
 </a>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfVisit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Patients)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfVisit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AddedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Patients.Name)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Patients)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateOfVisit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Patients.Name)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.DateOfVisit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

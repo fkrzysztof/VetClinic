@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.Data.Helpers;
 using VetClinic.PortalWWW.Controllers.Abstract;
 
 namespace VetClinic.PortalWWW.Controllers
@@ -17,12 +18,19 @@ namespace VetClinic.PortalWWW.Controllers
 
         public ReservationController(VetClinicContext context) : base(context) { }
 
-        // GET: Reservation
+        //GET: Reservation
         public async Task<IActionResult> Index()
         {
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
-            var vetClinicContext = _context.Reservations.Where(r=>r.ReservationUserID==UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
-            return View(await vetClinicContext.ToListAsync());
+            var vetClinicContext = _context.Reservations.Where(r => r.ReservationUserID == UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
+
+            //return View(await vetClinicContext.OrderByDescending(u => u.DateOfVisit).ToListAsync()); //stare
+
+            return View(await vetClinicContext.Where(x => x.DateOfVisit >= DateTime.Now).Where(x => x.IsActive == true).OrderByDescending(u => u.DateOfVisit).ToListAsync());
+            //^ wyświetlanie od najświeższej wizyty, o ile wizyta nie jest w czasie przeszłym i o ile jest AKTYWNA
+
+            //UWAGA: przez brak zabezpieczenia w Intranecie -> tworzenie rezerwacji można utworzyć dowolną rezerwację klient + zwierzak (czy jest ten klient właścicielem czy nie). Więc trzeba to ograniczyc bo na liście od strony klienta będą te
+            //rezerwacje jeśli ktoś dał właściciela + obcy zwierz w intranecie tam tworząc rezerwację. 
         }
 
         // GET: Reservation/Details/5
