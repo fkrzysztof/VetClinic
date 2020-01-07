@@ -2,7 +2,7 @@
 
 <div id="accordion">
     <div class="card">
-        <div class="card-header" id="Filtry">
+        <div class="card-header" id="Details">
             <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
                 <medium>Dodatkowe informacje</medium>
                 <span>
@@ -10,12 +10,12 @@
                 </span>
             </div>
         </div>
-        <div id="collapse1" class="collapse" aria-labelledby="Filtry" data-parent="#accordion">
+        <div id="collapse1" style="padding-top:16px" class="collapse" aria-labelledby="Details" data-parent="#accordion">
             <div class="card-body">
                 <div class="form-row">
                     @foreach (KeyValuePair<string, string> item in Model)
                     {
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-lg-6">
                             <div class="input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text" id="label1">@item.Key</span>

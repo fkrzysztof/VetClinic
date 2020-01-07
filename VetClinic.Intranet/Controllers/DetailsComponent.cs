@@ -22,19 +22,26 @@ namespace VetClinic.Intranet.Controllers
             var list = new Dictionary<string, string>();
 
             if (AddedDate != null) list.Add("Data dodania:", AddedDate.ToString());
+                else list.Add("Data dodania:", "");
+
             if (UpdatedDate != null) list.Add("Data modyfikacji:", UpdatedDate.ToString());
+                else list.Add("Data modyfikacji:", "");
 
             if (AddedUserID != null)
             {
                 var user = await _context.Users.FindAsync(AddedUserID);
                 if (user != null) list.Add("Dodał:", $"{user.FirstName} {user.LastName}");
             }
+            else list.Add("Dodał:", "");
+
 
             if (UpdatedUserID != null)
             {
                 var user = await _context.Users.FindAsync(UpdatedUserID);
                 if (user != null) list.Add("Modyfikował:", $"{user.FirstName} {user.LastName}");
             }
+            else list.Add("Modyfikował:", "");
+
 
             return await Task.Run(() => View("DetailsComponent", list));
         }

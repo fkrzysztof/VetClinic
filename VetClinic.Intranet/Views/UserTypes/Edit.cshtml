@@ -4,6 +4,11 @@
     ViewBag.Title = String.Format("Zarządzaj grupą uprawnień {0}", @Model.typeUser.Name);
 }
 
+<div class="container">
+    <div class="row">
+
+    </div>
+</div>
 <form asp-action="Edit">
     <div class="row">
         <div class="mb-3 col-12">
@@ -18,7 +23,7 @@
                     <span asp-validation-for="@Model.typeUser.Name" class="text-danger"></span>
                 </div>
             </div>
-         </div>
+        </div>
         <div class="mb-3 col-12">
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -29,7 +34,6 @@
             </div>
         </div>
     </div>
-
     <div class="row mb-3">
         <div class="col-sm-4">
             <h4>Uprawnienia grupy:</h4>
@@ -74,10 +78,10 @@
                             <tr>
                                 <td>
                                     <label for="@String.Format("user_{0}", @item.UserID)">
-                                    @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                                        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
                                     </label>
                                 </td>
-                                <td  class="text-right">
+                                <td class="text-right">
                                     <input type="checkbox" id="@String.Format("user_{0}", @item.UserID)" name="select_user" checked="@item.IsActive? 'checked':'' " value="@item.UserID" />
                                 </td>
                             </tr>
@@ -96,7 +100,7 @@
                             <tr>
                                 <td>
                                     <label for="@String.Format("newuser_{0}", @item.UserID)">
-                                    @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                                        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
                                     </label>
                                 </td>
                                 <td class="text-right">
@@ -110,15 +114,21 @@
             </div>
         </div>
     </div>
-
-    <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+    <div class="row>
+        <div class="col">
+            @if (Model.typeUser.IsActive)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.typeUser.UserTypeID" onsubmit="alert('Na pewno chcesz usunąć grupę uprawnień?')">
+                    <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
+                    <input type="submit" value="Usuń grupę uprawnień" class="btn btn-outline-danger buttMargin" />
+                </form>
+            }
+        </div>
+        <div class="col">
+            <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+        </div>
+    </div>
 </form>
 
-@if (Model.typeUser.IsActive)
-{
-<form asp-action="Delete" asp-route-id="@Model.typeUser.UserTypeID" onsubmit="alert('Na pewno chcesz usunąć grupę uprawnień?')">
-    <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
-    <input type="submit" value="Usuń grupę uprawnień" class="btn btn-outline-danger buttMargin" />
-</form>
-}
+
 
