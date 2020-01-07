@@ -4,42 +4,64 @@
     ViewData["Title"] = "Nowa rezerwacja";
     DateTime DateOfVisit = Convert.ToDateTime(ViewData["DateOfVisit"]);
 }
-
+    <h4>Data wizyty @DateOfVisit.ToString("dd/MM/yyyy, HH:mm") </h4>
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="label1">Klient</span>
-        </div>
-            <select asp-for="ReservationUserID" class="form-control" asp-items="ViewBag.ReservationUserID"></select>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="label1">Pacjent</span>
-        </div>
-            <select asp-for="PatientID" class="form-control" asp-items="ViewBag.PatientID"></select>
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="label1">Klient</span>
+            </div>
+            <select asp-for="ReservationUserID" id="UserID" class="form-control" asp-items="ViewBag.ReservationUserID"></select>
+            <span asp-validation-for="ReservationUserID" class="text-danger"></span>         
         </div>
     </div>
     <div class="form-group">
         <div class="input-group">
-        <div class="input-group-prepend">
-            <span class="input-group-text" id="label1">Pacjent</span>
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="label1">Pacjent</span>
+            </div>
+            <select class="form-control" id="PatientID" name="PatientID" asp-for="PatientID"
+                    asp-items="@(new SelectList(string.Empty, "PatientID", "Name"))">
+            </select>
+            <span asp-validation-for="PatientID" class="text-danger"></span>
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#UserID').change(function () {
+                        var url = '@Url.Content("~/")' + "Reservations/GetPatient";
+                        var ddlsource = "#UserID";
+                        $.getJSON(url, { UserID: $(ddlsource).val() }, function (data) {
+                            var items = '';
+                            $("#PatientID").empty();
+                            $.each(data, function (i, modele) {
+                                items += "<option value='" + modele.value + "'>" + modele.text + "</option>";
+                            });
+                            $('#PatientID').html(items);
+                        });
+                    });
+                });
+            </script>
+
         </div>
-            <input asp-for="Description" class="form-control" />
+    </div>
+    <div class="form-group">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="label1">Opis</span>
+            </div>
+            <textarea rows="6" asp-for="Description" class="form-control"></textarea>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
     </div>
-
-
-
     <input type="hidden" name="DateOfVisitFromCalendar" value="@DateOfVisit" />
-    <h4>Data wizyty pobrana z harmonogramu @DateOfVisit.ToString("dd/MM/yyyy, hh:mm") </h4>
-
+    
     <input type="submit" value="Utwórz rezerwacje" class="btn btn-success float-right buttMargin" />
 </form>
+
+
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

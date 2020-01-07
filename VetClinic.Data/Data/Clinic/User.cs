@@ -12,7 +12,8 @@ namespace VetClinic.Data.Data.Clinic
         [Key]
         public int UserID { get; set; }
         public int UserTypeID { get; set; }
-
+        [NotMapped] // Fullname uzywamy tylko do wyswietlania imienia i nazwiska np. w SelectList
+        public string Fullname { get { return this.FirstName + " " + this.LastName; } }
         [Required(ErrorMessage = "Imie jest wymagane")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Nazwisko jest wymagane")]
