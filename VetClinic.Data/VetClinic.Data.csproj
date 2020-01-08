@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20191125175331_VisitTreatment.cs" />
     <Compile Remove="Migrations\20191125175331_VisitTreatment.Designer.cs" />
+    <Compile Remove="Migrations\20200107201355_add-NoMapped-FullName-String-in-User.cs" />
+    <Compile Remove="Migrations\20200107201355_add-NoMapped-FullName-String-in-User.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

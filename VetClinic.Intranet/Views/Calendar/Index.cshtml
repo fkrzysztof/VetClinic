@@ -124,7 +124,7 @@
                                         if (item.DateOfVisit.Equals(block))
                                         {
                                             BlockFree = false;
-                                            <button class="btn btn-danger mr-sm-3 ml-sm-3" onclick="location.href='@Url.Action("Details","Reservations", new {@id = @item.ReservationID})'">
+                                            <button class="btn btn-danger mr-sm-3 ml-sm-3" onclick="location.href='@Url.Action("Edit","Reservations", new {@id = @item.ReservationID})'">
                                                 @block.ToString("HH/mm")<br />Zajęty
                                             </button>
                                         }
