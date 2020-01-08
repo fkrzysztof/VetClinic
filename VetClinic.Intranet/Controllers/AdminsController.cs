@@ -33,6 +33,7 @@ namespace VetClinic.Intranet.Controllers
             ViewBag.Title = "Edycja administratora";
             ViewBag.Delete = "Usuń administratora";
             ViewBag.Restore = "Przywróć administratora";
+            ViewBag.Controller = "Admins";
 
             return await base.Edit(id);
         }
