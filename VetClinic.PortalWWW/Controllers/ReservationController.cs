@@ -33,7 +33,18 @@ namespace VetClinic.PortalWWW.Controllers
                         && data.IsActive == true
                         orderby data.DateOfVisit
                         select data.DateOfVisit
-                        ).FirstOrDefault().ToString(); 
+                        ).FirstOrDefault().ToString();
+
+            //MCZ: wyświetla na widoku rezerwacji pacjenta na NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
+            ViewData["ClosestVisitPatient"] =
+                        (
+                        from data in vetClinicContext
+                        where data.DateOfVisit >= DateTime.Now.AddHours(1) //MCZ: z uwagi na to, że system serwera ma -1 godzinę to musiałam dodać jedną godzinę. 
+                        && data.ReservationUserID == UserId
+                        && data.IsActive == true
+                        orderby data.DateOfVisit
+                        select data.Patients.Name
+                        ).FirstOrDefault().ToString();
 
             //return View(await vetClinicContext.OrderByDescending(u => u.DateOfVisit).ToListAsync()); //MCZ: stare
 
