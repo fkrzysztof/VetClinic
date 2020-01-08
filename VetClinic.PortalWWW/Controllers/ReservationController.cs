@@ -24,12 +24,23 @@ namespace VetClinic.PortalWWW.Controllers
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
             var vetClinicContext = _context.Reservations.Where(r => r.ReservationUserID == UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
 
-            //return View(await vetClinicContext.OrderByDescending(u => u.DateOfVisit).ToListAsync()); //stare
+            //MCZ: wyświetla na widoku rezerwacji NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
+            ViewData["ClosestVisit"] =
+                        (
+                        from data in vetClinicContext
+                        where data.DateOfVisit >= DateTime.Now.AddHours(1) //MCZ: z uwagi na to, że system serwera ma -1 godzinę to musiałam dodać jedną godzinę. 
+                        && data.ReservationUserID == UserId
+                        && data.IsActive == true
+                        orderby data.DateOfVisit
+                        select data.DateOfVisit
+                        ).FirstOrDefault().ToString(); 
 
-            return View(await vetClinicContext.Where(x => x.DateOfVisit >= DateTime.Now).Where(x => x.IsActive == true).OrderByDescending(u => u.DateOfVisit).ToListAsync());
-            //^ wyświetlanie od najświeższej wizyty, o ile wizyta nie jest w czasie przeszłym i o ile jest AKTYWNA
+            //return View(await vetClinicContext.OrderByDescending(u => u.DateOfVisit).ToListAsync()); //MCZ: stare
 
-            //UWAGA: przez brak zabezpieczenia w Intranecie -> tworzenie rezerwacji można utworzyć dowolną rezerwację klient + zwierzak (czy jest ten klient właścicielem czy nie). Więc trzeba to ograniczyc bo na liście od strony klienta będą te
+            return View(await vetClinicContext.Where(x => x.DateOfVisit >= DateTime.Now.AddHours(1)).Where(x => x.IsActive == true).OrderByDescending(u => u.DateOfVisit).ToListAsync());
+            //^ MCZ: wyświetlanie od najświeższej wizyty, o ile wizyta nie jest w czasie przeszłym i o ile jest AKTYWNA
+
+            //MCZ: UWAGA: przez brak zabezpieczenia w Intranecie -> tworzenie rezerwacji można utworzyć dowolną rezerwację klient + zwierzak (czy jest ten klient właścicielem czy nie). Więc trzeba to ograniczyc bo na liście od strony klienta będą te
             //rezerwacje jeśli ktoś dał właściciela + obcy zwierz w intranecie tam tworząc rezerwację. 
         }
 
