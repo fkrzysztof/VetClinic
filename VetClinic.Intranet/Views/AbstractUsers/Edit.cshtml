@@ -16,7 +16,7 @@
                 <div class="form-group col-lg-4">
                     <div class="input-group col-12 row mb-3">
                         <div class="input-group-append">
-                            <div class="card-image">
+                            <div class="card-image" id="showimage">
                                 @{
                                     if (Model.Image != null)
                                     {
@@ -29,13 +29,15 @@
                                         <img style="width: 100%" src="~/images/empty_image.png" />
                                     }
                                 }
-
                                 <br />
-                                <br />
-                                <input type="file" id="files" asp-for="Image" class="inputfile" style="width: 100%" />
-                                <span asp-validation-for="Image" class="text-danger"></span>
                             </div>
                         </div>
+                    </div>
+                    <br />
+                    <div class="custom-file">
+                        <input type="file" id="files" asp-for="Image" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" accept="image/*">
+                        <label class="custom-file-label" for="inputGroupFile01">Wybierz zdjęcie</label>
+                        <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -209,6 +211,30 @@
         window.crypto.getRandomValues(buf);
         document.getElementById("passwordInput").value = btoa(String.fromCharCode.apply(null, buf));
     }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#files").change(function () {
+
+            var previewimages = $("#showimage");
+            previewimages.html("");
+            $($(this)[0].files).each(function () {
+                var file = $(this);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = $("<img />");
+                    img.attr("style", "height:150px;width: 150px;");
+                    img.attr("src", e.target.result);
+                    previewimages.append(img);
+                }
+                reader.readAsDataURL(file[0]);
+            });
+
+        });
+    });
 </script>
 
 @section Scripts {
