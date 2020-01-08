@@ -1,47 +1,60 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lista rezerwacji";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
-<a class="btn btn-outline-primary" role="button" asp-action="Index" asp-controller="ClientPanel">
+
+<div class="align-self-center">
+    <div class="card text-center">
+        <div class="col-4 mx-auto d-flex justify-content-center flex-wrap cardImagePadding">
+            <img class="card-img-top cardImageLogo" style="width:100px; margin-top:20px" src="~/images/logo.svg" alt="Card image cap">
+        </div>
+        <div id="card-bodyReservation">
+            <h4 class="card-title">Termin najbliższej wizyty: @ViewData["ClosestVisit"]</h4>
+            <p class="card-text">Pacjent: @ViewData["ClosestVisitPatient"]</p>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+            <h5 class="card-text">Zapraszamy !</h5>
+        </div>
+    </div>
+</div>
+<br />
+
+<a class="btn btn-outline-primary float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="ClientPanel">
     Kalendarz Rezerwacji
 </a>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfVisit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Patients)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfVisit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AddedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Patients.Name)
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Patients)
+                </th>
+                <th class="text-center">
+                   Zarezerwowany termin
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Patients.Name)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.DateOfVisit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
