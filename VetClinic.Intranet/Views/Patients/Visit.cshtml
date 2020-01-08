@@ -2,11 +2,25 @@
 @{
     ViewData["Title"] = String.Format("Wizyty pacjenta {0} (ID: {1}) Właściciel: {2} {3}", ViewData["PatientName"], @ViewData["PatientID"], ViewData["PatientUserFirstName"], ViewData["PatientUserLastName"]);
 }
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style>
+        .selected {
+            background-color: #f3715b;
+            cursor: pointer
+        }
+
+        .sortable tr {
+            cursor: pointer;
+        }
+    </style>
+</head>
 
 <link href="~/css/Zakladki.css" rel="stylesheet" />
 <div class="row col">
     <p class="w-100">
-        <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="AddVisit" asp-route-id=@ViewData["PatientID"]>
+        <a class="dodaj btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" 
+           data-PatientId=@ViewData["PatientID"]>
             <i class="fas fa-plus-circle"></i>
             Dodaj nową wizytę
         </a>
@@ -15,30 +29,24 @@
 <div class="form-row">
     <div class="form-group col-md-3">
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-hover" id="myTable">
                 <thead class="komorka">
                     <tr>
                         <th>
                             Data wizyty
-                        </th>                      
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                        <tr class="clickable-row" data-VisitId="@item.VisitID" style="cursor:pointer">
                             <td>
-                                <a asp-action="EditVisit" asp-route-id="@item.VisitID">
-                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOfVisit))
-                                    
-                                </a>
-                            </td>                         
+                                @Convert.ToString(item.VisitID)
+                            </td>
                             <td>
-                                <a href="" data-VisitId="@item.VisitID" class="visitdetails-id btn btn-outline-primary btn-sm" role="button" >
-                                    <span class="fas fa-eye"></span>
-                                    Podgląd
-                                </a>
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOfVisit))
                             </td>
                         </tr>
                     }
@@ -48,25 +56,57 @@
     </div>
     <div id="maincont" class="form-group col-md-9"></div>
 </div>
-
+<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog"
+     aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" style="margin-top:20%;margin-left:25%">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Edytuj Opis</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-    <script>
-    $('.visitdetails-id').click(function (e) {
-        e.preventDefault();
-        var pId = $(this).attr('data-visitId');
-
-        $.ajax({
-            type: 'get',
-            url: '@Url.Action("VisitDetails", "Patients")',
-            data: {
-                id: pId
-            },
-            success: function (pageContent) {
-                $('#maincont').html(pageContent);
-            }
-        });
-    });
+<script>
+            $('#myTable').on('click', '.clickable-row', function test(e) {
+                $(this).addClass('selected').siblings().removeClass('selected');
+                e.preventDefault();
+                var vId = $(this).attr('data-visitId');
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("VisitDetails", "Patients")',
+                    data: {
+                        id: vId
+                    },
+                    success: function (pageContent) {
+                        $('#maincont').html(pageContent);
+                    }
+                });
+            });
+</script>
+        <script>
+            $('.dodaj').click(function(e) {
+                e.preventDefault();
+                var pId = $(this).attr('data-PatientId');
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("AddVisit", "Patients")',
+                    data: {
+                        id: pId
+                    },
+                    success: function (pageContent) {
+                        $('#maincont').html(pageContent);
+                    }
+                });
+                });
     </script>
+
 }
