@@ -42,6 +42,7 @@ namespace VetClinic.Data.Data.Clinic
         public byte[]? Image { get; set; }
         public string CardNumber { get; set; } // karta stałego klienta 
         public bool IsActive { get; set; } // jeżeli nie potwierdzi email to jest nieaktywny lub jeśli został deaktywowany przez admina
+        public string ActivationToken { get; set; } // token do aktywacji konta
         public int LoginAttempt { get; set; } // ilosc prób logowanie użytkownika, po x próbach konto się blokuje
         public string Description { get; set; }
         public DateTime AddedDate { get; set; }

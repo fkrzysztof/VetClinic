@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20200101192045_add_new_column_ActivationToken")]
+    partial class add_new_column_ActivationToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,8 +42,8 @@ namespace VetClinic.Data.Migrations
 
                     b.Property<string>("LinkTitle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(44)")
-                        .HasMaxLength(44);
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
@@ -54,8 +56,8 @@ namespace VetClinic.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(135)")
-                        .HasMaxLength(135);
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -462,9 +464,6 @@ namespace VetClinic.Data.Migrations
                         .HasColumnType("time");
 
                     b.HasKey("ScheduleBlockID");
-
-                    b.HasIndex("Time")
-                        .IsUnique();
 
                     b.ToTable("ScheduleBlocks");
                 });
