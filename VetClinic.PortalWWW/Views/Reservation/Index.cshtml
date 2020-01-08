@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lista rezerwacji";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
 
@@ -32,7 +32,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Patients)
                 </th>
-                <th>
+                <th class="text-center">
                    Zarezerwowany termin
                 </th>
                 <th>
