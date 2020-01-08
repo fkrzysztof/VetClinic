@@ -24,7 +24,7 @@ namespace VetClinic.Intranet.Controllers
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
 
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-                .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.IsReaded == false);
+                .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.IsReaded == false && n.StartDate <= DateTime.Now && n.ExpirationDate >= DateTime.Now);
 
             return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
@@ -180,7 +180,7 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> RestoreConfirmed(int id)
         {
             var news = await _context.News.FindAsync(id);
-            news.IsActive = true;
+            news.IsReaded = false;
             news.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
 
