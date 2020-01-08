@@ -33,6 +33,7 @@ namespace VetClinic.Intranet.Controllers
             ViewBag.Title = "Edycja pracownika";
             ViewBag.Delete = "Usuń pracownika";
             ViewBag.Restore = "Przywróć pracownika";
+            ViewBag.Controller = "Employees";
 
             return await base.Edit(id);
         }
