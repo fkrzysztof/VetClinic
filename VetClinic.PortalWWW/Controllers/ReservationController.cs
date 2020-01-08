@@ -33,7 +33,7 @@ namespace VetClinic.PortalWWW.Controllers
                         && data.IsActive == true
                         orderby data.DateOfVisit
                         select data.DateOfVisit
-                        ).FirstOrDefault().ToString();
+                        ).FirstOrDefault().ToString("dd/MM/yyyy H:mm");
 
             //MCZ: wyświetla na widoku rezerwacji pacjenta na NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
             ViewData["ClosestVisitPatient"] =
