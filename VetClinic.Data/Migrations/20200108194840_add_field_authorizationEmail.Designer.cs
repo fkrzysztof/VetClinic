@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20200108194840_add_field_authorizationEmail")]
+    partial class add_field_authorizationEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,8 +42,8 @@ namespace VetClinic.Data.Migrations
 
                     b.Property<string>("LinkTitle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(44)")
+                        .HasMaxLength(44);
 
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
@@ -54,8 +56,8 @@ namespace VetClinic.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(135)")
+                        .HasMaxLength(135);
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -424,6 +426,7 @@ namespace VetClinic.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int?>("PatientID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("ReservationUserID")
@@ -462,6 +465,9 @@ namespace VetClinic.Data.Migrations
                         .HasColumnType("time");
 
                     b.HasKey("ScheduleBlockID");
+
+                    b.HasIndex("Time")
+                        .IsUnique();
 
                     b.ToTable("ScheduleBlocks");
                 });
@@ -558,8 +564,8 @@ namespace VetClinic.Data.Migrations
                     b.Property<string>("ApartmentNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("AuthorizationEmail")
-                        .HasColumnType("bit");
+                    b.Property<string>("AuthorizationEmail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CardNumber")
                         .HasColumnType("nvarchar(max)");
@@ -941,7 +947,9 @@ namespace VetClinic.Data.Migrations
 
                     b.HasOne("VetClinic.Data.Data.Clinic.Patient", "Patients")
                         .WithMany("Reservations")
-                        .HasForeignKey("PatientID");
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VetClinic.Data.Data.Clinic.User", "ReservationUser")
                         .WithMany("ReservationUser")

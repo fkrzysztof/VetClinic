@@ -1,5 +1,4 @@
 ﻿using System;
-
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -35,6 +34,8 @@ namespace VetClinic.PortalWWW.Controllers
         {
             User account = _context.Users.FirstOrDefault(u => u.Login == user.Login);
 
+            //string Name = Request.QueryString["Name"];
+
             if (account == null)
             {
                 ModelState.AddModelError("", "Niepoprawny login!");
@@ -43,7 +44,7 @@ namespace VetClinic.PortalWWW.Controllers
 
             var veryfyHashPassword = HashPassword.VerifyMd5Hash(user.Password, account.Password);
 
-            if (account.ActivationToken != "activate")
+            if (account.AuthorizationEmail == false)
             {
                 ModelState.AddModelError("", "Twoje konto nie zostało jeszcze aktywowane. Sprawdź swoją skrzynkę pocztową!");
                 return View();
@@ -109,7 +110,6 @@ namespace VetClinic.PortalWWW.Controllers
                     break;
                 }
             }
-            // ====================
 
             // sprawdzanie hasła
             var length = user.Password.Length;
@@ -179,11 +179,6 @@ namespace VetClinic.PortalWWW.Controllers
                 ModelState.AddModelError("", "Haslo musi mieć conajmniej jeden znak specjalny");
                 return View();
             }
-            //if (Password != ConfirmPassword)
-            //{
-            //    ModelState.AddModelError("", "Hasła nie są taki same");
-            //    return View();
-            //}
 
             var typeid =
                     (from item in _context.UserTypes
@@ -199,7 +194,9 @@ namespace VetClinic.PortalWWW.Controllers
 
                 SmtpConf.MessageTo = user.Email;
                 SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + user.Password + "<br>"
-                                        + "Link aktywacyjny: https://localhost:44343/Login/AccountConfirm?email=" + user.Email + "&token=" + token + "";
+                                        + "Link aktywacyjny: https://vetclinic-portalwww.azurewebsites.net/Login/AccountConfirm?email=" + user.Email + "&token=" + token + "";
+                // vetclinic-portalwww.azurewebsites.net
+                // localhost4434
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
 
                 user.Password = HashPassword.GetMd5Hash(user.Password);
@@ -208,6 +205,7 @@ namespace VetClinic.PortalWWW.Controllers
                 user.AddedDate = DateTime.Now;
                 user.ActivationToken = token;
                 user.IsActive = false;
+                user.AuthorizationEmail = false;
                 user.LoginAttempt = 0;
 
                 _context.Users.Add(user);
@@ -279,7 +277,7 @@ namespace VetClinic.PortalWWW.Controllers
                 {
                     _context.Users.Update(s);
                     s.IsActive = true;
-                    s.ActivationToken = "activate";
+                    s.AuthorizationEmail = true;
                     s.UpdatedDate = DateTime.Now;
                     await _context.SaveChangesAsync();
                 }
