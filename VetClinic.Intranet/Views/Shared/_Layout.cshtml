@@ -191,11 +191,15 @@
 
             @if (ViewBag.HasAccessToNews != null)
             {
-                <li class="nav-item @Html.IsActive(controllers: "News", cssClass: "active")">
-                    <a class="nav-link toggle" asp-controller="News" asp-action="Index">
+                <li class="nav-item dropdown @Html.IsActive(controllers: "News") @Html.IsActive(controllers: "News")">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
                         <i class="fas fa-envelope-open-text"></i>
                         <span>Wiadomości</span>
                     </a>
+                    <div class="dropdown-menu @Html.IsActive(controllers: "News") @Html.IsActive(controllers: "News")">
+                        <a class="dropdown-item @Html.IsActive(controllers: "News", cssClass: "active")" asp-controller="News" asp-action="Index">Nieodczytane</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "News", cssClass: "active")" asp-controller="News" asp-action="Readed">Odczytane</a>
+                    </div>
                 </li>
             }
         </ul>

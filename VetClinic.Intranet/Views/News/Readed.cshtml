@@ -1,0 +1,47 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.News>
+
+@{
+    ViewData["Title"] = "Wiadomości odczytane";
+}
+
+<a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+    <i class="fas fa-plus-circle"></i>
+    Dodaj nową wiadomość
+</a>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                   Tytuł
+                </th>
+                <th>
+                   Nadawca
+                </th>
+                <th>
+                    Data odczytania
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="item-not-active" )">
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.NewsID">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SenderUser.FirstName)
+                        @Html.DisplayFor(modelItem => item.SenderUser.LastName)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.UpdatedDate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
