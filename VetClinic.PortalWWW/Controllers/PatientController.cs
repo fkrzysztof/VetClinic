@@ -98,6 +98,39 @@ namespace VetClinic.PortalWWW.Controllers
             return View(patient);
         }
 
+        public IActionResult CreatePatientFromReservation()
+        {
+            ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name");
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
+            ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "City");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePatientFromReservation([Bind("PatientID,PatientTypeID,PatientUserID,Name,BirthDate,PatientNumber,IsActive,Description,KennelName,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Patient patient)
+        {
+            if (ModelState.IsValid)
+            {
+                int id = int.Parse(HttpContext.Session.GetString("UserID"));
+                patient.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                patient.PatientUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                patient.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                patient.IsActive = true;
+                patient.AddedDate = DateTime.Now;
+
+                _context.Add(patient);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Create", "Reservation");
+            }
+
+            ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name", patient.PatientTypeID);
+
+            return View(patient);
+        }
+
+
         // GET: Patient/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
