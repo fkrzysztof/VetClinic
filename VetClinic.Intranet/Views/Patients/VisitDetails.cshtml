@@ -6,8 +6,6 @@
 
 
 
-
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link href="~/css/Zakladki.css" rel="stylesheet" />
 
 <!------ Include the above in your HEAD tag ---------->
@@ -25,115 +23,139 @@
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-dane" role="tabpanel" aria-labelledby="nav-dane-tab">
                     <div>
-                        <div class="row">                        
+                        <div class="row">
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep">Data urodzenia</p>
                             </div>
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep"> @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Visit.Patient.BirthDate))</p>
-                            </div>                       
+                            </div>
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep">Opis</p>
                             </div>
-                            <div class="col-sm-6 wiersz">
+                            <div class="showDetails col-sm-6 wiersz" Visit-Id="@Model.Visit.VisitID" style="cursor:pointer">
                                 <p class="odstep">  @Html.DisplayFor(model => model.Visit.Description)</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nav-zabieg" role="tabpanel" aria-labelledby="nav-zabieg-tab">
-                    
-                        @if (Model.VisitTreatments.Count == 0)
-                        {
-                            <br />
-                    <p><b>Nie ma dodanych zabiegów</b></p>
-                        }
-                        else
-                        {
-                            <div class="table-responsive odstep">
-                                <table class="table table-hover">
-                                    <thead class="komorka">
+
+                    @if (Model.VisitTreatments.Count == 0)
+                    {
+                        <br />
+                        <p><b>Nie ma dodanych zabiegów</b></p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive odstep">
+                            <table class="table table-hover">
+                                <thead class="komorka">
+                                    <tr>
+                                        <th>
+                                            Nazwa
+                                        </th>
+                                        @*<th>
+                                                Ilosc
+                                            </th>*@
+                                        <th>
+                                            Typ leku
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.VisitTreatments)
+                                    {
                                         <tr>
-                                            <th>
-                                                Nazwa
-                                            </th>
-                                            @*<th>
-                                    Ilosc
-                                </th>*@
-                                            <th>
-                                                Typ leku
-                                            </th>
-                                            <th></th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Treatment.Name)
+                                            </td>
+                                            @*<td>
+                                                    @Html.DisplayFor(modelItem => item.Medicine.Quantity)
+                                                </td>*@
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Treatment.Description)
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.VisitTreatments)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Treatment.Name)
-                                                </td>
-                                                @*<td>
-                                        @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                                    </td>*@
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Treatment.Description)
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        }
-                    </div>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
 
                 <div class="tab-pane fade" id="nav-leki" role="tabpanel" aria-labelledby="nav-leki-tab">
                     @if (Model.VisitMedicine.Count == 0)
                     {<br />
                         <p>
                             <b>Nie ma dodanych leków</b>
-                            </p>
-                            }
-                            else
-                            {
-                            <div class="table-responsive odstep">
-                                <table class="table table-hover">
-                                    <thead class="komorka">
+                        </p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive odstep">
+                            <table class="table table-hover">
+                                <thead class="komorka">
+                                    <tr>
+                                        <th>
+                                            Nazwa
+                                        </th>
+                                        @*<th>
+                                                Ilosc
+                                            </th>*@
+                                        <th>
+                                            Typ leku
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.VisitMedicine)
+                                    {
                                         <tr>
-                                            <th>
-                                                Nazwa
-                                            </th>
-                                            @*<th>
-                                    Ilosc
-                                </th>*@
-                                            <th>
-                                                Typ leku
-                                            </th>
-                                            <th></th>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Medicine.Name)
+                                            </td>
+                                            @*<td>
+                                                    @Html.DisplayFor(modelItem => item.Medicine.Quantity)
+                                                </td>*@
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.VisitMedicine)
-                                        {
-                                            <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Medicine.Name)
-                                                </td>
-                                                @*<td>
-                                        @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                                    </td>*@
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                            }
-                    </div>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script>
+     $('.showDetails').click(function () {
+
+         var patient_id = $(this).attr("Visit-Id");
+         $.ajax({
+             type: 'GET',
+             url: '@Url.Action("VisitOpis","Patients")',
+
+             data:
+             {
+                 id: patient_id
+             },
+
+             success: (data) => {
+                 $('#exampleModal').find('.modal-body').html(data);
+                 $('#exampleModal').modal('show');
+             }
+
+         });
+     });
+</script>
