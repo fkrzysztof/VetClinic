@@ -197,8 +197,8 @@
                         <span>Wiadomości</span>
                     </a>
                     <div class="dropdown-menu @Html.IsActive(controllers: "News") @Html.IsActive(controllers: "News")">
-                        <a class="dropdown-item @Html.IsActive(controllers: "News", cssClass: "active")" asp-controller="News" asp-action="Index">Nieodczytane</a>
-                        <a class="dropdown-item @Html.IsActive(controllers: "News", cssClass: "active")" asp-controller="News" asp-action="Readed">Odczytane</a>
+                        <a class="dropdown-item @Html.IsActive("News", "Index", cssClass: "active")" asp-controller="News" asp-action="Index">Nieodczytane</a>
+                        <a class="dropdown-item @Html.IsActive("News", "Readed", cssClass: "active")" asp-controller="News" asp-action="Readed">Odczytane</a>
                     </div>
                 </li>
             }
