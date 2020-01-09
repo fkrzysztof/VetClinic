@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20200108194840_add_field_authorizationEmail")]
+    partial class add_field_authorizationEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -562,8 +564,8 @@ namespace VetClinic.Data.Migrations
                     b.Property<string>("ApartmentNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("AuthorizationEmail")
-                        .HasColumnType("bit");
+                    b.Property<string>("AuthorizationEmail")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CardNumber")
                         .HasColumnType("nvarchar(max)");

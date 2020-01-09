@@ -46,7 +46,7 @@
                     <div class="form-row">
                         <div class="form-label-group">
                             <input asp-for="Password" type="password" id="inputPassword" name="Password" class="form-control" placeholder="Hasło" required>
-                            <label asp-for="Password" for="inputPassword1">Hasło</label>
+                            <label asp-for="Password" for="inputPassword">Hasło</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-label-group">
@@ -59,12 +59,10 @@
                     <div class="form-row">
                         <div class="form-label-group" style="width:100%">
                             <input asp-for="Phone" type="text" id="inputPhone" class="form-control" placeholder="Numer telefonu" required>
-                            <label asp-for="Phone" for="inputEmail">Telefon</label>
+                            <label asp-for="Phone" for="inputPhone">Telefon</label>
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                     </div>
-
-
 
                     <div class="form-row">
                         <div class="form-label-group" style="width:61%">
