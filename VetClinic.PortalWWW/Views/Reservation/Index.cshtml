@@ -4,7 +4,7 @@
     ViewData["Title"] = "Lista rezerwacji";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
-
+<br />
 <div class="align-self-center">
     <div class="card text-center">
         <div class="col-4 mx-auto d-flex justify-content-center flex-wrap cardImagePadding">
@@ -15,7 +15,7 @@
             <p class="card-text">Pacjent: @ViewData["ClosestVisitPatient"]</p>
         </div>
         <div class="card-footer bg-transparent border-0">
-            <h5 class="card-text">Zapraszamy !</h5>
+            <h5 class="card-text">@ViewData["WelcomeMessage"]</h5>
         </div>
     </div>
 </div>
@@ -32,7 +32,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Patients)
                 </th>
-                <th class="text-center">
+                <th>
                    Zarezerwowany termin
                 </th>
                 <th>
