@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VetClinic.Data;
+using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
 
 namespace VetClinic.PortalWWW.Controllers
@@ -18,18 +19,18 @@ namespace VetClinic.PortalWWW.Controllers
             _context = context;
         }
         public ActionResult Index()
-        {
+        {           
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(string Password, string NewPassword, string NewPasswordConfirm)
-        {
+        {           
             var test = ModelState.IsValid;
             var UserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
             var newPassword = NewPassword.Equals(NewPasswordConfirm);
             var crrentPassword = HashPassword.VerifyMd5Hash(Password, _context.Users.Where(u => u.UserID == UserID).Select(p => p.Password).First());
-
+         
             var length = NewPassword.Length;
             if (length < 7)
             {
