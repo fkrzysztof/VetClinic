@@ -57,30 +57,30 @@
                UpdatedDate = @Model.UpdatedDate,
                UpdatedUserID = @Model.UpdatedUserID
             })
-
-            <div class="row">
-                <div class="col">
-                    @if (Model.IsActive)
-                    {
-                        <form asp-action="Delete" asp-route-id="@Model.ReservationID" onsubmit="alert('Na pewno chcesz usunąć rezerwacje?')">
-                            <input type="hidden" asp-for="ReservationID" />
-                            <input type="submit" value="Usuń rezerwacje" class="btn btn-danger buttMargin" />
-                        </form>
-                    }
-                    else
-                    {
-                        <form asp-action="Restore" asp-route-id="@Model.ReservationID">
-                            <input type="hidden" asp-for="ReservationID" />
-                            <input type="submit" value="Przywróć rezerwacje" class="btn btn-success buttMargin" />
-                        </form>
-                    }
-                </div>
-                <div class="col">
-                    <input type="submit" value="Zapisz zmiany" class="btn btn-primary float-right buttMargin" />
-                </div>
-            </div>
         </form>
     </div>
+    <div class="row">
+        <div class="col">
+            @if (Model.IsActive)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.ReservationID" onsubmit="alert('Na pewno chcesz usunąć rezerwacje?')">
+                    <input type="hidden" asp-for="ReservationID" />
+                    <input type="submit" value="Usuń rezerwacje" class="btn btn-danger buttMargin" />
+                </form>
+            }
+            else
+            {
+                <form asp-action="Restore" asp-route-id="@Model.ReservationID">
+                    <input type="hidden" asp-for="ReservationID" />
+                    <input type="submit" value="Przywróć rezerwacje" class="btn btn-success buttMargin" />
+                </form>
+            }
+        </div>
+        <div class="col">
+            <input type="submit" value="Zapisz zmiany" class="btn btn-primary float-right buttMargin" />
+        </div>
+    </div>
+    
 </div>
 
 @section Scripts {
