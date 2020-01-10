@@ -37,8 +37,6 @@ namespace VetClinic.Intranet.Controllers
         //        return RedirectToAction("Index", "Login");
         //}
 
-        // Krzysztof ********************************START*************************************************
-
         public DateTime now = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
         ScheduleBlocks sb = new ScheduleBlocks();
 
@@ -48,10 +46,7 @@ namespace VetClinic.Intranet.Controllers
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
             ViewBag.VetClinicContext = _context.News.Include(n => n.NewsUpdatedUser)
                                         .Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-                                        .Where(n => n.UserTypeID == usertypeid && n.IsActive == true);
-
-           // return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
-
+                                        .Where(n => n.UserTypeID == usertypeid && n.IsActive == true).OrderBy(o => o.AddedDate).Take(4);
 
             while (true)
             {
@@ -87,7 +82,7 @@ namespace VetClinic.Intranet.Controllers
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
             ViewBag.VetClinicContext = _context.News.Include(n => n.NewsUpdatedUser)
                                         .Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-                                        .Where(n => n.UserTypeID == usertypeid && n.IsActive == true);
+                                        .Where(n => n.UserTypeID == usertypeid && n.IsActive == true).OrderBy( o => o.AddedDate).Take(4);
 
 
             if (c.Navigation == "next")
@@ -110,16 +105,6 @@ namespace VetClinic.Intranet.Controllers
                 return RedirectToAction("Index", "Login");
             }
         }
-
-
-
-
-
-
-
-        // Krzysztof *********************************KONIEC***********************************************
-
-
 
         public IActionResult Privacy()
         {

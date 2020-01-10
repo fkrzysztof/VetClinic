@@ -1,24 +1,4 @@
-﻿@*@{
-        ViewData["Title"] = "Home Page";
-    }*@
-
-@*<div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
-        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-        when an unknown printer took a galley of type and scrambled it to make a type s
-        pecimen book. It has survived not only five centuries, but also the leap into elec
-        tronic typesetting, remaining essentially unchanged. It was popularised in the 1960s
-        with the release of Letraset sheets containing Lorem Ipsum passages, and more recentl
-        y with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum</p>
-
-    </div>*@
-
-
-
-@model VetClinic.Data.Helpers.ScheduleBlocks
+﻿@model VetClinic.Data.Helpers.ScheduleBlocks
 @{
     ViewBag.Title = "Witamy";
     //Layout = "~/Views/Shared/_Layout_MainPage.cshtml";
@@ -26,13 +6,12 @@
 
     <div class="row d-flex justify-content-left">
         <div class="col-sm-8">
-
+            <h3 class="text-left float-left">Rezerwacje</h3>
             <div class="float-sm-right">
                 <a class="btn btn-outline-primary mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Calendar">
                     Aktualny tydzień
                 </a>
             </div>
-            <hr />
         </div>
         @*<div class="col-sm-10 text-center">*@
         <div class="col-sm-8 text-center">
@@ -187,88 +166,77 @@
             <hr />
             <br />
         </div>
-
-
-
+               
 
         <div class="col-sm-4 float-sm-right">
-                    <div class="container">
-                        @foreach (var NewsItems in ViewBag.VetClinicContext)
-                        {
-                            <div class="row float-sm-right mb-2">
-                                <div class="card no-gutters">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-8">
-                                            <div class="card-body">
-                                                <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@NewsItems.NewsID">
-                                                    @*<h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>*@
-                                                    @*<h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>*@
-                                                    <div style="width: 100px; height:50px">@NewsItems.Title)</div>
-                                                </a>
+            <h5 class="text-right">Wiadomości</h5>
+            <div class="container">
+                @foreach (var NewsItems in ViewBag.VetClinicContext)
+                {
+                    <div class="row float-sm-right mb-2">
+                        <div class="card no-gutters">
+                            <div class="row no-gutters">
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-controller="News" asp-route-id="@NewsItems.NewsID">
+                                            @*<h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>*@
+                                            @*<h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>*@
+                                            <div style="width: 100px; height:50px"><span class="align-middle">@NewsItems.Title</span></div>
+                                        </a>
 
-                                                @*<p class="card-text">@NewsItems.Message)</p>*@
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card-body">
-                                                @{
-                                                    if (NewsItems.SenderUser.Image != null)
-                                                    {
-                                                        var base64 = Convert.ToBase64String(NewsItems.SenderUser.Image);
-                                                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                                        <img style="width: 50px; height:50px" class="card-img" src="@imgSrc" />
-                                                    }
-                                                    else
-                                                    {
-                                                    <img style="width: 50px; height:50px" class="card-img" src="~/images/empty_image.png" />
-                                                    }
-                                                }
-
-                                            </div>
-
-                                            <p class="card-title" style="text-align: center;">
-                                            @NewsItems.SenderUser.FirstName @NewsItems.SenderUser.LastName
-                                            </p>
-
-                                        </div>
+                                        @*<p class="card-text">@NewsItems.Message)</p>*@
                                     </div>
                                 </div>
-                                <br>
+                                <div class="col-md-4">
+                                    <div class="card-body">
+                                        @{
+                                            if (NewsItems.SenderUser.Image != null)
+                                            {
+                                                var base64 = Convert.ToBase64String(NewsItems.SenderUser.Image);
+                                                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                                <img style="width: 50px; height:50px" class="card-img" src="@imgSrc" />
+                                            }
+                                            else
+                                            {
+                                                <img style="width: 50px; height:50px" class="card-img" src="~/images/empty_image.png" />
+                                            }
+                                        }
+
+                                    </div>
+
+                                    <p class="card-title" style="text-align: center;">
+                                        @NewsItems.SenderUser.FirstName @NewsItems.SenderUser.LastName
+                                    </p>
+
+                                </div>
                             </div>
-                        }
+                        </div>
+                        <br>
                     </div>
 
+                }
+            </div>
         </div>
+    @*</div>*@
 
-
-
-
-
-
-
-
-        <div class="col-sm-8">
-            <table class="table-borderless">
-                <tr>
-                    <td><button class="btn btn-danger mr-sm-3 ml-sm-3">13:00<br />Zajęty</button></td>
-                    <td>Termin jest zajęty, przekierowanie do podglądu wizyty.</td>
-                </tr>
-                <tr>
-                    <td><button type="button" class="btn btn-info  mr-sm-3 ml-sm-3" disabled>Dzień<br />Wolny</button></td>
-                    <td>W tym dniu przychodnia nie pracuje.</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn btn-success mr-sm-3 ml-sm-3">13:00<br />Wolny</button></td>
-                    <td>Termin wolny, rezerwacja jest możliwa, przekierowanie do rezerwacji w wybranym terminie.</td>
-                </tr>
-                <tr>
-                    <td><button class="btn btn btn-success mr-sm-3 ml-sm-3" onclick="location.href='#'" disabled>13:00<br />Wolny</button></td>
-                    <td>Termin nieaktualny.</td>
-                </tr>
-            </table>
-        </div>
-
-    </div>
-
-
-
+                    <div class="col-sm-8">
+                        <table class="table-borderless">
+                            <tr>
+                                <td><button class="btn btn-danger mr-sm-3 ml-sm-3">13:00<br />Zajęty</button></td>
+                                <td>Termin jest zajęty, przekierowanie do podglądu wizyty.</td>
+                            </tr>
+                            <tr>
+                                <td><button type="button" class="btn btn-info  mr-sm-3 ml-sm-3" disabled>Dzień<br />Wolny</button></td>
+                                <td>W tym dniu przychodnia nie pracuje.</td>
+                            </tr>
+                            <tr>
+                                <td><button class="btn btn btn-success mr-sm-3 ml-sm-3">13:00<br />Wolny</button></td>
+                                <td>Termin wolny, rezerwacja jest możliwa, przekierowanie do rezerwacji w wybranym terminie.</td>
+                            </tr>
+                            <tr>
+                                <td><button class="btn btn btn-success mr-sm-3 ml-sm-3" onclick="location.href='#'" disabled>13:00<br />Wolny</button></td>
+                                <td>Termin nieaktualny.</td>
+                            </tr>
+                        </table>
+                    </div>
+     </div>
