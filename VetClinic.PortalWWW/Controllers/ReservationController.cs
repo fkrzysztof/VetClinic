@@ -25,7 +25,7 @@ namespace VetClinic.PortalWWW.Controllers
             var vetClinicContext = _context.Reservations.Where(r => r.ReservationUserID == UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
 
          //MCZ: wyświetla na widoku rezerwacji NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
-            string dataRezerwacji =
+            string reservationDate =
                                 (
                                 from data in vetClinicContext
                                 where data.DateOfVisit >= DateTime.Now.AddHours(1) //MCZ: z uwagi na to, że system serwera ma -1 godzinę to musiałam dodać jedną godzinę. 
@@ -35,7 +35,7 @@ namespace VetClinic.PortalWWW.Controllers
                                 select data.DateOfVisit
                                 ).FirstOrDefault().ToString();
 
-            ViewData["ClosestVisit"] = EmptyIfNullDate(dataRezerwacji);
+            ViewData["ClosestVisit"] = EmptyIfNullDate(reservationDate);
 
         //MCZ: wyświetla na widoku rezerwacji pacjenta na NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
             var patientId =
@@ -49,24 +49,24 @@ namespace VetClinic.PortalWWW.Controllers
                         ).FirstOrDefault();
 
             if (patientId != null)
-            {
-                ViewData["ClosestVisitPatient"] =
-                                (
-                                from data in _context.Reservations
-                                where data.DateOfVisit >= DateTime.Now.AddHours(1) //MCZ: z uwagi na to, że system serwera ma -1 godzinę to musiałam dodać jedną godzinę. 
-                                && data.ReservationUserID == UserId
-                                && data.IsActive == true
-                                orderby data.DateOfVisit
-                                select data.Patients.Name
-                                ).FirstOrDefault().ToString();
+                {
+                    ViewData["ClosestVisitPatient"] =
+                                    (
+                                    from data in _context.Reservations
+                                    where data.DateOfVisit >= DateTime.Now.AddHours(1) 
+                                    && data.ReservationUserID == UserId
+                                    && data.IsActive == true
+                                    orderby data.DateOfVisit
+                                    select data.Patients.Name
+                                    ).FirstOrDefault().ToString();
 
-                ViewData["WelcomeMessage"] = "Zapraszamy !";
-            }
-            else
-            {
-                ViewData["ClosestVisitPatient"] = "brak danych";
-                ViewData["WelcomeMessage"] = "";
-            }
+                    ViewData["WelcomeMessage"] = "Zapraszamy !";
+                }
+                else
+                    {
+                        ViewData["ClosestVisitPatient"] = "brak danych";
+                        ViewData["WelcomeMessage"] = "";
+                    }
 
             return View(await vetClinicContext.Where(x => x.DateOfVisit >= DateTime.Now.AddHours(1)).Where(x => x.IsActive == true).OrderByDescending(u => u.DateOfVisit).ToListAsync());
             //^ MCZ: wyświetlanie od najświeższej wizyty, o ile wizyta nie jest w czasie przeszłym i o ile jest AKTYWNA
