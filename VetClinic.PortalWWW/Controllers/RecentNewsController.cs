@@ -30,6 +30,7 @@ namespace VetClinic.PortalWWW.Controllers
              (
                  from recentnews in _context.RecentNews
                  orderby recentnews.Position
+                 where recentnews.IsActive==true
                  select recentnews
              ).ToList();
             var item = _context.RecentNews.Find(id);
