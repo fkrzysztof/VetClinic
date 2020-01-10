@@ -20,6 +20,7 @@
                     <a class="nav-item nav-link" id="nav-leki-tab" data-toggle="tab" href="#nav-leki" role="tab" aria-controls="nav-leki" aria-selected="false">Leki</a>
                 </div>
             </nav>
+
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-dane" role="tabpanel" aria-labelledby="nav-dane-tab">
                     <div>
@@ -29,11 +30,11 @@
                             </div>
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep"> @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Visit.Patient.BirthDate))</p>
-                            </div>
+                            </div>                            
                             <div class="col-sm-6 wiersz">
                                 <p class="odstep">Opis</p>
                             </div>
-                            <div class="showDetails col-sm-6 wiersz" Visit-Id="@Model.Visit.VisitID" style="cursor:pointer">
+                            <div class="showDetails col-sm-6 wiersz" Visit-Id="@Model.Visit.VisitID" style="cursor:pointer;height:auto">
                                 <p class="odstep">  @Html.DisplayFor(model => model.Visit.Description)</p>
                             </div>
                         </div>
@@ -56,8 +57,8 @@
                                             Nazwa
                                         </th>
                                         @*<th>
-                                                Ilosc
-                                            </th>*@
+                                    Ilosc
+                                </th>*@
                                         <th>
                                             Typ leku
                                         </th>
@@ -72,8 +73,8 @@
                                                 @Html.DisplayFor(modelItem => item.Treatment.Name)
                                             </td>
                                             @*<td>
-                                                    @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                                                </td>*@
+                                        @Html.DisplayFor(modelItem => item.Medicine.Quantity)
+                                    </td>*@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Treatment.Description)
                                             </td>
@@ -102,8 +103,8 @@
                                             Nazwa
                                         </th>
                                         @*<th>
-                                                Ilosc
-                                            </th>*@
+                                    Ilosc
+                                </th>*@
                                         <th>
                                             Typ leku
                                         </th>
@@ -118,8 +119,8 @@
                                                 @Html.DisplayFor(modelItem => item.Medicine.Name)
                                             </td>
                                             @*<td>
-                                                    @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                                                </td>*@
+                                        @Html.DisplayFor(modelItem => item.Medicine.Quantity)
+                                    </td>*@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
                                             </td>
@@ -130,8 +131,19 @@
                         </div>
                     }
                 </div>
+                <div class="col-md-12">
+                    <p class="odstep">
+                        <a class="edytuj btn btn-outline-primary btn-sm listButtMargin" role="button" Visit-Id="@Model.Visit.VisitID">
+                            <span class="fa fa-edit"></span>
+                            Edytuj wizytę
+                        </a>
+                    </p>
+                </div>
+                
             </div>
+            
         </div>
+        
     </div>
 </div>
 
@@ -158,4 +170,20 @@
 
          });
      });
+</script>
+<script>
+            $('.edytuj').click(function(e) {
+                e.preventDefault();
+                var pId = $(this).attr("Visit-Id");
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("EditVisit", "Patients")',
+                    data: {
+                        id: pId
+                    },
+                    success: function (pageContent) {
+                        $('#maincont').html(pageContent);
+                    }
+                });
+                });
 </script>

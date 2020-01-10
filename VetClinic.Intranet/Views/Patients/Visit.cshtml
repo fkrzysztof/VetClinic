@@ -19,7 +19,7 @@
 <link href="~/css/Zakladki.css" rel="stylesheet" />
 <div class="row col">
     <p class="w-100">
-        <a class="dodaj btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" 
+        <a class="dodaj btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false"
            data-PatientId=@ViewData["PatientID"]>
             <i class="fas fa-plus-circle"></i>
             Dodaj nową wizytę
@@ -33,9 +33,9 @@
                 <thead class="komorka">
                     <tr>
                         <th>
-                            Data wizyty
+                            ID
                         </th>
-                        <th></th>
+                        <th>Data</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,11 @@
             </table>
         </div>
     </div>
-    <div id="maincont" class="form-group col-md-9"></div>
+    <div id="maincont" class="form-group col-md-9">
+        @*<iframe onload="myFunction()"></iframe>*@
+                <p onload="myFunction()" id="demo"></p>
+    </div>
+    <label onload="myFunction()" >test</label>
 </div>
 <div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog"
      aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" style="margin-top:20%;margin-left:25%">
@@ -75,7 +79,7 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
-<script>
+    <script>
             $('#myTable').on('click', '.clickable-row', function test(e) {
                 $(this).addClass('selected').siblings().removeClass('selected');
                 e.preventDefault();
@@ -91,8 +95,8 @@
                     }
                 });
             });
-</script>
-        <script>
+    </script>
+    <script>
             $('.dodaj').click(function(e) {
                 e.preventDefault();
                 var pId = $(this).attr('data-PatientId');
@@ -106,7 +110,22 @@
                         $('#maincont').html(pageContent);
                     }
                 });
-                });
+            });
+    </script>
+    <script>
+        if (window.location.hash) {
+            var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+            $.ajax({
+                type: 'get',
+                url: '@Url.Action("VisitDetails", "Patients")',
+                data: {
+                    id: hash
+                },
+                success: function (pageContent) {
+                    $('#maincont').html(pageContent);
+                }
+            });
+        }
     </script>
 
 }
