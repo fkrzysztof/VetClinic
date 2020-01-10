@@ -17,8 +17,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Pacjent</span>
                         </div>
-                        <select asp-for="PatientID" class="form-control" asp-items="ViewBag.PatientID"></select>
-                        <span asp-validation-for="PatientID" class="text-danger"></span>
+                        <input disabled style="background-color:white" class="form-control" value="@Html.DisplayFor(modelItem => Model.Patients.Name)"/>
                     </div>
                 </div>
                 <div class="form-group col-lg-6">
@@ -26,7 +25,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Data wizyty</span>
                         </div>
-                        <input disabled asp-for="DateOfVisit" class="form-control" />
+                        <input disabled asp-for="DateOfVisit" class="form-control" style="background-color:white" />
                         <span asp-validation-for="DateOfVisit" class="text-danger"></span>
                     </div>
                 </div>
@@ -60,7 +59,7 @@
                     }
                 </div>
                 <div class="col">
-                    <input type="submit" value="Zapisz zmiany" class="btn btn-primary float-right buttMargin" />
+                    <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
                 </div>
             </div>
         </form>

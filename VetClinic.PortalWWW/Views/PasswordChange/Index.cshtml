@@ -1,13 +1,10 @@
 ﻿@model VetClinic.Data.Data.Clinic.User
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Zmiana hasła";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
 
     <div class="container">
-        <div>
-            <h4 class="">Zmiana hasła</h4>
-        </div><br />
         <form class="form-signin" asp-controller="PasswordChange" asp-action="Index" method="post">
             <div class="row">
                 <div class="col-lg-5 offset-2">
@@ -33,7 +30,7 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div>
-                        <input class="btn btn-primary float-right px-4" type="submit" value="Zapisz" />
+                        <input class="btn btn-success float-right px-4" type="submit" value="Zapisz" />
                         <a class="btn btn-outline-primary float-left px-4" asp-action="Return" asp-controller="Users">Anuluj</a>
                     </div>
                 </div>

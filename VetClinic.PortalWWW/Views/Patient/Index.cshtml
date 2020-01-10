@@ -1,83 +1,54 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Patient>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Moje zwierzaki";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th class="text-left" width="150">
+                    Imię
+                </th>
+                <th class="text-left" width="150">
+                    @Html.DisplayNameFor(model => model.PatientType)
+                </th>
+                <th class="text-left" width="250">
+                    Przydomek hodowlany
+                </th>
+                <th class="text-left" width="200">
+                    @Html.DisplayNameFor(model => model.BirthDate)
+                </th>
+                <th class="text-left" width="500">
+                    Opis
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr onclick="location.href = '@(Url.Action("Details", "Patient", new { id = item.PatientID }, null))'">
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.PatientType.Name)
+                    </td>
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.KennelName)
+                    </td>
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.BirthDate)
+                    </td>
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirthDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PatientNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KennelName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PatientType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PatientUser)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatientNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KennelName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatientType.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PatientUser.LastName)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.PatientID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PatientID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

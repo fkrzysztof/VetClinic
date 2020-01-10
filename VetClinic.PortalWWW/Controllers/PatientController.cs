@@ -107,9 +107,10 @@ namespace VetClinic.PortalWWW.Controllers
                 return NotFound();
             }
 
-            var wizyta = _context.Reservations.Where(r => r.PatientID == id);
+            //var wizyta = _context.Reservations.Where(r => r.PatientID == id);
            
-            return View(await wizyta.ToListAsync());
+            //return View(await wizyta.ToListAsync());
+            return View(patient);
         }
 
         // GET: Patient/Create

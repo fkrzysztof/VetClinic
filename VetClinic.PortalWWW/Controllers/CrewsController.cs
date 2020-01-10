@@ -22,13 +22,13 @@ namespace VetClinic.PortalWWW.Controllers
             if(id == null)
                 return View("Views/Home/Index.cshtml");
 
-            ViewBag.ModelRecentNews =
-            (
-                from recentnews in _context.RecentNews
-                orderby recentnews.Position
-                where recentnews.IsActive==true
-                select recentnews
-            ).ToList();
+            //ViewBag.ModelRecentNews =
+            //(
+            //    from recentnews in _context.RecentNews
+            //    orderby recentnews.Position
+            //    where recentnews.IsActive==true
+            //    select recentnews
+            //).ToList();
 
             User result  = _context.Users.FirstOrDefault(i => i.UserID == id);
             ViewBag.Logged = !String.IsNullOrEmpty(HttpContext.Session.GetString("UserID"));
