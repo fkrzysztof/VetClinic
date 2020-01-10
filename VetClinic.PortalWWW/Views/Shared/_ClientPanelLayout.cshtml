@@ -63,7 +63,7 @@
 
                         foreach (var patient in ViewBag.Patients)
                         {
-                            <a class="dropdown-item" asp-action="Details" asp-controller="Patient" asp-route-id="@patient.PatientID">@patient.Name</a>
+                            <a class="dropdown-item" asp-action="Visit" asp-controller="Patient" asp-route-id="@patient.PatientID">@patient.Name</a>
                         }
                     }
                 </div>

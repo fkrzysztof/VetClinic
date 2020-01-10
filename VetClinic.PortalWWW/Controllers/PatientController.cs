@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.Data.Helpers;
 using VetClinic.PortalWWW.Controllers.Abstract;
 
 namespace VetClinic.PortalWWW.Controllers
@@ -24,7 +25,56 @@ namespace VetClinic.PortalWWW.Controllers
             var vetClinicContext = _context.Patients.Include(p => p.PatientAddedUser).Include(p => p.PatientType).Include(p => p.PatientUpdatedUser).Include(p => p.PatientUser).Where(u => u.PatientUserID == userId);
             return View(await vetClinicContext.ToListAsync());
         }
+        public async Task<IActionResult> Visit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var patient = _context.Visits.Where(p => p.PatientID == id);
+            if (patient == null)
+            {
+                return NotFound();
+            }
+            ViewData["PatientName"] = _context.Patients.Where(p => p.PatientID == id).Select(a => a.Name).FirstOrDefault();
+            ViewData["PatientID"] = id;
+            ViewData["PatientUserFirstName"] = _context.Patients.Where(p => p.PatientID == id).Select(a => a.PatientUser.FirstName).FirstOrDefault();
+            ViewData["PatientUserLastName"] = _context.Patients.Where(p => p.PatientID == id).Select(a => a.PatientUser.LastName).FirstOrDefault();
+            return View(await patient.AsNoTracking().ToListAsync());
+        }
+
+        public IActionResult VisitDetails(int id)
+        {
+
+
+            var visit = _context.Visits
+                   .Include(v => v.Patient)
+                   .Include(v => v.VetUser)
+                   .Include(v => v.VisitUser)
+                   .Include(v => v.Treatment)
+                   .Include(v => v.VisitMedicines)
+                   .Where(v => v.VisitID == id)
+                   .FirstOrDefault();
+
+            var visitMedicine = _context.VisitMedicines
+                .Include(m => m.Medicine)
+                .Include(m => m.Medicine.MedicineType)
+                .Where(v => v.VisitID == id).ToList();
+            var visitTreatments = _context.VisitTreatment
+               .Include(m => m.Treatment)
+               .Where(v => v.VisitID == id).ToList();
+            var view = new VisitDetails
+            {
+                VisitTreatments = visitTreatments,
+                VisitMedicine = visitMedicine,
+                Visit = visit,
+                //Patient = visit.Patient                
+            };
+
+
+            return View(view);
+        }
         public async Task<IActionResult> Leki(int? id)
         {
 
