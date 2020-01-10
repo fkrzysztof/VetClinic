@@ -24,35 +24,64 @@ namespace VetClinic.PortalWWW.Controllers
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
             var vetClinicContext = _context.Reservations.Where(r => r.ReservationUserID == UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
 
-            //MCZ: wyświetla na widoku rezerwacji NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
-            ViewData["ClosestVisit"] =
+         //MCZ: wyświetla na widoku rezerwacji NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
+            string reservationDate =
+                                (
+                                from data in vetClinicContext
+                                where data.DateOfVisit >= DateTime.Now.AddHours(1) //MCZ: z uwagi na to, że system serwera ma -1 godzinę to musiałam dodać jedną godzinę. 
+                                && data.ReservationUserID == UserId
+                                && data.IsActive == true
+                                orderby data.DateOfVisit
+                                select data.DateOfVisit
+                                ).FirstOrDefault().ToString();
+
+            ViewData["ClosestVisit"] = EmptyIfNullDate(reservationDate);
+
+        //MCZ: wyświetla na widoku rezerwacji pacjenta na NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
+            var patientId =
                         (
-                        from data in vetClinicContext
+                        from data in _context.Reservations
                         where data.DateOfVisit >= DateTime.Now.AddHours(1) //MCZ: z uwagi na to, że system serwera ma -1 godzinę to musiałam dodać jedną godzinę. 
                         && data.ReservationUserID == UserId
                         && data.IsActive == true
                         orderby data.DateOfVisit
-                        select data.DateOfVisit
-                        ).FirstOrDefault().ToString("dd/MM/yyyy H:mm");
+                        select data.PatientID
+                        ).FirstOrDefault();
 
-            //MCZ: wyświetla na widoku rezerwacji pacjenta na NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
-            ViewData["ClosestVisitPatient"] =
-                        (
-                        from data in vetClinicContext
-                        where data.DateOfVisit >= DateTime.Now.AddHours(1) //MCZ: z uwagi na to, że system serwera ma -1 godzinę to musiałam dodać jedną godzinę. 
-                        && data.ReservationUserID == UserId
-                        && data.IsActive == true
-                        orderby data.DateOfVisit
-                        select data.Patients.Name
-                        ).FirstOrDefault().ToString();
+            if (patientId != null)
+                {
+                    ViewData["ClosestVisitPatient"] =
+                                    (
+                                    from data in _context.Reservations
+                                    where data.DateOfVisit >= DateTime.Now.AddHours(1) 
+                                    && data.ReservationUserID == UserId
+                                    && data.IsActive == true
+                                    orderby data.DateOfVisit
+                                    select data.Patients.Name
+                                    ).FirstOrDefault().ToString();
 
-            //return View(await vetClinicContext.OrderByDescending(u => u.DateOfVisit).ToListAsync()); //MCZ: stare
+                    ViewData["WelcomeMessage"] = "Zapraszamy !";
+                }
+                else
+                    {
+                        ViewData["ClosestVisitPatient"] = "brak danych";
+                        ViewData["WelcomeMessage"] = "";
+                    }
 
             return View(await vetClinicContext.Where(x => x.DateOfVisit >= DateTime.Now.AddHours(1)).Where(x => x.IsActive == true).OrderByDescending(u => u.DateOfVisit).ToListAsync());
             //^ MCZ: wyświetlanie od najświeższej wizyty, o ile wizyta nie jest w czasie przeszłym i o ile jest AKTYWNA
+        }
 
-            //MCZ: UWAGA: przez brak zabezpieczenia w Intranecie -> tworzenie rezerwacji można utworzyć dowolną rezerwację klient + zwierzak (czy jest ten klient właścicielem czy nie). Więc trzeba to ograniczyc bo na liście od strony klienta będą te
-            //rezerwacje jeśli ktoś dał właściciela + obcy zwierz w intranecie tam tworząc rezerwację. 
+        //MCZ: Date - in case of empty reservation
+        public string EmptyIfNullDate(string value)
+        {
+            if (String.IsNullOrEmpty(value))
+                return "brak zarezerwowanej wizyty!";
+            if (value == "01.01.0001 00:00:00")
+                return "brak zarezerwowanej wizyty!";
+            else
+                value = value.Substring(0, value.Length - 3);
+            return value;
         }
 
         // GET: Reservation/Details/5
