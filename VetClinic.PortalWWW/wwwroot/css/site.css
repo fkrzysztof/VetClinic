@@ -53,6 +53,29 @@ button.accept-policy {
     line-height: inherit;
 }
 
+.select2-container .select2-selection--single {
+    height: 38px !important;
+}
+
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        display: block !important;
+        padding-left: 8px !important;
+        padding-right: 20px !important;
+        padding-top: 2px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px !important;
+    position: absolute !important;
+    top: 3px !important;
+    right: 1px !important;
+    width: 20px !important;
+}
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
