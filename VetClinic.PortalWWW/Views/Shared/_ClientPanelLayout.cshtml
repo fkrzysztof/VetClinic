@@ -58,6 +58,10 @@
                     <span>Moje zwierzaki</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="btn" asp-area="" asp-controller="Patient" asp-action="Create">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Dodaj zwierzaka</span>
+                    </a>
                     @if (ViewBag.Patients != null)
                     {
 
@@ -248,10 +252,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="~/js/sb-admin.min.js"></script>
-
-    <!-- Demo scripts for this page-->
-    <script src="~/js/demo/datatables-demo.js"></script>
-    <script src="~/js/demo/chart-area-demo.js"></script>
 
     @RenderSection("Scripts", false)
 </body>
