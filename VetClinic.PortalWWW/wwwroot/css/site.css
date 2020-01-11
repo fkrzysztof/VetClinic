@@ -180,3 +180,15 @@ body {
             height: 120px;
             border-radius: 50%;
         }
+
+
+.newsCardImg {
+    height: 120px;
+    width: 120px;
+    border-radius: 62px;
+    object-fit: cover;
+}
+.newsCardLogo {
+    height: 120px;
+    width: 120px;
+}
