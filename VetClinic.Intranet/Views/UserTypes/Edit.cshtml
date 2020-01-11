@@ -5,116 +5,115 @@
 }
 
 <div class="container">
-    <div class="row">
-
-    </div>
-</div>
-<form asp-action="Edit">
-    <div class="row">
-        <div class="mb-3 col-12">
-            <div>
-                <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
-                <input type="hidden" asp-for="@Model.permissionsUser" />
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroup-sizing-default">Nazwa</span>
+    <div class="row" style="place-content:center">
+        <form asp-action="Edit" id="saveForm">
+            <div class="row" >
+                <div class="mb-3 col-12">
+                    <div>
+                        <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
+                        <input type="hidden" asp-for="@Model.permissionsUser" />
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Nazwa</span>
+                            </div>
+                            <input type="text" asp-for="@Model.typeUser.Name" class="form-control" aria-describedby="label1" />
+                            <span asp-validation-for="@Model.typeUser.Name" class="text-danger"></span>
+                        </div>
                     </div>
-                    <input type="text" asp-for="@Model.typeUser.Name" class="form-control" aria-describedby="label1" />
-                    <span asp-validation-for="@Model.typeUser.Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3 col-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">Opis</span>
+                        </div>
+                        <textarea asp-for="@Model.typeUser.Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="@Model.typeUser.Description" class="text-danger"></span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="mb-3 col-12">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-default">Opis</span>
+            <div class="row mb-3">
+                <div class="col-sm-4">
+                    <h4>Uprawnienia grupy:</h4>
+                    <div class="row col-12">
+                        <table class="table-borderless table-hover text-left col-sm-12">
+                            <tbody>
+
+                                @foreach (var item in Model.permissionsUser)
+                                {
+                                    <tr>
+                                        <td>
+                                            <label for="@String.Format("role_{0}", @item.UserPermissionID)">@Html.DisplayFor(modelItem => item.Permission.Name)</label>
+                                        </td>
+                                        <td class="text-right">
+                                            <input type="checkbox" id="@String.Format("role_{0}", @item.UserPermissionID)" name="select_permission" checked="checked" value="@item.UserPermissionID" />
+                                        </td>
+                                    </tr>
+                                }
+
+                                @foreach (var item in Model.permissionsNotSelected)
+                                {
+                                    <tr>
+                                        <td>
+                                            <label for="@String.Format("notrole_{0}", @item.PermissionID)">@Html.DisplayFor(modelItem => item.Name)</label>
+                                        </td>
+                                        <td class="text-right">
+                                            <input type="checkbox" id="@String.Format("notrole_{0}", @item.PermissionID)" name="select_permission" value="@item.PermissionID" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <textarea asp-for="@Model.typeUser.Description" class="form-control" rows="4"></textarea>
-                <span asp-validation-for="@Model.typeUser.Description" class="text-danger"></span>
+                <div class="col-sm-4">
+                    <h4>Użytkownicy grupy:</h4>
+                    <div class="row col-12">
+                        <table class="table-borderless table-hover text-left col-sm-12">
+                            <tbody>
+                                @foreach (var item in Model.users.Where(w => w.UserTypeID == Model.typeUser.UserTypeID && w.IsActive == true))
+                                {
+                                    <tr>
+                                        <td>
+                                            <label for="@String.Format("user_{0}", @item.UserID)">
+                                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                                            </label>
+                                        </td>
+                                        <td class="text-right">
+                                            <input type="checkbox" id="@String.Format("user_{0}", @item.UserID)" name="select_user" checked="@item.IsActive? 'checked':'' " value="@item.UserID" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <h3>Dodaj</h3>
+                    <div class="row col-12">
+                        <table class="table-borderless table-hover text-left col-sm-12">
+                            <tbody>
+                                @foreach (var item in Model.users.Where(w => w.UserTypeID != Model.typeUser.UserTypeID && w.IsActive == true))
+                                {
+                                    <tr>
+                                        <td>
+                                            <label for="@String.Format("newuser_{0}", @item.UserID)">
+                                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                                            </label>
+                                        </td>
+                                        <td class="text-right">
+                                            <input type="checkbox" id="@String.Format("newuser_{0}", @item.UserID)" name="select_new_user" value="@item.UserID" />
+                                        </td>
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
-    <div class="row mb-3">
-        <div class="col-sm-4">
-            <h4>Uprawnienia grupy:</h4>
-            <div class="row col-12">
-                <table class="table-borderless table-hover text-left col-sm-12">
-                    <tbody>
-
-                        @foreach (var item in Model.permissionsUser)
-                        {
-                            <tr>
-                                <td>
-                                    <label for="@String.Format("role_{0}", @item.UserPermissionID)">@Html.DisplayFor(modelItem => item.Permission.Name)</label>
-                                </td>
-                                <td class="text-right">
-                                    <input type="checkbox" id="@String.Format("role_{0}", @item.UserPermissionID)" name="select_permission" checked="checked" value="@item.UserPermissionID" />
-                                </td>
-                            </tr>
-                        }
-
-                        @foreach (var item in Model.permissionsNotSelected)
-                        {
-                            <tr>
-                                <td>
-                                    <label for="@String.Format("notrole_{0}", @item.PermissionID)">@Html.DisplayFor(modelItem => item.Name)</label>
-                                </td>
-                                <td class="text-right">
-                                    <input type="checkbox" id="@String.Format("notrole_{0}", @item.PermissionID)" name="select_permission" value="@item.PermissionID" />
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <h4>Użytkownicy grupy:</h4>
-            <div class="row col-12">
-                <table class="table-borderless table-hover text-left col-sm-12">
-                    <tbody>
-                        @foreach (var item in Model.users.Where(w => w.UserTypeID == Model.typeUser.UserTypeID && w.IsActive == true))
-                        {
-                            <tr>
-                                <td>
-                                    <label for="@String.Format("user_{0}", @item.UserID)">
-                                        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-                                    </label>
-                                </td>
-                                <td class="text-right">
-                                    <input type="checkbox" id="@String.Format("user_{0}", @item.UserID)" name="select_user" checked="@item.IsActive? 'checked':'' " value="@item.UserID" />
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <h3>Dodaj</h3>
-            <div class="row col-12">
-                <table class="table-borderless table-hover text-left col-sm-12">
-                    <tbody>
-                        @foreach (var item in Model.users.Where(w => w.UserTypeID != Model.typeUser.UserTypeID && w.IsActive == true))
-                        {
-                            <tr>
-                                <td>
-                                    <label for="@String.Format("newuser_{0}", @item.UserID)">
-                                        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-                                    </label>
-                                </td>
-                                <td class="text-right">
-                                    <input type="checkbox" id="@String.Format("newuser_{0}", @item.UserID)" name="select_new_user" value="@item.UserID" />
-                                </td>
-
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="row>
+    <div class="row">
         <div class="col">
             @if (Model.typeUser.IsActive)
             {
@@ -125,10 +124,13 @@
             }
         </div>
         <div class="col">
-            <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
         </div>
     </div>
-</form>
+
+</div>
+
+
 
 
 

@@ -19,8 +19,8 @@
 <link href="~/css/Zakladki.css" rel="stylesheet" />
 <div class="row col">
     <p class="w-100">
-        <a class="dodaj btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false"
-           data-PatientId=@ViewData["PatientID"]>
+        <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" 
+           aria-expanded="false" asp-action="Create" data-PatientId=@ViewData["PatientID"]>
             <i class="fas fa-plus-circle"></i>
             Dodaj
         </a>
@@ -58,7 +58,7 @@
         @*<iframe onload="myFunction()"></iframe>*@
                 <p onload="myFunction()" id="demo"></p>
     </div>
-    <label onload="myFunction()" >test</label>
+    <label onload="myFunction()" ></label>
 </div>
 <div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog"
      aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" style="margin-top:20%;margin-left:25%">
