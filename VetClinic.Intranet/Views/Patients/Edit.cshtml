@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <form asp-action="Edit" enctype="multipart/form-data" class="col">
+        <form asp-action="Edit" enctype="multipart/form-data" class="col" id="saveForm">
             <div class="form-row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="PatientID" />
@@ -91,35 +91,35 @@
                 </div>
             </div>
 
-            @await Component.InvokeAsync("DetailsComponent", new {
+            @await Component.InvokeAsync("DetailsComponent", new
+            {
                AddedDate = @Model.AddedDate,
                AddedUserID = @Model.AddedUserID,
                UpdatedDate = @Model.UpdatedDate,
                UpdatedUserID = @Model.UpdatedUserID
             })
-
-            <div class="row">
-                <div class="col">
-                    @if (Model.IsActive)
-                    {
-                        <form asp-action="Delete" asp-route-id="@Model.PatientID" onsubmit="alert('Na pewno chcesz usunąć pacjenta?')">
-                            <input type="hidden" asp-for="PatientID" />
-                            <input type="submit" value="Usuń pacjenta" class="btn btn-danger buttMargin" />
-                        </form>
-                    }
-                    else
-                    {
-                        <form asp-action="Restore" asp-route-id="@Model.PatientID">
-                            <input type="hidden" asp-for="PatientID" />
-                            <input type="submit" value="Przywróć pacjenta" class="btn btn-success buttMargin" />
-                        </form>
-                    }
-                </div>
-                <div class="col">
-                    <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
-                </div>
-            </div>
         </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            @if (Model.IsActive)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.PatientID" onsubmit="alert('Na pewno chcesz usunąć pacjenta?')">
+                    <input type="hidden" asp-for="PatientID" />
+                    <input type="submit" value="Usuń pacjenta" class="btn btn-outline-danger buttMargin" />
+                </form>
+            }
+            else
+            {
+                <form asp-action="Restore" asp-route-id="@Model.PatientID">
+                    <input type="hidden" asp-for="PatientID" />
+                    <input type="submit" value="Przywróć pacjenta" class="btn btn-success buttMargin" />
+                </form>
+            }
+        </div>
+        <div class="col">
+            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+        </div>
     </div>
 </div>
 
@@ -165,6 +165,4 @@
 
         })
                 });
-
-
 </script>

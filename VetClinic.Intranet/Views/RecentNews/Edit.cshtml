@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <form asp-action="Edit" enctype="multipart/form-data">
+        <form asp-action="Edit" enctype="multipart/form-data" id="saveForm">
             <div class="row">
                 <input type="hidden" asp-for="RecentNewsID" />
                 <input type="hidden" asp-for="IsActive" />
@@ -88,33 +88,33 @@
                UpdatedDate = @Model.UpdatedDate,
                UpdatedUserID = @Model.UpdatedUserID
             })
-
-            <div class="row">
-                <div class="col">
-                    @if (Model.IsActive)
-                    {
-                        <form asp-action="Delete" asp-route-id="@Model.RecentNewsID" onsubmit="alert('Na pewno chcesz usunąć aktualność?')">
-                            <input type="hidden" asp-for="RecentNewsID" />
-                            <input type="submit" value="Usuń aktualność" class="btn btn-outline-danger buttMargin" />
-                        </form>
-                    }
-                    else
-                    {
-                        <form asp-action="Restore" asp-route-id="@Model.RecentNewsID">
-                            <input type="hidden" asp-for="RecentNewsID" />
-                            <input type="submit" value="Przywróć aktualność" class="btn btn-outline-success buttMargin" />
-                        </form>
-                    }
-                </div>
-                <div class="col">
-                    <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
-                </div>
-            </div>
         </form>
     </div>
+    <div class="row">
+        <div class="col">
+            @if (Model.IsActive)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.RecentNewsID" onsubmit="alert('Na pewno chcesz usunąć aktualność?')">
+                    <input type="hidden" asp-for="RecentNewsID" />
+                    <input type="submit" value="Usuń aktualność" class="btn btn-outline-danger buttMargin" />
+                </form>
+            }
+            else
+            {
+                <form asp-action="Restore" asp-route-id="@Model.RecentNewsID">
+                    <input type="hidden" asp-for="RecentNewsID" />
+                    <input type="submit" value="Przywróć aktualność" class="btn btn-outline-success buttMargin" />
+                </form>
+            }
+        </div>
+        <div class="col">
+            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+        </div>
+    </div>
+
 </div>
 
-<script>tinymce.init({selector:'textarea', height : "400"});</script>
+<script>tinymce.init({ selector: 'textarea', height: "400" });</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

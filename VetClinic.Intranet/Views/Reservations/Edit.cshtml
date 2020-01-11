@@ -6,7 +6,7 @@
 
 <div class="container">
     <div class="row">
-        <form asp-action="Edit" class="col">
+        <form asp-action="Edit" class="col" id="saveForm">
             <div class="form-row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="ReservationUserID" />
@@ -65,7 +65,7 @@
             {
                 <form asp-action="Delete" asp-route-id="@Model.ReservationID" onsubmit="alert('Na pewno chcesz usunąć rezerwacje?')">
                     <input type="hidden" asp-for="ReservationID" />
-                    <input type="submit" value="Usuń rezerwacje" class="btn btn-danger buttMargin" />
+                    <input type="submit" value="Usuń rezerwacje" class="btn btn-outline-danger buttMargin" />
                 </form>
             }
             else
@@ -77,10 +77,9 @@
             }
         </div>
         <div class="col">
-            <input type="submit" value="Zapisz zmiany" class="btn btn-primary float-right buttMargin" />
+            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
         </div>
     </div>
-    
 </div>
 
 @section Scripts {
