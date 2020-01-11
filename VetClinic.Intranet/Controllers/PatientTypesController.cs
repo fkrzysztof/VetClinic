@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,14 +16,14 @@ namespace VetClinic.Intranet.Controllers
     {
         public PatientTypesController(VetClinicContext context) : base(context) { }
 
-        // GET: PatientType
+        // GET: PatientTypes
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.PatientTypes.Include(p => p.PatientTypeAddedUser).Include(p => p.PatientTypeUpdatedUser);
+            var vetClinicContext = _context.PatientTypes.Include(m => m.PatientTypeAddedUser).Include(m => m.PatientTypeUpdatedUser);
             return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
-        // GET: PatientType/Create
+        // GET: PatientTypes/Create
         public IActionResult Create()
         {
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
@@ -30,7 +31,7 @@ namespace VetClinic.Intranet.Controllers
             return View();
         }
 
-        // POST: PatientType/Create
+        // POST: PatientTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -39,7 +40,12 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+                {
+                    patientType.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                }
                 patientType.IsActive = true;
+                patientType.AddedDate = DateTime.Now;
                 _context.Add(patientType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -49,7 +55,7 @@ namespace VetClinic.Intranet.Controllers
             return View(patientType);
         }
 
-        // GET: PatientType/Edit/5
+        // GET: PatientTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -67,7 +73,7 @@ namespace VetClinic.Intranet.Controllers
             return View(patientType);
         }
 
-        // POST: PatientType/Edit/5
+        // POST: PatientTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -83,8 +89,12 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
-                    patientType.IsActive = true;
+                    if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+                    {
+                        patientType.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    }
                     patientType.UpdatedDate = DateTime.Now;
+                    patientType.IsActive = true;
                     _context.Update(patientType);
                     await _context.SaveChangesAsync();
                 }
@@ -105,8 +115,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City", patientType.UpdatedUserID);
             return View(patientType);
         }
-
-        // POST: PatientType/Delete/5
+        // POST: PatientTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

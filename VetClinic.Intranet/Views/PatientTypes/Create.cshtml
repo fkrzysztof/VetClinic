@@ -7,20 +7,18 @@
 <form asp-action="Create" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @*<div class="row inputGroupMargin col-12">*@
         <div class="form-group col-md-12">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Nazwa</span>
+                    <span class="input-group-text" id="label1">Typ pacjenta</span>
                 </div>
                 <input type="text" asp-for="Name" class="form-control" aria-describedby="label1" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
     </div>
-    @*</div>*@
+
     <div class="form-row">
-        @*<div class="row inputGroupMargin col-12">*@
         <div class="form-group col-12">
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -31,12 +29,12 @@
             </div>
         </div>
     </div>
-    @*</div>*@
 
     <div>
         <input type="submit" value="Utwórz typ pacjenta" class="btn btn-success float-right buttMargin" />
     </div>
 </form>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
