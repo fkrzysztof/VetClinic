@@ -4,6 +4,7 @@
     ViewData["Title"] = String.Format("Edycja aktualności {0}", Model.Title);
 }
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <div class="container">
     <div class="row">
         <form asp-action="Edit" enctype="multipart/form-data">
@@ -30,10 +31,12 @@
 
                                 <br />
                                 <br />
-                                <input type="file" id="files" asp-for="Image" class="inputfile" style="width: 100%" />
+                                <input type="file" class="form-control-file" id="files" asp-for="Image" accept="image/*" />
                                 <span asp-validation-for="Image" class="text-danger"></span>
                             </div>
                         </div>
+                    </div>
+                    <div id="showimage" style="padding-top:10px">
                     </div>
                 </div>
 
@@ -114,8 +117,28 @@
     </div>
 </div>
 
-<script>tinymce.init({selector:'textarea', height : "400"});</script>
+<script>tinymce.init({ selector: 'textarea', height: "400" });</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    $(document).ready(function () {
+        $("#files").change(function () {
+            var previewimages = $("#showimage");
+            previewimages.html("");
+            $($(this)[0].files).each(function () {
+                var file = $(this);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = $("<img />");
+                    img.attr("style", "height:150px;width: 150px;");
+                    img.attr("src", e.target.result);
+                    previewimages.append(img);
+                }
+                reader.readAsDataURL(file[0]);
+            });
+        });
+    });
+</script>
