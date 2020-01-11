@@ -4,14 +4,17 @@
     ViewData["Title"] = "Typy pacjentów";
 }
 
-<a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-    <i class="fas fa-plus-circle"></i>
-    Dodaj
-</a>
+<p>
+    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+        <i class="fas fa-plus-circle"></i>
+        Dodaj
+    </a>
+</p>
 
 <div class="table-responsive">
     <table class="table table-hover">
         <thead class="thead-dark">
+
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
@@ -19,7 +22,10 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
-                <th>Ostatnia modyfikacja</th>
+
+                <th>
+                    Ostatnia modyfikacja
+                </th>
             </tr>
         </thead>
         <tbody>
