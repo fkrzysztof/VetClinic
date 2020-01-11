@@ -203,3 +203,11 @@ a.dropdown-item {
 .nav-item .dropdown-divider {
     border-top-color: #202529;
 }
+
+.recentNewsCardImg {
+    width: 140px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 3px;
+    box-shadow: -5px 5px 30px rgba(0, 0, 0, 0.1), 5px -5px 30px rgba(0, 0, 0, 0.1);
+}
