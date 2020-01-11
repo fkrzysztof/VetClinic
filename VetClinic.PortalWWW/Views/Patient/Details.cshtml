@@ -1,42 +1,59 @@
-﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
+﻿@model VetClinic.Data.Data.Clinic.Patient
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegóły";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
 
-<h1>Details</h1>
+    <div class="container">
+        <div class="row">
+            <form class="col">
+                <div class="form-row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="PatientID" />
+                    <input type="hidden" asp-for="PatientTypeID" />
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DateOfVisit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateOfVisit)
-                </td>              
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>   
-                <td>
-                    <a asp-action="Leki" asp-route-id="@item.PatientID">Leki</a> |
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<div>
-
-    <a asp-action="Index">Back to List</a>
-</div>
+                    <div class="form-group col-lg-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label1">Imię</span>
+                            </div>
+                            <input disabled asp-for="Name" class="form-control" aria-describedby="label1" />
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label1">Przydomek hodowlany</span>
+                            </div>
+                            <input disabled asp-for="KennelName" class="form-control" aria-describedby="label1" style="background-color:white"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label1">Rodzaj zwierzaka</span>
+                            </div>
+                            <input disabled asp-for="PatientType.Name" class="form-control" aria-describedby="label1" style="background-color:white"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-6">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label1">Data urodzenia</span>
+                            </div>
+                            <input disabled type="date" asp-for="BirthDate" style="background-color:white" class="form-control" aria-describedby="label1" style="background-color:white"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Opis</span>
+                            </div>
+                            <textarea disabled asp-for="Description" class="form-control" rows="4" style="background-color:white"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

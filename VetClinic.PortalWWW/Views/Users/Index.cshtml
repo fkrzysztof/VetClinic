@@ -1,11 +1,9 @@
 ﻿@model VetClinic.Data.Data.Clinic.User
 @{
-    //ViewData["Title"] = "Index";
+    ViewData["Title"] = String.Format("Dane klienta: {0}", ViewBag.login);
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
-    <div>
-        <h4 class="">Dane klienta: @ViewBag.Login</h4>
-    </div><br />
+
 <form asp-action="Index" method="post">
     <div class="row">      
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -139,7 +137,7 @@
                     </div>
                 </div>
             </div>
-            <input type="submit" value="Zapisz zmiany" class="btn btn-primary float-right " />
+            <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right " />
 
             <input asp-action="Return" type="submit" value="Wróć" class="btn btn-outline-primary float-left " />
         </div>

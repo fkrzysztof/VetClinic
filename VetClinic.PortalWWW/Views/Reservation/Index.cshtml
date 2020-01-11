@@ -29,28 +29,28 @@
     <table class="table table-hover">
         <thead class="thead-dark">
             <tr>
-                <th>
+                <th class="text-left" width="250">
                     @Html.DisplayNameFor(model => model.Patients)
                 </th>
-                <th>
+                <th class="text-left" width="250">
                    Zarezerwowany termin
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
+                <th class="text-left" width="800">
+                    Opis                
                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Patients.Name)
+                <tr onclick="location.href = '@(Url.Action("Edit", "Reservation", new { id = item.ReservationID }, null))'">
+                    <td class="text-left">
+                            @Html.DisplayFor(modelItem => item.Patients.Name)
                     </td>
-                    <td class="text-right">
+                    <td class="text-left">
                         @Html.DisplayFor(modelItem => item.DateOfVisit)
                     </td>
-                    <td>
+                    <td class="text-left">
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                 </tr>
