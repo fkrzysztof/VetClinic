@@ -69,11 +69,9 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr onclick="location.href = '@(Url.Action("Edit", "Patients", new { id = item.PatientID }, null))'">
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.PatientID">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </a>
+                        @Html.DisplayFor(modelItem => item.Name)
                         <span class="login">(Przydomek: @Html.DisplayFor(modelItem => item.KennelName))</span>
                     </td>
                     <td class="text-right">

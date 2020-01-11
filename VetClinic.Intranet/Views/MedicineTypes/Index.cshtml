@@ -31,7 +31,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "MedicineTypes", new { id = item.MedicineTypeID }, null))'">
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.MedicineTypeID">
                             @Html.DisplayFor(modelItem => item.Name)

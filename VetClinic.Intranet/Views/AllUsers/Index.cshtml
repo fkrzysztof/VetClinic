@@ -67,14 +67,12 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                    <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "AllUsers", new { id = item.UserID }, null))'">
                         <td>
                             <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.UserID">
-                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-                            </a>
+                            @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
                             <span class="login">(Login: @Html.DisplayFor(modelItem => item.Login))</span>
                         </td>
                         <td>

@@ -62,11 +62,9 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr onclick="location.href = '@(Url.Action("Edit", "Medicines", new { id = item.MedicineID }, null))'">
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.MedicineID">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </a>
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td class="text-right">
                         @Convert.ToString(string.Format("{0:0.00} PLN", item.Price))
