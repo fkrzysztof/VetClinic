@@ -31,11 +31,10 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "PatientTypes", new { id = item.PatientTypeID }, null))'">
+
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.PatientTypeID">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </a>
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
@@ -44,7 +43,7 @@
                         @Html.DisplayFor(modelItem => item.UpdatedDate)
                     </td>
                 </tr>
-            }
-        </tbody>
+                }
+            </tbody>
     </table>
 </div>

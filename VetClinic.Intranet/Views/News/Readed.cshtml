@@ -27,11 +27,9 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="item-not-active" )">
+                <tr class="item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "News", new { id = item.NewsID }, null))'">
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.NewsID">
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </a>
+                        @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.SenderUser.FirstName)

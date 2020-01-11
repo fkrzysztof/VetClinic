@@ -46,6 +46,8 @@ namespace VetClinic.Intranet.Controllers.Abastract
                                             .Include(m => m.UserType);
             }
 
+            ViewBag.RouteData = this.ControllerContext.RouteData.Values["controller"].ToString();
+
             return View("../AbstractUsers/Index", await vetClinicContext.OrderByDescending(u => u.IsActive).ThenByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
