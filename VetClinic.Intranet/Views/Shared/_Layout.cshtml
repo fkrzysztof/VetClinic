@@ -112,17 +112,21 @@
                 </li>
             }
 
-            @if (ViewBag.HasAccessToScheduleBlocks != null)
+            @if (ViewBag.HasAccessToWorkTime != null)
             {
-                <li class="nav-item @Html.IsActive(controllers: "ScheduleBlocks", cssClass: "active")">
-                    <a class="nav-link" asp-controller="ScheduleBlocks" asp-action="Index">
-                        <i class="fas fa-th"></i>
-                        <span>Bloki</span>
+                <li class="nav-item dropdown @Html.IsActive(controllers: "ScheduleBlocks") @Html.IsActive(controllers: "InaccessibleDays")">
+                    <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown">
+                        <i class="far fa-clock"></i>
+                        <span>Czas pracy</span>
                     </a>
+                    <div class="dropdown-menu @Html.IsActive(controllers: "Medicines") @Html.IsActive(controllers: "MedicineTypes")">
+                        <a class="dropdown-item @Html.IsActive(controllers: "ScheduleBlocks", cssClass: "active")" asp-controller="ScheduleBlocks" asp-action="Index">Bloki czasowe</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "InaccessibleDays", cssClass: "active")" asp-controller="InaccessibleDays" asp-action="Index">Dni wolne</a>
+                    </div>
                 </li>
             }
 
-            @if (ViewBag.HasAccessToCalendar != null || ViewBag.HasAccessToReservations != null || ViewBag.HasAccessToScheduleBlocks != null)
+            @if (ViewBag.HasAccessToCalendar != null || ViewBag.HasAccessToReservations != null || ViewBag.HasAccessToWorkTime != null)
             {
                 <li class="break"></li>
             }
