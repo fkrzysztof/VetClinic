@@ -1,0 +1,53 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
+
+@{
+    ViewData["Title"] = "Przyjęcia na dziś";
+}
+
+<a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Calendar">
+    <i class="fas fa-plus-circle"></i>
+    Dodaj
+</a>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr>
+                <th>
+                    Pacjent
+                </th>
+                <th>
+                    Data wizyty
+                </th>
+                <th>
+                    Użytkownik rezerwujący
+                </th>
+                <th>
+                    Ostatnia modyfikacja
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "Reservations", new { id = item.ReservationID }, null))'">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Patients.Name)
+                    </td>
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.DateOfVisit)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-controller="AllUsers" asp-route-id="@item.ReservationUser.UserID">
+                            @Html.DisplayFor(modelItem => item.ReservationUser.FirstName)
+                            @Html.DisplayFor(modelItem => item.ReservationUser.LastName)
+                        </a>
+                    </td>
+                    <td class="text-left">
+                        @Html.DisplayFor(modelItem => item.UpdatedDate)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
