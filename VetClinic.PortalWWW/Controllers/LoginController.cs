@@ -34,8 +34,6 @@ namespace VetClinic.PortalWWW.Controllers
         {
             User account = _context.Users.FirstOrDefault(u => u.Login == user.Login);
 
-            //string Name = Request.QueryString["Name"];
-
             if (account == null)
             {
                 ModelState.AddModelError("", "Niepoprawny login!");
@@ -57,6 +55,8 @@ namespace VetClinic.PortalWWW.Controllers
             }
             else if (account != null && (account.Password == user.Password || veryfyHashPassword) && account.Login == user.Login)
             {
+                
+
                 HttpContext.Session.SetString("UserID", account.UserID.ToString());
                 HttpContext.Session.SetString("Login", account.Login.ToString());
 
@@ -86,20 +86,34 @@ namespace VetClinic.PortalWWW.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(User user, string Password, string ConfirmPassword)
         {
-            // generowanie loginu
             var rnd = new Random();
             string login;
+            string email;
 
             login = user.Login;
+            email = user.Email;
 
-            var users =
+            var usersLogin =
                 (from uzytkownicy in _context.Users
                  select uzytkownicy.Login
                  ).ToList();
 
-            for (int i = 0; i < users.Count(); i++)
+            var usersEmail =
+                (from uzytkownicy in _context.Users
+                 select uzytkownicy.Email
+                 ).ToList();
+
+            // check email
+            if (usersEmail.Contains(email))
             {
-                if (users.Contains(login))
+                ModelState.AddModelError("", "Konto z takim adresem email już istnieje!");
+                return View();
+            }
+
+            //check login
+            for (int i = 0; i < usersLogin.Count(); i++)
+            {
+                if (usersLogin.Contains(login))
                 {
                     login += rnd.Next(0, 9);
                     ModelState.AddModelError("", "Taki login już istnieje! Wybierz inny: " + login);
@@ -111,7 +125,7 @@ namespace VetClinic.PortalWWW.Controllers
                 }
             }
 
-            // sprawdzanie hasła
+            // validation password
             var length = user.Password.Length;
             if (length < 7)
             {
@@ -180,6 +194,12 @@ namespace VetClinic.PortalWWW.Controllers
                 return View();
             }
 
+            if(Password != ConfirmPassword)
+            {
+                ModelState.AddModelError("", "Hasła nie są takie same");
+                return View();
+            }
+
             var typeid =
                     (from item in _context.UserTypes
                      where item.Name == "Klient" || item.Name == "Klienci"
@@ -193,10 +213,10 @@ namespace VetClinic.PortalWWW.Controllers
                 user.Login = login;
 
                 SmtpConf.MessageTo = user.Email;
-                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + user.Password + "<br>"
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>"
                                         + "Link aktywacyjny: https://vetclinic-portalwww.azurewebsites.net/Login/AccountConfirm?email=" + user.Email + "&token=" + token + "";
                 // vetclinic-portalwww.azurewebsites.net
-                // localhost4434
+                // localhost:44343
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
 
                 user.Password = HashPassword.GetMd5Hash(user.Password);
@@ -214,7 +234,7 @@ namespace VetClinic.PortalWWW.Controllers
 
                 SmtpConf.send();
 
-                return RedirectToAction("Index", "Login");
+                return RedirectToAction("RegisterSucces", "Login");
             }
             else
             {
@@ -227,13 +247,61 @@ namespace VetClinic.PortalWWW.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Index", "Home");
         }
+        public IActionResult RegisterSucces()
+        {
+            return View();
+        }
 
-        //public IActionResult AccountConfirm()
-        //{
-        //    return View();
-        //}
+        [HttpPost]
+        public async Task<IActionResult> RegisterSucces(User user)
+        {
+            string email;
+            email = user.Email;
 
-        
+            var usersEmail =
+                (from uzytkownicy in _context.Users
+                 select uzytkownicy.Email
+                 ).FirstOrDefault();
+
+            var usersToken =
+                (from uzytkownicy in _context.Users
+                 where uzytkownicy.Email == email
+                 select uzytkownicy.ActivationToken
+                 ).FirstOrDefault();
+
+            var usersName =
+                (from uzytkownicy in _context.Users
+                 where uzytkownicy.Email == email
+                 select uzytkownicy.FirstName
+                 ).FirstOrDefault();
+
+            if (usersEmail == email)
+            {
+
+                SmtpConf.MessageTo = user.Email;
+                SmtpConf.MessageText = "Witaj " + usersName + " to twój link aktywacyjny. Tym razem go nie zgub :P" + "<br>"
+                                            + "Link aktywacyjny: https://vetclinic-portalwww.azurewebsites.net/Login/AccountConfirm?email=" + user.Email + "&token=" + usersToken + "";
+
+                // vetclinic-portalwww.azurewebsites.net
+                // localhost:44343
+
+                SmtpConf.MessageSubject = "Vet Clinic - Link aktywacyjny";
+
+                SmtpConf.send();
+
+                ModelState.AddModelError("", "Wiadomość została wysłana");
+
+                return View();
+            }
+            else
+            {
+                ModelState.AddModelError("", "Niepoprawny adres email");
+                return View();
+            }
+            
+        }
+
+
         public async Task<IActionResult> AccountConfirm(string email, string token)
         {
             ViewData["Email"] = email;
@@ -261,11 +329,19 @@ namespace VetClinic.PortalWWW.Controllers
                  select uzytkownicy.ActivationToken
                  ).FirstOrDefault();
 
-            //if (usersEmail == email && usersToken == null)
-            //{
-            //    ViewData["Result"] = "Twoje konto jest już aktywne!";
-            //    return View();
-            //}
+            var usersEmailStatus =
+                (from uzytkownicy in _context.Users
+                 where uzytkownicy.ActivationToken == token && uzytkownicy.Email == email
+                 select uzytkownicy.AuthorizationEmail
+                 ).FirstOrDefault();
+
+
+            if (usersEmail == email && usersToken == token && usersEmailStatus == true)
+            {
+                ViewData["Result"] = "Twoje konto jest już aktywne!";
+                ViewData["Status"] = "true";
+                return View();
+            }
             if (usersEmail == email && usersToken == token)
             {
                 ViewData["Result"] = "Twój adres email " + email  + " został poprawnie zweryfikowany!";
