@@ -24,7 +24,7 @@ namespace VetClinic.PortalWWW.Controllers
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
             var vetClinicContext = _context.Reservations.Where(r => r.ReservationUserID == UserId).Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
 
-         //MCZ: wyświetla na widoku rezerwacji NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
+            //MCZ: wyświetla na widoku rezerwacji NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
             string reservationDate =
                                 (
                                 from data in vetClinicContext
@@ -35,9 +35,9 @@ namespace VetClinic.PortalWWW.Controllers
                                 select data.DateOfVisit
                                 ).FirstOrDefault().ToString();
 
-            ViewData["ClosestVisit"] = EmptyIfNullDate(reservationDate);
+            ViewData["ClosestVisit"] = (((EmptyIfNullDate(reservationDate)).Replace("/", ".")).Replace(@"\", ".")).Replace("-",".");
 
-        //MCZ: wyświetla na widoku rezerwacji pacjenta na NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
+            //MCZ: wyświetla na widoku rezerwacji pacjenta na NAJBLIŻSZĄ wizytę, która jeszcze nie minęla
             var patientId =
                         (
                         from data in _context.Reservations
@@ -77,8 +77,20 @@ namespace VetClinic.PortalWWW.Controllers
         {
             if (String.IsNullOrEmpty(value))
                 return "brak zarezerwowanej wizyty!";
-            if (value == "01.01.0001 00:00:00")
-                return "brak zarezerwowanej wizyty!";
+            if (value.Substring(0, value.Length - 9) == "01.01.0001")
+                return value = "brak zarezerwowanej wizyty!";
+            if (value.Substring(0, value.Length - 9) == @"01\01\0001")
+                return value = "brak zarezerwowanej wizyty!";
+            if (value.Substring(0, value.Length - 9) == @"01/01/0001")
+                return value = "brak zarezerwowanej wizyty!";
+            if (value.Substring(0, value.Length - 9) == "0001-01-01")
+                return value = "brak zarezerwowanej wizyty!";
+            if (value.Substring(0, value.Length - 9) == @"0001\01\01")
+                return value = "brak zarezerwowanej wizyty!";
+            if (value.Substring(0, value.Length - 9) == @"0001/01/01")
+                return value = "brak zarezerwowanej wizyty!";
+            if (value.Substring(0, value.Length - 9) == "0001.01.01")
+                return value = "brak zarezerwowanej wizyty!";
             else
                 value = value.Substring(0, value.Length - 3);
             return value;
