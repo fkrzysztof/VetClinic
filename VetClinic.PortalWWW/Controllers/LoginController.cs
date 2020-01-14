@@ -94,13 +94,13 @@ namespace VetClinic.PortalWWW.Controllers
             email = user.Email;
 
             var usersLogin =
-                (from uzytkownicy in _context.Users
-                 select uzytkownicy.Login
+                (from users in _context.Users
+                 select users.Login
                  ).ToList();
 
             var usersEmail =
-                (from uzytkownicy in _context.Users
-                 select uzytkownicy.Email
+                (from users in _context.Users
+                 select users.Email
                  ).ToList();
 
             // check email
@@ -318,21 +318,21 @@ namespace VetClinic.PortalWWW.Controllers
             }
 
             var usersEmail =
-                (from uzytkownicy in _context.Users
-                 where uzytkownicy.Email == email
-                 select uzytkownicy.Email
+                (from users in _context.Users
+                 where users.Email == email
+                 select users.Email
                  ).FirstOrDefault();
 
             var usersToken =
-                (from uzytkownicy in _context.Users
-                 where uzytkownicy.ActivationToken == token
-                 select uzytkownicy.ActivationToken
+                (from users in _context.Users
+                 where users.ActivationToken == token
+                 select users.ActivationToken
                  ).FirstOrDefault();
 
             var usersEmailStatus =
-                (from uzytkownicy in _context.Users
-                 where uzytkownicy.ActivationToken == token && uzytkownicy.Email == email
-                 select uzytkownicy.AuthorizationEmail
+                (from users in _context.Users
+                 where users.ActivationToken == token && users.Email == email
+                 select users.AuthorizationEmail
                  ).FirstOrDefault();
 
 
