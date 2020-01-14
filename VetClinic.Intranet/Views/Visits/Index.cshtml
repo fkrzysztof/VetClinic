@@ -1,0 +1,99 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Visit>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h1>TEST</h1>
+
+@*<h1>To jest strona visit</h1>
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfVisit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Treatment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Patient)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VetUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitAddedUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VisitUpdatedUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfVisit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Treatment.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitUser.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patient.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VetUser.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitAddedUser.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitUpdatedUser.City)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VisitID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.VisitID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.VisitID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>*@
