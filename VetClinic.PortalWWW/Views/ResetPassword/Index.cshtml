@@ -1,0 +1,46 @@
+﻿@model VetClinic.Data.Data.Clinic.User
+@{
+    ViewData["Title"] = "Resetowanie hasła";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                    <div class="card card-signin my-5">
+                        <div class="card-body">
+                            <img class="card-img-top" src="~/images/logo.svg" width="100" height="100" alt="VetClinic">
+
+                            <h4 class="card-title text-center">Resetowanie hasła</h4>
+                            <form class="form-signin" asp-action="ResetPassword" method="get" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text px-3" id="basic-addon3">Nowe hasło</span>
+                                    </div>
+                                    <input type="password" name="NewPassword" class="form-control" aria-describedby="basic-addon3" autofocus required />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text px-2" id="basic-addon3">Powtórz hasło</span>
+                                    </div>
+                                    <input type="password" name="NewPasswordConfirm" class="form-control" aria-describedby="basic-addon3" autofocus required />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div>
+                                    <input class="btn btn-success float-right px-4" type="submit" value="Zapisz" />
+                                </div>
+
+
+                                <label>Tu będzie resetowanie hasła</label>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+

@@ -259,20 +259,20 @@ namespace VetClinic.PortalWWW.Controllers
             email = user.Email;
 
             var usersEmail =
-                (from uzytkownicy in _context.Users
-                 select uzytkownicy.Email
+                (from users in _context.Users
+                 select users.Email
                  ).FirstOrDefault();
 
             var usersToken =
-                (from uzytkownicy in _context.Users
-                 where uzytkownicy.Email == email
-                 select uzytkownicy.ActivationToken
+                (from users in _context.Users
+                 where users.Email == email
+                 select users.ActivationToken
                  ).FirstOrDefault();
 
             var usersName =
-                (from uzytkownicy in _context.Users
-                 where uzytkownicy.Email == email
-                 select uzytkownicy.FirstName
+                (from users in _context.Users
+                 where users.Email == email
+                 select users.FirstName
                  ).FirstOrDefault();
 
             if (usersEmail == email)
