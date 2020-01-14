@@ -165,8 +165,8 @@ namespace VetClinic.Intranet.Controllers
             if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
             {
                 int UserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
-                //DateTime data = new DateTime().Date;
-                List<int> listreservationsID = _context.Reservations.Where(v => v.ReservationAddedUser.UserID== UserID).Select(p => p.ReservationID).ToList();
+                var data = DateTime.Today;
+                List<int> listreservationsID = _context.Reservations.Where(v => v.ReservationAddedUser.UserID== UserID).Where(v=>v.DateOfVisit>data).Where(v => v.DateOfVisit<data.AddDays(1)).Select(p => p.ReservationID).ToList();
                 var ownReservations = _context.Reservations.Include(p => p.Patients).Include(p=>p.ReservationUser).Where(v => listreservationsID.Contains(v.ReservationID));
 
                 ViewData["CurrentFilter"] = searchString;

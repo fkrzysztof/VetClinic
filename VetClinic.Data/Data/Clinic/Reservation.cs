@@ -46,5 +46,6 @@ namespace VetClinic.Data.Data.Clinic
         [ForeignKey("UpdatedUserID")]
         [Display(Name = "Zaktualizował")]
         public User ReservationUpdatedUser { get; set; }
+        public ICollection<Visit> Visit { get; set; }
     }
 }

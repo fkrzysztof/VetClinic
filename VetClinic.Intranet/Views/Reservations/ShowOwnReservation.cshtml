@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
 
+
 @{
     ViewData["Title"] = "Przyjęcia na dziś";
 }
@@ -23,13 +24,15 @@
                     Użytkownik rezerwujący
                 </th>
                 <th>
-                    Ostatnia modyfikacja
+                   
                 </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
+                int test = 1;
+
                 <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "Reservations", new { id = item.ReservationID }, null))'">
                     <td>
                         @Html.DisplayFor(modelItem => item.Patients.Name)
@@ -43,9 +46,32 @@
                             @Html.DisplayFor(modelItem => item.ReservationUser.LastName)
                         </a>
                     </td>
-                    <td class="text-left">
-                        @Html.DisplayFor(modelItem => item.UpdatedDate)
-                    </td>
+                    @if (item.Visit != null)
+                    {
+                        <td class="text-center">
+                            @foreach (var data in item.Visit)
+                            {
+                                test = DateTime.Compare(item.DateOfVisit, data.DateOfVisit);
+                                if (test == 0)
+                                {
+                                    <a class="btn btn-danger mr-sm-3 ml-sm-3" asp-action="Visit" asp-controller="Patients" asp-route-id="@item.PatientID" asp-fragment="@data.VisitID">
+                                        Podgląd wizyty
+                                    </a>
+                                    break;
+                                }
+                            }
+                        </td>
+                    }
+
+                    @if (test != 0)
+                    {
+
+                        <td class="text-center">
+                            <a class="btn btn-danger mr-sm-3 ml-sm-3" asp-action="AddVisitFromReservation" asp-route-id="@item.ReservationID" onclick="return confirm('Czy chcesz utworzyc wizytę')">
+                                Utwórz wizytę
+                            </a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
