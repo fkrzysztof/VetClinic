@@ -33,20 +33,36 @@ namespace VetClinic.Intranet.Policy
         private async Task<string[]> GetUserTypePermissions()
         {
             var currentUser = await context.Users.FindAsync(userId);
-            string[] emptyPermissions = { };
+            List<string> defaultPermissions = new List<string>();
 
             if (currentUser is null)
             {
-                return emptyPermissions;
+                return defaultPermissions.ToArray();
             }
 
             var userPermissionGroup = await context.UserTypes.FindAsync(currentUser.UserTypeID);
 
-            return (
+            string[] userTypePermissions = (
                 from userTypePermission in context.UserTypePermissions
                 where userTypePermission.UserTypeID == userPermissionGroup.UserTypeID && userTypePermission.IsActive
                 select userTypePermission.Permission.Description
             ).ToArray();
+
+            foreach (var permission in userTypePermissions)
+            {
+                if (permission.Contains(","))
+                {
+                    foreach (var singlePermission in permission.Split(","))
+                    {
+                        defaultPermissions.Add(singlePermission.Trim());
+                    }
+                } else
+                {
+                    defaultPermissions.Add(permission);
+                }
+            }
+            
+            return defaultPermissions.ToArray();
         }
 
         public async Task<bool> hasNoAccess()
@@ -60,7 +76,7 @@ namespace VetClinic.Intranet.Policy
 
             string[] userTypePermissions = GetUserTypePermissions().Result;
 
-            return !userTypePermissions.Contains(fullActionName);
+            return !userTypePermissions.Contains(controllerName);
         }
 
         public async Task<IActionResult> RedirectUser()
@@ -79,7 +95,6 @@ namespace VetClinic.Intranet.Policy
 
             foreach (var permission in userTypePermissions)
             {
-                System.Diagnostics.Debug.WriteLine("HasAccessTo" + permission);
                 viewData["HasAccessTo" + permission] = true;
             }
 

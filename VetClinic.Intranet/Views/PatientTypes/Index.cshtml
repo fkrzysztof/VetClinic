@@ -4,14 +4,17 @@
     ViewData["Title"] = "Typy pacjentów";
 }
 
-<a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-    <i class="fas fa-plus-circle"></i>
-    Dodaj nowy typ pacjenta
-</a>
+<p>
+    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+        <i class="fas fa-plus-circle"></i>
+        Dodaj
+    </a>
+</p>
 
 <div class="table-responsive">
     <table class="table table-hover">
         <thead class="thead-dark">
+
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.Name)
@@ -19,17 +22,19 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Description)
                 </th>
-                <th>Ostatnia modyfikacja</th>
+
+                <th>
+                    Ostatnia modyfikacja
+                </th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "PatientTypes", new { id = item.PatientTypeID }, null))'">
+
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.PatientTypeID">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </a>
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)
@@ -38,7 +43,7 @@
                         @Html.DisplayFor(modelItem => item.UpdatedDate)
                     </td>
                 </tr>
-            }
-        </tbody>
+                }
+            </tbody>
     </table>
 </div>

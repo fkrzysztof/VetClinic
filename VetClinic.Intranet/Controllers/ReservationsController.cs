@@ -2,44 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class ReservationsController : Controller
+    public class ReservationsController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
-
-        public ReservationsController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public ReservationsController(VetClinicContext context) : base(context) { }
 
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
             var vetClinicContext = _context.Reservations.Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
-            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.IsActive).ThenByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
-        //Czesc Bartek
-        //do poprawienia masz swoja czesc zadania, ja robie tylko date wizyty z kalendarza!!
-        //Krzysztof Franczyk
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateNew(DateTime DateOfVisit)
         {
 
-            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name");
-            ViewData["ReservationUserID"] = new SelectList(from user in _context.Users where user.IsActive == true where user.UserTypeID == 4 select new { user.UserID, Display_Name = user.FirstName + " " + user.LastName }, "UserID", "Display_Name");
+            List<User> userList = new List<User>();
+            userList = _context.Users.ToList();
+            //userList.Insert(0, new User { UserID = 0, FirstName = "Wybierz" });            
+            userList.Insert(0, new User {  FirstName = "Wybierz" });
+            ViewBag.ReservationUserID = new SelectList(userList, "UserID", "Fullname");
             ViewData["DateOfVisit"] = DateOfVisit;
 
             return View("Create");
         }
+        public JsonResult GetPatient(int UserID)
+        {
+            List<Patient> patientsList = new List<Patient>();
+            patientsList = _context.Patients.Where(x => x.PatientUserID == UserID).ToList();
+            //patientsList.Insert(0, new Patient { PatientID = 0, Name = "Wybierz Pacjenta" });
+            return Json(new SelectList(patientsList, "PatientID", "Name"));
+        }        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -47,9 +51,11 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
                 reservation.AddedDate = DateTime.Now;
+                reservation.UpdatedDate = DateTime.Now;
                 reservation.IsActive = true;
-                reservation.AddedUserID = 2; //to ma byc z logowania podabnie jak updateuser w edit
+                reservation.AddedUserID = UserId;
                 reservation.DateOfVisit = DateOfVisitFromCalendar;
                 _context.Add(reservation);
                 await _context.SaveChangesAsync();

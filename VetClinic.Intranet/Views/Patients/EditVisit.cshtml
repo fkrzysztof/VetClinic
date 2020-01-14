@@ -1,23 +1,26 @@
 @model VetClinic.Data.Helpers.VisitDetails
 
 @{
-    ViewData["Title"] = "Edycja wizyty";
+    Layout = null;
 }
 
-<form asp-action="Edit" enctype="multipart/form-data">
+<form asp-action="EditVisit" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Visit.VisitID" />
         <input type="hidden" asp-for="Visit.IsActive" />
         <input type="hidden" asp-for="Visit.AddedDate" />
         <input type="hidden" asp-for="Visit.AddedUserID" />
+        <input type="hidden" asp-for="Visit.DateOfVisit" />
 
         <div class="form-group col-md-6">
             <div class="input-group ">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Zabieg</span>
                 </div>
-                <select type="select" asp-for="Treatment.TreatmentID" class="form-control" aria-describedby="label1" asp-items="ViewBag.TreatmentID"></select>
+                <select type="select" asp-for="Treatment.TreatmentID" class="form-control" aria-describedby="label1" asp-items="ViewBag.TreatmentID">
+                    <option disabled selected>--- Wybierz ---</option>
+                </select>
                 <span asp-validation-for="Treatment.TreatmentID" class="text-danger"></span>
             </div>
         </div>
@@ -27,7 +30,9 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Lek</span>
                 </div>
-                <select type="select" asp-for="Medicine.MedicineID" class="form-control" aria-describedby="label1" asp-items="ViewBag.MedicineID">                    </select>
+                <select type="select" asp-for="Medicine.MedicineID" class="form-control" aria-describedby="label1" asp-items="ViewBag.MedicineID">
+                    <option disabled selected>--- Wybierz ---</option>
+                </select>
                 <span asp-validation-for="Medicine.MedicineID" class="text-danger"></span>
             </div>
         </div>
@@ -42,11 +47,11 @@
                     Dodane Zabiegi
                 </button>
             </p>
-            <div class="collapse" id="Leki">
+            <div class="collapse col-sm-6 wiersz" id="Leki">
                 <div class="card card-body">
                     @if (Model.VisitMedicine.Count == 0)
                     {
-                        <b>Nie ma dodanych lekow</b>
+                        <b>Nie ma dodanych leków</b>
                     }
                     else
                     {
@@ -62,11 +67,11 @@
                     </ul>
                 </div>
             </div>
-            <div class="collapse" id="Zabiegi">
+            <div class="collapse col-sm-6 wiersz" id="Zabiegi">
                 <div class="card card-body">
                     @if (Model.VisitTreatments.Count == 0)
                     {
-                        <b>Nie ma dodanych Zabiegow</b>
+                        <b>Nie ma dodanych zabiegów</b>
                     }
                     else
                     {
@@ -100,7 +105,15 @@
         @*</div>*@
     </div>
     <div>
-        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+        @{
+            var parms = new Dictionary<string, string>
+            {
+                { "speakerId", "13" },
+                { "currentYear", "34" }
+            };
+        }
+        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin"
+               asp-action="EditVisit" asp-route-id="@Model.Visit.VisitID" asp-fragment="@Model.Visit.VisitID"/>
     </div>
 </form>
 

@@ -1,0 +1,53 @@
+﻿@model VetClinic.Data.Data.Clinic.User
+@{
+    ViewData["Title"] = "Zmiana hasła";
+    Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
+}
+
+    <div class="container">
+        <form class="form-signin" asp-controller="PasswordChange" asp-action="Index" method="post">
+            <div class="row">
+                <div class="col-lg-5 offset-2">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text px-3" id="basic-addon3">Stare hasło</span>
+                        </div>
+                        <input type="password" name="Password" class="form-control" aria-describedby="basic-addon3" autofocus required />
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text px-3" id="basic-addon3">Nowe hasło</span>
+                        </div>
+                        <input type="password" name="NewPassword" class="form-control" aria-describedby="basic-addon3" autofocus required />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text px-2" id="basic-addon3">Powtórz hasło</span>
+                        </div>
+                        <input type="password" name="NewPasswordConfirm" class="form-control" aria-describedby="basic-addon3" autofocus required />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div>
+                        <input class="btn btn-success float-right px-4" type="submit" value="Zapisz" />
+                        <a class="btn btn-outline-primary float-left px-4" asp-action="Return" asp-controller="Users">Anuluj</a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <b>Hasło musi mieć conajmniej:</b>
+                    <ul>
+                        <li>8 znaków</li>
+                        <li>Dużą Literę</li>
+                        <li>Małą Literę</li>
+                        <li>Cyfrę</li>
+                        <li>Znak specjalny</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+
+            
+
+  

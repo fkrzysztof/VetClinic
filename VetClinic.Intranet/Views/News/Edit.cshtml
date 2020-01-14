@@ -1,75 +1,107 @@
 ﻿@model VetClinic.Data.Data.Clinic.News
 
 @{
-    ViewData["Title"] = String.Format("Edycja wiadomości {0}", Model.Title);
+    ViewData["Title"] = String.Format("Edycja wiadomości: {0}", Model.Title);
 }
 
-<form asp-action="Create" enctype="multipart/form-data">
-    <div class="form-row">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container">
+    <div class="row">
+        <form asp-action="Edit" method="post" class="col" id="saveForm">
+            <div class="form-row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Grupa odbiorców</span>
+                <input type="hidden" asp-for="NewsID" />
+                <input type="hidden" asp-for="UserID" />
+                <input type="hidden" asp-for="UserTypeID" />
+
+                <div class="form-group col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Grupa odbiorców</span>
+                        </div>
+                        <select asp-for="UserTypeID" class="form-control" aria-describedby="label1" asp-items="ViewBag.UserTypeID"></select>
+                    </div>
                 </div>
-                <select asp-for="UserTypeID" class="form-control" aria-describedby="label1" asp-items="ViewBag.UserTypeID"></select>
+
+                <div class="form-group col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Tytuł</span>
+                        </div>
+                        <input asp-for="Title" class="form-control" aria-describedby="label1" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+
             </div>
+            <div class="form-row">
+                <div class="form-group col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Data od</span>
+                        </div>
+                        <input asp-for="StartDate" class="form-control  text-right" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Data do</span>
+                        </div>
+                        <input asp-for="ExpirationDate" class="form-control  text-right" />
+                        <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Treść</span>
+                        </div>
+                        <textarea asp-for="Message" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            @await Component.InvokeAsync("DetailsComponent", new
+            {
+               AddedDate = @Model.AddedDate,
+               AddedUserID = @Model.UserID,
+               UpdatedDate = @Model.UpdatedDate,
+               UpdatedUserID = @Model.UpdatedUserID
+            })
+        </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            @if (Model.IsActive)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.NewsID" onsubmit="alert('Na pewno chcesz usunąć wiadomość?')">
+                    <input type="hidden" asp-for="NewsID" />
+                    <input type="submit" value="Usuń wiadomość" class="btn btn-outline-danger buttMargin" />
+                </form>
+            }
+            else
+            {
+                <form asp-action="Restore" asp-route-id="@Model.NewsID">
+                    <input type="hidden" asp-for="NewsID" />
+                    <input type="submit" value="Przywróć wiadomość" class="btn btn-outline-success buttMargin" />
+                </form>
+            }
         </div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Tytuł</span>
-                </div>
-                <input asp-for="Title" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
+        <div class="col">
+            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
         </div>
     </div>
+</div>
 
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Data od</span>
-                </div>
-                <input asp-for="StartDate" class="form-control  text-right" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-        </div>
 
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Data do</span>
-                </div>
-                <input asp-for="ExpirationDate" class="form-control  text-right" />
-                <span asp-validation-for="ExpirationDate" class="text-danger"></span>
-            </div>
-        </div>
-
-    </div>
-
-    <div>
-        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
-    </div>
-</form>
-
-@if (Model.IsActive)
-{
-    <form asp-action="Delete" asp-route-id="@Model.NewsID" onsubmit="alert('Na pewno chcesz usunąć wiadomość?')">
-        <input type="hidden" asp-for="NewsID" />
-        <input type="submit" value="Usuń wiadomość" class="btn btn-outline-danger buttMargin" />
-    </form>
-} 
-else
-{
-<form asp-action="Restore" asp-route-id="@Model.NewsID">
-    <input type="hidden" asp-for="NewsID" />
-    <input type="submit" value="Przywróć wiadomość" class="btn btn-outline-success buttMargin" />
-</form>
-}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

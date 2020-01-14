@@ -40,8 +40,8 @@ namespace VetClinic.Data.Migrations
 
                     b.Property<string>("LinkTitle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(44)")
+                        .HasMaxLength(44);
 
                     b.Property<string>("Photo")
                         .HasColumnType("nvarchar(max)");
@@ -54,8 +54,8 @@ namespace VetClinic.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(135)")
+                        .HasMaxLength(135);
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -424,6 +424,7 @@ namespace VetClinic.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int?>("PatientID")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("ReservationUserID")
@@ -462,6 +463,9 @@ namespace VetClinic.Data.Migrations
                         .HasColumnType("time");
 
                     b.HasKey("ScheduleBlockID");
+
+                    b.HasIndex("Time")
+                        .IsUnique();
 
                     b.ToTable("ScheduleBlocks");
                 });
@@ -941,7 +945,9 @@ namespace VetClinic.Data.Migrations
 
                     b.HasOne("VetClinic.Data.Data.Clinic.Patient", "Patients")
                         .WithMany("Reservations")
-                        .HasForeignKey("PatientID");
+                        .HasForeignKey("PatientID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("VetClinic.Data.Data.Clinic.User", "ReservationUser")
                         .WithMany("ReservationUser")

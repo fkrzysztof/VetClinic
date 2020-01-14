@@ -15,7 +15,7 @@ namespace VetClinic.Intranet.Controllers
         public override async Task<IActionResult> Index(string searchString)
         {
             ViewBag.Title = "Pracownicy";
-            ViewBag.New = "Dodaj nowego pracownika";
+            ViewBag.New = "Dodaj";
 
             return await base.Index(searchString);
         }
@@ -23,7 +23,7 @@ namespace VetClinic.Intranet.Controllers
         public override async Task<IActionResult> Create()
         {
             ViewBag.Title = "Nowy pracownik";
-            ViewBag.Button = "Dodaj pracownika";
+            ViewBag.Button = "Dodaj";
 
             return await base.Create();
         }
@@ -33,6 +33,7 @@ namespace VetClinic.Intranet.Controllers
             ViewBag.Title = "Edycja pracownika";
             ViewBag.Delete = "Usuń pracownika";
             ViewBag.Restore = "Przywróć pracownika";
+            ViewBag.Controller = "Employees";
 
             return await base.Edit(id);
         }

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Visit>
+
+@{
+    ViewData["Title"] = "Wizyta pacjenta";
+    Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
+}
+
+<link href="~/css/Zakladki.css" rel="stylesheet" />
+<div class="row col">
+    <p class="w-100">
+        <a class="btn btn-outline-danger float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Delete" asp-route-id=@ViewData["PatientID"]>
+            <i class="fas fa-minus-circle"></i>
+            Usuń zwierzaka
+        </a>
+    </p>
+</div>
+<div class="form-row">
+    <div class="form-group col-md-3">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="komorka">
+                    <tr>
+                        <th>
+                            Data wizyty
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                            <td>
+                                @*<a asp-action="EditVisit" asp-route-id="@item.VisitID">
+            @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOfVisit))
+        </a>*@
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.DateOfVisit))
+
+                            </td>
+                            <td>
+                                <a href="#" data-VisitId="@item.VisitID" class="visitdetails-id btn btn-outline-primary btn-sm" role="button">
+                                    <span class="fas fa-eye"></span>
+                                    Podgląd
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="maincont" class="form-group col-md-9"></div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+    $('.visitdetails-id').click(function (e) {
+        e.preventDefault();
+        var pId = $(this).attr('data-visitId');
+
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("VisitDetails", "Patient")',
+            data: {
+                id: pId
+            },
+            success: function (pageContent) {
+                $('#maincont').html(pageContent);
+            }
+        });
+    });
+    </script>
+}

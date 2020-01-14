@@ -4,99 +4,141 @@
     ViewData["Title"] = String.Format("Edycja aktualności {0}", Model.Title);
 }
 
-<form asp-action="Edit" method="post" metenctype="multipart/form-data">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<div class="container">
     <div class="row">
-        <div class="form-group col-md-4">
-            <div>
-                @{
-                    if (Model.Image != null)
-                    {
-                        var base64 = Convert.ToBase64String(Model.Image);
-                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                        <img style="width: 250px; height:250px" src="@imgSrc" />
-                    }
-                    else
-                    {
-                        <img style="width: 250px; height:250px" src="~/images/empty_image.png" />
-                    }
-                }
+        <form asp-action="Edit" enctype="multipart/form-data" id="saveForm">
+            <div class="row">
+                <input type="hidden" asp-for="RecentNewsID" />
+                <input type="hidden" asp-for="IsActive" />
+                <input type="hidden" asp-for="Image" />
+                <div class="form-group col-lg-4">
+                    <div class="input-group col-12 row mb-3">
+                        <div class="input-group-append">
+                            <div class="card-image">
+                                @{
+                                    if (Model.Image != null)
+                                    {
+                                        var base64 = Convert.ToBase64String(Model.Image);
+                                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                        <img style="width: 100%" src="@imgSrc" />
+                                    }
+                                    else
+                                    {
+                                        <img style="width: 100%" src="~/images/empty_image.png" />
+                                    }
+                                }
 
-                <br />
-                <input type="file" id="files" asp-for="Image" class="form-control-file mt-3"  />
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="col-md-8">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="RecentNewsID" />
-            <input type="hidden" asp-for="Image" />
-
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="label1">Tytuł linku</span>
+                                <br />
+                                <br />
+                                <input type="file" class="form-control-file" id="files" asp-for="Image" accept="image/*" />
+                                <span asp-validation-for="Image" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-                    <input type="text" asp-for="LinkTitle" class="form-control" aria-describedby="label1">
-                    <span asp-validation-for="LinkTitle" class="text-danger"></span>
+                    <div id="showimage" style="padding-top:10px">
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label1">Tytuł linku</span>
+                            </div>
+                            <input type="text" asp-for="LinkTitle" class="form-control" aria-describedby="label1">
+                            <span asp-validation-for="LinkTitle" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label2">Tytuł</span>
+                            </div>
+                            <input type="text" asp-for="Title" class="form-control" aria-describedby="label2">
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span asp-for="Position" class="input-group-text">@Html.DisplayNameFor(model => model.Position)</span>
+                            </div>
+                            <input asp-for="Position" class="form-control text-right col-2">
+                            <span asp-validation-for="Position" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <textarea class="form-control" asp-for="Text" rows="8"></textarea>
+                            <span asp-validation-for="Text" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="label2">Tytuł</span>
-                    </div>
-                    <input type="text" asp-for="Title" class="form-control" aria-describedby="label2">
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span asp-for="Position" class="input-group-text">@Html.DisplayNameFor(model => model.Position)</span>
-                    </div>
-                    <input asp-for="Position" class="form-control text-right col-2">
-                    <span asp-validation-for="Position" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
+            @await Component.InvokeAsync("DetailsComponent", new
+            {
+               AddedDate = @Model.AddedDate,
+               AddedUserID = @Model.AddedUserID,
+               UpdatedDate = @Model.UpdatedDate,
+               UpdatedUserID = @Model.UpdatedUserID
+            })
+        </form>
     </div>
-
     <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                <div class="input-group">
-                    <textarea class="form-control" asp-for="Text" rows="8"></textarea>
-                    <span asp-validation-for="Text" class="text-danger"></span>
-                </div>
-            </div>
+        <div class="col">
+            @if (Model.IsActive)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.RecentNewsID" onsubmit="alert('Na pewno chcesz usunąć aktualność?')">
+                    <input type="hidden" asp-for="RecentNewsID" />
+                    <input type="submit" value="Usuń aktualność" class="btn btn-outline-danger buttMargin" />
+                </form>
+            }
+            else
+            {
+                <form asp-action="Restore" asp-route-id="@Model.RecentNewsID">
+                    <input type="hidden" asp-for="RecentNewsID" />
+                    <input type="submit" value="Przywróć aktualność" class="btn btn-outline-success buttMargin" />
+                </form>
+            }
+        </div>
+        <div class="col">
+            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
         </div>
     </div>
 
-    <div>
-        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
-    </div>
-</form>
+</div>
 
-@if (Model.IsActive)
-{
-    <form asp-action="Delete" asp-route-id="@Model.RecentNewsID" onsubmit="alert('Na pewno chcesz usunąć aktualność?')">
-        <input type="hidden" asp-for="RecentNewsID" />
-        <input type="submit" value="Usuń aktualność" class="btn btn-outline-danger buttMargin" />
-    </form>
-} 
-else
-{
-<form asp-action="Restore" asp-route-id="@Model.RecentNewsID">
-    <input type="hidden" asp-for="RecentNewsID" />
-    <input type="submit" value="Przywróć aktualność" class="btn btn-outline-success buttMargin" />
-</form>
-}
-
-<script>tinymce.init({selector:'textarea', height : "400"});</script>
+<script>tinymce.init({ selector: 'textarea', height: "400" });</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    $(document).ready(function () {
+        $("#files").change(function () {
+            var previewimages = $("#showimage");
+            previewimages.html("");
+            $($(this)[0].files).each(function () {
+                var file = $(this);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = $("<img />");
+                    img.attr("style", "height:150px;width: 150px;");
+                    img.attr("src", e.target.result);
+                    previewimages.append(img);
+                }
+                reader.readAsDataURL(file[0]);
+            });
+        });
+    });
+</script>

@@ -53,6 +53,29 @@ button.accept-policy {
     line-height: inherit;
 }
 
+.select2-container .select2-selection--single {
+    height: 38px !important;
+}
+
+    .select2-container .select2-selection--single .select2-selection__rendered {
+        display: block !important;
+        padding-left: 8px !important;
+        padding-right: 20px !important;
+        padding-top: 2px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+    }
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px !important;
+    position: absolute !important;
+    top: 3px !important;
+    right: 1px !important;
+    width: 20px !important;
+}
+
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -74,3 +97,166 @@ body {
 }
 
 
+/* Kafelki Nasz zespół */
+
+
+.image-flip:hover .backside,
+.image-flip.hover .backside {
+    -webkit-transform: rotateY(0deg);
+    -moz-transform: rotateY(0deg);
+    -o-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    transform: rotateY(0deg);
+    border-radius: .25rem;
+}
+
+.image-flip:hover .frontside,
+.image-flip.hover .frontside {
+    -webkit-transform: rotateY(180deg);
+    -moz-transform: rotateY(180deg);
+    -o-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+}
+
+.mainflip {
+    -webkit-transition: 1s;
+    -webkit-transform-style: preserve-3d;
+    -ms-transition: 1s;
+    -moz-transition: 1s;
+    -moz-transform: perspective(1000px);
+    -moz-transform-style: preserve-3d;
+    -ms-transform-style: preserve-3d;
+    transition: 1s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.frontside {
+    position: relative;
+    -webkit-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    z-index: 2;
+    margin-bottom: 30px;
+}
+
+.backside {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: white;
+    -webkit-transform: rotateY(-180deg);
+    -moz-transform: rotateY(-180deg);
+    -o-transform: rotateY(-180deg);
+    -ms-transform: rotateY(-180deg);
+    transform: rotateY(-180deg);
+}
+
+.frontside,
+.backside {
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    -ms-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transition: 1s;
+    -moz-transition: 1s;
+    -o-transition: 1s;
+    -ms-transition: 1s;
+    transition: 1s;
+}
+
+    .frontside .card,
+    .backside .card {
+        min-height: 250px;
+        width: 300px;
+    }
+
+        .frontside .card .card-title,
+        .backside .card .card-title {
+            color: #f3715b !important;
+        }
+
+        .frontside .card .card-body img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+        }
+
+
+.newsCardImg {
+    height: 120px;
+    width: 120px;
+    border-radius: 62px;
+    object-fit: cover;
+}
+.newsCardLogo {
+    height: 120px;
+    width: 120px;
+}
+
+.sidebar .nav-item.show > a {
+    color: #f37159 !important;
+}
+
+.sidebar .nav-item {
+    overflow: hidden;
+}
+
+    .sidebar .nav-item.active .nav-link,
+    .sidebar .nav-item.active .nav-link:hover {
+        background: #f37159 !important;
+    }
+
+    .sidebar .nav-item .nav-link:hover {
+        background: #343a40;
+    }
+
+.dropdown-menu.show {
+    margin-bottom: 10px !important;
+}
+
+.dropdown-menu {
+    margin: 0 !important;
+    background: #343a40 !important;
+    border-radius: 0;
+}
+
+a.dropdown-item {
+    color: #909294;
+}
+
+.sidebar .nav-item.dropdown .dropdown-toggle::after {
+    margin-right: 10px !important;
+}
+
+.show-force {
+    display: block !important;
+}
+
+    .show-force > .nav-link {
+        cursor: initial;
+    }
+
+        .show-force > .nav-link:hover {
+            background: #222529;
+        }
+
+        .show-force > .nav-link:after {
+            content: '\f107' !important;
+        }
+
+.dropdown-menu.show-force {
+    margin-bottom: 10px !important;
+}
+
+.navbar-nav .nav-item.active .nav-link,
+.navbar-nav .nav-item.active .nav-link:hover {
+    color: #fff !important;
+}
+
+.nav-item .dropdown-item b {
+    color: #fff;
+}
+
+.nav-item .dropdown-divider {
+    border-top-color: #202529;
+}

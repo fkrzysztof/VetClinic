@@ -61,3 +61,6 @@ nav > div a.nav-item.nav-link:focus {
 {
     color:#f3715b;
 }
+.selected {
+    background-color: #f3715b
+}

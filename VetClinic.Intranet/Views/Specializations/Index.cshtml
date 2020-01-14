@@ -6,7 +6,7 @@
 
 <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
     <i class="fas fa-plus-circle"></i>
-    Dodaj nową specjalizację
+    Dodaj
 </a>
 
 <div class="table-responsive">
@@ -27,11 +27,9 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "Specializations", new { id = item.SpecializationID }, null))'">
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.SpecializationID">
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </a>
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Description)

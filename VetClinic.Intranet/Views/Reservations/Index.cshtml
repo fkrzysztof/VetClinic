@@ -6,7 +6,7 @@
 
 <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Calendar">
     <i class="fas fa-plus-circle"></i>
-    Dodaj nową rezerwacje
+    Dodaj
 </a>
 
 <div class="table-responsive">
@@ -30,13 +30,11 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "Reservations", new { id = item.ReservationID }, null))'">
                     <td>
-                        <a asp-action="Edit" asp-route-id="@item.ReservationID">
-                            @Html.DisplayFor(modelItem => item.Patients.Name)
-                        </a>
+                       @Html.DisplayFor(modelItem => item.Patients.Name)
                     </td>
-                     <td class="text-right">
+                     <td class="text-left">
                         @Html.DisplayFor(modelItem => item.DateOfVisit)
                     </td>
                     <td>
@@ -45,7 +43,7 @@
                             @Html.DisplayFor(modelItem => item.ReservationUser.LastName)
                         </a>
                     </td>
-                    <td class="text-right">
+                    <td class="text-left">
                         @Html.DisplayFor(modelItem => item.UpdatedDate)
                     </td>
                 </tr>

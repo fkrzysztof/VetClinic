@@ -4,150 +4,153 @@
     ViewData["Title"] = ViewBag.Title;
 }
 
-<form asp-action="Create" enctype="multipart/form-data">
-    <div class="form-row">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @*<div class="row inputGroupMargin">*@
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div class="form-row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="row inputGroupMargin">*@
 
-        <div class="form-group col-md-6">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Login</span>
+            <div class="form-group col-md-6">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Login</span>
+                    </div>
+                    <input type="text" asp-for="Login" class="form-control" aria-describedby="label1" />
+                    <span asp-validation-for="Login" class="text-danger"></span>
                 </div>
-                <input type="text" asp-for="Login" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="Login" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Hasło</span>
+                    </div>
+                    <input type="password" id="passwordInput" asp-for="Password" class="form-control" aria-describedby="label1" readonly="readonly" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Imię</span>
+                    </div>
+                    <input type="text" asp-for="FirstName" class="form-control" aria-describedby="label1" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Nazwisko</span>
+                    </div>
+                    <input type="text" asp-for="LastName" class="form-control" aria-describedby="label1" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Numer telefonu</span>
+                    </div>
+                    <input type="text" asp-for="Phone" class="form-control text-right" aria-describedby="label1" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">E-mail</span>
+                    </div>
+                    <input type="text" asp-for="Email" class="form-control" aria-describedby="label1" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Ulica</span>
+                    </div>
+                    <input type="text" asp-for="Street" class="form-control" aria-describedby="label1" />
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group col-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Adres</span>
+                    </div>
+                    <input type="text" asp-for="HouseNumber" class="form-control text-right" aria-describedby="label1" placeholder="Numer domu" />
+                    <span asp-validation-for="HouseNumber" class="text-danger"></span>
+                    <input type="text" asp-for="ApartmentNumber" class="form-control text-right" aria-describedby="label1" placeholder="Numer lokalu" />
+                    <span asp-validation-for="ApartmentNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Kod Pocztowy</span>
+                    </div>
+                    <input type="text" asp-for="PostalCode" class="form-control text-right" aria-describedby="label1" />
+                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Miasto</span>
+                    </div>
+                    <input type="text" asp-for="City" class="form-control" aria-describedby="label1" />
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Numer karty</span>
+                    </div>
+                    <input type="text" asp-for="CardNumber" class="form-control text-right" aria-describedby="label1" />
+                    <span asp-validation-for="CardNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Opis</span>
+                    </div>
+                    <input type="text" asp-for="Description" class="form-control" aria-describedby="label1" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="card-image" id="showimage">
+        </div>
+        <br />
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" id="files" asp-for="Image" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" accept="image/*">
+                        <label class="custom-file-label" for="inputGroupFile01">Wybierz plik</label>
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Hasło</span>
-                </div>
-                <input type="password" id="passwordInput" asp-for="Password" class="form-control" aria-describedby="label1" readonly="readonly" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+        <div>
+            <input type="submit" value="@ViewBag.Button" class="btn btn-success float-right buttMargin" />
         </div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Imię</span>
-                </div>
-                <input type="text" asp-for="FirstName" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Nazwisko</span>
-                </div>
-                <input type="text" asp-for="LastName" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Numer telefonu</span>
-                </div>
-                <input type="text" asp-for="Phone" class="form-control text-right" aria-describedby="label1" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">E-mail</span>
-                </div>
-                <input type="text" asp-for="Email" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Ulica</span>
-                </div>
-                <input type="text" asp-for="Street" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="Street" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group col-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Adres</span>
-                </div>
-                <input type="text" asp-for="HouseNumber" class="form-control text-right" aria-describedby="label1" placeholder="Numer domu" />
-                <span asp-validation-for="HouseNumber" class="text-danger"></span>
-                <input type="text" asp-for="ApartmentNumber" class="form-control text-right" aria-describedby="label1" placeholder="Numer lokalu" />
-                <span asp-validation-for="ApartmentNumber" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Kod Pocztowy</span>
-                </div>
-                <input type="text" asp-for="PostalCode" class="form-control text-right" aria-describedby="label1" />
-                <span asp-validation-for="PostalCode" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Miasto</span>
-                </div>
-                <input type="text" asp-for="City" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="City" class="text-danger"></span>
-            </div>
-        </div>
-
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Numer karty</span>
-                </div>
-                <input type="text" asp-for="CardNumber" class="form-control text-right" aria-describedby="label1" />
-                <span asp-validation-for="CardNumber" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Opis</span>
-                </div>
-                <input type="text" asp-for="Description" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-        </div>
-       
-    </div>
-    
-    <div class="form-row">
-        <div class="form-group col-md-10">
-            <div class="input-group">
-                <div class="input-group-append">
-                    <input type="file" class="form-control-file" id="files" asp-for="Image" />
-                    <span asp-validation-for="Image" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div>
-        <input type="submit" value="@ViewBag.Button" class="btn btn-success float-right buttMargin" />
-    </div>
-</form>
+    </form>
 
 <script>
     function generatePassword() {
@@ -156,6 +159,30 @@
         document.getElementById("passwordInput").value = btoa(String.fromCharCode.apply(null, buf));
     }
     generatePassword();
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#files").change(function () {
+
+            var previewimages = $("#showimage");
+            previewimages.html("");
+            $($(this)[0].files).each(function () {
+                var file = $(this);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = $("<img />");
+                    img.attr("style", "height:150px;width: 150px;");
+                    img.attr("src", e.target.result);
+                    previewimages.append(img);
+                }
+                reader.readAsDataURL(file[0]);
+            });
+
+        });
+    });
 </script>
 
 @section Scripts {

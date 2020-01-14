@@ -1,28 +1,27 @@
 ﻿@model VetClinic.Data.Data.Clinic.Permission
 
 @{
-    ViewBag.Title = "Nowe uprawnienie";
+    ViewData["Title"] = "Nowe uprawnienie";
 }
-
 
 <form asp-action="Create" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="PermissionID" />
-        <div class="form-group col-12">
+        <div class="form-group col-md-12">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Nazwa</span>
+                    <span class="input-group-text" id="label1">Nazwa uprawnienia</span>
                 </div>
-                <input asp-for="Name" class="form-control" aria-describedby="label1" />
+                <input type="text" asp-for="Name" class="form-control" aria-describedby="label1" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
-
+    </div>
+    <div class="form-row">
         <div class="form-group col-12">
             <div class="input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Opis</span>
+                    <span class="input-group-text">Opis</span>
                 </div>
                 <textarea asp-for="Description" class="form-control" rows="4"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
@@ -30,8 +29,9 @@
         </div>
     </div>
 
-
-    <input type="submit" value="Utwórz uprawnienie" class="btn btn-success float-right buttMargin" />
+    <div>
+        <input type="submit" value="Utwórz uprawnienie" class="btn btn-success float-right buttMargin" />
+    </div>
 </form>
 
 

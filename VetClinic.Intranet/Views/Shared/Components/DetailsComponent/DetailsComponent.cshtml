@@ -1,0 +1,32 @@
+﻿@model Dictionary<string, string>
+
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="Details">
+            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                <medium>Dodatkowe informacje</medium>
+                <span>
+                    <i class="fa fa-info-circle" style="color:dimgray"></i>
+                </span>
+            </div>
+        </div>
+        <div id="collapse1" style="padding-top:16px" class="collapse" aria-labelledby="Details" data-parent="#accordion">
+            <div class="card-body">
+                <div class="form-row">
+                    @foreach (KeyValuePair<string, string> item in Model)
+                    {
+                        <div class="form-group col-lg-6">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="label1">@item.Key</span>
+                                </div>
+                                <input readonly="readonly" type="text" value="@item.Value" class="form-control" aria-describedby="label1" />
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>

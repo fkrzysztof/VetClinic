@@ -7,17 +7,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class ScheduleBlocksController : Controller
+    public class ScheduleBlocksController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
-
-        public ScheduleBlocksController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public ScheduleBlocksController(VetClinicContext context) : base(context) { }
 
         // GET: ScheduleBlocks
         public async Task<IActionResult> Index()
@@ -35,13 +31,20 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ScheduleBlockID,Time,TimeInterval")] ScheduleBlock scheduleBlock)
+        public async Task<IActionResult> Create([Bind("ScheduleBlockID,Time")] ScheduleBlock scheduleBlock)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(scheduleBlock);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                } catch (Exception) {}
+
+                ModelState.AddModelError("", "Blok czasowy o takiej godzinie już istnieje");
+                return View();
             }
             return View(scheduleBlock);
         }

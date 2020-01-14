@@ -4,50 +4,65 @@
     ViewBag.Title = String.Format("Edycja uprawnienia {0}", @Model.Name);
 }
 
-
-<form asp-action="Edit" enctype="multipart/form-data">
-    <div class="form-row">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="PermissionID" />
-        <div class="form-group col-12">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Nazwa</span>
+<div class="container">
+    <div class="row">
+        <form asp-action="Edit" enctype="multipart/form-data" class="col" id="saveForm">
+            <div class="form-row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="PermissionID" />
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Nazwa</span>
+                        </div>
+                        <input asp-for="Name" class="form-control" aria-describedby="label1" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
                 </div>
-                <input asp-for="Name" class="form-control" aria-describedby="label1" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Opis</span>
+                        </div>
+                        <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
+            @await Component.InvokeAsync("DetailsComponent", new
+            {
+               AddedDate = @Model.AddedDate,
+               AddedUserID = @Model.AddedUserID,
+               UpdatedDate = @Model.UpdatedDate,
+               UpdatedUserID = @Model.UpdatedUserID
+            })
+        </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            @if (Model.IsActive)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.PermissionID" onsubmit="alert('Na pewno chcesz usunąć uprawnienie?')">
+                    <input type="hidden" asp-for="@Model.PermissionID" />
+                    <input type="submit" value="Usuń uprawnienie" class="btn btn-outline-danger buttMargin" />
+                </form>
+            }
+            else
+            {
+                <form asp-action="Restore" asp-route-id="@Model.PermissionID">
+                    <input type="hidden" asp-for="@Model.PermissionID" />
+                    <input type="submit" value="Przywróć grupę uprawnień" class="btn btn-outline-success buttMargin" />
+                </form>
+            }
+
         </div>
-
-        <div class="form-group col-12">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Opis</span>
-                </div>
-                <textarea asp-for="Description" class="form-control" rows="4"></textarea>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+        <div class="col">
+            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
         </div>
     </div>
 
-
-    <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
-</form>
-
-@if (Model.IsActive)
-{
-<form asp-action="Delete" asp-route-id="@Model.PermissionID" onsubmit="alert('Na pewno chcesz usunąć uprawnienie?')">
-    <input type="hidden" asp-for="@Model.PermissionID" />
-    <input type="submit" value="Usuń grupę uprawnień" class="btn btn-outline-danger buttMargin" />
-</form>
-} else
-{
-<form asp-action="Restore" asp-route-id="@Model.PermissionID">
-    <input type="hidden" asp-for="@Model.PermissionID" />
-    <input type="submit" value="Przywróć grupę uprawnień" class="btn btn-outline-success buttMargin" />
-</form>
-}
-
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

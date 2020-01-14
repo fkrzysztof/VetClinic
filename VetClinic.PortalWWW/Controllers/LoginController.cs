@@ -59,6 +59,8 @@ namespace VetClinic.PortalWWW.Controllers
 
                 HttpContext.Session.SetString("UserID", account.UserID.ToString());
                 HttpContext.Session.SetString("Login", account.Login.ToString());
+                account.LoginAttempt = 0;
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index", "ClientPanel");
             }

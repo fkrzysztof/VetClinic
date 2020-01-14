@@ -7,7 +7,7 @@
 
 <div class="row mb-3">
     <div class="col-12">
-        <a class="btn btn-outline-success float-right" asp-action="Create"><i class="fas fa-plus-circle"></i> Dodaj nową specjalizację lekarza</a>
+        <a class="btn btn-outline-success float-right" asp-action="Create"><i class="fas fa-plus-circle"></i> Dodaj</a>
     </div>
 </div>
 
@@ -29,12 +29,10 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+            <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "MedicalSpecializations", new { id = item.MedicalSpecializationID }, null))'">
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.MedicalSpecializationID">
-                        @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.FirstName)
-                        @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.LastName)
-                    </a>
+                    @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.FirstName)
+                    @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.LastName)
                     <span class="login">(Login: @Html.DisplayFor(modelItem => item.MedicalSpecializationUser.Login))</span>
                 </td>
                 <td>

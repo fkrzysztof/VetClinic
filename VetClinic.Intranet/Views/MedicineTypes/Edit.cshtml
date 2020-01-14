@@ -4,54 +4,68 @@
     ViewData["Title"] = String.Format("Edycja typu leku {0}", Model.Name);
 }
 
-<form asp-action="Edit">
-    <div class="form-row">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="MedicineTypeID" />
-        <input type="hidden" asp-for="IsActive" />
-        <input type="hidden" asp-for="AddedDate" />
-        <input type="hidden" asp-for="AddedUserID" />
+<div class="container">
+    <div class="row">
+        <form asp-action="Edit" class="col" id="saveForm">
+            <div class="form-row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="MedicineTypeID" />
+                <input type="hidden" asp-for="IsActive" />
+                <input type="hidden" asp-for="AddedDate" />
+                <input type="hidden" asp-for="AddedUserID" />
 
-        <div class="form-group col-md-12">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Nazwa</span>
+                <div class="form-group col-md-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Nazwa</span>
+                        </div>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
                 </div>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Opis</span>
+                    </div>
+                    <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            @await Component.InvokeAsync("DetailsComponent", new
+            {
+               AddedDate = @Model.AddedDate,
+               AddedUserID = @Model.AddedUserID,
+               UpdatedDate = @Model.UpdatedDate,
+               UpdatedUserID = @Model.UpdatedUserID
+            })
+        </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            @if (Model.IsActive)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.MedicineTypeID" onsubmit="alert('Na pewno chcesz usunąć typ leku?')">
+                    <input type="hidden" asp-for="MedicineTypeID" />
+                    <input type="submit" value="Usuń typ leku" class="btn btn-outline-danger buttMargin" />
+                </form>
+            }
+            else
+            {
+                <form asp-action="Restore" asp-route-id="@Model.MedicineTypeID">
+                    <input type="hidden" asp-for="MedicineTypeID" />
+                    <input type="submit" value="Przywróć typ leku" class="btn btn-outline-success buttMargin" />
+                </form>
+            }
+        </div>
+        <div class="col">
+            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="label1">Opis</span>
-            </div>
-            <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-            <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-    </div>  
-
-    <div>
-        <input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
-    </div>
-</form>
-
-@if (Model.IsActive)
-{
-    <form asp-action="Delete" asp-route-id="@Model.MedicineTypeID" onsubmit="alert('Na pewno chcesz usunąć typ leku?')">
-        <input type="hidden" asp-for="MedicineTypeID" />
-        <input type="submit" value="Usuń typ leku" class="btn btn-outline-danger buttMargin" />
-    </form>
-} 
-else
-{
-<form asp-action="Restore" asp-route-id="@Model.MedicineTypeID">
-    <input type="hidden" asp-for="MedicineTypeID" />
-    <input type="submit" value="Przywróć typ leku" class="btn btn-outline-success buttMargin" />
-</form>
-}
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

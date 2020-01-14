@@ -1840,6 +1840,7 @@ pre {
         padding: 0.75rem;
         vertical-align: top;
         border-top: 1px solid #dee2e6;
+        border: 1px solid #dee2e6 !important; /*tableka*/
     }
 
     .table thead th {
@@ -2078,9 +2079,9 @@ pre {
     }
 
 .table .thead-dark th {
-    color: #fff;
-    background-color: #343a40;
-    border-color: #454d55;
+    color: black;
+    background-color: lightgray;
+    border-color: white;
 }
 
 .table .thead-light th {
@@ -5113,6 +5114,13 @@ input[type="button"].btn-block {
     -ms-flex: 1 1 auto;
     flex: 1 1 auto;
     padding: 1.25rem;
+}
+
+#card-bodyReservation {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 0.5rem;
 }
 
 .card-title {
@@ -11734,4 +11742,36 @@ body.sidebar-toggled footer.sticky-footer {
     body.sidebar-toggled footer.sticky-footer {
         width: calc(100% - 90px);
     }
+}
+
+#usunFiltry {
+    margin-left: 10px;
+}
+
+#Filtry {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.filtrMargin {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+.inputFiltrMargin {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    width: 100% !important;
+}
+
+input[type=text]:disabled {
+    background: white !important;
+    font-weight: 600;
+}
+
+.inputGroupMargin {
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }

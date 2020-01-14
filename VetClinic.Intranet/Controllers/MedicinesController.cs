@@ -9,17 +9,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
+using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
 {
-    public class MedicinesController : Controller
+    public class MedicinesController : AbstractPolicyController
     {
-        private readonly VetClinicContext _context;
-
-        public MedicinesController(VetClinicContext context)
-        {
-            _context = context;
-        }
+        public MedicinesController(VetClinicContext context) : base(context) { }
         
         // GET: Medicines
         public async Task<IActionResult> Index(string searchString)

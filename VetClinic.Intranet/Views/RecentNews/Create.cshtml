@@ -3,14 +3,11 @@
 @{
     ViewData["Title"] = "Nowa aktualność";
 }
-
-<form asp-action="Edit" method="post" metenctype="multipart/form-data">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<form asp-action="Create" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="RecentNewsID" />
-            <input type="hidden" asp-for="Image" />
-
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-prepend">
@@ -44,9 +41,11 @@
             <div class="form-group">
                 <div class="input-group">
                     <div class="input-group-append">
-                        <input type="file" class="form-control-file" id="files" asp-for="Image" />
+                        <input type="file" class="form-control-file" id="files" asp-for="Image" accept="image/*" />
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
+                </div>
+                <div id="showimage" style="padding-top:10px">
                 </div>
             </div>
         </div>
@@ -68,8 +67,28 @@
     </div>
 </form>
 
-<script>tinymce.init({selector:'textarea', height : "400"});</script>
+<script>tinymce.init({ selector: 'textarea', height: "400" });</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    $(document).ready(function () {
+        $("#files").change(function () {
+            var previewimages = $("#showimage");
+            previewimages.html("");
+            $($(this)[0].files).each(function () {
+                var file = $(this);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = $("<img />");
+                    img.attr("style", "height:150px;width: 150px;");
+                    img.attr("src", e.target.result);
+                    previewimages.append(img);
+                }
+                reader.readAsDataURL(file[0]);
+            });
+        });
+    });
+</script>

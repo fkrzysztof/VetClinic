@@ -13,9 +13,13 @@ namespace VetClinic.Data.Data.Clinic
         [Display(Name = "Id rezerwacji")]
         public int ReservationID { get; set; }
         [Display(Name = "Klient")]
+        [Required(ErrorMessage = "Uzupełnij pole")]
         public int ReservationUserID { get; set; } // klient rezerwujący
+
         [Display(Name = "Pacjent")]
+        [Required(ErrorMessage ="Uzupełnij pole")]
         public int? PatientID { get; set; } // pacjent
+
         [Display(Name = "Opis")]
         public string Description { get; set; }
         [Display(Name = "Data wizyty")]

@@ -4,14 +4,15 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VetClinic.Data;
+using VetClinic.PortalWWW.Controllers.Abstract;
 using VetClinic.PortalWWW.Models;
 
 namespace VetClinic.PortalWWW.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly VetClinicContext _context;
+        private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger, VetClinicContext context)
         {
@@ -28,7 +29,9 @@ namespace VetClinic.PortalWWW.Controllers
                 select recentnews
             ).ToList();
 
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where( w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
+            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
+
+
             return View();
         }
 
@@ -42,5 +45,6 @@ namespace VetClinic.PortalWWW.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

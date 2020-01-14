@@ -4,77 +4,48 @@
     ViewData["Title"] = "Aktualności";
 }
 
-<div id="accordion">
-    <div class="card">
-        <div class="card-header" id="Filtry">
-            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
-                <strong>Filtry</strong>
-                <button class="btn btn-link">
-                    <i class="fa fa-bars text-black"></i>
-                </button>
-            </div>
-        </div>
-        <div id="collapse1" class="collapse @(ViewData["currentFilter"] == null ? "" : "show")" aria-labelledby="Filtry" data-parent="#accordion">
-            <div class="card-body">
 
-                <form class="form-inline" asp-action="Index" method="get">
-                    <div class="form-group mb-2">
-                        <label>Wyszukaj po: </label>
-                    </div>
-                    <div class="form-group mx-sm-3 mb-2 col-md-6">
-                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Tytule, treści..." />
-                    </div>
-                    <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
-                    @if (ViewData["currentFilter"] != null)
-                    {
-                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
-                    }
-                </form>
-            </div>
-        </div>
+<div class="row mb-3">
+    <div class="col-12">
+        <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
+            <i class="fas fa-plus-circle"></i>
+            Dodaj nową aktualność
+        </a>
     </div>
 </div>
-<br />
-<!-- EXPANDER FILTRÓW  -->
 
-<a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-    <i class="fas fa-plus-circle"></i>
-    Dodaj nową aktualność
-</a>
-
-
-<div class="table-responsive">
-    <table class="table table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>
-                    Tytuł
-                </th>
-                <th>
-                    Pozycja
-                </th>
-                <th>
-                     Ostatnia modyfikacja
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.RecentNewsID">
-                            @Html.DisplayFor(modelItem => item.Title)
-                        </a>
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => item.Position)
-                    </td>
-                    <td class="text-right">
-                        @Html.DisplayFor(modelItem => item.UpdatedDate)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="row" style="text-align: -webkit-center;">
+    @foreach (var item in Model)
+    {
+        <div class="col">
+            <div class="card no-gutters" style="height:200px; width:525px">
+                <div class="row" style="align-items:center;padding-top: 8px; height:200px">
+                    <div class="col-8">
+                        <div class="card-body" style="text-align-last: center;">
+                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.RecentNewsID">
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-4" style="padding-left:0px;">
+                        <div class="card-body" style="padding-left:0px;">
+                            @{
+                                if (item.Image != null)
+                                {
+                                    var base64 = Convert.ToBase64String(item.Image);
+                                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                    <img class="card-img recentNewsCardImg" src="@imgSrc" />
+                                }
+                                else
+                                {
+                                    <img class="card-img recentNewsCardImg" src="~/images/empty_image.png" />
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    }
 </div>

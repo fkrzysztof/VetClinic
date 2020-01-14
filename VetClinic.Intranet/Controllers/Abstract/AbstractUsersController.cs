@@ -10,18 +10,17 @@ using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
+using VetClinic.Intranet.Controllers.Abstract;
 using VetClinic.Intranet.Policy;
 
 namespace VetClinic.Intranet.Controllers.Abastract
 {
-    public abstract class AbstractUsersController : Controller
+    public abstract class AbstractUsersController : AbstractPolicyController
     {
-        protected readonly VetClinicContext _context;
-
         protected int _userTypeId;
-        public AbstractUsersController(VetClinicContext context, int UserTypeId)
+        SmtpConfiguration SmtpConf = new SmtpConfiguration(); // konfuguracja smtp do wysyłki maila
+        public AbstractUsersController(VetClinicContext context, int UserTypeId) : base(context)
         {
-            _context = context;
             _userTypeId = UserTypeId;
         }
 
@@ -47,7 +46,9 @@ namespace VetClinic.Intranet.Controllers.Abastract
                                             .Include(m => m.UserType);
             }
 
-            return View("../AbstractUsers/Index", await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            ViewBag.RouteData = this.ControllerContext.RouteData.Values["controller"].ToString();
+
+            return View("../AbstractUsers/Index", await vetClinicContext.OrderByDescending(u => u.IsActive).ThenByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
         // GET: Admin/Create
@@ -80,11 +81,16 @@ namespace VetClinic.Intranet.Controllers.Abastract
                 user.AddedDate = DateTime.Now;
                 user.UpdatedDate = user.AddedDate;
                 user.IsActive = true;
+                var passwordUser = user.Password;
 
                 user.UserTypeID = _userTypeId;
                 user.Password = HashPassword.GetMd5Hash(user.Password);
                 _context.Add(user);
                 await _context.SaveChangesAsync();
+                SmtpConf.MessageTo = user.Email;
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + passwordUser;
+                SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
+                SmtpConf.send();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -145,7 +151,12 @@ namespace VetClinic.Intranet.Controllers.Abastract
                     user.UserTypeID = _userTypeId;
                     if (user.Password.Length == 8)
                     {
+                        var passwordUser = user.Password;
                         user.Password = HashPassword.GetMd5Hash(user.Password);
+                        SmtpConf.MessageTo = user.Email;
+                        SmtpConf.MessageText = user.FirstName + " Twoje nowe hasło: " + passwordUser;
+                        SmtpConf.MessageSubject = "Potwierdzenie zmiany hasła";
+                        SmtpConf.send();
                     }
                     _context.Update(user);
                     await _context.SaveChangesAsync();
@@ -222,6 +233,7 @@ namespace VetClinic.Intranet.Controllers.Abastract
             {
                 _context.Users.Update(s);
                 s.IsActive = false;
+                s.UpdatedDate = DateTime.Now;
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index));

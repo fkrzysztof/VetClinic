@@ -1,0 +1,40 @@
+﻿@model VetClinic.Data.Data.Clinic.Visit
+@{
+    Layout = null;
+}
+
+<form class="form-inline" asp-action="VisitOpis">
+    <input type="hidden" asp-for="VisitID" />
+    <input type="hidden" asp-for="VisitUserID" />
+    <input type="hidden" asp-for="PatientID" />
+    <input type="hidden" asp-for="VetID" />
+    <input type="hidden" asp-for="TreatmentID" />
+    <input type="hidden" asp-for="DateOfVisit" />
+    <input type="hidden" asp-for="IsActive" />
+    <input type="hidden" asp-for="AddedDate" />
+    <input type="hidden" asp-for="UpdatedDate" />
+    <input type="hidden" asp-for="AddedUserID" />
+    <input type="hidden" asp-for="UpdatedUserID" />
+    <textarea id="opis"asp-for="Description" class="form-control" rows="4"></textarea>
+    <span asp-validation-for="Description" class="text-danger"></span>
+
+    <input type="submit" value="Zapisz" class="opis btn btn-primary buttMargin" data-VisitId="@Model.VisitID" asp-fragment="@Model.VisitID"/>
+
+</form>
+<script>
+            $('.opis').on('click', '.clickable-row', function(e) {
+                $(this).addClass('selected').siblings().removeClass('selected');
+                e.preventDefault();
+                var vId = $(this).attr('data-visitId');
+                $.ajax({
+                    type: 'post',
+                    url: '@Url.Action("VisitDetails", "Patients")',
+                    data: {
+                        id: vId
+                    },
+                    success: function (pageContent) {
+                        $('#maincont').html(pageContent);
+                    }
+                });
+            });
+</script>
