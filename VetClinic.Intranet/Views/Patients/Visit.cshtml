@@ -19,8 +19,8 @@
 <link href="~/css/Zakladki.css" rel="stylesheet" />
 <div class="row col">
     <p class="w-100">
-        <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" 
-           aria-expanded="false" asp-action="Create" data-PatientId=@ViewData["PatientID"]>
+        <a class="dodaj btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" 
+           aria-expanded="false" data-PatientId=@ViewData["PatientID"]>
             <i class="fas fa-plus-circle"></i>
             Dodaj
         </a>
@@ -41,7 +41,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="clickable-row" data-VisitId="@item.VisitID" style="cursor:pointer">
+                        <tr class="clickable-row @(item.IsActive ? "item-active" : "item-not-active" )" data-VisitId="@item.VisitID" style="cursor:pointer">
                             <td>
                                 @Convert.ToString(item.VisitID)
                             </td>
