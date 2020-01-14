@@ -43,19 +43,19 @@
             {
                 <form asp-action="Delete" asp-route-id="@Model.MedicalSpecializationID" onsubmit="alert('Na pewno chcesz usunąć specjalizacje lekarza?')">
                     <input type="hidden" asp-for="UserID" />
-                    <input type="submit" value="Usuń specjalizacje lekarza" class="btn btn-outline-danger buttMargin" />
+                    <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
                 </form>
             }
             else
             {
                 <form asp-action="Restore" asp-route-id="@Model.MedicalSpecializationID">
                     <input type="hidden" asp-for="UserID" />
-                    <input type="submit" value="Przywróć specjalizacje lekarza" class="btn btn-success buttMargin" />
+                    <input type="submit" value="Przywróć" class="btn btn-success buttMargin" />
                 </form>
             }
         </div>
         <div class="col">
-            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+            <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin" />
         </div>
     </div>
 </div>

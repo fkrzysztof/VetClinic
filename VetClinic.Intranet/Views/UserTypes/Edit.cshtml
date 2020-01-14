@@ -119,12 +119,12 @@
             {
                 <form asp-action="Delete" asp-route-id="@Model.typeUser.UserTypeID" onsubmit="alert('Na pewno chcesz usunąć grupę uprawnień?')">
                     <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
-                    <input type="submit" value="Usuń grupę uprawnień" class="btn btn-outline-danger buttMargin" />
+                    <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
                 </form>
             }
         </div>
         <div class="col">
-            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+            <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin" />
         </div>
     </div>
 
