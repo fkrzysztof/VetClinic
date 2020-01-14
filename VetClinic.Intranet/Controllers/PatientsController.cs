@@ -282,9 +282,10 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
             
-            var patient = _context.Visits.Where(p => p.PatientID == id).OrderByDescending(u => u.IsActive).ThenByDescending(p => p.AddedDate < p.UpdatedDate ? p.AddedDate : p.UpdatedDate);
+            var patient = _context.Visits.Where(p => p.PatientID == id).OrderByDescending(u => u.IsActive)
+                .ThenByDescending(p => p.AddedDate > p.UpdatedDate && p.UpdatedDate != null ? p.AddedDate : p.UpdatedDate);
 
-            var patient = _context.Visits.Where(p => p.PatientID == id).OrderByDescending(u => u.IsActive).ThenByDescending(p => p.AddedDate < p.UpdatedDate ? p.AddedDate : p.UpdatedDate);
+            //var patient = _context.Visits.Where(p => p.PatientID == id).OrderByDescending(u => u.IsActive).ThenByDescending(p => p.AddedDate < p.UpdatedDate ? p.AddedDate : p.UpdatedDate);
 
             if (patient == null)
             {
