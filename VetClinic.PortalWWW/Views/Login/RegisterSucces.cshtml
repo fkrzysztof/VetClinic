@@ -1,0 +1,54 @@
+﻿@model VetClinic.Data.Data.Clinic.User
+@{
+    ViewData["Title"] = "RegisterSucces";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <img class="card-img-top" src="~/images/logo.svg" width="100" height="100" alt="VetClinic">
+
+                        <h4 class="card-title text-center">Gratulacje!</h4>
+                        <form class="form-signin" asp-action="RegisterSucces" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="form-label-group">
+                                <div>
+                                    <label>Twoje konto zostało poprawne utworzone. Sprawdź swoją skrzynkę w celu aktywacji konta.</label>
+                                </div>
+                            </div>
+
+                            <div class="form-label-group">
+                                <div>
+                                    <label>Jeżeli wiadomość email do Ciebie nie dotarła wyślij wiadomość ponownie.</label>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-label-group" style="width:150%">
+                                    <input asp-for="Email" type="text" id="inputEmail" class="form-control" placeholder="E-mail">
+                                    <label asp-for="Email" for="inputEmail">E-mail</label>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-lg btn-secondary btn-block text-uppercase" type="submit">Wyślij link ponownie</button>
+
+                            <div class="form-label-group">
+                                <div>
+                                    <label>@Html.ActionLink("Przejdź do trony logowania", "Index", "Login")</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+

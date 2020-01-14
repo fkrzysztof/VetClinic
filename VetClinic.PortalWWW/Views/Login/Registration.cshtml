@@ -37,7 +37,7 @@
 
                     <div class="form-row">
                         <div class="form-label-group" style="width:100%">
-                            <input asp-for="Login" type="text" id="inputLogin" class="form-control" placeholder="Login">
+                            <input asp-for="Login" type="text" id="inputLogin" class="form-control" placeholder="Login" required>
                             <label asp-for="Login" for="inputLogin">Login</label>
                             <span asp-validation-for="Login" controltoValidate="inputLogin" ErrorMessage="Wymagany!" class="text-danger"></span>
                         </div>
@@ -50,7 +50,7 @@
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="form-label-group">
-                            <input type="password" id="inputConfirmPassword" name="ConfirmePassword" class="form-control" placeholder="Potwierdź hasło">
+                            <input type="password" id="inputConfirmPassword" name="ConfirmPassword" class="form-control" placeholder="Potwierdź hasło" required>
                             <label asp-for="Password" for="inputConfirmPassword">Potwierdź hasło</label>
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
