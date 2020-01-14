@@ -4,13 +4,39 @@
 @{
     ViewData["Title"] = "Przyjęcia na dziś";
 }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    .blockquote {
+    padding: .5rem 1rem;
+    border-left: .25rem solid #eceeef;
+}
+    .akapit
+    {
+        color:white;
+    }
 
-<a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Calendar">
+   .link {
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    }
+
+
+
+    .link:hover {
+        color: ghostwhite;
+        text-decoration: underline;
+    }
+
+   
+</style>
+
+@*<a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Calendar">
     <i class="fas fa-plus-circle"></i>
     Dodaj
-</a>
+</a>*@
 
-<div class="table-responsive">
+@*<div class="table-responsive">
     <table class="table table-hover">
         <thead class="thead-dark">
             <tr>
@@ -31,7 +57,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                int test = 1;
+                //int test = 1;
 
                 <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "Reservations", new { id = item.ReservationID }, null))'">
                     <td>
@@ -76,4 +102,45 @@
             }
         </tbody>
     </table>
+</div>*@
+
+
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-6">
+            <div class="card bg-primary no-gutters">
+                <div class="row no-gutters">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <div style="text-align:center">
+                                    <p><i class="fas fa-diagnoses fa-3x amber-text pr-3" aria-hidden="true" style="color:white"></i>
+                                </div>
+                                
+                                <p class="card-text akapit text-center"><b>Pacjent</b>: @Html.DisplayFor(modelItem => item.Patients.Name)</p>
+                                <p class="card-text akapit text-center"><b>Data wizyty</b>:  @Html.DisplayFor(modelItem => item.DateOfVisit)</p>
+                                <p class="card-text akapit text-center">
+                                    <b>Użytkownik rezerwujący:</b>
+                                    <a class="link" asp-action="Edit" asp-controller="AllUsers" asp-route-id="@item.ReservationUser.UserID">
+                                        @Html.DisplayFor(modelItem => item.ReservationUser.FirstName)
+                                        @Html.DisplayFor(modelItem => item.ReservationUser.LastName)
+                                    </a>
+                                </p>
+                                <div style="text-align:center">
+                                    <a class="btn btn-danger mr-sm-3 ml-sm-3 " asp-action="AddVisitFromReservation" asp-route-id="@item.ReservationID" onclick="return confirm('Czy chcesz utworzyc wizytę')">
+                                        Utwórz wizytę
+                                    </a>
+                                </div>
+
+                            </blockquote>
+                        </div>
+                    </div>                
+                </div>
+            </div>
+            <br>
+        </div>
+    }
 </div>
