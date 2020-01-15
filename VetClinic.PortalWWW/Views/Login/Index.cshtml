@@ -27,9 +27,18 @@
                                 <label asp-for="Password">Hasło</label>
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
-                            <div class="custom-control custom-checkbox mb-3">
-                                <input type="checkbox" class="custom-control-input" id="CheckMe" name="CheckMe">
-                                <label class="custom-control-label" for="CheckMe">Zapamiętaj hasło</label>
+                            <div class="form-row">
+                                <div class="form-label-group">
+                                    <div class="custom-control custom-checkbox mb-3">
+                                        <input type="checkbox" class="custom-control-input" id="CheckMe" name="CheckMe">
+                                        <label class="custom-control-label" for="CheckMe">Zapamiętaj hasło</label>
+                                    </div>
+                                </div>
+                                <div class="form-label-group">
+                                    <div>
+                                        @Html.ActionLink("Zresetuj hasło", "RemindPassword", "Login")
+                                    </div>
+                                </div>
                             </div>
 
                             <button class="btn btn-lg btn-secondary btn-block text-uppercase" type="submit">Zaloguj</button>

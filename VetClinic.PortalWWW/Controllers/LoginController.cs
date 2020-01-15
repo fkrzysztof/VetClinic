@@ -368,6 +368,189 @@ namespace VetClinic.PortalWWW.Controllers
 
                 return View();
             }
-        } 
+        }
+
+        // send email to restet password
+        public IActionResult RemindPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemindPassword(User user)
+        {
+            string email;
+            email = user.Email;
+
+            var usersEmail =
+                (from users in _context.Users
+                 where users.Email == email
+                 select users.Email
+                 ).FirstOrDefault();
+
+            var usersToken =
+                (from users in _context.Users
+                 where users.Email == email
+                 select users.ActivationToken
+                 ).FirstOrDefault();
+
+            if (usersEmail == email && email != null)
+            {
+                SmtpConf.MessageTo = usersEmail;
+                SmtpConf.MessageText = "Witaj <br>"
+                                       + "Wysłano prośbę o zmianę hasła. Jeżeli to Ty klikni w poniższy link <br>"
+                                       + "Jeśli uważasz, że to pomyłka możesz zignorować tą wiadomośc <br>"
+                                       + "Zresetuj hasło -> https://vetclinic-portalwww.azurewebsites.net/Login/ResetPassword?email=" + usersEmail + "&token=" + usersToken + "";
+
+                // vetclinic-portalwww.azurewebsites.net
+                // localhost:44343
+
+                SmtpConf.MessageSubject = "Resetowanie hasła";
+                SmtpConf.send();
+
+                ModelState.AddModelError("", "Wiadomość została wysłana. Sprawdź swoją skrzynkę pocztową.");
+
+                return View();
+            }
+            else
+            {
+                ModelState.AddModelError("", "Niepoprawny adres email");
+                return View();
+            }
+        }
+
+        // reset password
+        [HttpGet]
+        public IActionResult ResetPassword(string email, string token)
+        {
+            if(token == null || email == null)
+            {
+                ModelState.AddModelError("", "Błędny token resetujący");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(User user, string Password, string ConfirmPassword)
+        {
+            string email;
+            email = user.Email;
+
+            string token;
+            token = user.ActivationToken;
+
+            Uri myUri = new Uri("https://vetclinic-portalwww.azurewebsites.net/Login/ResetPassword?email=" + email + "&token=" + token);
+
+            string userEmail = HttpUtility.ParseQueryString(myUri.Query).Get("email");
+            //string userToken = HttpUtility.ParseQueryString(myUri.Query).Get("token");
+
+            //var crrentEmail = _context.Users.Where(u => u.Email == email).Select(p => p.UserID).FirstOrDefault();
+
+            var usersEmail =
+                (from users in _context.Users
+                 where users.Email == email
+                 select users.Email
+                 ).FirstOrDefault();
+
+            //var usersToken =
+            //    (from users in _context.Users
+            //     where users.ActivationToken == token
+            //     select users.ActivationToken
+            //     ).FirstOrDefault();
+
+            // validation password
+            var length = user.Password.Length;
+            if (length < 7)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej 8 znaków");
+                return View();
+            }
+            var passCharArray = user.Password.ToCharArray();
+            var capitalLeter = false;
+            foreach (Char c in passCharArray)
+            {
+                if (Char.IsUpper(c))
+                {
+                    capitalLeter = true;
+                }
+            }
+            if (!capitalLeter)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej jedną dużą Literę");
+                return View();
+            }
+            var lowerCase = false;
+            foreach (Char c in passCharArray)
+            {
+                if (Char.IsLower(c))
+                {
+                    lowerCase = true;
+                }
+            }
+            if (!lowerCase)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej jedną małą Literę");
+                return View();
+            }
+            var digit = false;
+            foreach (Char c in passCharArray)
+            {
+                if (Char.IsDigit(c))
+                {
+                    digit = true;
+                }
+            }
+            if (!digit)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej jedną cyfrę");
+                return View();
+            }
+            var special = false;
+            foreach (Char c in passCharArray)
+            {
+                switch (c)
+                {
+                    case '!':
+                    case '@':
+                    case '#':
+                    case '$':
+                    case '%':
+                    case '^':
+                    case '&':
+                    case '*':
+                        special = true; break;
+                }
+            }
+            if (!special)
+            {
+                ModelState.AddModelError("", "Haslo musi mieć conajmniej jeden znak specjalny");
+                return View();
+            }
+
+            if (Password != ConfirmPassword)
+            {
+                ModelState.AddModelError("", "Hasła nie są takie same");
+                return View();
+            }
+
+            if (user.Email == userEmail  && user.Password != null)
+            {
+                List<User> getusrids = new List<User>();
+                getusrids = _context.Users.Where(x => usersEmail.Contains(x.Email)).ToList();
+                foreach (var s in getusrids)
+                {
+                    _context.Users.Update(s);
+                    s.Password = HashPassword.GetMd5Hash(Password);
+                    s.UpdatedDate = DateTime.Now;
+                    await _context.SaveChangesAsync();
+                }
+
+                return View("ResetPasswordConfirm", "Login");
+            }
+
+            ModelState.AddModelError("", "Nie zmieniono hasła");
+            return View();
+        }
     }
 }
