@@ -7,10 +7,15 @@
 <div class="container">
     <div class="row" style="place-content:center">
         <form asp-action="Edit" id="saveForm">
-            <div class="row" >
+
+            <div class="row">
                 <div class="mb-3 col-12">
                     <div>
                         <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
+                        <input type="hidden" asp-for="@Model.typeUser.AddedDate" />
+                        <input type="hidden" asp-for="@Model.typeUser.UpdatedDate" />
+                        <input type="hidden" asp-for="@Model.typeUser.AddedUserID" />
+                        <input type="hidden" asp-for="@Model.typeUser.UpdatedUserID" />
                         <input type="hidden" asp-for="@Model.permissionsUser" />
                         <div class="input-group">
                             <div class="input-group-prepend">

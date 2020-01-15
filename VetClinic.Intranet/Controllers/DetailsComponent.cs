@@ -21,11 +21,17 @@ namespace VetClinic.Intranet.Controllers
         {
             var list = new Dictionary<string, string>();
 
-            if (AddedDate != null) list.Add("Data dodania:", AddedDate.ToString());
-                else list.Add("Data dodania:", "");
+            if (AddedDate == null || AddedDate.ToString() == "0001-01-01 00:00:00")
+            {
+                list.Add("Data dodania:", "");
+            }
+            else list.Add("Data dodania:", AddedDate.ToString());
 
-            if (UpdatedDate != null) list.Add("Data modyfikacji:", UpdatedDate.ToString());
-                else list.Add("Data modyfikacji:", "");
+            if (UpdatedDate == null || UpdatedDate.ToString() == "0001-01-01 00:00:00")
+            {
+                list.Add("Data modyfikacji:", "");
+            }
+            else list.Add("Data modyfikacji:", UpdatedDate.ToString());
 
             if (AddedUserID != null)
             {

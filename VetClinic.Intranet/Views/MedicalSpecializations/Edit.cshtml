@@ -7,6 +7,10 @@
 <div class="container">
     <div class="row">
         <form asp-action="Edit" enctype="multipart/form-data" class="col" id="saveForm">
+            <input type="hidden" asp-for="AddedDate" />
+            <input type="hidden" asp-for="AddedUserID" />
+            <input type="hidden" asp-for="UpdatedUserID" />
+            <input type="hidden" asp-for="UpdatedDate" />
             <div class="form-row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="MedicalSpecializationID" />
