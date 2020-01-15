@@ -58,10 +58,7 @@
                     </th>
                     <th>
                         Adres
-                    </th>
-                    <th>
-                        Ostatnia modyfikacja
-                    </th>
+                    </th>                   
                 </tr>
             </thead>
             <tbody>
@@ -86,10 +83,7 @@
                             @if (item.ApartmentNumber != null)
                             {@Html.DisplayFor(modelItem => item.ApartmentNumber)},
                             @Html.DisplayFor(modelItem => item.PostalCode) @Html.DisplayFor(modelItem => item.City)
-                        </td>
-                        <td class="text-right" onclick="location.href = '@(Url.Action("Edit", RouteData, new { id = item.UserID }, null))'">
-                            @Html.DisplayFor(modelItem => item.UpdatedDate)
-                        </td>
+                        </td>                       
                     </tr>
                 }
             </tbody>
