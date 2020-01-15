@@ -109,14 +109,11 @@
 
             @if (ViewBag.HasAccessToReservations != null)
             {
-        <li class="nav-item @Html.IsActive(controllers: "Reservations", cssClass: "active")">
-            <a class="nav-link" asp-controller="Reservations" asp-action="Index">
-                <i class="fas fa-calendar-times"></i> <span>Rezerwacje</span>
-            </a>
-            <a class="nav-link" asp-controller="Reservations" asp-action="ShowOwnReservation">
-                <i class="fas fa-calendar-times"></i> <span>Przyjęcia na dziś</span>
-            </a>
-        </li>
+                <li class="nav-item @Html.IsActive(controllers: "Reservations", cssClass: "active")">
+                    <a class="nav-link" asp-controller="Reservations" asp-action="Index">
+                        <i class="fas fa-calendar-times"></i> <span>Rezerwacje</span>
+                    </a>        
+                </li>
             }
 
             @if (ViewBag.HasAccessToWorkTime != null)

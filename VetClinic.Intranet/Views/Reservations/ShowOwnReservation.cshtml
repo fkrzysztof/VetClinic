@@ -6,112 +6,46 @@
 }
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
-    .blockquote {
-    padding: .5rem 1rem;
-    border-left: .25rem solid #eceeef;
-}
-    .akapit
+    .blockquote 
     {
-        color:white;
+        padding: .5rem 1rem;
+        border-left: .25rem solid #eceeef;
     }
 
-   .link {
-    color: white;
-    text-decoration: none;
-    background-color: transparent;
+    .akapit {
+        color: white;
+    }
+
+    .link 
+    {
+        color: white;
+        text-decoration: none;
+        background-color: transparent;
     }
 
 
 
-    .link:hover {
+    .link:hover 
+    {
         color: ghostwhite;
         text-decoration: underline;
     }
 
-   
+    .kolorKafelka 
+    {
+        background-color: #f37159 !important;
+    }
 </style>
 
-@*<a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Calendar">
-    <i class="fas fa-plus-circle"></i>
-    Dodaj
-</a>*@
-
-@*<div class="table-responsive">
-    <table class="table table-hover">
-        <thead class="thead-dark">
-            <tr>
-                <th>
-                    Pacjent
-                </th>
-                <th>
-                    Data wizyty
-                </th>
-                <th>
-                    Użytkownik rezerwujący
-                </th>
-                <th>
-                   
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                //int test = 1;
-
-                <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "Reservations", new { id = item.ReservationID }, null))'">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Patients.Name)
-                    </td>
-                    <td class="text-left">
-                        @Html.DisplayFor(modelItem => item.DateOfVisit)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-controller="AllUsers" asp-route-id="@item.ReservationUser.UserID">
-                            @Html.DisplayFor(modelItem => item.ReservationUser.FirstName)
-                            @Html.DisplayFor(modelItem => item.ReservationUser.LastName)
-                        </a>
-                    </td>
-                    @if (item.Visit != null)
-                    {
-                        <td class="text-center">
-                            @foreach (var data in item.Visit)
-                            {
-                                test = DateTime.Compare(item.DateOfVisit, data.DateOfVisit);
-                                if (test == 0)
-                                {
-                                    <a class="btn btn-danger mr-sm-3 ml-sm-3" asp-action="Visit" asp-controller="Patients" asp-route-id="@item.PatientID" asp-fragment="@data.VisitID">
-                                        Podgląd wizyty
-                                    </a>
-                                    break;
-                                }
-                            }
-                        </td>
-                    }
-
-                    @if (test != 0)
-                    {
-
-                        <td class="text-center">
-                            <a class="btn btn-danger mr-sm-3 ml-sm-3" asp-action="AddVisitFromReservation" asp-route-id="@item.ReservationID" onclick="return confirm('Czy chcesz utworzyc wizytę')">
-                                Utwórz wizytę
-                            </a>
-                        </td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-</div>*@
-
-
-
+    <a class="btn btn-outline-success mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Reservations">
+        Rezerwacje
+    </a>
 
 <div class="row">
     @foreach (var item in Model)
     {
         <div class="col-sm-6">
-            <div class="card bg-primary no-gutters">
+            <div class="card kolorKafelka no-gutters">
                 <div class="row no-gutters">
                     <div class="col-md-12">
                         <div class="card-body">
@@ -119,7 +53,7 @@
                                 <div style="text-align:center">
                                     <p><i class="fas fa-diagnoses fa-3x amber-text pr-3" aria-hidden="true" style="color:white"></i>
                                 </div>
-                                
+
                                 <p class="card-text akapit text-center"><b>Pacjent</b>: @Html.DisplayFor(modelItem => item.Patients.Name)</p>
                                 <p class="card-text akapit text-center"><b>Data wizyty</b>:  @Html.DisplayFor(modelItem => item.DateOfVisit)</p>
                                 <p class="card-text akapit text-center">
@@ -130,14 +64,15 @@
                                     </a>
                                 </p>
                                 <div style="text-align:center">
-                                    <a class="btn btn-danger mr-sm-3 ml-sm-3 " asp-action="AddVisitFromReservation" asp-route-id="@item.ReservationID" onclick="return confirm('Czy chcesz utworzyc wizytę')">
+                                    <a class="btn btn-success  mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="AddVisitFromReservation" asp-route-id="@item.ReservationID" onclick="return confirm('Czy chcesz utworzyc wizytę')">
+                                        <i class="fas fa-plus-circle"></i>
                                         Utwórz wizytę
                                     </a>
                                 </div>
 
                             </blockquote>
                         </div>
-                    </div>                
+                    </div>
                 </div>
             </div>
             <br>
