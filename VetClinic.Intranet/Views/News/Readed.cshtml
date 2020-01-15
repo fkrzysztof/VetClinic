@@ -27,7 +27,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="item-not-active" )" onclick="location.href = '@(Url.Action("Edit", "News", new { id = item.NewsID }, null))'">
+                <tr class="item-not-active tableCursor" )" onclick="location.href = '@(Url.Action("Edit", "News", new { id = item.NewsID }, null))'">
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>

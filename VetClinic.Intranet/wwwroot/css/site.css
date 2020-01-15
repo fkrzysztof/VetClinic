@@ -89,7 +89,15 @@ span.login {
 }
 
 .item-not-active {
-    background: #b34a4a5e !important
+    background: #b34a4a5e !important;
+}
+
+.item-not-active:hover {
+    background: #e59595 !important
+}
+
+.item-not-active:hover td{
+    background: transparent !important
 }
 
 li.break {
@@ -210,4 +218,8 @@ a.dropdown-item {
     object-fit: cover;
     border-radius: 3px;
     box-shadow: -5px 5px 30px rgba(0, 0, 0, 0.1), 5px -5px 30px rgba(0, 0, 0, 0.1);
+}
+
+.tableCursor td{
+    cursor:pointer !important;
 }

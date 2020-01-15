@@ -69,7 +69,7 @@
                 {
                     string RouteData = ViewBag.RouteData;
 
-                    <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
+                    <tr class="@(item.IsActive ? "item-active" : "item-not-active") tableCursor">
                         <td>
                             <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
                         </td>
