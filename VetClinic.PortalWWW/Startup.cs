@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,6 +61,18 @@ namespace VetClinic.PortalWWW
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var supportedCultures = new[] { new CultureInfo("pl-PL") };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("pl-PL"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pl-PL");
+            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("pl-PL");
+            CultureInfo.CurrentCulture = new CultureInfo("pl-PL");
+            CultureInfo.CurrentUICulture = new CultureInfo("pl-PL");
         }
     }
 }
