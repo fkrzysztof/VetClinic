@@ -9,11 +9,12 @@
         <form asp-action="Edit" enctype="multipart/form-data" id="saveForm">
             <div class="form-row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @*<div class="row inputGroupMargin">*@
                 <input type="hidden" asp-for="UserID" />
                 <input type="hidden" asp-for="IsActive" />
                 <input type="hidden" asp-for="Image" />
                 <input type="hidden" asp-for="UserTypeID" />
+                <input type="hidden" asp-for="AddedDate" />
+                <input type="hidden" asp-for="UpdatedDate" />
                 <div class="form-group col-lg-4">
                     <div class="input-group col-12 row mb-3">
                         <div class="input-group-append">

@@ -124,7 +124,7 @@ namespace VetClinic.Intranet.Controllers.Abastract
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,Image,CardNumber,IsActive,Description")] User user, List<Microsoft.AspNetCore.Http.IFormFile> Image)
+        public async Task<IActionResult> Edit(int id, [Bind("UserID,UserTypeID,FirstName,LastName,HouseNumber,ApartmentNumber,Street,City,PostalCode,Email,Login,Password,Phone,Photo,Image,CardNumber,IsActive,Description,AddedDate")] User user, List<Microsoft.AspNetCore.Http.IFormFile> Image)
         {
             if (id != user.UserID)
             {
