@@ -84,19 +84,19 @@
             {
                 <form asp-action="Delete" asp-route-id="@Model.NewsID" onsubmit="alert('Na pewno chcesz usunąć wiadomość?')">
                     <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Usuń wiadomość" class="btn btn-outline-danger buttMargin" />
+                    <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
                 </form>
             }
             else
             {
                 <form asp-action="Restore" asp-route-id="@Model.NewsID">
                     <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Przywróć wiadomość" class="btn btn-outline-success buttMargin" />
+                    <input type="submit" value="Przywróć" class="btn btn-outline-success buttMargin" />
                 </form>
             }
         </div>
         <div class="col">
-            <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" />
+            <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin" />
         </div>
     </div>
 </div>

@@ -121,14 +121,14 @@
 {
     <form asp-action="DeleteVisit" asp-route-id="@Model.Visit.VisitID" onsubmit="alert('Na pewno chcesz usunąć wizytę?')">
         <input type="hidden" asp-for="@Model.Visit.VisitID" />
-        <input type="submit" value="Usuń wizytę" class="btn btn-outline-danger buttMargin" />
+        <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
     </form>
 } 
 else
 {
 <form asp-action="RestoreVisit" asp-route-id="@Model.Visit.VisitID">
     <input type="hidden" asp-for="@Model.Visit.VisitID" />
-    <input type="submit" value="Przywróć wizytę" class="btn btn-outline-success buttMargin" />
+    <input type="submit" value="Przywróć" class="btn btn-outline-success buttMargin" />
 </form>
 }
 

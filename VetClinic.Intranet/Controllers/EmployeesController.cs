@@ -30,9 +30,9 @@ namespace VetClinic.Intranet.Controllers
 
         public override async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.Title = "Edycja pracownika";
-            ViewBag.Delete = "Usuń pracownika";
-            ViewBag.Restore = "Przywróć pracownika";
+            ViewBag.Title = "Edycja";
+            ViewBag.Delete = "Usuń";
+            ViewBag.Restore = "Przywróć";
             ViewBag.Controller = "Employees";
 
             return await base.Edit(id);
