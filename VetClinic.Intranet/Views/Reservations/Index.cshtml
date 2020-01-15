@@ -21,10 +21,7 @@
                 </th>
                 <th>
                     Użytkownik rezerwujący
-                </th>
-                <th>
-                    Ostatnia modyfikacja
-                </th>
+                </th>              
             </tr>
         </thead>
         <tbody>
@@ -42,10 +39,7 @@
                             @Html.DisplayFor(modelItem => item.ReservationUser.FirstName)
                             @Html.DisplayFor(modelItem => item.ReservationUser.LastName)
                         </a>
-                    </td>
-                    <td class="text-left">
-                        @Html.DisplayFor(modelItem => item.UpdatedDate)
-                    </td>
+                    </td>                 
                 </tr>
             }
         </tbody>
