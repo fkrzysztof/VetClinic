@@ -25,7 +25,7 @@ namespace VetClinic.PortalWWW.Controllers
             ViewBag.ModelRecentNews =
             (
                 from recentnews in _context.RecentNews
-                orderby recentnews.Position
+                orderby recentnews.Position, recentnews.AddedDate descending
                 select recentnews
             ).ToList();
 
