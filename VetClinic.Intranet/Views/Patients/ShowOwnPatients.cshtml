@@ -65,7 +65,6 @@
                     @Html.DisplayNameFor(model => model.PatientUser)
                 </th>
                 <th></th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -97,11 +96,6 @@
                             Wizyty pacjenta
                         </a>
                     </td>
-                    <td>
-                        <a class="showDetails btn btn-outline-primary btn-sm listButtMargin" role="button"  id="@item.PatientID">
-                            <span class="fa fa-info"></span>
-                        </a>                       
-                    </td>
                 </tr>
             }
         </tbody>
@@ -129,29 +123,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-<script>
-    
-    $('.showDetails').click(function () {
-
-        var patient_id = $(this).attr("id");
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("DetailsUpdated","Patients")',
-
-            data:
-            {
-                id: patient_id
-            },
-
-            success: (data) => {
-                        $('#exampleModal').find('.modal-body').html(data);
-                        $('#exampleModal').modal('show');
-                    }
-
-        })
-                });
- 
-</script>
