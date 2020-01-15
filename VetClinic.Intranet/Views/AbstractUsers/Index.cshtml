@@ -69,25 +69,25 @@
                 {
                     string RouteData = ViewBag.RouteData;
 
-                    <tr class="@(item.IsActive ? "item-active" : "item-not-active" )" onclick="location.href = '@(Url.Action("Edit", RouteData, new { id = item.UserID }, null))'">
+                    <tr class="@(item.IsActive ? "item-active" : "item-not-active" )">
                         <td>
                             <input class="checkbox checkbox-outline-primary" type="checkbox" name="ids" value="@Html.DisplayFor(modelItem => item.UserID)" />
                         </td>
-                        <td>
+                        <td onclick="location.href = '@(Url.Action("Edit", RouteData, new { id = item.UserID }, null))'">
                             @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
                             <span class="login">(Login: @Html.DisplayFor(modelItem => item.Login))</span>
                         </td>
-                        <td>
+                        <td onclick="location.href = '@(Url.Action("Edit", RouteData, new { id = item.UserID }, null))'">
                             @Html.DisplayFor(modelItem => item.Email)
                         </td>
 
-                        <td>
+                        <td onclick="location.href = '@(Url.Action("Edit", RouteData, new { id = item.UserID }, null))'">
                             @Html.DisplayFor(modelItem => item.Street) @Html.DisplayFor(modelItem => item.HouseNumber)
                             @if (item.ApartmentNumber != null)
                             {@Html.DisplayFor(modelItem => item.ApartmentNumber)},
                             @Html.DisplayFor(modelItem => item.PostalCode) @Html.DisplayFor(modelItem => item.City)
                         </td>
-                        <td class="text-right">
+                        <td class="text-right" onclick="location.href = '@(Url.Action("Edit", RouteData, new { id = item.UserID }, null))'">
                             @Html.DisplayFor(modelItem => item.UpdatedDate)
                         </td>
                     </tr>
@@ -96,3 +96,4 @@
         </table>
     </div>
 }
+
