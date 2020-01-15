@@ -7,53 +7,127 @@
 <div class="row mb-3">
     <div class="col-12">
         <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-        <i class="fas fa-plus-circle"></i>
-        Dodaj
+            <i class="fas fa-plus-circle"></i>
+            Dodaj
         </a>
     </div>
 </div>
-
-<div class="row">
+<div class="container">
     @foreach (var item in Model)
     {
-        <div class="col-sm-6">
-            <div class="card no-gutters">
-                <div class="row no-gutters">
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <a role="button" asp-action="Details" asp-route-id="@item.NewsID">
-                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
-                            </a>
-                            
-                            <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card-body">
-                            <div class="card-image">
-                                @{
-                                    if (item.SenderUser.Image != null)
-                                    {
-                                        var base64 = Convert.ToBase64String(item.SenderUser.Image);
-                                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                        <img style="width: 100px; height:100px" class="card-img" src="@imgSrc" />
-                                    }
-                                    else
-                                    {
-                                        <img style="width: 100px; height:100px" class="card-image" src="~/images/empty_image.png" />
-                                    }
-                                }
-                            </div>
-                            <div class="card-im">
+    <div class="row no-gutters rounded shadow-sm mt-2 mb-2">
+        @{
+            if (item.SenderUser.Image != null)
+            {
+                var base64 = Convert.ToBase64String(item.SenderUser.Image);
+                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                <img style="width: 80px; height:80px" class="card-img" src="@imgSrc" />
+            }
+            else
+            {
+                <img style="width: 80px; height:80px" class="card-img" src="~/images/empty_image.png" />
+            }
+        }
+    <div class="col-md-11 ml-md-2">
+        <h5>@Html.DisplayFor(modelItem => item.SenderUser.FirstName) @Html.DisplayFor(modelItem => item.SenderUser.LastName)</h5>
+        <span class="card-text">
+            @Html.DisplayFor(modelItem => item.Title)
+        </span><br />
+        <div class="float-md-right align-bottom">
+            <small class="text-muted align-bottom">@Html.DisplayFor(modelItem => item.AddedDate)</small>
+            <a href="#" class="stretched-link text-decoration-none">&nbsp;</a>
+        </div>
 
-                            </div>
-                            <h8 class="card-title" style="text-align: center;">@Html.DisplayFor(modelItem => item.SenderUser.FirstName) @Html.DisplayFor(modelItem => item.SenderUser.LastName)</h8>
-                        </div>
-                        
-                    </div>
+    </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        @*
+            <div class="row ">
+                <div class="col-sm-12 mt-1 mb-1 rounded shadow-sm">
+
+                        @ {
+                            if (item.SenderUser.Image != null)
+                            {
+                                var base64 = Convert.ToBase64String(item.SenderUser.Image);
+                                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                <img style="width: 75px; height:75px" class="rounded float-left" src="@imgSrc" />
+                            }
+                            else
+                            {
+                                <img style="width: 100px; height:100px" class="rounded float-left" src="~/images/empty_image.png" />
+                            }
+                        }
+
+                    <span class=" text-left">
+                        to jest tytul wiadomosci dasdasdasdasdasd
+                    </span>
                 </div>
             </div>
-            <br>
-        </div>
+        *@
     }
-    </div>
+
+</div>
+
+
+
+    @*<div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-sm-4">
+                    <div class="card no-gutters">
+                        <div class="row no-gutters">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <a role="button" asp-action="Details" asp-route-id="@item.NewsID">
+                                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
+                                    </a>
+
+                                    <p class="card-text">@Html.DisplayFor(modelItem => item.Message)</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card-body">
+                                    <div class="card-image">
+                                        @{
+                                            if (item.SenderUser.Image != null)
+                                            {
+                                                var base64 = Convert.ToBase64String(item.SenderUser.Image);
+                                                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                                <img style="width: 100px; height:100px" class="card-img" src="@imgSrc" />
+                                            }
+                                            else
+                                            {
+                                                <img style="width: 100px; height:100px" class="card-image" src="~/images/empty_image.png" />
+                                            }
+                                        }
+                                    </div>
+                                    <div class="card-im">
+
+                                    </div>
+                                    <h8 class="card-title" style="text-align: center;">@Html.DisplayFor(modelItem => item.SenderUser.FirstName) @Html.DisplayFor(modelItem => item.SenderUser.LastName)</h8>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            }
+        </div>*@
