@@ -11,6 +11,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Intranet.Models;
 using VetClinic.Data;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace VetClinic.Intranet
 {
@@ -60,6 +62,18 @@ namespace VetClinic.Intranet
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            var supportedCultures = new[] { new CultureInfo("pl-PL") };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("pl-PL"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("pl-PL");
+            CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("pl-PL");
+            CultureInfo.CurrentCulture = new CultureInfo("pl-PL");
+            CultureInfo.CurrentUICulture = new CultureInfo("pl-PL");
         }
     }
 }
