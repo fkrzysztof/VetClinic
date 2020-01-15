@@ -22,7 +22,7 @@ namespace VetClinic.Intranet.Controllers
         {
             ViewData["CurrentFilter"] = searchString;
 
-            return View(await _context.RecentNews.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View(await _context.RecentNews.OrderByDescending(u => u.AddedDate).ToListAsync());
         }
 
         // GET: RecentNews/Create
