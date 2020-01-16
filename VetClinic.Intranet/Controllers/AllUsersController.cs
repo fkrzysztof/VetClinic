@@ -16,6 +16,8 @@ namespace VetClinic.Intranet.Controllers
 {
     public class AllUsersController : AbstractPolicyController
     {
+        protected int _userTypeId;
+        SmtpConfiguration SmtpConf = new SmtpConfiguration();
         public AllUsersController(VetClinicContext context) : base(context) { }
 
         // GET: Admin
@@ -83,10 +85,19 @@ namespace VetClinic.Intranet.Controllers
                             }
                         }
                     }
+
                     user.UpdatedDate = DateTime.Now;
+                    user.IsActive = true;
+                    user.AuthorizationEmail = true;
+                    //.UserTypeID = _userTypeId;
                     if (user.Password.Length == 8)
                     {
+                        var passwordUser = user.Password;
                         user.Password = HashPassword.GetMd5Hash(user.Password);
+                        SmtpConf.MessageTo = user.Email;
+                        SmtpConf.MessageText = user.FirstName + " Twoje nowe hasło: " + passwordUser;
+                        SmtpConf.MessageSubject = "Potwierdzenie zmiany hasła";
+                        SmtpConf.send();
                     }
                     _context.Update(user);
                     await _context.SaveChangesAsync();
