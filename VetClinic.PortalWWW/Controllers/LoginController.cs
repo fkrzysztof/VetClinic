@@ -106,11 +106,11 @@ namespace VetClinic.PortalWWW.Controllers
                  ).ToList();
 
             // check email
-            //if (usersEmail.Contains(email))
-            //{
-            //    ModelState.AddModelError("", "Konto z takim adresem email już istnieje!");
-            //    return View();
-            //}
+            if (usersEmail.Contains(email))
+            {
+                ModelState.AddModelError("", "Konto z takim adresem email już istnieje!");
+                return View();
+            }
 
             //check login
             for (int i = 0; i < usersLogin.Count(); i++)
