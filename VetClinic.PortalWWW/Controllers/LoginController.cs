@@ -212,7 +212,7 @@ namespace VetClinic.PortalWWW.Controllers
 
             if (ModelState.IsValid)
             {
-                user.Login = login;
+                user.Login = login.ToLower();
 
                 SmtpConf.MessageTo = user.Email;
                 SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>"
