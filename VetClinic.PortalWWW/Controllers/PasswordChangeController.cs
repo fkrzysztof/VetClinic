@@ -14,6 +14,8 @@ namespace VetClinic.PortalWWW.Controllers
     {
         private readonly VetClinicContext _context;
 
+        SmtpConfiguration SmtpConf = new SmtpConfiguration();
+
         public PasswordChangeController(VetClinicContext context)
         {
             _context = context;
@@ -103,7 +105,30 @@ namespace VetClinic.PortalWWW.Controllers
             {
                 _context.Users.Find(UserID).Password = HashPassword.GetMd5Hash(NewPassword);
 
+                var crrentEmail = _context.Users.Where(u => u.UserID == UserID).Select(p => p.Email).FirstOrDefault();
+
+                var usersToken =
+                (from users in _context.Users
+                 where users.Email == crrentEmail
+                 select users.ActivationToken
+                 ).FirstOrDefault();
+
+                SmtpConf.MessageTo = crrentEmail;
+                SmtpConf.MessageText = "Witamj <br>" 
+                                        + "Twoje hasło zostało właśnie zmienione. <br>"
+                                        + "<br>"
+                                        + "Jeżeli to Ty dokonałeś zmiany hasła możesz zignorować tą wiadomość: <br>"
+                                        + "Jeśli uważasz, że ktoś mógł włamać się na twoje konto i zmienić twoje hasło, możesz je zresetować klikając w poniższy link: <br>"
+                                        + "Link do zmiany hasła: https://vetclinic-portalwww.azurewebsites.net/Login/ResetPassword?email=" + crrentEmail + "&token=" + usersToken + "";
+
+                SmtpConf.MessageSubject = "Potwierdzenie zmiany hasła";     
+
+                // vetclinic-portalwww.azurewebsites.net
+                // localhost:44343
+
                 _context.SaveChanges();
+
+                SmtpConf.send();
                 return RedirectToAction("Index", "ClientPanel");
             }
             return View();
