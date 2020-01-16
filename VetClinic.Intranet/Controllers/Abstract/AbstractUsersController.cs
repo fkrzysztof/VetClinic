@@ -148,6 +148,7 @@ namespace VetClinic.Intranet.Controllers.Abastract
                     }
                     user.UpdatedDate = DateTime.Now;
                     user.IsActive = true;
+                    user.AuthorizationEmail = true;
                     user.UserTypeID = _userTypeId;
                     if (user.Password.Length == 8)
                     {
