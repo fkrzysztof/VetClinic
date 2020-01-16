@@ -53,7 +53,7 @@ namespace VetClinic.PortalWWW.Controllers
                 ModelState.AddModelError("", "Twoje konto jest zablokowane.");
                 return View();
             }
-            else if (account != null && (account.Password == user.Password || veryfyHashPassword) && account.Login == user.Login)
+            else if (account != null && (account.Password == user.Password || veryfyHashPassword) && account.Login == user.Login.ToLower())
             {
                 
 
@@ -106,19 +106,19 @@ namespace VetClinic.PortalWWW.Controllers
                  ).ToList();
 
             // check email
-            if (usersEmail.Contains(email))
-            {
-                ModelState.AddModelError("", "Konto z takim adresem email już istnieje!");
-                return View();
-            }
+            //if (usersEmail.Contains(email))
+            //{
+            //    ModelState.AddModelError("", "Konto z takim adresem email już istnieje!");
+            //    return View();
+            //}
 
             //check login
             for (int i = 0; i < usersLogin.Count(); i++)
             {
-                if (usersLogin.Contains(login))
+                if (usersLogin.Contains(login.ToLower()))
                 {
                     login += rnd.Next(0, 9);
-                    ModelState.AddModelError("", "Taki login już istnieje! Wybierz inny: " + login);
+                    ModelState.AddModelError("", "Taki login już istnieje! Wybierz inny: " + login.ToLower());
                     return View();
                 }
                 else
