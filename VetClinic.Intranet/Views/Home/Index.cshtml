@@ -128,7 +128,7 @@
                                         {
                                             BlockFree = false;
                                             <button class="btn btn-danger mr-sm-3 ml-sm-3" onclick="location.href='@Url.Action("Edit","Reservations", new {@id = @item.ReservationID})'">
-                                                @block.ToString("HH/mm")<br />Zajęty
+                                                @block.ToString("HH:mm")<br />Zajęty
                                             </button>
                                         }
                                     }
@@ -148,7 +148,7 @@
                                                 <button type="submit" class="btn btn-success  mr-sm-3 ml-sm-3"
                                                         @if ((DateTime.Compare(block, DateTime.Now) == -1)) { @: disabled
                                                         }>
-                                                    @block.ToString("HH/mm")<br />Wolny
+                                                    @block.ToString("HH:mm")<br />Wolny
                                                 </button>
                                             </form>
                                         }

@@ -135,13 +135,13 @@
                                             @if (UserFromSession != item.ReservationUserID)
                                             {
                                                 <button class="btn btn-danger mr-sm-3 ml-sm-3" disabled>
-                                                    @block.ToString("HH/mm")<br />Zajęty
+                                                    @block.ToString("HH:mm")<br />Zajęty
                                                 </button>
                                             }
                                             else
                                             {
                                                 <button class="btn btn-warning mr-sm-3 ml-sm-3" onclick="location.href='@Url.Action("Edit", "Reservation", new { @id = @item.ReservationID })'">
-                                                    @block.ToString("HH/mm")<br />&nbspMoja&nbsp
+                                                    @block.ToString("HH:mm")<br />&nbspMoja&nbsp
                                                 </button>
                                             }
                                         }
@@ -162,7 +162,7 @@
                                                 <button type="submit" class="btn btn-success  mr-sm-3 ml-sm-3"
                                                         @if ((DateTime.Compare(block, DateTime.Now) == -1)) { @: disabled
                                                         }>
-                                                    @block.ToString("HH/mm")<br />Wolny
+                                                    @block.ToString("HH:mm")<br />Wolny
                                                 </button>
                                             </form>
                                         }
