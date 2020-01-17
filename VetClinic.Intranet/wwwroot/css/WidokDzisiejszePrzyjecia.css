@@ -1,0 +1,25 @@
+﻿.blockquote {
+    padding: .5rem 1rem;
+    border-left: .25rem solid #eceeef;
+}
+
+.akapit {
+    color: white;
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+
+
+    .link:hover {
+        color: ghostwhite;
+        text-decoration: underline;
+    }
+
+.kolorKafelka {
+    background-color: #f37159 !important;
+}

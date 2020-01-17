@@ -4,39 +4,10 @@
 @{
     ViewData["Title"] = "Przyjęcia na dziś";
 }
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<style>
-    .blockquote 
-    {
-        padding: .5rem 1rem;
-        border-left: .25rem solid #eceeef;
-    }
-
-    .akapit {
-        color: white;
-    }
-
-    .link 
-    {
-        color: white;
-        text-decoration: none;
-        background-color: transparent;
-    }
-
-
-
-    .link:hover 
-    {
-        color: ghostwhite;
-        text-decoration: underline;
-    }
-
-    .kolorKafelka 
-    {
-        background-color: #f37159 !important;
-    }
-</style>
-
+<Scripts>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link href="~/css/WidokDzisiejszePrzyjecia.css" rel="stylesheet" />
+</Scripts>
     <a class="btn btn-outline-success mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Reservations">
         Rezerwacje
     </a>
