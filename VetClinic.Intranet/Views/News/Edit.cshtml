@@ -4,7 +4,7 @@
     ViewData["Title"] = String.Format("Edycja wiadomości: {0}", Model.Title);
 }
 
-<div class="container">
+<div class="container shadow p-4 mt-4 md-4">
     <div class="row">
         <form asp-action="Edit" method="post" class="col" id="saveForm">
             <div class="form-row">
@@ -84,19 +84,19 @@
             {
                 <form asp-action="Delete" asp-route-id="@Model.NewsID" onsubmit="alert('Na pewno chcesz usunąć wiadomość?')">
                     <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
-                </form>
+                    <input type="submit" value="Usuń" class="btn btn-outline-danger  btn-sm" />
+                </form> 
             }
             else
             {
                 <form asp-action="Restore" asp-route-id="@Model.NewsID">
                     <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Przywróć" class="btn btn-outline-success buttMargin" />
+                    <input type="submit" value="Przywróć" class="btn btn-outline-success buttMargin btn-sm" />
                 </form>
             }
         </div>
         <div class="col">
-            <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin" />
+            <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin  btn-sm" />
         </div>
     </div>
 </div>
