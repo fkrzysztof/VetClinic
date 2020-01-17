@@ -57,7 +57,7 @@
                                     <span class="input-group-text" id="label1">Hasło</span>
                                 </div>
                                 <input type="hidden" id="passwordInput" asp-for="Password" class="form-control" aria-describedby="label1" />
-                                <input onclick="generatePassword()" class="generate-pass btn-primary form-control valid" type="button" value="Generuj hasło" aria-invalid="false">
+                                <input onclick="generatePassword()" class="generate-pass btn-primary form-control valid" data-toggle="modal" data-target="#generatePasswordModal" type="button" value="Generuj hasło" aria-invalid="false">
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                         </div>
@@ -199,6 +199,24 @@
         </div>
     </div>
 
+</div>
+
+<!-- Logout Modal-->
+<div class="modal fade" id="generatePasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Wygenerowałeś nowe hasł</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">Zapisz zmiany i wyśli email z potwierdzeniem</div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Okay</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
