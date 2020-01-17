@@ -4,7 +4,7 @@
     ViewData["Title"] = String.Format("Edycja wiadomości: {0}", Model.Title);
 }
 
-<div class="container">
+<div class="container shadow p-4 mt-4 md-4">
     <div class="row">
         <form asp-action="Edit" method="post" class="col" id="saveForm">
             <div class="form-row">
@@ -85,6 +85,7 @@
         <div class="col" style="max-width:85px">
             @if (Model.IsActive)
             {
+<<<<<<< HEAD
                 <!-- Button to Open the Modal -->
                 <button type="button" class="btn btn-outline-danger buttMargin" data-toggle="modal" data-target="#myModal">
                     Usuń
@@ -120,6 +121,12 @@
                 <input type="hidden" asp-for="NewsID" />
                 <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
             </form>*@
+=======
+                <form asp-action="Delete" asp-route-id="@Model.NewsID" onsubmit="alert('Na pewno chcesz usunąć wiadomość?')">
+                    <input type="hidden" asp-for="NewsID" />
+                    <input type="submit" value="Usuń" class="btn btn-outline-danger  btn-sm" />
+                </form> 
+>>>>>>> widoki-poprawione-1
             }
         </div>
         <div class="col">
@@ -127,12 +134,16 @@
             {
                 <form asp-action="Restore" asp-route-id="@Model.NewsID">
                     <input type="hidden" asp-for="NewsID" />
+<<<<<<< HEAD
                     <input type="submit" value="Oznacz jako nieodczytaną" class="btn btn-outline-success buttMargin" />
+=======
+                    <input type="submit" value="Przywróć" class="btn btn-outline-success buttMargin btn-sm" />
+>>>>>>> widoki-poprawione-1
                 </form>
             }
         </div>
         <div class="col">
-            <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin" />
+            <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin  btn-sm" />
         </div>
     </div>
 </div>
