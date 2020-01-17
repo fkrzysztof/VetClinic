@@ -92,6 +92,7 @@ span.login {
     background: #b34a4a5e !important;
 }
 
+
 .item-not-active:hover {
     background: #e59595 !important
 }
@@ -222,4 +223,20 @@ a.dropdown-item {
 
 .tableCursor td{
     cursor:pointer !important;
+}
+
+.cursorPointer{
+    cursor:pointer !important;
+}
+
+.btnHov {
+    color: black !important;
+}
+    .btnHov:hover {
+        color: #f3715b !important;
+        text-decoration: none;
+    }
+
+.item-not-active-label {
+    color: #b34a4a5e !important;
 }
