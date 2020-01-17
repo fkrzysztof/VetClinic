@@ -510,7 +510,8 @@ namespace VetClinic.Intranet.Controllers
             visit.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Visit), new { id = visit.PatientID });
+            return RedirectToAction("Visit", "Patients", new { id = visit.PatientID }, Convert.ToString(id));
         }
     }
 }
+    

@@ -15,31 +15,51 @@
         <div class="col-md-12">
             <nav>
                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                    <a class="nav-item nav-link active" id="nav-dane-tab" data-toggle="tab" href="#nav-dane" role="tab" aria-controls="nav-dane" aria-selected="true">Dane</a>
-                    <a class="nav-item nav-link" id="nav-zabieg-tab" data-toggle="tab" href="#nav-zabieg" role="tab" aria-controls="nav-zabieg" aria-selected="false">Zabieg</a>
+                    <a class="nav-item nav-link active" id="nav-dane-tab" data-toggle="tab" href="#nav-dane" role="tab" aria-controls="nav-dane" aria-selected="true">Opis</a>
+                    <a class="nav-item nav-link" id="nav-zabieg-tab" data-toggle="tab" href="#nav-zabieg" role="tab" aria-controls="nav-zabieg" aria-selected="false">Zabiegi</a>
                     <a class="nav-item nav-link" id="nav-leki-tab" data-toggle="tab" href="#nav-leki" role="tab" aria-controls="nav-leki" aria-selected="false">Leki</a>
                 </div>
             </nav>
 
             <div class="tab-content" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="nav-dane" role="tabpanel" aria-labelledby="nav-dane-tab">
-                    <div>
-                        <div class="row">
-                            <div class="col-sm-6 wiersz">
-                                <p class="odstep">Data urodzenia</p>
-                            </div>
-                            <div class="col-sm-6 wiersz">
-                                <p class="odstep"> @Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Visit.Patient.BirthDate))</p>
-                            </div>                            
-                            <div class="col-sm-6 wiersz">
-                                <p class="odstep">Opis</p>
-                            </div>
-                            <div class="showDetails col-sm-6 wiersz" Visit-Id="@Model.Visit.VisitID" style="cursor:pointer;height:auto">
-                                <p class="odstep">  @Html.DisplayFor(model => model.Visit.Description)</p>
+                    <form asp-action="Visit" enctype="multipart/form-data" class="col" id="saveForm">
+                        <div class="form-row">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Visit.VisitID" />
+                            <input type="hidden" asp-for="Visit.VisitUserID" />
+                            <input type="hidden" asp-for="Visit.PatientID" />
+                            <input type="hidden" asp-for="Visit.VetID" />
+                            <input type="hidden" asp-for="Visit.TreatmentID" />
+                            <input type="hidden" asp-for="Visit.DateOfVisit" />
+                            <input type="hidden" asp-for="Visit.IsActive" />
+                            <input type="hidden" asp-for="Visit.AddedDate" />
+                            <input type="hidden" asp-for="Visit.AddedUserID" />
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-12">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Opis</span>
+                                    </div>
+                                    <textarea asp-for="Visit.Description" class="form-control" rows="4"></textarea>
+                                    <span asp-validation-for="Visit.Description" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        Dodał bym tu detale wlascicela i lekarza do ktorego jest przypisana wizyta<br />
+                        Jesli Dodamy to trzeba zmienic nazwe zakladki (np Detale)<br />
+                        Jak nie dodamy to trzeba usunac etykiete "Opis" z okna edytowalnego<br />...
+                        
+                    </form>
                 </div>
+                @*<div>
+            <div class="row">
+                <div class="showDetails col-sm-6 wiersz" Visit-Id="@Model.Visit.VisitID" style="cursor:pointer;height:auto">
+                    <p class="odstep">  @Html.DisplayFor(model => model.Visit.Description)</p>
+                </div>
+            </div>
+        </div>*@
                 <div class="tab-pane fade" id="nav-zabieg" role="tabpanel" aria-labelledby="nav-zabieg-tab">
 
                     @if (Model.VisitTreatments.Count == 0)
@@ -131,6 +151,7 @@
                         </div>
                     }
                 </div>
+
                 <div class="col-md-12">
                     <p class="odstep">
                         <a class="edytuj btn btn-outline-primary btn-sm listButtMargin" role="button" Visit-Id="@Model.Visit.VisitID">
@@ -139,7 +160,37 @@
                         </a>
                     </p>
                 </div>
-                
+
+                @await Component.InvokeAsync("DetailsComponent", new
+                            {
+                               AddedDate = @Model.Visit.AddedDate,
+                               AddedUserID = @Model.Visit.AddedUserID,
+                               UpdatedDate = @Model.Visit.UpdatedDate,
+                               UpdatedUserID = @Model.Visit.UpdatedUserID
+                            })
+                <div class="row">
+                    <div class="col">
+                        @if (Model.Visit.IsActive)
+                        {
+                            <form asp-action="DeleteVisit" asp-route-id="@Model.Visit.VisitID" onsubmit="alert('Na pewno chcesz usunąć pacjenta?')">
+                                <input type="hidden" asp-for="Visit.VisitID" />
+                                <input type="submit" value="Usuń wizyte" class="btn btn-outline-danger buttMargin"/>
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="RestoreVisit" asp-route-id="@Model.Visit.VisitID">
+                                <input type="hidden" asp-for="Visit.VisitID" />
+                                <input type="submit" value="Przywróć wizyte" class="btn btn-success buttMargin"/>
+                            </form>
+                        }
+                    </div>
+                    <div class="col">
+                        <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" 
+                               asp-action="EditVisit" asp-route-id="@Model.Visit.VisitID" asp-fragment="@Model.Visit.VisitID"/>
+                    </div>
+                </div>
+
             </div>
             
         </div>
