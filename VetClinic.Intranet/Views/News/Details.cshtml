@@ -35,14 +35,11 @@
                 <small class="text-muted align-bottom float-right">@Model.AddedDate</small>
             </div>
             <div class="col-sm-12">
-                <h3>Tytul</h3>
+                <h3>@Model.Title</h3>
                 <hr />
             </div>
             <div class="col-sm-6">
-                sdadasdasd.asd asda
-                asdasd asdasd dsadad asdsds
-                sd sdsdsadas dsd sdadasd sadsa sdadas
-                sdad sada d sadsads sdasdsadasd sasdsadasdsad
+                @Model.Message
             </div>
             <div class="col-sm-12">
                 @{
@@ -60,10 +57,10 @@
             </div>
             <div class="col-sm-12 mb-1">
                 <h6 class="float-sm-left">@Model.SenderUser.FirstName @Model.SenderUser.LastName</h6>
-                <a class="btn btn-outline-secondary float-right btn-sm" role="button" aria-haspopup="true" asp-action="Edit" asp-route-id="@Model.NewsID">
-                    <i class="fas fa-edit"></i>
-                    Edytuj
-                </a>
+                    <a class="btn btn-outline-secondary float-right btn-sm" role="button" aria-haspopup="true" href='javascript:history.go(-1)'>
+                        <i class="fas fa-chevron-left"></i>
+                        Powrót
+                    </a>
             </div>
         </div>
     </div>

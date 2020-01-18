@@ -21,11 +21,15 @@ namespace VetClinic.Intranet.Controllers
         // Nieprzeczytane / nie ogladam wlasnych
         public async Task<IActionResult> Index(string searchString)
         {
+            ViewBag.Tite = "Wiadomosci Nieodczytane";
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
 
+            //var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
+            //    .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.SenderUser.UserID != userid);
+      
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-                .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.IsReaded == false && n.StartDate <= DateTime.Now && n.ExpirationDate >= DateTime.Now && n.SenderUser.UserID != userid);
+                .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.SenderUser.UserID != userid);
 
             ViewData["CurrentFilter"] = searchString;
             if(!String.IsNullOrEmpty(searchString))
@@ -37,14 +41,14 @@ namespace VetClinic.Intranet.Controllers
                 w.Message.Contains(searchString) //||
                // w.AddedDate.ToShortDateString().Contains(searchString)
                 );
-                return View(await searchResult.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+                return View(await searchResult.OrderBy(u => u.UpdatedDate).ToListAsync());
             }
 
-            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderBy(u => u.UpdatedDate).ToListAsync());
         }        
         
         // GET: Moje
-        public async Task<IActionResult> Own()
+        public async Task<IActionResult> Own(string searchString)
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
@@ -54,8 +58,20 @@ namespace VetClinic.Intranet.Controllers
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
             .Where(n => n.SenderUser.UserID == userid && n.IsActive == true && n.IsReaded == false && n.StartDate <= DateTime.Now && n.ExpirationDate >= DateTime.Now);
 
+            ViewData["CurrentFilter"] = searchString;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var searchResult = vetClinicContext.Where(w =>
+                w.SenderUser.FirstName.Contains(searchString) ||
+                w.SenderUser.LastName.Contains(searchString) ||
+                w.Title.Contains(searchString) ||
+                w.Message.Contains(searchString) //||
+                                                 // w.AddedDate.ToShortDateString().Contains(searchString)
+                );
+                return View(await searchResult.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            }
 
-            return View("Index",await vetClinicContext.OrderBy(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderBy(u => u.UpdatedDate).ToListAsync());
         }
 
 
@@ -63,13 +79,14 @@ namespace VetClinic.Intranet.Controllers
         //Przeczytane / nie ogladam wlasnych
         public async Task<IActionResult> Readed()
         {
+            ViewBag.Tite = "Wiadomosci przeczytane";
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
 
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
                 .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.IsReaded == true && n.SenderUser.UserID != userid);
 
-            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View("Index",await vetClinicContext.OrderBy(u => u.UpdatedDate).ToListAsync());
         }
         // GET: News/Create
         public IActionResult Create()
@@ -166,13 +183,24 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
+            var UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+
             //Krzysztof
             //zmiana na przeczytana
-            var newsItem = await _context.News.FindAsync(id);
-            newsItem.UpdatedDate = DateTime.Now;
-            newsItem.IsReaded = true;
-            await _context.SaveChangesAsync();
+            _context.NewsReadeds.Add(
+                new NewsReaded
+                    {
+                    UserId = UserId,
+                    NewsID = Convert.ToInt32(id)
+                    }
+                );
 
+            var newsItem = await _context.News.FindAsync(id);
+            
+            // ! ***************************************To nie jest potrzebne !!
+            //newsItem.UpdatedDate = DateTime.Now;
+            //newsItem.IsReaded = true;
+            await _context.SaveChangesAsync();
 
             ViewBag.LoggedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(s => s.IsActive == true), "UserTypeID", "Name");
