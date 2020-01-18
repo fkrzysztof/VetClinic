@@ -201,10 +201,9 @@
                         <span>Wiadomości</span>
                     </a>
                     <div class="dropdown-menu @Html.IsActive(controllers: "News") @Html.IsActive(controllers: "News")">
-                        <a class="dropdown-item @Html.IsActive("News", "Index", cssClass: "active")" asp-controller="News" asp-action="Index">Nowa</a>
-                        <a class="dropdown-item @Html.IsActive("News", "Index", cssClass: "active")" asp-controller="News" asp-action="Index">Nieodczytane</a>
-                        <a class="dropdown-item @Html.IsActive("News", "Readed", cssClass: "active")" asp-controller="News" asp-action="Readed">Odczytane</a>
-                        <a class="dropdown-item @Html.IsActive("News", "Readed", cssClass: "active")" asp-controller="News" asp-action="Own">Moje</a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "News", actions: "Create", cssClass: "active")" asp-controller="News" asp-action="Create"><i class="fas fa-file  mr-2"></i> @*@if(ViewBag.NewMessage == true) {*@<span class="label label-default">Nowa</span>@*}*@  </a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "News", actions: "Index", cssClass: "active")" asp-controller="News" asp-action="Index"><i class="fas fa-comments mr-2"></i><span>Przychodzące</span></a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "News", actions: "Own", cssClass: "active")" asp-controller="News" asp-action="Own"><i class="fas fa-user-edit mr-2"></i><span>Moje</span></a>
                     </div>
                 </li>
             }
@@ -218,7 +217,7 @@
                         @if (ViewContext.RouteData.Values["action"].ToString() == "Edit" || ViewContext.RouteData.Values["action"].ToString() == "Create" ||
                             ViewContext.RouteData.Values["action"].ToString() == "AddVisit" || ViewContext.RouteData.Values["action"].ToString() == "EditVisit")
                         {
-                            <a class="btn btn-outline-secondary mr-3 btn-sm" role="button" asp-action="Index">
+                            <a class="btn btn-outline-secondary mr-3 btn-sm" role="button" href='javascript:history.go(-1)'>
                                 <span class="fas fa-arrow-circle-left"></span> Wróć do listy
                             </a>
                         }
