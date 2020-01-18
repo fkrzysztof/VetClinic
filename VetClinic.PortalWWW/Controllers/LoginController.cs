@@ -32,7 +32,7 @@ namespace VetClinic.PortalWWW.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(User user)
         {
-            User account = _context.Users.FirstOrDefault(u => u.Login == user.Login);
+            User account = _context.Users.FirstOrDefault(u => u.Login.ToLower() == user.Login.ToLower());
 
             if (account == null)
             {
@@ -53,7 +53,7 @@ namespace VetClinic.PortalWWW.Controllers
                 ModelState.AddModelError("", "Twoje konto jest zablokowane.");
                 return View();
             }
-            else if (account != null && (account.Password == user.Password || veryfyHashPassword) && account.Login == user.Login.ToLower())
+            else if (account != null && (account.Password == user.Password || veryfyHashPassword) && account.Login.ToLower() == user.Login.ToLower())
             {
                 
 
