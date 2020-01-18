@@ -114,7 +114,7 @@ namespace VetClinic.PortalWWW.Controllers
                  ).FirstOrDefault();
 
                 SmtpConf.MessageTo = crrentEmail;
-                SmtpConf.MessageText = "Witamj <br>" 
+                SmtpConf.MessageText = "Witam <br>" 
                                         + "Twoje hasło zostało właśnie zmienione. <br>"
                                         + "<br>"
                                         + "Jeżeli to Ty dokonałeś zmiany hasła możesz zignorować tą wiadomość: <br>"
