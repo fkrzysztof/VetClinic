@@ -12,6 +12,72 @@
         </a>
     </div>
 </div>
+
+
+
+
+
+
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="Filtry">
+            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                <strong>Filtry</strong>
+                <button class="btn btn-link">
+                    <i class="fa fa-bars text-black"></i>
+                </button>
+            </div>
+        </div>
+        <div id="collapse1" class="collapse @(ViewData["currentFilter"] == null ? "" : "show")" aria-labelledby="Filtry" data-parent="#accordion">
+            <div class="card-body">
+
+                <form class="form-inline" asp-action="Index" method="get">
+                    <div class="form-group mb-2">
+                        <label>Wyszukaj po: </label>
+                    </div>
+                    <div class="form-group mx-sm-3 mb-2 col-md-6">
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Login, Nazwisko, E-mail, Miasto" />
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
+                    @if (ViewData["currentFilter"] != null)
+                    {
+                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
+                    }
+
+
+
+
+                    <div class="form-group">
+                        <button class="btn btn-secondary btn dropdown-toggle float-lg-right" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Small button
+                        </button>
+                        <div class="dropdown-menu">
+                            ...
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 <div class="container">
     @foreach (var item in Model)
     {
@@ -21,19 +87,19 @@
                 {
                     var base64 = Convert.ToBase64String(item.SenderUser.Image);
                     var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                    <img style="width: 80px; height:80px" class="card-img" src="@imgSrc" />
+                    <img style="width: 80px; height:80px" class="card-img  mr-2" src="@imgSrc" />
                 }
                 else
                 {
-                    <img style="width: 80px; height:80px" class="card-img" src="~/images/empty_image.png" />
+                    <img style="width: 80px; height:80px" class="card-img  mr-2" src="~/images/empty_image.png" />
                 }
             }
-            <div class="col-md-11 ml-md-2">
+            <div class="col-md-11">
                 <h5>@Html.DisplayFor(modelItem => item.SenderUser.FirstName) @Html.DisplayFor(modelItem => item.SenderUser.LastName)</h5>
                 <span class="card-text">
                     @Html.DisplayFor(modelItem => item.Title)
                 </span><br />
-                <div class="float-md-right align-bottom">
+                <div class="float-right align-bottom">
                     <small class="text-muted align-bottom">@Html.DisplayFor(modelItem => item.AddedDate)</small>
                     <a href="#" class="stretched-link text-decoration-none">&nbsp;</a>
                 </div>
