@@ -260,3 +260,32 @@ a.dropdown-item {
 .nav-item .dropdown-divider {
     border-top-color: #202529;
 }
+
+/* Dialog potwierdzenie zmiany hasła */
+
+.swal2-styled.swal2-confirm {
+    background: #f37159 !important;
+    font-size: 1em !important;
+}
+
+.swal2-title {
+    font-size: 1.2em !important;
+    font-weight: 400 !important;
+}
+
+.swal2-styled.swal2-confirm:focus {
+    box-shadow: none;
+}
+
+.swal2-styled.swal2-confirm:active {
+    box-shadow: none;
+}
+
+.swal2-actions {
+    margin: 0.25em auto 0;
+}
+
+.swal2-container:not(.swal2-top):not(.swal2-top-start):not(.swal2-top-end):not(.swal2-top-left):not(.swal2-top-right):not(.swal2-center-start):not(.swal2-center-end):not(.swal2-center-left):not(.swal2-center-right):not(.swal2-bottom):not(.swal2-bottom-start):not(.swal2-bottom-end):not(.swal2-bottom-left):not(.swal2-bottom-right):not(.swal2-grow-fullscreen) > .swal2-modal {
+    margin: auto;
+    width: 400px;
+}

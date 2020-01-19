@@ -132,6 +132,7 @@ namespace VetClinic.Intranet.Controllers
                 _context.SaveChanges();
 
                 SmtpConf.send();
+                TempData["msg"] = "<script>Swal.fire({icon: 'success', title:'Hasło zostało zmienione.'});</script>";
                 return RedirectToAction("Index", "Home");
             }
             return View();
