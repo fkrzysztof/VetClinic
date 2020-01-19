@@ -14,38 +14,38 @@
     </div>
 </div>
 
-<div class="row" style="text-align: -webkit-center;">
-    @foreach (var item in Model)
-    {
-        <div class="col">
-            <div class="card no-gutters" style="height:200px; width:525px">
-                <div class="row" style="align-items:center;padding-top: 8px; height:200px">
-                    <div class="col-8">
-                        <div class="card-body" style="text-align-last: center;">
-                            <a class="btn btn-outline-primary btn-sm" role="button" asp-action="Edit" asp-route-id="@item.RecentNewsID">
-                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Title)</h5>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-4" style="padding-left:0px;">
-                        <div class="card-body" style="padding-left:0px;">
+<div class="section">
+    <div class="row" style="justify-content:center">
+        <div class="card-deck justify-content-center">
+            @foreach (var item in Model)
+            {
+                <div>
+                    <div class="card text-center recentNewsCard">
+                        <div class="col-4 mx-auto d-flex justify-content-center flex-wrap cardImagePadding" style="padding-top: 15px;">
                             @{
                                 if (item.Image != null)
                                 {
+
                                     var base64 = Convert.ToBase64String(item.Image);
                                     var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                    <img class="card-img recentNewsCardImg" src="@imgSrc" />
+                                    <img class="newsCardImg" src="@imgSrc" alt="Card image cap">
                                 }
                                 else
                                 {
-                                    <img class="card-img recentNewsCardImg" src="~/images/empty_image.png" />
+                                    <img class="newsCardLogo" src="~/images/logo.svg" alt="Card image cap">
                                 }
                             }
                         </div>
+                        <div class="card-body" style="padding-bottom: 0px;">
+                            <h4 class="card-title">@item.LinkTitle</h4>
+                            <p class="card-text giveMeEllipsis">@Html.Raw(item.Title)</p>
+                        </div>
+                        <div class="card-footer bg-transparent border-0 recentNewsCardFooter">
+                            <a class="btn btn-outline-primary" asp-controller="RecentNews" asp-action="Edit" asp-route-id="@item.RecentNewsID" role="button">Więcej &raquo;</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <br>
+            }
         </div>
-    }
+    </div>
 </div>

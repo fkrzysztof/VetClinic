@@ -241,6 +241,36 @@ a.dropdown-item {
     color: #b34a4a5e !important;
 }
 
+.newsCardImg {
+    height: 120px;
+    width: 120px;
+    border-radius: 62px;
+    object-fit: cover;
+}
+
+.newsCardLogo {
+    height: 120px;
+    width: 120px;
+}
+
+.giveMeEllipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* number of lines to show */
+}
+
+.recentNewsCard {
+    height: 311px;
+    width: 350px;
+    margin: 10px;
+}
+
+.recentNewsCardFooter {
+    padding-top: 12px;
+    padding-bottom: 15px;
+}
 /* Dialog potwierdzenie zmiany hasła */
 
 .swal2-styled.swal2-confirm {
