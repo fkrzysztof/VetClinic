@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
-using VetClinic.Data.Helpers;
 using VetClinic.Intranet.Controllers.Abstract;
 
 namespace VetClinic.Intranet.Controllers
@@ -18,28 +17,34 @@ namespace VetClinic.Intranet.Controllers
         public NewsController(VetClinicContext context) : base(context) { }
 
         // GET: Admin
-        // Nieprzeczytane / nie ogladam wlasnych
         public async Task<IActionResult> Index(string searchString)
         {
             ViewBag.Tite = "Wiadomosci Nieodczytane";
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
+            ViewBag.NewMessage = _context.News
 
-            //var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-            //    .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.SenderUser.UserID != userid);
-      
-            var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
+            .Include(i => i.NewsReadeds)
+            .Where(w => w.UserTypeID == usertypeid &&
+                w.SenderUser.UserID != userid &&
+                w.StartDate <= DateTime.Now &&
+                w.ExpirationDate >= DateTime.Now &&
+                w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+            .Count();
+
+            var vetClinicContext = _context.News
+                .Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser).Include(n => n.NewsReadeds)
                 .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.SenderUser.UserID != userid);
 
             ViewData["CurrentFilter"] = searchString;
+
             if(!String.IsNullOrEmpty(searchString))
             {
                 var searchResult = vetClinicContext.Where(w =>
                 w.SenderUser.FirstName.Contains(searchString) ||
                 w.SenderUser.LastName.Contains(searchString) ||
                 w.Title.Contains(searchString) ||
-                w.Message.Contains(searchString) //||
-               // w.AddedDate.ToShortDateString().Contains(searchString)
+                w.Message.Contains(searchString)
                 );
                 return View(await searchResult.OrderBy(u => u.UpdatedDate).ToListAsync());
             }
@@ -53,7 +58,14 @@ namespace VetClinic.Intranet.Controllers
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
 
-
+            ViewBag.NewMessage = _context.News
+            .Include(i => i.NewsReadeds)
+            .Where(w => w.UserTypeID == usertypeid &&
+                w.SenderUser.UserID != userid &&
+                w.StartDate <= DateTime.Now &&
+                w.ExpirationDate >= DateTime.Now &&
+                w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+            .Count();
 
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
             .Where(n => n.SenderUser.UserID == userid && n.IsActive == true && n.IsReaded == false && n.StartDate <= DateTime.Now && n.ExpirationDate >= DateTime.Now);
@@ -65,15 +77,13 @@ namespace VetClinic.Intranet.Controllers
                 w.SenderUser.FirstName.Contains(searchString) ||
                 w.SenderUser.LastName.Contains(searchString) ||
                 w.Title.Contains(searchString) ||
-                w.Message.Contains(searchString) //||
-                                                 // w.AddedDate.ToShortDateString().Contains(searchString)
+                w.Message.Contains(searchString) 
                 );
                 return View(await searchResult.OrderByDescending(u => u.UpdatedDate).ToListAsync());
             }
 
             return View(await vetClinicContext.OrderBy(u => u.UpdatedDate).ToListAsync());
         }
-
 
 
         //Przeczytane / nie ogladam wlasnych
@@ -91,6 +101,19 @@ namespace VetClinic.Intranet.Controllers
         // GET: News/Create
         public IActionResult Create()
         {
+
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
+            int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
+
+            ViewBag.NewMessage = _context.News
+            .Include(i => i.NewsReadeds)
+            .Where(w => w.UserTypeID == usertypeid &&
+                w.SenderUser.UserID != userid &&
+                w.StartDate <= DateTime.Now &&
+                w.ExpirationDate >= DateTime.Now &&
+                w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+            .Count();
+
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true), "UserTypeID", "Name");
 
             return View();
@@ -131,6 +154,18 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
+
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
+            int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
+
+            ViewBag.NewMessage = _context.News
+            .Include(i => i.NewsReadeds)
+            .Where(w => w.UserTypeID == usertypeid &&
+                w.SenderUser.UserID != userid &&
+                w.StartDate <= DateTime.Now &&
+                w.ExpirationDate >= DateTime.Now &&
+                w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+            .Count();
 
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true), "UserTypeID", "Name", news.UserTypeID);
 
@@ -176,6 +211,72 @@ namespace VetClinic.Intranet.Controllers
             return View(news);
         }
         // GET: News/Details/5
+        public async Task<IActionResult> OwnDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
+            int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
+
+            ViewBag.NewMessage = _context.News
+            .Include(i => i.NewsReadeds)
+            .Where(w => w.UserTypeID == usertypeid &&
+                w.SenderUser.UserID != userid &&
+                w.StartDate <= DateTime.Now &&
+                w.ExpirationDate >= DateTime.Now &&
+                w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+            .Count();
+
+
+
+            List<int> userReaded = _context.NewsReadeds
+            .Where(w => w.NewsID == id).Select(s=> s.UserId).ToList();
+
+            List<User> userList = new List<User>();
+            foreach (var item in userReaded)
+            {
+                userList.Add(_context.Users.FirstOrDefault(f => f.UserID == item));
+            }
+
+            ViewBag.UserList = userList;
+
+            var UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+
+            //zmiana na przeczytana
+            if (_context.NewsReadeds.FirstOrDefault(f => f.NewsID == id && f.UserId == UserId) == null)
+            {
+                _context.NewsReadeds.Add(
+                    new NewsReaded
+                    {
+                        UserId = UserId,
+                        NewsID = Convert.ToInt32(id)
+                    }
+                    );
+            }
+            
+            var newsItem = await _context.News.FindAsync(id);
+            await _context.SaveChangesAsync();
+            ViewBag.LoggedUserID = UserId;
+            
+            ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(s => s.IsActive == true), "UserTypeID", "Name");
+            var news = await _context.News
+                .Include(n => n.SenderUser)
+                .Include(n => n.NewsUpdatedUser)
+                .Include(n => n.ReceiverUserTypes)
+                .FirstOrDefaultAsync(m => m.NewsID == id);
+           
+            if (news == null)
+            {
+                return NotFound();
+            }
+            
+            return View(news);
+        }
+
+        // GET: News/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -183,36 +284,48 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
+            int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
+            int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
+
+            ViewBag.NewMessage = _context.News
+            .Include(i => i.NewsReadeds)
+            .Where(w => w.UserTypeID == usertypeid &&
+                w.SenderUser.UserID != userid &&
+                w.StartDate <= DateTime.Now &&
+                w.ExpirationDate >= DateTime.Now &&
+                w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+            .Count();
+
             var UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
 
-            //Krzysztof
             //zmiana na przeczytana
-            _context.NewsReadeds.Add(
-                new NewsReaded
+            if (_context.NewsReadeds.FirstOrDefault(f => f.NewsID == id && f.UserId == UserId) == null)
+            {
+                _context.NewsReadeds.Add(
+                    new NewsReaded
                     {
-                    UserId = UserId,
-                    NewsID = Convert.ToInt32(id)
+                        UserId = UserId,
+                        NewsID = Convert.ToInt32(id)
                     }
-                );
-
-            var newsItem = await _context.News.FindAsync(id);
+                    );
+            }
             
-            // ! ***************************************To nie jest potrzebne !!
-            //newsItem.UpdatedDate = DateTime.Now;
-            //newsItem.IsReaded = true;
+            var newsItem = await _context.News.FindAsync(id);
             await _context.SaveChangesAsync();
-
-            ViewBag.LoggedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+            ViewBag.LoggedUserID = UserId;
+            
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(s => s.IsActive == true), "UserTypeID", "Name");
             var news = await _context.News
                 .Include(n => n.SenderUser)
                 .Include(n => n.NewsUpdatedUser)
                 .Include(n => n.ReceiverUserTypes)
                 .FirstOrDefaultAsync(m => m.NewsID == id);
+           
             if (news == null)
             {
                 return NotFound();
             }
+            
             return View(news);
         }
 
@@ -225,8 +338,8 @@ namespace VetClinic.Intranet.Controllers
             var news = await _context.News.FindAsync(id);
             news.UpdatedDate = DateTime.Now;
             news.IsReaded = true;
-
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -238,8 +351,8 @@ namespace VetClinic.Intranet.Controllers
             var news = await _context.News.FindAsync(id);
             news.UpdatedDate = DateTime.Now;
             news.IsActive = false;
-
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

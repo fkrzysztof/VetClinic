@@ -32,73 +32,10 @@
             </div>
             <div class="col-sm-12 mb-1">
                 <h6 class="float-sm-left">@Model.SenderUser.FirstName @Model.SenderUser.LastName</h6>
-                    <a class="btn btn-outline-secondary float-right btn-sm" role="button" aria-haspopup="true" href='javascript:history.go(-1)'>
+                    <a class="btn btn-outline-secondary float-right btn-sm" role="button" aria-haspopup="true" asp-action="Index">
                         <i class="fas fa-chevron-left"></i>
                         Powrót
                     </a>
             </div>
         </div>
     </div>
-
-
-
-
-
-            @*<form method="post">
-            <div class="form-row">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <div class="form-group col-md-6">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="label1">Grupa odbiorców</span>
-                        </div>
-                        <select asp-for="UserTypeID" class="form-control" aria-describedby="label1" asp-items="ViewBag.UserTypeID" readonly></select>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="label1">Tytuł</span>
-                        </div>
-                        <input asp-for="Title" class="form-control" aria-describedby="label1" readonly />
-                        <span asp-validation-for="Title" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Treść</span>
-                        </div>
-                        <textarea asp-for="Message" class="form-control" rows="4" readonly></textarea>
-                        <span asp-validation-for="Message" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        <div class="form-row">
-            @ if (Model.IsReaded == false)
-            {
-                <form asp-action="Read" asp-route-id="@Model.NewsID">
-                    <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Odczytaj" class="btn btn-outline-success buttMargin" />
-                </form>
-            }
-
-            @ if (Model.UserID == ViewBag.LoggedUserID)
-            {
-                <form asp-action="Edit" method="get" asp-route-id="@Model.NewsID">
-                    <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Edytuj" class="btn btn-outline-danger buttMargin" />
-                </form>
-            }
-
-            @ section Scripts {
-                @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-            }
-        </div>*@

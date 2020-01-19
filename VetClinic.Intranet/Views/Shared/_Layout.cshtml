@@ -201,8 +201,14 @@
                         <span>Wiadomości</span>
                     </a>
                     <div class="dropdown-menu @Html.IsActive(controllers: "News") @Html.IsActive(controllers: "News")">
-                        <a class="dropdown-item @Html.IsActive(controllers: "News", actions: "Create", cssClass: "active")" asp-controller="News" asp-action="Create"><i class="fas fa-file  mr-2"></i> @*@if(ViewBag.NewMessage == true) {*@<span class="label label-default">Nowa</span>@*}*@  </a>
-                        <a class="dropdown-item @Html.IsActive(controllers: "News", actions: "Index", cssClass: "active")" asp-controller="News" asp-action="Index"><i class="fas fa-comments mr-2"></i><span>Przychodzące</span></a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "News", actions: "Create", cssClass: "active")" asp-controller="News" asp-action="Create"><i class="fas fa-file  mr-2"></i><span>Nowa</span></a>
+                        <a class="dropdown-item @Html.IsActive(controllers: "News", actions: "Index", cssClass: "active")" asp-controller="News" asp-action="Index">
+                            <i class="fas fa-comments mr-2"></i><span>Przychodzące</span>
+                            @if (ViewBag.NewMessage > 0)
+                            {
+                                <span class="badge badge-secondary">@ViewBag.NewMessage</span>
+                            }
+                        </a>
                         <a class="dropdown-item @Html.IsActive(controllers: "News", actions: "Own", cssClass: "active")" asp-controller="News" asp-action="Own"><i class="fas fa-user-edit mr-2"></i><span>Moje</span></a>
                     </div>
                 </li>

@@ -131,5 +131,6 @@ namespace VetClinic.Data.Data.Clinic
         public ICollection<UserTypePermission> AddedUserTypePermission { get; set; }
         [InverseProperty("UserTypePermissionUpdatedUser")]
         public ICollection<UserTypePermission> UpdatedUserTypePermission { get; set; }
+
     }
 }
