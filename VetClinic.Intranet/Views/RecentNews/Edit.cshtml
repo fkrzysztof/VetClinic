@@ -16,7 +16,7 @@
                 <input type="hidden" asp-for="AddedUserID" />
                 <input type="hidden" asp-for="UpdatedUserID" />
                 <input type="hidden" asp-for="UpdatedDate" />
-                <div class="form-group col" style="max-width: 370px;">
+                <div class="form-group col NewsCardImgCol">
                     <div class="input-group colrow">
                         <div class="input-group-append">
                             <div class="card-image">
@@ -25,11 +25,11 @@
                                     {
                                         var base64 = Convert.ToBase64String(Model.Image);
                                         var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                        <img style="width: 350px; height: 300px; object-fit: cover; border-radius:5px;" src="@imgSrc" />
+                                        <img class="NewsImg" src="@imgSrc" />
                                     }
                                     else
                                     {
-                                        <img style="width: 350px; height: 300px; object-fit: cover; border-radius:5px;" src="~/images/empty_image.png" />
+                                        <img class="NewsImg" src="~/images/empty_image.png" />
                                     }
                                 }
                                 <br />
