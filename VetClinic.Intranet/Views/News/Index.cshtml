@@ -53,20 +53,15 @@
 
 
 
-
-
 <div class="container">
     @foreach (var item in Model)
     {
         <div class="row no-gutters rounded shadow-sm mt-2 mb-2 
-             @*@foreach (var item2 in item.NewsReadeds)
-             {
-                 @if (item2.UserId == item.SenderUser.UserID && item2.NewsID == item.NewsID)
-                 {*@
-                 @*@ :bg-light*@
-             @*} 
-             }*@
-             ">
+            @if(item.NewsReadeds.FirstOrDefault(f => f.NewsID == item.NewsID) != null)
+            {
+                     @: bg-light
+            }
+        ">
 
             @{
                  if (item.SenderUser.Image != null)
@@ -81,7 +76,7 @@
                 }
             }
         <div class="col-md-11">
-            @if (item.IsReaded == true)
+            @if(item.NewsReadeds.FirstOrDefault(f => f.NewsID == item.NewsID) != null)
             {
                 <i class="fas fa-envelope-open float-right m-1"></i>
             }

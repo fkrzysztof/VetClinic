@@ -15,5 +15,6 @@ namespace VetClinic.Data.Data.Clinic
 
         public int UserId { get; set; }
 
+
     }
 }

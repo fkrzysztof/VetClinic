@@ -49,6 +49,16 @@ namespace VetClinic.Intranet.Controllers
                                         .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.IsReaded == false)
                                         .OrderBy(o => o.AddedDate);
 
+            ViewBag.NewMessage = _context.News
+                .Include(i => i.NewsReadeds)
+                .Where(w => w.UserTypeID == usertypeid && 
+                    w.SenderUser.UserID != userid && 
+                    w.StartDate <= DateTime.Now && 
+                    w.ExpirationDate >= DateTime.Now && 
+                    w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+                .Count();
+
+
             while (true)
             {
                 if (now.DayOfWeek != DayOfWeek.Monday)
