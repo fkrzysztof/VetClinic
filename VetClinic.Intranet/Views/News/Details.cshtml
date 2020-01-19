@@ -1,65 +1,42 @@
 ﻿@model VetClinic.Data.Data.Clinic.News
 
 @{
-    ViewData["Title"] = String.Format("Wiadomość");
+    ViewData["Title"] = String.Format("Wiadomość od: {0} {1}", @Model.SenderUser.FirstName, @Model.SenderUser.LastName);
 }
 
-
-<form method="post">
-    <div class="form-row">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Grupa odbiorców</span>
-                </div>
-                <select asp-for="UserTypeID" class="form-control" aria-describedby="label1" asp-items="ViewBag.UserTypeID" readonly></select>
-            </div>
+    <div class="container">
+        <div class="row">
+            <h4>@Model.Title</h4>
         </div>
+        <div class="row">
+            <p>@Model.Message</p>
+        </div>
+        <div class="row">
+            @if (Model.IsReaded == false)
+            {
+                <form asp-action="Read" asp-route-id="@Model.NewsID">
+                    <input type="hidden" asp-for="NewsID" />
+                    <input type="submit" value="Oznacz jako odczytaną" class="btn btn-outline-success buttMargin" />
+                </form>
+            }
+            @if (Model.IsReaded == true)
+            {
+                <form asp-action="Restore" asp-route-id="@Model.NewsID">
+                    <input type="hidden" asp-for="NewsID" />
+                    <input type="submit" value="Oznacz jako nieodczytaną" class="btn btn-outline-success buttMargin" />
+                </form>
+            }
 
-        <div class="form-group col-md-6">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="label1">Tytuł</span>
-                </div>
-                <input asp-for="Title" class="form-control" aria-describedby="label1" readonly />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
+            @if (Model.UserID == ViewBag.LoggedUserID)
+            {
+                <form asp-action="Edit" method="get" asp-route-id="@Model.NewsID">
+                    <input type="hidden" asp-for="NewsID" />
+                    <input type="submit" value="Edytuj" class="btn btn-outline-danger buttMargin" />
+                </form>
+            }
+
+            @section Scripts {
+                @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+            }
         </div>
     </div>
-
-    <div class="form-row">
-        <div class="form-group col-12">
-            <div class="input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text">Treść</span>
-                </div>
-                <textarea asp-for="Message" class="form-control" rows="4" readonly></textarea>
-                <span asp-validation-for="Message" class="text-danger"></span>
-            </div>
-        </div>
-    </div>
-</form>
-
-<div class="form-row">
-    @if (Model.IsReaded == false)
-    {
-        <form asp-action="Read" asp-route-id="@Model.NewsID">
-            <input type="hidden" asp-for="NewsID" />
-            <input type="submit" value="Odczytaj" class="btn btn-outline-success buttMargin" />
-        </form>
-    }
-
-    @if (Model.UserID == ViewBag.LoggedUserID)
-    {
-        <form asp-action="Edit" method="get" asp-route-id="@Model.NewsID">
-            <input type="hidden" asp-for="NewsID" />
-            <input type="submit" value="Edytuj" class="btn btn-outline-danger buttMargin" />
-        </form>
-    }
-
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
-</div>

@@ -263,10 +263,17 @@ a.dropdown-item {
   -webkit-line-clamp: 2; /* number of lines to show */
 }
 
+.Ellipsis3r {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* number of lines to show */
+}
 .recentNewsCard {
-  height: 311px;
-  width: 350px;
-  margin: 10px;
+    height: 311px;
+    width: 350px;
+    margin: 10px;
 }
 
 .recentNewsCardFooter {

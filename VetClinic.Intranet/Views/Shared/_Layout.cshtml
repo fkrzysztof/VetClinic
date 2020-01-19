@@ -218,7 +218,8 @@
                 <div class="card">
                     <div class="card-header">
                         @if (ViewContext.RouteData.Values["action"].ToString() == "Edit" || ViewContext.RouteData.Values["action"].ToString() == "Create" ||
-                          ViewContext.RouteData.Values["action"].ToString() == "AddVisit" || ViewContext.RouteData.Values["action"].ToString() == "EditVisit")
+                          ViewContext.RouteData.Values["action"].ToString() == "AddVisit" || ViewContext.RouteData.Values["action"].ToString() == "EditVisit" ||
+                          ViewContext.RouteData.Values["action"].ToString() == "Details")
                         {
                             <a class="btn btn-outline-secondary mr-3 btn-sm" role="button" asp-action="Index">
                                 <span class="fas fa-arrow-circle-left"></span> Wróć do listy
