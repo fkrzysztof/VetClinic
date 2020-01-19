@@ -4,13 +4,10 @@
 @{
     ViewData["Title"] = "Przyjęcia na dziś";
 }
-<Scripts>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="~/css/WidokDzisiejszePrzyjecia.css" rel="stylesheet" />
-</Scripts>
-    <a class="btn btn-outline-success mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Reservations">
-        Rezerwacje
-    </a>
+
+<a class="btn btn-outline-success mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Reservations">
+    Rezerwacje
+</a>
 
 <div class="row">
     @foreach (var item in Model)
@@ -50,3 +47,8 @@
         </div>
     }
 </div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
