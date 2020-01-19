@@ -261,6 +261,19 @@ a.dropdown-item {
     border-top-color: #202529;
 }
 
+.giveMeEllipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* number of lines to show */
+}
+
+.crewIndexImg {
+    height: 300px;
+    max-width: 300px;
+    object-fit: cover;
+}
 /* Dialog potwierdzenie zmiany hasła */
 
 .swal2-styled.swal2-confirm {

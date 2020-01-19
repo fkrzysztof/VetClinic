@@ -35,9 +35,9 @@
                                 <div class="card">
                                     <div class="card-body text-center mt-4">
                                         <h4 class="card-title">@item.FirstName @item.LastName</h4>
-                                        <p class="card-text">@item.Description</p>
+                                        <p class="giveMeEllipsis" class="card-text">@item.Description</p>
                                     </div>
-                                    <div class="card-footer bg-transparent border-0">
+                                    <div class="card-footer bg-transparent border-0" style="padding-bottom: 21px; padding-top:0px">
                                         <center>
                                             <a class="btn secColor" asp-controller="Crews" asp-action="Index" asp-route-id="@item.UserID" role="button">Więcej &raquo;</a>
                                         </center>
