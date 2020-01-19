@@ -57,7 +57,7 @@
                                     <span class="input-group-text" id="label1">Hasło</span>
                                 </div>
                                 <input type="hidden" id="passwordInput" asp-for="Password" class="form-control" aria-describedby="label1" />
-                                <input onclick="generatePassword()" class="generate-pass btn-primary form-control valid" data-toggle="modal" data-target="#generatePasswordModal" type="button" value="Generuj hasło" aria-invalid="false">
+                                <input id="passPop" type="button" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="Nowe hasło zostało wygenerowane, nie zapomnij zapisać zmian!" onclick="generatePassword()" value="Generuj hasło" class="generate-pass btn-primary form-control valid" />
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                         </div>
@@ -260,6 +260,11 @@
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#passPop').popover();
+    })
+</script>
 
 <script>
     $(document).ready(function () {
