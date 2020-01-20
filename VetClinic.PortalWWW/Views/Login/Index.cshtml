@@ -28,22 +28,15 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-label-group col">
-                                    <div class="custom-control custom-checkbox mb-3">
-                                        <input type="checkbox" class="custom-control-input" id="CheckMe" name="CheckMe">
-                                        <label class="custom-control-label" for="CheckMe">Zapamiętaj hasło</label>
-                                    </div>
-                                </div>
-                                <div class="form-label-group">
-                                    @Html.ActionLink("Zresetuj hasło", "RemindPassword", "Login")
+                                <div class="form-label-group col" style="text-align: center;">
+                                    <p>Nie pamiętasz hasła? @Html.ActionLink("Zresetuj hasło", "RemindPassword", "Login")</p>
                                 </div>
                             </div>
                             <button class="btn btn-lg btn-secondary btn-block text-uppercase" type="submit">Zaloguj</button>
                         </form>
                         <hr class="my-4">
                         <div class=" text-center">
-                            <h6>Nie masz konta? Zarejestruj się!</h6>
-                            @Html.ActionLink("Rejestracja", "Registration", "Login")
+                            <p style="margin-bottom:0px">Nie masz konta? @Html.ActionLink("Zarejestruj się", "Registration", "Login")</p>
                         </div>
                     </div>
                 </div>
