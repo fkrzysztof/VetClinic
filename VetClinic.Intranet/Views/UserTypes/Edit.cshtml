@@ -4,167 +4,209 @@
     ViewBag.Title = String.Format("Zarządzaj grupą uprawnień {0}", @Model.typeUser.Name);
 }
 
-<div class="container">
-    <div class="row" style="place-content:center">
-        <form asp-action="Edit" id="saveForm">
-
-            <div class="row">
-                <div class="mb-3 col-12">
-                    <div>
-                        <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
-                        <input type="hidden" asp-for="@Model.typeUser.AddedDate" />
-                        <input type="hidden" asp-for="@Model.typeUser.UpdatedDate" />
-                        <input type="hidden" asp-for="@Model.typeUser.AddedUserID" />
-                        <input type="hidden" asp-for="@Model.typeUser.UpdatedUserID" />
-                        <input type="hidden" asp-for="@Model.permissionsUser" />
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Nazwa</span>
-                            </div>
-                            <input type="text" asp-for="@Model.typeUser.Name" class="form-control" aria-describedby="label1" />
-                            <span asp-validation-for="@Model.typeUser.Name" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-3 col-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">Opis</span>
-                        </div>
-                        <textarea asp-for="@Model.typeUser.Description" class="form-control" rows="4"></textarea>
-                        <span asp-validation-for="@Model.typeUser.Description" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-3">
-                <div class="col-sm-4">
-                    <h4>Uprawnienia grupy:</h4>
-                    <div class="row col-12">
-                        <table class="table-borderless table-hover text-left col-sm-12">
-                            <tbody>
-
-                                @foreach (var item in Model.permissionsUser)
-                                {
-                                    <tr>
-                                        <td>
-                                            <label for="@String.Format("role_{0}", @item.UserPermissionID)">@Html.DisplayFor(modelItem => item.Permission.Name)</label>
-                                        </td>
-                                        <td class="text-right">
-                                            <input type="checkbox" id="@String.Format("role_{0}", @item.UserPermissionID)" name="select_permission" checked="checked" value="@item.UserPermissionID" />
-                                        </td>
-                                    </tr>
-                                }
-
-                                @foreach (var item in Model.permissionsNotSelected)
-                                {
-                                    <tr>
-                                        <td>
-                                            <label for="@String.Format("notrole_{0}", @item.PermissionID)">@Html.DisplayFor(modelItem => item.Name)</label>
-                                        </td>
-                                        <td class="text-right">
-                                            <input type="checkbox" id="@String.Format("notrole_{0}", @item.PermissionID)" name="select_permission" value="@item.PermissionID" />
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <h4>Użytkownicy grupy:</h4>
-                    <div class="row col-12">
-                        <table class="table-borderless table-hover text-left col-sm-12">
-                            <tbody>
-                                @foreach (var item in Model.users.Where(w => w.UserTypeID == Model.typeUser.UserTypeID && w.IsActive == true))
-                                {
-                                    <tr>
-                                        <td>
-                                            <label for="@String.Format("user_{0}", @item.UserID)">
-                                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-                                            </label>
-                                        </td>
-                                        <td class="text-right">
-                                            <input type="checkbox" id="@String.Format("user_{0}", @item.UserID)" name="select_user" checked="@item.IsActive? 'checked':'' " value="@item.UserID" />
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <h3>Dodaj</h3>
-                    <div class="row col-12">
-                        <table class="table-borderless table-hover text-left col-sm-12">
-                            <tbody>
-                                @foreach (var item in Model.users.Where(w => w.UserTypeID != Model.typeUser.UserTypeID && w.IsActive == true))
-                                {
-                                    <tr>
-                                        <td>
-                                            <label for="@String.Format("newuser_{0}", @item.UserID)">
-                                                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
-                                            </label>
-                                        </td>
-                                        <td class="text-right">
-                                            <input type="checkbox" id="@String.Format("newuser_{0}", @item.UserID)" name="select_new_user" value="@item.UserID" />
-                                        </td>
-
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+<form asp-action="Edit" id="saveForm">
     <div class="row">
-        <div class="col">
-            @if (Model.typeUser.IsActive)
-            {
-                <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-outline-danger buttMargin" data-toggle="modal" data-target="#myModal">
-                    Usuń
-                </button>
+        <div class="mb-3 col-12">
+            <div>
+                <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
+                <input type="hidden" asp-for="@Model.typeUser.AddedDate" />
+                <input type="hidden" asp-for="@Model.typeUser.UpdatedDate" />
+                <input type="hidden" asp-for="@Model.typeUser.AddedUserID" />
+                <input type="hidden" asp-for="@Model.typeUser.UpdatedUserID" />
+                <input type="hidden" asp-for="@Model.permissionsUser" />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-default">Nazwa</span>
+                    </div>
+                    <input type="text" asp-for="@Model.typeUser.Name" class="form-control" aria-describedby="label1" />
+                    <span asp-validation-for="@Model.typeUser.Name" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 col-12">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Opis</span>
+                </div>
+                <textarea asp-for="@Model.typeUser.Description" class="form-control" rows="4"></textarea>
+                <span asp-validation-for="@Model.typeUser.Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-4">
+            <h4>Uprawnienia grupy:</h4>
+            <div class="row col-12">
+                <table class="table-borderless table-hover text-left col-sm-12">
+                    <tbody>
 
-                <!-- The Modal -->
-                <div class="modal" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
+                        @foreach (var item in Model.permissionsUser)
+                        {
+                            <tr>
+                                <td>
+                                    <label for="@String.Format("role_{0}", @item.UserPermissionID)">@Html.DisplayFor(modelItem => item.Permission.Name)</label>
+                                </td>
+                                <td class="text-right">
+                                    <input type="checkbox" id="@String.Format("role_{0}", @item.UserPermissionID)" name="select_permission" checked="checked" value="@item.UserPermissionID" />
+                                </td>
+                            </tr>
+                        }
 
-                            <div class="modal-header">
-                                <h4 class="modal-title">Uwaga!</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
+                        @foreach (var item in Model.permissionsNotSelected)
+                        {
+                            <tr>
+                                <td>
+                                    <label for="@String.Format("notrole_{0}", @item.PermissionID)">@Html.DisplayFor(modelItem => item.Name)</label>
+                                </td>
+                                <td class="text-right">
+                                    <input type="checkbox" id="@String.Format("notrole_{0}", @item.PermissionID)" name="select_permission" value="@item.PermissionID" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h4>Użytkownicy grupy:</h4>
+            <div class="row col-12">
+                <table class="table-borderless table-hover text-left col-sm-12">
+                    <tbody>
+                        @foreach (var item in Model.users.Where(w => w.UserTypeID == Model.typeUser.UserTypeID && w.IsActive == true))
+                        {
+                            <tr>
+                                <td>
+                                    <label for="@String.Format("user_{0}", @item.UserID)">
+                                        @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+                                    </label>
+                                </td>
+                                <td class="text-right">
+                                    <input type="checkbox" id="@String.Format("user_{0}", @item.UserID)" name="select_user" checked="@item.IsActive? 'checked':'' " value="@item.UserID" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h3>Dodaj</h3>
+            <div class="row col-12">
+                <table id="myTable" class="table-borderless table-hover text-left col-sm-12">
+                    <tbody>
+                    </tbody>
+                </table>
+                <div>
+                    <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                Czy chcesz usunąć grupę uprawnień?
-                            </div>
+<div class="row">
+    <div class="col">
+        @if (Model.typeUser.IsActive)
+        {
+            <!-- Button to Open the Modal -->
+            <button type="button" class="btn btn-outline-danger buttMargin" data-toggle="modal" data-target="#myModal">
+                Usuń
+            </button>
+
+            <!-- The Modal -->
+            <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title">Uwaga!</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            Czy chcesz usunąć grupę uprawnień?
+                        </div>
 
 
-                            <div class="modal-footer">
-                                <form asp-action="Delete" asp-route-id="@Model.typeUser.UserTypeID">
-                                    <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
-                                    <input type="submit" value="Tak" class="btn btn-outline-danger buttMargin" />
-                                    <button type="button" class="btn btn-outline-secondary buttMargin" data-dismiss="modal">Nie</button>
-                                </form>
-                            </div>
+                        <div class="modal-footer">
+                            <form asp-action="Delete" asp-route-id="@Model.typeUser.UserTypeID">
+                                <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
+                                <input type="submit" value="Tak" class="btn btn-outline-danger buttMargin" />
+                                <button type="button" class="btn btn-outline-secondary buttMargin" data-dismiss="modal">Nie</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-                @*<form asp-action="Delete" asp-route-id="@Model.typeUser.UserTypeID" onsubmit="alert('Na pewno chcesz usunąć grupę uprawnień?')">
-                <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
-                <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
-            </form>*@
-            }
-        </div>
-        <div class="col">
-            <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin" />
+            </div>
+            @*<form asp-action="Delete" asp-route-id="@Model.typeUser.UserTypeID" onsubmit="alert('Na pewno chcesz usunąć grupę uprawnień?')">
+                    <input type="hidden" asp-for="@Model.typeUser.UserTypeID" />
+                    <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
+                </form>*@
+        }
+    </div>
+    <div class="col">
+        <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin" />
+    </div>
+</div>
+<div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Lista Urzytkowników</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
         </div>
     </div>
-
 </div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script>
+    $('#add').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("ChooseOwner","Patients")',
+                success: (data) => {
+                    $('#exampleModal').find('.modal-body').html(data);
+                    $('#exampleModal').modal('show');
+                    $(document).ready(function () {
+                        $('#exampleModal').on('hidden.bs.modal', function () {
+                            if (typeof (window.name) != 'undefined') {
+                                var tr = document.createElement("TR");
+                                tr.setAttribute("id", "myTr");
+                                document.getElementById("myTable").appendChild(tr);
+                                var td = document.createElement("TD");
+                                var checkbox = document.createElement('input');
+                                checkbox.type = "hidden";
+                                checkbox.name = "select_new_user";
+                                checkbox.value = window.id;
+                                checkbox.id = "notrole_" + window.id;
+                                var label = document.createElement('label');
+                                label.htmlFor = "newuser_" + window.id;
+                                label.appendChild(document.createTextNode(window.name));
+                                td.appendChild(checkbox);
+                                td.appendChild(label);
+                                tr.appendChild(td);
+                                document.getElementById("myTable").appendChild(tr);
+                                delete window.id;
+                                delete window.name;
+                            }
+                        });
+                    });
+                }
+            })
+    });
+</script>
 
 
 
