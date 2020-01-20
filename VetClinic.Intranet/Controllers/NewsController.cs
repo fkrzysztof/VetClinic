@@ -31,10 +31,11 @@ namespace VetClinic.Intranet.Controllers
                 w.ExpirationDate >= DateTime.Now &&
                 w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
             .Count();
-
+            //poprawione
             var vetClinicContext = _context.News
                 .Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser).Include(n => n.NewsReadeds)
-                .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.SenderUser.UserID != userid);
+                .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.StartDate <= DateTime.Now &&
+                n.ExpirationDate >= DateTime.Now && n.SenderUser.UserID != userid);
 
             ViewData["CurrentFilter"] = searchString;
 
@@ -68,7 +69,7 @@ namespace VetClinic.Intranet.Controllers
             .Count();
 
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-            .Where(n => n.SenderUser.UserID == userid && n.IsActive == true && n.IsReaded == false && n.StartDate <= DateTime.Now && n.ExpirationDate >= DateTime.Now);
+            .Where(n => n.SenderUser.UserID == userid && n.IsActive == true && n.StartDate <= DateTime.Now && n.ExpirationDate >= DateTime.Now);
 
             ViewData["CurrentFilter"] = searchString;
             if (!String.IsNullOrEmpty(searchString))
@@ -94,7 +95,7 @@ namespace VetClinic.Intranet.Controllers
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
 
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-                .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.IsReaded == true && n.SenderUser.UserID != userid);
+                .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.SenderUser.UserID != userid);
 
             return View("Index",await vetClinicContext.OrderBy(u => u.UpdatedDate).ToListAsync());
         }
@@ -114,7 +115,8 @@ namespace VetClinic.Intranet.Controllers
                 w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
             .Count();
 
-            ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true), "UserTypeID", "Name");
+            ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true && 
+            ut.Name != "No7818Permissions" && ut.Name != "Klienci" ) , "UserTypeID", "Name");
 
             return View();
         }
@@ -231,9 +233,8 @@ namespace VetClinic.Intranet.Controllers
             .Count();
 
 
-
             List<int> userReaded = _context.NewsReadeds
-            .Where(w => w.NewsID == id).Select(s=> s.UserId).ToList();
+            .Where(w => w.NewsID == id && w.UserId != userid).Select(s=> s.UserId).ToList();
 
             List<User> userList = new List<User>();
             foreach (var item in userReaded)
@@ -242,21 +243,7 @@ namespace VetClinic.Intranet.Controllers
             }
 
             ViewBag.UserList = userList;
-
             var UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
-
-            //zmiana na przeczytana
-            if (_context.NewsReadeds.FirstOrDefault(f => f.NewsID == id && f.UserId == UserId) == null)
-            {
-                _context.NewsReadeds.Add(
-                    new NewsReaded
-                    {
-                        UserId = UserId,
-                        NewsID = Convert.ToInt32(id)
-                    }
-                    );
-            }
-            
             var newsItem = await _context.News.FindAsync(id);
             await _context.SaveChangesAsync();
             ViewBag.LoggedUserID = UserId;
@@ -338,7 +325,6 @@ namespace VetClinic.Intranet.Controllers
         {
             var news = await _context.News.FindAsync(id);
             news.UpdatedDate = DateTime.Now;
-            news.IsReaded = true;
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
@@ -363,7 +349,6 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> RestoreConfirmed(int id)
         {
             var news = await _context.News.FindAsync(id);
-            news.IsReaded = false;
             news.UpdatedDate = DateTime.Now;
             await _context.SaveChangesAsync();
 

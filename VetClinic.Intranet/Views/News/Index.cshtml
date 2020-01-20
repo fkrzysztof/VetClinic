@@ -49,15 +49,11 @@
     </div>
 </div>
 
-
-
-
-
 <div class="container">
     @foreach (var item in Model)
     {
         <div class="row no-gutters rounded shadow-sm mt-2 mb-2 
-            @if(item.NewsReadeds.FirstOrDefault(f => f.NewsID == item.NewsID) != null)
+            @if(item.NewsReadeds.FirstOrDefault(f => f.NewsID == item.NewsID) == null)
             {
                      @: bg-light
             }
