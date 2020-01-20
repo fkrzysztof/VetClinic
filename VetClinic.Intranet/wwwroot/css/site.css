@@ -264,16 +264,16 @@ a.dropdown-item {
 }
 
 .Ellipsis3r {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3; /* number of lines to show */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* number of lines to show */
 }
 .recentNewsCard {
-    height: 311px;
-    width: 350px;
-    margin: 10px;
+  height: 311px;
+  width: 350px;
+  margin: 10px;
 }
 
 .recentNewsCardFooter {
@@ -319,4 +319,33 @@ a.dropdown-item {
   > .swal2-modal {
   margin: auto;
   width: 400px;
+  width: 140px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow: -5px 5px 30px rgba(0, 0, 0, 0.1), 5px -5px 30px rgba(0, 0, 0, 0.1);
+}
+
+.blockquote {
+  padding: 0.5rem 1rem;
+  border-left: 0.25rem solid #eceeef;
+}
+
+.akapit {
+  color: white;
+}
+
+.link {
+  color: white;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.link:hover {
+  color: ghostwhite;
+  text-decoration: underline;
+}
+
+.kolorKafelka {
+  background-color: #f37159 !important;
 }
