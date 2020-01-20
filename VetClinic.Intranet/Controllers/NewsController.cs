@@ -135,6 +135,7 @@ namespace VetClinic.Intranet.Controllers
             }
             ViewBag.LoggedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(s => s.IsActive == true), "UserTypeID", "Name");
+            ViewData["SenderUser"] = _context.News.Where(u=>u.UserID == id);
             var news = await _context.News
                 .Include(n => n.SenderUser)
                 .Include(n => n.NewsUpdatedUser)

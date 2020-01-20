@@ -82,7 +82,7 @@
         </form>
     </div>
     <div class="row">
-        <div class="col">
+        <div class="col" style="max-width:85px">
             @if (Model.IsActive)
             {
                 <!-- Button to Open the Modal -->
@@ -121,11 +121,13 @@
                 <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
             </form>*@
             }
-            else
+        </div>
+        <div class="col">
+            @if (Model.IsReaded)
             {
                 <form asp-action="Restore" asp-route-id="@Model.NewsID">
                     <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Przywróć" class="btn btn-outline-success buttMargin" />
+                    <input type="submit" value="Oznacz jako nieodczytaną" class="btn btn-outline-success buttMargin" />
                 </form>
             }
         </div>

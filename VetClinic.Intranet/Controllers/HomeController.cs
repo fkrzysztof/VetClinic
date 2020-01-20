@@ -46,7 +46,8 @@ namespace VetClinic.Intranet.Controllers
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
             ViewBag.VetClinicContext = _context.News.Include(n => n.NewsUpdatedUser)
                                         .Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-                                        .Where(n => n.UserTypeID == usertypeid && n.IsActive == true).OrderBy(o => o.AddedDate).Take(4);
+                                        .Where(n => n.UserTypeID == usertypeid && n.IsActive == true && n.IsReaded == false)
+                                        .OrderBy(o => o.AddedDate);
 
             while (true)
             {
@@ -62,7 +63,7 @@ namespace VetClinic.Intranet.Controllers
             sb.InaccessibleDay = _context.InaccessibleDays.Select(s => s.Date).ToList();
             //dodanie kolekcji godzin pracy przychodni
             sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy(o => o.Time).ToList();
-            ViewBag.UserID = null;
+            ///ViewBag.UserID = null;
             
             if (HttpContext.Session.GetString("Login") != null)
             {
