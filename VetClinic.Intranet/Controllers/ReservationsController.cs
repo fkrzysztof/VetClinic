@@ -157,5 +157,39 @@ namespace VetClinic.Intranet.Controllers
         {
             return _context.Reservations.Any(e => e.ReservationID == id);
         }
+
+
+        public async Task<IActionResult> ShowOwnReservation(string searchString)
+        {
+
+            if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+            {
+                int UserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                var data = DateTime.Today;
+                List<int> listreservationsID = _context.Reservations.Where(v => v.ReservationAddedUser.UserID== UserID).Where(v=>v.DateOfVisit>data).Where(v => v.DateOfVisit<data.AddDays(1)).Select(p => p.ReservationID).ToList();
+                var ownReservations = _context.Reservations.Include(p => p.Patients).Include(p=>p.ReservationUser).Where(v => listreservationsID.Contains(v.ReservationID));
+
+                ViewData["CurrentFilter"] = searchString;
+                ViewData["PatientUserID"] = new SelectList(_context.PatientTypes, "PatientUserID", "Name");
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                    ownReservations = (from order in ownReservations
+                                   where order.Patients.Name.Contains(searchString) || order.Patients.PatientNumber.Contains(searchString)
+                                                                                || order.Patients.PatientUser.FirstName.Contains(searchString)
+                                                                                || order.Patients.PatientUser.LastName.Contains(searchString)
+                                                                                || order.Patients.PatientType.Name.Contains(searchString)
+                                   select order)
+                                        .Include(m => m.Patients.PatientUser)
+                                        .Include(m => m.Patients.PatientType)
+                                        .Include(m => m.Patients.Visits);
+
+                }
+
+                return View(await ownReservations.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+
+            }
+            return View();
+        }
     }
 }

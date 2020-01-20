@@ -1,0 +1,54 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
+
+
+@{
+    ViewData["Title"] = "Przyjęcia na dziś";
+}
+
+<a class="btn btn-outline-success mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Reservations">
+    Rezerwacje
+</a>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-6">
+            <div class="card kolorKafelka no-gutters">
+                <div class="row no-gutters">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <blockquote class="blockquote mb-0">
+                                <div style="text-align:center">
+                                    <p><i class="fas fa-diagnoses fa-3x amber-text pr-3" aria-hidden="true" style="color:white"></i>
+                                </div>
+
+                                <p class="card-text akapit text-center"><b>Pacjent</b>: @Html.DisplayFor(modelItem => item.Patients.Name)</p>
+                                <p class="card-text akapit text-center"><b>Data wizyty</b>:  @Html.DisplayFor(modelItem => item.DateOfVisit)</p>
+                                <p class="card-text akapit text-center">
+                                    <b>Użytkownik rezerwujący:</b>
+                                    <a class="link" asp-action="Edit" asp-controller="AllUsers" asp-route-id="@item.ReservationUser.UserID">
+                                        @Html.DisplayFor(modelItem => item.ReservationUser.FirstName)
+                                        @Html.DisplayFor(modelItem => item.ReservationUser.LastName)
+                                    </a>
+                                </p>
+                                <div style="text-align:center">
+                                    <a class="btn btn-success  mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="AddVisitFromReservation" asp-route-id="@item.ReservationID" onclick="return confirm('Czy chcesz utworzyc wizytę')">
+                                        <i class="fas fa-plus-circle"></i>
+                                        Utwórz wizytę
+                                    </a>
+                                </div>
+
+                            </blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
