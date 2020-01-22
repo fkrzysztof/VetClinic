@@ -82,63 +82,19 @@
         </form>
     </div>
     <div class="row">
-        <div class="col" style="max-width:85px">
+        <div class="col">
             @if (Model.IsActive)
             {
-<<<<<<< HEAD
-                <!-- Button to Open the Modal -->
-                <button type="button" class="btn btn-outline-danger buttMargin" data-toggle="modal" data-target="#myModal">
-                    Usuń
-                </button>
-
-                <!-- The Modal -->
-                <div class="modal" id="myModal">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-
-                            <div class="modal-header">
-                                <h4 class="modal-title">Uwaga!</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-
-                            <!-- Modal body -->
-                            <div class="modal-body">
-                                Czy chcesz usunąć wiadomość?
-                            </div>
-
-
-                            <div class="modal-footer">
-                                <form asp-action="Delete" asp-route-id="@Model.NewsID">
-                                    <input type="hidden" asp-for="NewsID" />
-                                    <input type="submit" value="Tak" class="btn btn-outline-danger buttMargin" />
-                                    <button type="button" class="btn btn-outline-secondary buttMargin" data-dismiss="modal">Nie</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @*<form asp-action="Delete" asp-route-id="@Model.NewsID" onsubmit="alert('Na pewno chcesz usunąć wiadomość?')">
-                <input type="hidden" asp-for="NewsID" />
-                <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
-            </form>*@
-=======
                 <form asp-action="Delete" asp-route-id="@Model.NewsID" onsubmit="alert('Na pewno chcesz usunąć wiadomość?')">
                     <input type="hidden" asp-for="NewsID" />
                     <input type="submit" value="Usuń" class="btn btn-outline-danger  btn-sm" />
-                </form> 
->>>>>>> widoki-poprawione-1
+                </form>
             }
-        </div>
-        <div class="col">
-            @if (Model.IsReaded)
+            else
             {
                 <form asp-action="Restore" asp-route-id="@Model.NewsID">
                     <input type="hidden" asp-for="NewsID" />
-<<<<<<< HEAD
-                    <input type="submit" value="Oznacz jako nieodczytaną" class="btn btn-outline-success buttMargin" />
-=======
                     <input type="submit" value="Przywróć" class="btn btn-outline-success buttMargin btn-sm" />
->>>>>>> widoki-poprawione-1
                 </form>
             }
         </div>

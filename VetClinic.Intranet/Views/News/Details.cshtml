@@ -1,141 +1,41 @@
 ﻿@model VetClinic.Data.Data.Clinic.News
 
 @{
-    ViewData["Title"] = String.Format("Wiadomość od: {0} {1}", @Model.SenderUser.FirstName, @Model.SenderUser.LastName);
+    ViewData["Title"] = String.Format("Wiadomość");
 }
 
-    <div class="container">
-<<<<<<< HEAD
-        <div class="row">
-            <h4>@Model.Title</h4>
+<div class="container">
+    <div class="row  rounded shadow mt-sm-3 mb-sm-3 pb-1 pt-1">
+        <div class="col-sm-12">
+            <small class="text-muted align-bottom float-right">@Model.AddedDate</small>
         </div>
-        <div class="row">
-            <p>@Model.Message</p>
+        <div class="col-sm-12">
+            <h3>@Model.Title</h3>
+            <hr />
         </div>
-        <div class="row">
-            @if (Model.IsReaded == false)
-            {
-                <form asp-action="Read" asp-route-id="@Model.NewsID">
-                    <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Oznacz jako odczytaną" class="btn btn-outline-success buttMargin" />
-                </form>
-            }
-            @if (Model.IsReaded == true)
-            {
-                <form asp-action="Restore" asp-route-id="@Model.NewsID">
-                    <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Oznacz jako nieodczytaną" class="btn btn-outline-success buttMargin" />
-                </form>
-            }
-
-            @if (Model.UserID == ViewBag.LoggedUserID)
-=======
-        <div class="row  rounded shadow mt-sm-3 mb-sm-3 pb-1 pt-1">
-            <div class="col-sm-12">
-                <small class="text-muted align-bottom float-right">@Model.AddedDate</small>
-            </div>
-            <div class="col-sm-12">
-                <h3>@Model.Title</h3>
-                <hr />
-            </div>
-            <div class="col-sm-6">
-                @Model.Message
-            </div>
-            <div class="col-sm-12">
-                @{
-                    if (Model.SenderUser.Image != null)
-                    {
-                        var base64 = Convert.ToBase64String(Model.SenderUser.Image);
-                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                        <img style="width: 80px; height:80px" class="card-img mt-4 mb-1 float-sm-left" src="@imgSrc" />
-                    }
-                    else
-                    {
-                        <img style="width: 80px; height:80px" class="card-img mt-4 mb-1 float-sm-left" src="~/images/empty_image.png" />
-                    }
+        <div class="col-sm-6">
+            @Model.Message
+        </div>
+        <div class="col-sm-12">
+            @{
+                if (Model.SenderUser.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.SenderUser.Image);
+                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                    <img style="width: 80px; height:80px" class="card-img mt-4 mb-1 float-sm-left" src="@imgSrc" />
                 }
-            </div>
-            <div class="col-sm-12 mb-1">
-                <h6 class="float-sm-left">@Model.SenderUser.FirstName @Model.SenderUser.LastName</h6>
-                    <a class="btn btn-outline-secondary float-right btn-sm" role="button" aria-haspopup="true" asp-action="Index">
-                        <i class="fas fa-chevron-left"></i>
-                        Powrót
-                    </a>
-            </div>
-        </div>
-    </div>
-<<<<<<< HEAD
-
-
-
-
-
-            @*<form method="post">
-            <div class="form-row">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <div class="form-group col-md-6">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="label1">Grupa odbiorców</span>
-                        </div>
-                        <select asp-for="UserTypeID" class="form-control" aria-describedby="label1" asp-items="ViewBag.UserTypeID" readonly></select>
-                    </div>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="label1">Tytuł</span>
-                        </div>
-                        <input asp-for="Title" class="form-control" aria-describedby="label1" readonly />
-                        <span asp-validation-for="Title" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-12">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Treść</span>
-                        </div>
-                        <textarea asp-for="Message" class="form-control" rows="4" readonly></textarea>
-                        <span asp-validation-for="Message" class="text-danger"></span>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-        <div class="form-row">
-            @ if (Model.IsReaded == false)
-            {
-                <form asp-action="Read" asp-route-id="@Model.NewsID">
-                    <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Odczytaj" class="btn btn-outline-success buttMargin" />
-                </form>
-            }
-
-            @ if (Model.UserID == ViewBag.LoggedUserID)
->>>>>>> widoki-poprawione-1
-            {
-                <form asp-action="Edit" method="get" asp-route-id="@Model.NewsID">
-                    <input type="hidden" asp-for="NewsID" />
-                    <input type="submit" value="Edytuj" class="btn btn-outline-danger buttMargin" />
-                </form>
-            }
-
-<<<<<<< HEAD
-            @section Scripts {
-                @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                else
+                {
+                    <img style="width: 80px; height:80px" class="card-img mt-4 mb-1 float-sm-left" src="~/images/empty_image.png" />
+                }
             }
         </div>
+        <div class="col-sm-12 mb-1">
+            <h6 class="float-sm-left">@Model.SenderUser.FirstName @Model.SenderUser.LastName</h6>
+            <a class="btn btn-outline-secondary float-right btn-sm" role="button" aria-haspopup="true" asp-action="Index">
+                <i class="fas fa-chevron-left"></i>
+                Powrót
+            </a>
+        </div>
     </div>
-=======
-            @ section Scripts {
-                @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-            }
-        </div>*@
->>>>>>> widoki-poprawione-1
-=======
->>>>>>> prawie koniec
+</div>
