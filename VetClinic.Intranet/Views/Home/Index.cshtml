@@ -196,27 +196,29 @@
     <div class="col">
         <div class="container">
             <h5 class="text-center">Nowe wiadomości</h5><br />
-            <div class="row" style="justify-content: center;">
+            <div class="row" >
                 @foreach (var NewsItems in ViewBag.VetClinicContext)
                 {
                     <div class="col" style="max-width:315px;">
-                        <div class="card mb-3 cursorPointer" style="width: 305px; height:155px" onclick="location.href = '@(Url.Action("Details", "News", new { id = NewsItems.NewsID }, null))'">
+                        <div class="card mb-3 cursorPointer" style="width: 305px; max-height:155px" onclick="location.href = '@(Url.Action("Details", "News", new { id = NewsItems.NewsID }, null))'">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
                                     @{
-                                        if (NewsItems.SenderUser/*.Image*/ != null)
-                                        {
-                                            var base64 = Convert.ToBase64String(NewsItems.SenderUser.Image);
-                                            var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                            <img style="width: 100px; height:100px" class="card-img" src="@imgSrc" />
-                                        }
-                                        else
-                                        {
-                                            <img src="~/images/empty_image.png" style="width:100px;height:100px" class="card-img" alt="...">
-                                        }
+                                        <img src="~/images/empty_image.png" style="width:100px;height:100px" class="card-img" alt="...">
+
+                                        @*if (NewsItems.SenderUser.Image != null)
+                                            {
+                                                var base64 = Convert.ToBase64String(NewsItems.SenderUser.Image);
+                                                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                                <img style="width: 100px; height:100px" class="card-img" src="@imgSrc" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/empty_image.png" style="width:100px;height:100px" class="card-img" alt="...">
+                                            }*@
                                     }
                                     @* Nie działa pobieranie SenderUse...zwraca null *@
-                                <p class="card-title" style="color:#f37159;text-align: center;">@NewsItems.SenderUser@*.FirstName*@ @NewsItems.SenderUser@*.LastName*@</p>
+                                    <p class="card-title" style="color:#f37159;text-align: center;"></p>
                                 </div>
                                 <div class="col-md-8" style="align-self: center;">
                                     <div class="card-body" style="padding-top: 5px; padding-bottom: 15px; padding-left: 10px; padding-right: 5px;">
