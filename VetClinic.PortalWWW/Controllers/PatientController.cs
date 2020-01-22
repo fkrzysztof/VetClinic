@@ -114,12 +114,18 @@ namespace VetClinic.PortalWWW.Controllers
         }
 
         // GET: Patient/Create
-        public IActionResult Create()
+        public IActionResult Create(DateTime? DateOfVisit)
         {
+
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name");
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
             ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "City");
+            if (DateOfVisit > DateTime.MinValue)
+            {
+                ViewData["DateOfVisit"] = DateOfVisit;
+
+            }
             return View();
         }
 
@@ -128,7 +134,7 @@ namespace VetClinic.PortalWWW.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PatientID,PatientTypeID,PatientUserID,Name,BirthDate,PatientNumber,IsActive,Description,KennelName,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Patient patient)
+        public async Task<IActionResult> Create(DateTime? DateOfVisit,[Bind("PatientID,PatientTypeID,PatientUserID,Name,BirthDate,PatientNumber,IsActive,Description,KennelName,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Patient patient)
         {
             if (ModelState.IsValid)
             {
@@ -141,6 +147,12 @@ namespace VetClinic.PortalWWW.Controllers
 
                 _context.Add(patient);
                 await _context.SaveChangesAsync();
+                if (DateOfVisit > DateTime.MinValue)
+                {
+                    TempData["DateOfVisit"] = DateOfVisit;
+                    return RedirectToAction("Create","Reservation");
+                }
+
                 return RedirectToAction(nameof(Index));
             }
            
@@ -149,19 +161,21 @@ namespace VetClinic.PortalWWW.Controllers
             return View(patient);
         }
 
-        public IActionResult CreatePatientFromReservation()
+        public IActionResult CreatePatientFromReservation(DateTime Date)
         {
             ViewData["AddedUserID"] = new SelectList(_context.Users, "UserID", "City");
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name");
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "City");
             ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "City");
+            var a = Date;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreatePatientFromReservation([Bind("PatientID,PatientTypeID,PatientUserID,Name,BirthDate,PatientNumber,IsActive,Description,KennelName,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Patient patient)
+        public async Task<IActionResult> CreatePatientFromReservation([Bind("PatientID,PatientTypeID,PatientUserID,Name,BirthDate,PatientNumber,IsActive,Description,KennelName,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Patient patient, DateTime DateOfVisit)
         {
+            var a = DateOfVisit;
             if (ModelState.IsValid)
             {
                 int id = int.Parse(HttpContext.Session.GetString("UserID"));
@@ -171,14 +185,14 @@ namespace VetClinic.PortalWWW.Controllers
                 patient.IsActive = true;
                 patient.AddedDate = DateTime.Now;
 
-                _context.Add(patient);
+                //_context.Add(patient);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Create", "Reservation");
             }
 
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name", patient.PatientTypeID);
 
-            return View(patient);
+            return RedirectToAction("Create", "Reservation", DateOfVisit);
         }
 
 

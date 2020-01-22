@@ -118,9 +118,7 @@ namespace VetClinic.PortalWWW.Controllers
             return View(reservation);
         }
 
-        //Czesc Bartek
-        //do poprawienia masz swoja czesc zadania, ja robie tylko date wizyty z kalendarza!!
-        //Krzysztof Franczyk
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CreateNew(DateTime DateOfVisit)
@@ -161,7 +159,6 @@ namespace VetClinic.PortalWWW.Controllers
         //GET: Reservation/Create
         public IActionResult Create()
         {
-
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
             ViewData["PatientID"] = new SelectList(_context.Patients.Where(p=>p.PatientUserID == UserId), "PatientID", "Name");
             //ViewData["BlokCzasowy"] = new SelectList(_context.ScheduleBlocks.OrderBy(b => b.Time), "ScheduleBlockID", "Time");

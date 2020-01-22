@@ -5,6 +5,9 @@
     ViewData["Title"] = "Nowa rezerwacja";
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
     DateTime DateOfVisit = Convert.ToDateTime(ViewData["DateOfVisit"]);
+    if (Convert.ToDateTime(TempData["DateOfVisit"]) > DateTime.MinValue)
+        DateOfVisit = Convert.ToDateTime(TempData["DateOfVisit"]);
+
 }
     <div class="mt-5 mb-4">
         <h4>Rezerwuj wizyte w terminie: @DateOfVisit.ToString("dd/MM/yyyy, HH:mm")</h4>
@@ -21,8 +24,9 @@
         </div>
         <div class="form-group float-right">
             <div class="input-group">
-                <a class="btn btn-success float-right buttMargin" asp-area="" asp-controller="Patient" asp-action="CreatePatientFromReservation">
+                <a class="btn btn-success float-right buttMargin" href="@Url.Action("Create", "Patient", new { DateOfVisit = Convert.ToDateTime(ViewData["DateOfVisit"]) })">
                     <span>Dodaj</span>
+
                 </a>
             </div>
         </div>
