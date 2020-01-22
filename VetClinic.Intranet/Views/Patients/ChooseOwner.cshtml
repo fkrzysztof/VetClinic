@@ -4,19 +4,28 @@
     Layout = null;
 }
 
-@*<p>
-    <a class="btn btn-outline-success float-right mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-        <i class="fas fa-plus-circle"></i>
-        Dodaj 
-    </a>
-</p>*@
+<div id="accordion">
+    <div class="card">
+        <div class="card-header" id="Filtry">
+            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
+                <strong>Filtry</strong>
+                <button class="btn btn-link">
+                    <i class="fa fa-bars text-black"></i>
+                </button>
+            </div>
+        </div>
+        <div id="collapse1" class="collapse" aria-labelledby="Filtry" data-parent="#accordion">
+            <div class="card-body">
+                <input type="text" class="form-control" id="myInput" placeholder="Imieniu, nazwisku, roli..." />
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="table-responsive">
-    <table class="table table-hover">
+    <table class="table table-hover wspolna">
         <thead class="thead-dark">
             <tr>
-                <th>
-
-                </th>
                 <th>
                     Imię
                 </th>
@@ -32,68 +41,65 @@
                 <th>
                     Nr.Telefonu
                 </th>
-
+                <th>
+                    Rola
+                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody id="myTable">
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        <a class="wspolna btn btn-outline-primary btn-sm" role="button" id="@item.UserID" dane="@item.FirstName @item.LastName">
-                            <span class="fas fa-check"></span>
-                        </a>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.City)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Phone)
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-primary btn-sm" role="button" asp-controller="AllUsers" asp-action="Edit" asp-route-id="@item.UserID">
-                            <span class="fas fa-pen"></span>
-                        </a>
-                    </td>
-                </tr>
+            <tr class="clickable-row " data-VisitId="@item.UserID" id="PatientID" 
+                style="cursor:pointer" dane="@item.FirstName @item.LastName">
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserType.Name)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary btn-sm" role="button" asp-controller="AllUsers" asp-action="Edit" asp-route-id="@item.UserID">
+                        <span class="fas fa-pen"></span>
+                    </a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
 </div>
 
 <script>
-
-  
-
+    if ($("#myInput").length > 0) {
+        $("#myTable tr").hide();
+    }
     $(document).ready(function () {
-        $(".wspolna").click(function (evt) {
-          
-            var value = $(this).attr("id");         
-            var value2=$(this).attr("dane")
-
-            $('#PatientUserID').val(value);
-            $('#daneWlasciciela').val(value2);
+        $(".wspolna").on('click', '.clickable-row', function () {
+            window.id = $(this).attr("data-VisitId");
+            window.name = $(this).attr("dane")
+            $('#PatientUserID').val(window.id);
+            $('#daneWlasciciela').val(window.name);
             $('#exampleModal').modal('hide');
         });
     });
-
-
-    $(document).ready(function(){
-  $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
-    $("#myTable tr").filter(function() {
-      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").hide().filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > 0)
+            });
+        });
     });
-  });
-});
 </script>

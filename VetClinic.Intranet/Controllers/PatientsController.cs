@@ -98,24 +98,9 @@ namespace VetClinic.Intranet.Controllers
             return View();     
         }
 
-        public async Task<IActionResult> ChooseOwner (string searchString)
+        public async Task<IActionResult> ChooseOwner ()
         {
-
-            ViewData["CurrentFilter"] = searchString;
-            var vetClinicContext = _context.Users.Include(u => u.UserType).Where(u => u.UserType.UserTypeID == CustomerUserId).Where(u => u.IsActive == true); 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                vetClinicContext = (from user in vetClinicContext
-                                    where user.Login.Contains(searchString)
-                                    || user.LastName.Contains(searchString)
-                                    || user.Email.Contains(searchString)
-                                    || user.City.Contains(searchString)
-                                    select user)
-                                            .Include(m => m.UserType)
-                                            .Where(m => m.IsActive == true);
-
-
-            }
+            var vetClinicContext = _context.Users.Include(u => u.UserType);
             return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
 
         }
