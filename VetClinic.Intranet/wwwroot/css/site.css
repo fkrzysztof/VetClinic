@@ -327,27 +327,32 @@ a.dropdown-item {
 }
 
 .blockquote {
-  padding: 0.5rem 1rem;
-  border-left: 0.25rem solid #eceeef;
+    padding: 0.5rem 1rem;
+    border-left: 0.25rem solid #f37159 !important;
+}
+    
+.ikona
+{
+    color:black;
 }
 
 .akapit {
-  color: white;
+  color: black;
 }
 
 .link {
-  color: white;
+  color: black;
   text-decoration: none;
   background-color: transparent;
 }
 
-.link:hover {
-  color: ghostwhite;
-  text-decoration: underline;
-}
+    .link:hover {
+        color: #f37159 !important;        
+        text-decoration: underline;
+    }
 
 .kolorKafelka {
-  background-color: #f37159 !important;
+  border-color: #f37159 !important;
 }
 
 #passwordIcon {

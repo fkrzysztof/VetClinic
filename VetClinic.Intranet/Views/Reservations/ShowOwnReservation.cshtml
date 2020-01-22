@@ -12,14 +12,14 @@
 <div class="row">
     @foreach (var item in Model)
     {
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <div class="card kolorKafelka no-gutters">
                 <div class="row no-gutters">
                     <div class="col-md-12">
                         <div class="card-body">
                             <blockquote class="blockquote mb-0">
                                 <div style="text-align:center">
-                                    <p><i class="fas fa-diagnoses fa-3x amber-text pr-3" aria-hidden="true" style="color:white"></i>
+                                    <p><i class="fas fa-diagnoses fa-3x amber-text pr-3 ikona" aria-hidden="true"></i>
                                 </div>
 
                                 <p class="card-text akapit text-center"><b>Pacjent</b>: @Html.DisplayFor(modelItem => item.Patients.Name)</p>

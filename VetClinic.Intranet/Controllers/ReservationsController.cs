@@ -166,7 +166,7 @@ namespace VetClinic.Intranet.Controllers
             {
                 int UserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                 var data = DateTime.Today;
-                List<int> listreservationsID = _context.Reservations.Where(v => v.ReservationAddedUser.UserID== UserID).Where(v=>v.DateOfVisit>data).Where(v => v.DateOfVisit<data.AddDays(1)).Select(p => p.ReservationID).ToList();
+                List<int> listreservationsID = _context.Reservations.Where(v=>v.DateOfVisit>data).Where(v => v.DateOfVisit<data.AddDays(1)).Select(p => p.ReservationID).ToList();
                 var ownReservations = _context.Reservations.Include(p => p.Patients).Include(p=>p.ReservationUser).Where(v => listreservationsID.Contains(v.ReservationID));
 
                 ViewData["CurrentFilter"] = searchString;
@@ -186,7 +186,7 @@ namespace VetClinic.Intranet.Controllers
 
                 }
 
-                return View(await ownReservations.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+                return View(await ownReservations.OrderBy(u => u.DateOfVisit).ToListAsync());
 
             }
             return View();
