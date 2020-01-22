@@ -349,3 +349,16 @@ a.dropdown-item {
 .kolorKafelka {
   background-color: #f37159 !important;
 }
+
+#passwordIcon {
+    position: absolute;
+    top: 19px;
+    right: 12px;
+    transition: right 0.2s;
+    color: #6c757d
+}
+
+#passContainer {
+    padding-left: 0px;
+    padding-right: 0px;
+}

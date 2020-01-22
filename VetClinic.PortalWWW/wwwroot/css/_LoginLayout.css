@@ -130,3 +130,16 @@ body {
 #divReg {
     background-image: url("../images/DogCat.jpg");
 }
+
+#passwordIcon {
+    position: absolute;
+    top: 19px;
+    right: 12px;
+    transition: right 0.2s;
+    color: #6c757d
+}
+
+#passContainer {
+    padding-left: 0px;
+    padding-right: 0px;
+}
