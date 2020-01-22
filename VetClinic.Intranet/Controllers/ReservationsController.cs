@@ -186,7 +186,7 @@ namespace VetClinic.Intranet.Controllers
 
                 }
 
-                return View(await ownReservations.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+                return View(await ownReservations.OrderBy(u => u.DateOfVisit).ToListAsync());
 
             }
             return View();
