@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.News>
 
 @{
-    //ViewData["Title"] = "Wiadomości nieodczytane";
-    ViewData["Title"] = ViewBag.Tite;
+    ViewData["Title"] = "Moje Wiadomości";
 }
 
 <div class="row mb-2">
@@ -12,8 +11,8 @@
             Dodaj
         </a>
         <a class="btn btn-outline-secondary float-left btn-sm" role="button" aria-haspopup="true" aria-expanded="false" href='javascript:history.go(-1)'>
-        <i class="fas fa-chevron-left"></i>
-        Powrót
+            <i class="fas fa-chevron-left"></i>
+            Powrót
         </a>
     </div>
 </div>
@@ -36,7 +35,7 @@
                         <label>Wyszukaj po: </label>
                     </div>
                     <div class="form-group mx-sm-3 mb-2 col-md-6">
-                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Imię, Nazwisko, Temat, Treść" />
+                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Temat, Treść" />
                     </div>
                     <button type="submit" class="btn btn-primary mb-2  btn-sm">Szukaj</button>
                     @if (ViewData["currentFilter"] != null)
@@ -49,21 +48,16 @@
     </div>
 </div>
 
+
 <div class="container">
     @foreach (var item in Model)
     {
-        <div class="row no-gutters rounded shadow-sm mt-2 mb-2 
-            @if(item.NewsReadeds.FirstOrDefault(f => f.NewsID == item.NewsID) == null)
-            {
-                     @: bg-light
-            }
-        ">
-
+        <div class="row no-gutters rounded shadow-sm mt-2 mb-2">
             @{
-                 if (item.SenderUser.Image != null)
-                 {
-                     var base64 = Convert.ToBase64String(item.SenderUser.Image);
-                     var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                if (item.SenderUser.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(item.SenderUser.Image);
+                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
                     <img style="width: 80px; height:80px" class="card-img  mr-2" src="@imgSrc" />
                 }
                 else
@@ -71,25 +65,17 @@
                     <img style="width: 80px; height:80px" class="card-img  mr-2" src="~/images/empty_image.png" />
                 }
             }
-        <div class="col-md-11">
-            @if(item.NewsReadeds.FirstOrDefault(f => f.NewsID == item.NewsID) != null)
-            {
-                <i class="fas fa-envelope-open float-right m-1"></i>
-            }
-            else
-            {
-                <i class="fas fa-envelope float-right m-1"></i>
-            }
-            <h5>@Html.DisplayFor(modelItem => item.SenderUser.FirstName) @Html.DisplayFor(modelItem => item.SenderUser.LastName)</h5>
-            <a asp-action="Details" asp-route-id="@item.NewsID" class="stretched-link text-decoration-none">
+            <div class="col-sm-11">
+                <a asp-action="OwnDetails" asp-route-id="@item.NewsID" type="button" class="btn btn-outline-secondary float-right btn-sm ml-2">Otwórz</a>
+                <a asp-action="Edit" asp-route-id="@item.NewsID" type="button" class="btn btn-outline-secondary float-right btn-sm">Edytuj</a>
+                <h5>@Html.DisplayFor(modelItem => item.SenderUser.FirstName) @Html.DisplayFor(modelItem => item.SenderUser.LastName)</h5>
                 <span class="card-text">
                     @Html.DisplayFor(modelItem => item.Title)
-                </span>
-            </a><br />
-            <div class="float-right align-bottom">
-                <small class="text-muted align-bottom">@Html.DisplayFor(modelItem => item.AddedDate)</small>
+                </span><br />
+                <div class="float-right align-bottom">
+                    <small class="text-muted align-bottom">@Html.DisplayFor(modelItem => item.AddedDate)</small>
+                </div>
             </div>
         </div>
-        </div>
-        }
-    </div>
+    }
+</div>

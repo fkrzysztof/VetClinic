@@ -15,10 +15,10 @@ namespace VetClinic.Data.Data.Clinic
         [Required(ErrorMessage = "Grupa odbiorców jest wymagana")]
         public int UserTypeID { get; set; } // grupa odbiorców
         [Required(ErrorMessage = "Tytuł jest wymagany")]
+        [StringLength(40, ErrorMessage = "Maksymalnie 40 znaków")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Wiadomosc jest wymagana")]
         public string Message { get; set; }
-        public bool IsReaded { get; set; } // czy odczytana
         public bool IsActive { get; set; }
         [Required(ErrorMessage = "Data początkowa jest wymagana")]
         public DateTime StartDate { get; set; }
@@ -36,5 +36,7 @@ namespace VetClinic.Data.Data.Clinic
         public int? UpdatedUserID { get; set; } // użytkownik modyfikujący
         [ForeignKey("UpdatedUserID")]
         public User NewsUpdatedUser { get; set; }
+
+        public ICollection<NewsReaded> NewsReadeds { get; set; }
     }
 }
