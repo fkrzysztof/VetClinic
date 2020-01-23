@@ -22,8 +22,8 @@ namespace VetClinic.Intranet.Controllers
             ViewBag.Tite = "Wiadomosci Nieodczytane";
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
+            
             ViewBag.NewMessage = _context.News
-
             .Include(i => i.NewsReadeds)
             .Where(w => w.UserTypeID == usertypeid &&
                 w.SenderUser.UserID != userid &&

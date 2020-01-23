@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using VetClinic.Data;
+using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
 using VetClinic.Intranet.Controllers.Abstract;
 using VetClinic.Intranet.Models;
@@ -44,12 +45,21 @@ namespace VetClinic.Intranet.Controllers
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
-            ViewBag.VetClinicContext = _context.News.Include(n => n.NewsUpdatedUser)
-                                        .Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-                                        .Where(n => n.UserTypeID == usertypeid && n.IsActive == true)
-                                        .OrderBy(o => o.AddedDate);
 
-            ViewBag.NewMessage = _context.News
+            ViewBag.VetClinicContext = _context.News.Include(n => n.NewsUpdatedUser)
+                                        .Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser).Include(n => n.NewsReadeds)
+                                        .Where(n => n.UserTypeID == usertypeid 
+                                        && n.IsActive == true 
+                                        && n.SenderUser.UserID != userid
+                                        && n.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+                                        .OrderBy(o => o.AddedDate).ToList();
+
+            if(((List<News>) ViewBag.VetClinicContext).Any())
+            {
+                ViewData["Empty"] = "No Results";
+            }
+
+                ViewBag.NewMessage = _context.News
                 .Include(i => i.NewsReadeds)
                 .Where(w => w.UserTypeID == usertypeid && 
                     w.SenderUser.UserID != userid && 

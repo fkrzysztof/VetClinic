@@ -196,9 +196,13 @@
     <div class="col">
         <div class="container">
             <h5 class="text-center">Nowe wiadomości</h5><br />
-            <div class="row" >
-                @foreach (var NewsItems in ViewBag.VetClinicContext)
-                    {
+            <div class="row" style="justify-content: center;">     
+                @if(ViewBag.Empty == null)
+                {
+                    <p>Brak nowych wiadomości</p>
+                }
+               @foreach (var NewsItems in ViewBag.VetClinicContext)
+                {           
                     <div class="col" style="max-width:315px;">
                         <div class="card mb-3 cursorPointer" style="width: 305px; max-height:155px" onclick="location.href = '@(Url.Action("Details", "News", new { id = NewsItems.NewsID }, null))'">
                             <div class="row no-gutters">
@@ -228,11 +232,9 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-                    }
-                                            
-
+                    </div>                  
+                }
+                            
             </div>
         </div>
     </div>
