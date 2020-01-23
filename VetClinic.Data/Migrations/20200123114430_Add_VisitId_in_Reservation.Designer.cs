@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20200123114430_Add_VisitId_in_Reservation")]
+    partial class Add_VisitId_in_Reservation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -454,7 +456,7 @@ namespace VetClinic.Data.Migrations
                     b.Property<int?>("UpdatedUserID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("VisitID")
+                    b.Property<int?>("VisitId")
                         .HasColumnType("int");
 
                     b.HasKey("ReservationID");
@@ -467,7 +469,7 @@ namespace VetClinic.Data.Migrations
 
                     b.HasIndex("UpdatedUserID");
 
-                    b.HasIndex("VisitID");
+                    b.HasIndex("VisitId");
 
                     b.ToTable("Reservations");
                 });
@@ -993,7 +995,7 @@ namespace VetClinic.Data.Migrations
 
                     b.HasOne("VetClinic.Data.Data.Clinic.Visit", "Visit")
                         .WithMany()
-                        .HasForeignKey("VisitID");
+                        .HasForeignKey("VisitId");
                 });
 
             modelBuilder.Entity("VetClinic.Data.Data.Clinic.Specialization", b =>

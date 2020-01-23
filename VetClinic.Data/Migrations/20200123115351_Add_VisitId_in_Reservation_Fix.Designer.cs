@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VetClinic.Data;
 
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    partial class VetClinicContextModelSnapshot : ModelSnapshot
+    [Migration("20200123115351_Add_VisitId_in_Reservation_Fix")]
+    partial class Add_VisitId_in_Reservation_Fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -455,6 +457,9 @@ namespace VetClinic.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<int?>("VisitID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VisitId")
                         .HasColumnType("int");
 
                     b.HasKey("ReservationID");
