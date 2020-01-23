@@ -4,189 +4,204 @@
     //Layout = "~/Views/Shared/_Layout_MainPage.cshtml";
 }
 
-<div class="row">
+<div class="row no-gutters">
     <div class="col" style="min-width:775px; max-width:775px">
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col">
-                <h3 class="text-left float-left">Rezerwacje</h3>
-                <div class="float-sm-right">
+                <h2 class="text-left float-left">Rezerwacje</h2>
+                @*<div class="float-sm-right">
                     <a class="btn btn-outline-primary mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Index" asp-controller="Home">
                         Aktualny tydzień
                     </a>
-                </div>
+                </div>*@
             </div>
         </div>
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col text-center" style="text-align-last: center;">
-                <table class="table-borderless text-center">
-                    <tr>
-                        <td>
-                            @{
-                                DateTime Today = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
-                                DateTime Sunday = new DateTime(Model.First.Year, Model.First.Month, Model.First.Day, 0, 0, 0).AddDays(6);
-                                DateTime Quarter = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0).AddMonths(3);
-                                //
-                                Sunday = Sunday + (new TimeSpan(6, 0, 0, 0));
-                                //pokaz gdy jest  w zakresie przed lub po
+                        <table class="table-borderless text-center mt-sm-5">
+                        <tr>
+                            <td>
+                                @{
+                                    DateTime Today = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0);
+                                    DateTime Sunday = new DateTime(Model.First.Year, Model.First.Month, Model.First.Day, 0, 0, 0).AddDays(6);
+                                    DateTime Quarter = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 0, 0, 0).AddMonths(3);
+                                    //
+                                    Sunday = Sunday + (new TimeSpan(6, 0, 0, 0));
+                                    //pokaz gdy jest  w zakresie przed lub po
 
-                                @*@if (DateTime.Compare(Today, Model.First) == -1 || DateTime.Compare(Today, Sunday) == 1)*@
-                                //{
-                                <form class="m-sm-3" asp-action="Index" method="post">
-                                    <input type="hidden" name="Navigation" value="previous" />
-                                    <input type="hidden" value="@Model.First" name="first" />
-                                    <input class="btn btn-outline-primary mb-sm-4" type="submit" value="<<" />
-                                </form>
-                                @*}*@
-                            }
-                        </td>
-                        <td colspan="5">
-                            @{
-                                //informacja o przegladanym tygodniu pokazujemy ZAKRES
-                                DateTime nextWeek = Model.First.AddDays(7);
-                            }
-                            <h5>Tydzień @Model.First.ToString("dd/MM/yyyy") - @nextWeek.ToString("dd/MM/yyyy")</h5>
-                            <br />
-                        </td>
-                        <td>
-                            @if (DateTime.Compare(nextWeek, Quarter) == -1)
-                            {
-                                <form class="m-sm-3" asp-action="Index" method="post">
-                                    <input type="hidden" name="Navigation" value="next" />
-                                    <input type="hidden" value="@Model.First" name="first" />
-                                    <input class="btn btn-outline-primary  mb-sm-4" type="submit" value=">>" />
-                                </form>
-                            }
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h5>Poniedziałek</h5>
-                        </td>
-                        <td>
-                            <h5>Wtorek</h5>
-                        </td>
-                        <td>
-                            <h5>Środa</h5>
-                        </td>
-                        <td>
-                            <h5>Czwartek</h5>
-                        </td>
-                        <td>
-                            <h5>Piatek</h5>
-                        </td>
-                        <td>
-                            <h5>Sobota</h5>
-                        </td>
-                        <td>
-                            <h5>Niedziela</h5>
-                        </td>
-                    </tr>
-                    <tr>
-                        @{
-                            //daty poszczegolnych dni w tygodniu
-                            DateTime renderedDay = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 0, 0, 0);
-                            for (int d = 0; d < 7; d++)
-                            {
-                                <td>@renderedDay.ToString("dd/MM/yyyy")</td>
-                                renderedDay = renderedDay.Add(new TimeSpan(1, 0, 0, 0, 0));
-                            }
-                        }
-                    </tr>
-                    @{
-                        //do sprawdzania czy zmienila sie godzina - wyswietlona zostanie aktualna
-                        TimeSpan lastHour = new TimeSpan(Model.ScheduleBlock.ElementAt(0).Time.Hours, 0, 0);
-                        DateTime block;
-
-                        bool BlockFree = true;
-
-                        //  <tr class="mt-sm-2 mb-sm-2">
-                        <tr class="">
-                            <td colspan="7" class="text-left">
-                                <h5 class="mt-sm-2 ml-sm-3">@lastHour.Hours:00</h5>
+                                    @*@if (DateTime.Compare(Today, Model.First) == -1 || DateTime.Compare(Today, Sunday) == 1)*@
+                                    //{
+                                    <form class="m-sm-3" asp-action="Index" method="post">
+                                        <input type="hidden" name="Navigation" value="previous" />
+                                        <input type="hidden" value="@Model.First" name="first" />
+                                        @*<input class="btn btn-outline-primary mb-sm-4" type="submit" value="<<" />*@
+                                        <button type="submit" class="btn"><i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i></button>
+                                    </form>
+                                    @*}*@
+                                }
+                            </td>
+                            <td colspan="5" class="align-middle">
+                                @{
+                                    //informacja o przegladanym tygodniu pokazujemy ZAKRES
+                                    DateTime nextWeek = Model.First.AddDays(7);
+                                }
+                                <h5>Tydzień @Model.First.ToString("dd/MM/yyyy") - @nextWeek.ToString("dd/MM/yyyy")</h5>
+                            </td>
+                            <td>
+                                @if (DateTime.Compare(nextWeek, Quarter) == -1)
+                                {
+                                    <form class="m-sm-3" asp-action="Index" method="post">
+                                        <input type="hidden" name="Navigation" value="next" />
+                                        <input type="hidden" value="@Model.First" name="first" />
+                                        @*<input class="btn btn-outline-primary  mb-sm-4" type="submit" value=">>" />*@
+                                        <button type="submit" class="btn"><i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></button>
+                                    </form>
+                                }
                             </td>
                         </tr>
-                        //przechodzimy po zadeklarowanych w bazie danych godzinach wizyt
-                        foreach (var itemBlock in Model.ScheduleBlock)
-                        {
-                            block = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, itemBlock.Time.Hours, itemBlock.Time.Minutes, 0);
-                            //sprawdzamy czy godzina sie zmienila
-                            if (itemBlock.Time.Hours != lastHour.Hours)
-                            {
-                                <tr class="mt-sm-2 mb-sm-3">
-                                    <td colspan="7" class="text-left">
-                                        <h5 class="mt-sm-2 ml-sm-3">@block.ToString("HH"):00</h5>
-                                    </td>
-                                </tr>
-                                lastHour = new TimeSpan(block.Hour, 0, 0);
-                            }
-                            <tr>
-                                @*tydzien*@
-                                @for (int j = 0; j < 7; j++)
+                        <tr>
+                            <td>
+                                <h5>Pon</h5>
+                            </td>
+                            <td>
+                                <h5>Wto</h5>
+                            </td>
+                            <td>
+                                <h5>Śro</h5>
+                            </td>
+                            <td>
+                                <h5>Czw</h5>
+                            </td>
+                            <td>
+                                <h5>Pią</h5>
+                            </td>
+                            <td>
+                                <h5>Sob</h5>
+                            </td>
+                            <td>
+                                <h5>Nie</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            @{
+                                //daty poszczegolnych dni w tygodniu
+                                DateTime renderedDay = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, 0, 0, 0);
+                                for (int d = 0; d < 7; d++)
                                 {
-                                    <td>
-                                        @foreach (var item in Model.Reservation)
-                                        {
-                                            //sprawdzamy czy termin wizyty nie jest juz zajety
-                                            if (item.DateOfVisit.Equals(block))
-                                            {
-                                                BlockFree = false;
-                                                <button class="btn btn-danger mr-sm-3 ml-sm-3" onclick="location.href='@Url.Action("Edit","Reservations", new {@id = @item.ReservationID})'">
-                                                    @block.ToString("HH:mm")<br />Zajęty
-                                                </button>
-                                            }
-                                        }
-                                        @if (BlockFree == true)
-                                        {
-                                            //sprawdzamy czy ten dzien nie jest wolny od pracy
-                                            @if (Model.InaccessibleDay.Contains(new DateTime(block.Year, block.Month, block.Day, 0, 0, 0)))
-                                            {
-                                                <button type="button" class="btn btn-info  mr-sm-3 ml-sm-3" disabled>Dzień<br />Wolny</button>
-                                                BlockFree = false;
-                                            }
-                                            else
-                                            //jest wolny
-                                            {
-                                                <form asp-action="CreateNew" asp-controller="Reservations" method="post">
-                                                    <input type="hidden" name="DateOfVisit" value="@block" />
-                                                    <button type="submit" class="btn btn-success  mr-sm-3 ml-sm-3"
-                                                            @if ((DateTime.Compare(block, DateTime.Now) == -1)) { @: disabled
-                                                            }>
-                                                        @block.ToString("HH:mm")<br />Wolny
-                                                    </button>
-                                                </form>
-                                            }
-                                        }
-                                    </td>
-                                    block = block.AddDays(1);
-                                    BlockFree = true;
+                                    <td>@renderedDay.ToString("dd/MM/yy")</td>
+                                    renderedDay = renderedDay.Add(new TimeSpan(1, 0, 0, 0, 0));
                                 }
+                            }
+                        </tr>
+                        @{
+                            //do sprawdzania czy zmienila sie godzina - wyswietlona zostanie aktualna
+                            TimeSpan lastHour = new TimeSpan(Model.ScheduleBlock.ElementAt(0).Time.Hours, 0, 0);
+                            DateTime block;
+
+                            bool BlockFree = true;
+
+                            //  <tr class="mt-sm-2 mb-sm-2">
+                            <tr class="">
+                                <td colspan="7" class="text-left">
+                                    <h5 class="mt-sm-2 ml-sm-3 float-left">@lastHour.Hours:00</h5>
+                                </td>
                             </tr>
-                            block = block - new TimeSpan(7, 0, 0, 0);
+                            //przechodzimy po zadeklarowanych w bazie danych godzinach wizyt
+                            foreach (var itemBlock in Model.ScheduleBlock)
+                            {
+                                block = new DateTime(@Model.First.Year, @Model.First.Month, @Model.First.Day, itemBlock.Time.Hours, itemBlock.Time.Minutes, 0);
+                                //sprawdzamy czy godzina sie zmienila
+                                if (itemBlock.Time.Hours != lastHour.Hours)
+                                {
+                                    <tr class="mt-sm-2 mb-sm-3">
+                                        <td colspan="7" class="text-left">
+                                            <h5 class="mt-sm-2 ml-sm-3 float-left">@block.ToString("HH"):00</h5>
+                                        </td>
+                                    </tr>
+                                    lastHour = new TimeSpan(block.Hour, 0, 0);
+                                }
+                                <tr>
+                                    @*tydzien*@
+                                    @for (int j = 0; j < 7; j++)
+                                    {
+                                        <td>
+                                            @*<div class="mr-sm-3">*@
+                                            @foreach (var item in Model.Reservation)
+                                            {
+                                                //sprawdzamy czy termin wizyty nie jest juz zajety
+                                                if (item.DateOfVisit.Equals(block))
+                                                {
+                                                    BlockFree = false;
+                                                    <button class="btn btn-outline-danger mt-1 ml-md-3 mr-md-3" onclick="location.href='@Url.Action("Edit","Reservations", new {@id = @item.ReservationID})'">
+                                                        @block.ToString("HH:mm")<br />Zajęty
+                                                    </button>
+                                                }
+                                            }
+                                            @if (BlockFree == true)
+                                            {
+                                                //sprawdzamy czy ten dzien nie jest wolny od pracy
+                                                @if (Model.InaccessibleDay.Contains(new DateTime(block.Year, block.Month, block.Day, 0, 0, 0)))
+                                                {
+                                                    <button type="button" class="btn shadow-sm btn-outline-info mt-1 ml-md-3 mr-md-3" disabled>Dzień<br />Wolny</button>
+                                                    BlockFree = false;
+                                                }
+                                                else
+                                                //jest wolny
+                                                {
+                                                    <form asp-action="CreateNew" asp-controller="Reservations" method="post">
+                                                        <input type="hidden" name="DateOfVisit" value="@block" />
+                                                        <button type="submit" class="btn shadow-sm btn-outline-success mt-1 ml-md-3 mr-md-3"
+                                                                @if ((DateTime.Compare(block, DateTime.Now) == -1)) { @: disabled
+                                                                }>
+                                                            @if ((DateTime.Compare(block, DateTime.Now) == -1))
+                                                            {
+                                                                <s>
+                                                                    @block.ToString("HH:mm")
+                                                                </s>
+                                                                <br />
+                                                                @:Wolny
+                                                            }
+                                                            else
+                                                            {
+                                                                @block.ToString("HH:mm")<br />
+                                                                @:Wolny
+                                                            }
+                                                        </button>
+                                                    </form>
+                                                }
+                                            }
+                                            @*</div>*@
+                                        </td>
+                                        block = block.AddDays(1);
+                                        BlockFree = true;
+                                    }
+                                </tr>
+                                block = block - new TimeSpan(7, 0, 0, 0);
+                            }
                         }
-                    }
-                </table>
-                <br />
-                <hr />
-                <br />
+                    </table>
+                    <br />
+                    <hr />
+                    <br />
+                </div>
             </div>
-        </div>
-        <div class="row">
+        <div class="row no-gutters">
             <div class="col">
                 <table class="table-borderless">
                     <tr>
-                        <td><button class="btn btn-danger mr-sm-3 ml-sm-3">13:00<br />Zajęty</button></td>
+                        <td><button class="btn shadow-sm btn-outline-danger mt-1 mr-2">13:00<br />Zajęty</button></td>
                         <td>Termin jest zajęty, przekierowanie do podglądu wizyty.</td>
                     </tr>
                     <tr>
-                        <td><button type="button" class="btn btn-info  mr-sm-3 ml-sm-3" disabled>Dzień<br />Wolny</button></td>
+                        <td><button type="button" class="btn shadow-sm btn-outline-info  mt-1 mr-2" disabled>Dzień<br />Wolny</button></td>
                         <td>W tym dniu przychodnia nie pracuje.</td>
                     </tr>
                     <tr>
-                        <td><button class="btn btn btn-success mr-sm-3 ml-sm-3">13:00<br />Wolny</button></td>
+                        <td><button class="btn btn shadow-sm btn-outline-success mt-1 mr-2">13:00<br />Wolny</button></td>
                         <td>Termin wolny, rezerwacja jest możliwa, przekierowanie do rezerwacji w wybranym terminie.</td>
                     </tr>
                     <tr>
-                        <td><button class="btn btn btn-success mr-sm-3 ml-sm-3" onclick="location.href='#'" disabled>13:00<br />Wolny</button></td>
+                        <td><button class="btn btn btn-outline-success mt-1 mr-2" onclick="location.href='#'" disabled><s>13:00</s><br />Wolny</button></td>
                         <td>Termin nieaktualny.</td>
                     </tr>
                 </table>
@@ -196,7 +211,7 @@
     <div class="col">
         <div class="container">
             <h5 class="text-center">Nowe wiadomości</h5><br />
-            <div class="row" >
+            <div class="row no-gutters" >
                 @foreach (var NewsItems in ViewBag.VetClinicContext)
                 {
                     <div class="col" style="max-width:315px;">
