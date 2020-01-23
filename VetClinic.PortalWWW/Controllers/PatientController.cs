@@ -44,6 +44,27 @@ namespace VetClinic.PortalWWW.Controllers
             return View(await patient.AsNoTracking().ToListAsync());
         }
 
+        public int DeleteVisitTretment(int TreatmentID, int VisitID)
+        {
+            VisitTreatment visitTreatments = _context.VisitTreatment
+               .Where(t => t.TreatmentID == TreatmentID)
+               .Where(v => v.VisitID == VisitID).FirstOrDefault();
+
+            _context.VisitTreatment.Remove(visitTreatments);
+            _context.SaveChangesAsync();
+            return VisitID;
+        }
+        public int DeleteVisitMedicine(int MedicineID, int VisitID)
+        {
+            VisitMedicine visitMedicine = _context.VisitMedicines
+               .Where(t => t.MedicineID == MedicineID)
+               .Where(v => v.VisitID == VisitID).FirstOrDefault();
+
+            //_context.VisitMedicines.Remove(visitMedicine);
+            _context.SaveChangesAsync();
+            return VisitID;
+        }
+
         public IActionResult VisitDetails(int id)
         {
 
@@ -182,6 +203,7 @@ namespace VetClinic.PortalWWW.Controllers
         }
 
 
+        
         // GET: Patient/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
