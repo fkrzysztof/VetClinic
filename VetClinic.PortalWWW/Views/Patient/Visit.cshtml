@@ -57,23 +57,23 @@
 
     <script>
 
+
         function VisitDetailsClick(VisitId) {
             var pId = VisitId;
-
-            $.ajax({
-                type: 'get',
-                url: '@Url.Action("VisitDetails", "Patient")',
-                data: {
-                    id: pId
-                },
-                success: function (pageContent) {
-                    $('#maincont').html(pageContent);
-           
-                }
-            });
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("VisitDetails", "Patient")',
+                    data: {
+                        id: pId
+                    },
+                    success: function (pageContent) {
+                        $('#maincont').html(pageContent);       
+                    }
+                });             
         }
         function DeleteVisitTretment(treatmentID, visitID) {
-            $.ajax({
+            if (confirm("Czy jesteś pewien, że chcesz kontynuować?")) {
+                $.ajax({
                     type: 'get',
                     url: '@Url.Action("DeleteVisitTretment", "Patient")',
                     data: {
@@ -83,10 +83,12 @@
                     success: function (visitID) {
                         VisitDetailsClick(visitID)
                     }
-            });
+                });
+            }
         }
         function DeleteVisitMedicine(medicineID, visitID) {
-            $.ajax({
+            if (confirm("Czy jesteś pewien, że chcesz kontynuować?")) {
+                $.ajax({
                     type: 'get',
                     url: '@Url.Action("DeleteVisitMedicine", "Patient")',
                     data: {
@@ -96,8 +98,8 @@
                     success: function (visitID) {
                         VisitDetailsClick(visitID);
                     }
-            });
+                });
+            }
         }
-
     </script>
 }
