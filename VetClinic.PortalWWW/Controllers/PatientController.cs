@@ -60,7 +60,7 @@ namespace VetClinic.PortalWWW.Controllers
                .Where(t => t.MedicineID == MedicineID)
                .Where(v => v.VisitID == VisitID).FirstOrDefault();
 
-            //_context.VisitMedicines.Remove(visitMedicine);
+            _context.VisitMedicines.Remove(visitMedicine);
             _context.SaveChangesAsync();
             return VisitID;
         }
