@@ -31,7 +31,7 @@ namespace VetClinic.Data.Data.Clinic
         public DateTime? UpdatedDate { get; set; }
 
         public int? VisitId { get; set; }
-        [ForeignKey("VisitId")]
+        [ForeignKey("VisitID")]
         [Display(Name = "Wizyta")]
         public Visit Visit { get; set; }
 
