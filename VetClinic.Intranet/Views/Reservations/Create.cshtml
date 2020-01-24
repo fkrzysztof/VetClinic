@@ -12,8 +12,8 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="label1">Klient</span>
             </div>
-            <input type="hidden" id="UserID" asp-for="ReservationUserID" class="form-control" aria-describedby="label1" />
-            <input id="OwnerDate" type="text" asp-for="ReservationUser" class="form-control" />
+            <input type="hidden" id="PatientUserID" asp-for="ReservationUserID" class="form-control" aria-describedby="label1" />
+            <input id="daneWlasciciela" type="text" asp-for="ReservationUser" class="form-control" />
             <span asp-validation-for="ReservationUserID" class="text-danger"></span>
         </div>
         <div class="col-md-2 wiersz">
@@ -45,7 +45,7 @@
     <input type="submit" value="Utwórz rezerwacje" class="btn btn-success float-right buttMargin" />
 </form>
 <div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Lista Urzytkowników</h5>
@@ -79,7 +79,7 @@
                 $(document).ready(function () {
                     $('#exampleModal').on('hidden.bs.modal', function () {
                         var url = '@Url.Content("~/")' + "Reservations/GetPatient";
-                        var ddlsource = "#UserID";
+                        var ddlsource = "#PatientUserID";
                         $.getJSON(url, { UserID: $(ddlsource).val() }, function (data) {
                             var items = '';
                             $("#PatientID").empty();
