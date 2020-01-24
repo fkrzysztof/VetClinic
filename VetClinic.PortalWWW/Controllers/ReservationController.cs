@@ -157,9 +157,11 @@ namespace VetClinic.PortalWWW.Controllers
         }
 
         //GET: Reservation/Create
-        public IActionResult Create()
+        public IActionResult Create(int? PatientId)
         {
             int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+            if(PatientId!=null)
+                ViewData["PatientID"] = new SelectList(_context.Patients.Where(p => p.PatientUserID == UserId), "PatientID", "Name", PatientId);
             ViewData["PatientID"] = new SelectList(_context.Patients.Where(p=>p.PatientUserID == UserId), "PatientID", "Name");
             //ViewData["BlokCzasowy"] = new SelectList(_context.ScheduleBlocks.OrderBy(b => b.Time), "ScheduleBlockID", "Time");
             return View();

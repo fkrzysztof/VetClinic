@@ -150,7 +150,7 @@ namespace VetClinic.PortalWWW.Controllers
                 if (DateOfVisit > DateTime.MinValue)
                 {
                     TempData["DateOfVisit"] = DateOfVisit;
-                    return RedirectToAction("Create","Reservation");
+                    return RedirectToAction("Create","Reservation", new { PatientId = patient.PatientID });
                 }
 
                 return RedirectToAction(nameof(Index));
