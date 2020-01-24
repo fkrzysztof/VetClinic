@@ -4,7 +4,7 @@
     ViewData["Title"] = "Nowa rezerwacja";
     DateTime DateOfVisit = Convert.ToDateTime(ViewData["DateOfVisit"]);
 }
-    <h4>Data wizyty @DateOfVisit.ToString("dd/MM/yyyy, HH:mm") </h4>
+<h4>Data wizyty @DateOfVisit.ToString("dd/MM/yyyy, HH:mm") </h4>
 <form asp-action="Create">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
@@ -12,8 +12,12 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="label1">Klient</span>
             </div>
-            <select asp-for="ReservationUserID" id="UserID" class="form-control" asp-items="ViewBag.ReservationUserID"></select>
-            <span asp-validation-for="ReservationUserID" class="text-danger"></span>         
+            <input type="hidden" id="PatientUserID" asp-for="ReservationUserID" class="form-control" aria-describedby="label1" />
+            <input id="daneWlasciciela" type="text" asp-for="ReservationUser" class="form-control" />
+            <span asp-validation-for="ReservationUserID" class="text-danger"></span>
+        </div>
+        <div class="col-md-2 wiersz">
+            <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
         </div>
     </div>
     <div class="form-group">
@@ -25,24 +29,6 @@
                     asp-items="@(new SelectList(string.Empty, "PatientID", "Name"))">
             </select>
             <span asp-validation-for="PatientID" class="text-danger"></span>
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    $('#UserID').change(function () {
-                        var url = '@Url.Content("~/")' + "Reservations/GetPatient";
-                        var ddlsource = "#UserID";
-                        $.getJSON(url, { UserID: $(ddlsource).val() }, function (data) {
-                            var items = '';
-                            $("#PatientID").empty();
-                            $.each(data, function (i, modele) {
-                                items += "<option value='" + modele.value + "'>" + modele.text + "</option>";
-                            });
-                            $('#PatientID').html(items);
-                        });
-                    });
-                });
-            </script>
-
         </div>
     </div>
     <div class="form-group">
@@ -55,14 +41,56 @@
         </div>
     </div>
     <input type="hidden" name="DateOfVisitFromCalendar" value="@DateOfVisit" />
-    
-    <input type="submit" value="Utwórz" class="btn btn-success float-right buttMargin" />
+
+    <input type="submit" value="Utwórz rezerwacje" class="btn btn-success float-right buttMargin" />
 </form>
-
-
-
-
+<div class="modal fade bd-example-modal-xl" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Lista Urzytkowników</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script>
+    $(".myselect").select2();
+    $('#add').click(function () {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("ChooseOwner","Patients")',
+            success: (data) => {
+                $('#exampleModal').find('.modal-body').html(data);
+                $('#exampleModal').modal('show');
+                $(document).ready(function () {
+                    $('#exampleModal').on('hidden.bs.modal', function () {
+                        var url = '@Url.Content("~/")' + "Reservations/GetPatient";
+                        var ddlsource = "#PatientUserID";
+                        $.getJSON(url, { UserID: $(ddlsource).val() }, function (data) {
+                            var items = '';
+                            $("#PatientID").empty();
+                            $.each(data, function (i, modele) {
+                                items += "<option value='" + modele.value + "'>" + modele.text + "</option>";
+                            });
+                            $('#PatientID').html(items);
+                        });
+                    });
+                });
+            }
+        })
+    });
+</script>
