@@ -2,20 +2,12 @@
 
 namespace VetClinic.Data.Migrations
 {
-    public partial class Add_VisitId_in_Reservation_Fix1 : Migration
+    public partial class Add_VisitId_in_Reservation_Fix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Reservations_Visits_VisitID",
-                table: "Reservations");
-
-            migrationBuilder.DropIndex(
-                name: "IX_Reservations_VisitID",
-                table: "Reservations");
-
-            migrationBuilder.DropColumn(
-                name: "VisitID",
+                name: "FK_Reservations_Visits_VisitId",
                 table: "Reservations");
 
             migrationBuilder.RenameColumn(
@@ -23,10 +15,10 @@ namespace VetClinic.Data.Migrations
                 table: "Reservations",
                 newName: "VisitID");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Reservations_VisitID",
+            migrationBuilder.RenameIndex(
+                name: "IX_Reservations_VisitId",
                 table: "Reservations",
-                column: "VisitID");
+                newName: "IX_Reservations_VisitID");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Reservations_Visits_VisitID",
@@ -43,30 +35,20 @@ namespace VetClinic.Data.Migrations
                 name: "FK_Reservations_Visits_VisitID",
                 table: "Reservations");
 
-            migrationBuilder.DropIndex(
-                name: "IX_Reservations_VisitID",
-                table: "Reservations");
-
             migrationBuilder.RenameColumn(
                 name: "VisitID",
                 table: "Reservations",
                 newName: "VisitId");
 
-            migrationBuilder.AddColumn<int>(
-                name: "VisitID",
-                table: "Reservations",
-                type: "int",
-                nullable: true);
-
-            migrationBuilder.CreateIndex(
+            migrationBuilder.RenameIndex(
                 name: "IX_Reservations_VisitID",
                 table: "Reservations",
-                column: "VisitID");
+                newName: "IX_Reservations_VisitId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Reservations_Visits_VisitID",
+                name: "FK_Reservations_Visits_VisitId",
                 table: "Reservations",
-                column: "VisitID",
+                column: "VisitId",
                 principalTable: "Visits",
                 principalColumn: "VisitID",
                 onDelete: ReferentialAction.Restrict);
