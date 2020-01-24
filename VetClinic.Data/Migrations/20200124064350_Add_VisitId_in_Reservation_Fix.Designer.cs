@@ -10,8 +10,8 @@ using VetClinic.Data;
 namespace VetClinic.Data.Migrations
 {
     [DbContext(typeof(VetClinicContext))]
-    [Migration("20200123120016_Add_VisitId_in_Reservation_Fix1")]
-    partial class Add_VisitId_in_Reservation_Fix1
+    [Migration("20200124064350_Add_VisitId_in_Reservation_Fix")]
+    partial class Add_VisitId_in_Reservation_Fix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
