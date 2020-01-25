@@ -57,6 +57,7 @@ namespace VetClinic.Intranet.Controllers
                 }
             ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name");
             ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID");
+            ViewBag.patientId = patientId;
             return View(visitMedic);
         }
 
@@ -65,15 +66,14 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("VisitMedicineID,VisitID,MedicineID")] VisitMedicine visitMedicine)
+        public async Task<IActionResult> Create(int? id, int patientId, [Bind("VisitMedicineID,VisitID,MedicineID")] VisitMedicine visitMedicine)
         {
             id = visitMedicine.VisitID;
-
             if (ModelState.IsValid)
             {
                 _context.Add(visitMedicine);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Patients");
+                return RedirectToAction("Visit", "Patients", new { id = patientId });
             }
             ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name", visitMedicine.MedicineID);
             ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID", visitMedicine.VisitID);
@@ -170,6 +170,14 @@ namespace VetClinic.Intranet.Controllers
         private bool VisitMedicineExists(int id)
         {
             return _context.VisitMedicines.Any(e => e.VisitMedicineID == id);
+        }
+
+        public async Task<IActionResult> DeleteNow(int id, int patientId)
+        {
+            var visitMedicine = await _context.VisitMedicines.FindAsync(id);
+            _context.VisitMedicines.Remove(visitMedicine);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Visit", "Patients", new { id = patientId });
         }
     }
 }

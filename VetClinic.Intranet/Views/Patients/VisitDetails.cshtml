@@ -45,55 +45,55 @@
                     </form>
                 </div>
                 @* ZABIEGI TAB *@
-            <div class="tab-pane fade" id="nav-zabieg" role="tabpanel" aria-labelledby="nav-zabieg-tab">
+                <div class="tab-pane fade" id="nav-zabieg" role="tabpanel" aria-labelledby="nav-zabieg-tab">
 
-                <a class="btn btn-outline-primary btn-sm listButtMargin" style="margin-left: 12px; margin-top: 12px;" id="addTreatment" role="button" visit-id="@Model.Visit.VisitID">
-                    <span class="fa fa-plus-circle"></span>
-                    Dodaj zabieg
-                </a>
+                    <a class="btn btn-outline-primary btn-sm listButtMargin" style="margin-left: 12px; margin-top: 12px;" id="addTreatment" role="button" visit-id="@Model.Visit.VisitID">
+                        <span class="fa fa-plus-circle"></span>
+                        Dodaj zabieg
+                    </a>
 
-                @if (Model.VisitTreatments.Count == 0)
-                {
-                    <br /><br />
-                    <p><b>Nie ma dodanych zabiegów</b></p><br /><br />
-                }
-                else
-                {
-                    <div class="table-responsive odstep">
-                        <table class="table table-hover">
-                            <thead class="komorka">
-                                <tr>
-                                    <th>
-                                        Nazwa zabiegu
-                                    </th>
-                                    <th>
-                                        Rodzaj
-                                    </th>
-                                    <th width="20px"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.VisitTreatments)
-                                {
+                    @if (Model.VisitTreatments.Count == 0)
+                    {
+                        <br /><br />
+                        <p><b>Nie ma dodanych zabiegów</b></p><br /><br />
+                    }
+                    else
+                    {
+                        <div class="table-responsive odstep">
+                            <table class="table table-hover">
+                                <thead class="komorka">
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Treatment.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Treatment.Description)
-                                        </td>
-                                        <td width="20px">
-                                            <a href="@Url.ActionLink("Delete", "VisitTreatments", new { id = @item.VisitTreatmentID })" style="color:#f3715b;" role="button" data-toggle="tooltip" title="Usuń">
-                                                <i class="fas fa-times"></i>
-                                            </a>
-                                        </td>
+                                        <th>
+                                            Nazwa zabiegu
+                                        </th>
+                                        <th>
+                                            Rodzaj
+                                        </th>
+                                        <th width="20px"></th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-            </div>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.VisitTreatments)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Treatment.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Treatment.Description)
+                                            </td>
+                                            <td width="20px">
+                                                <a href="@Url.ActionLink("DeleteNow", "VisitTreatments", new { id = @item.VisitTreatmentID, patientId = @item.Visit.PatientID })" style="color:#f3715b;" role="button" data-toggle="tooltip" title="Usuń">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
                 @* LEKI TAB *@
                 <div class="tab-pane fade" id="nav-leki" role="tabpanel" aria-labelledby="nav-leki-tab">
 
@@ -117,8 +117,8 @@
                                             Nazwa leku
                                         </th>
                                         @*<th>
-                                            Ilość
-                                        </th>*@
+                                                Ilość
+                                            </th>*@
                                         <th>
                                             Typ leku
                                         </th>
@@ -133,13 +133,13 @@
                                                 @Html.DisplayFor(modelItem => item.Medicine.Name)
                                             </td>
                                             @*<td>
-                                                @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                                            </td>*@
+                                                    @Html.DisplayFor(modelItem => item.Medicine.Quantity)
+                                                </td>*@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
                                             </td>
                                             <td width="20px">
-                                                <a href="@Url.ActionLink("Delete", "VisitMedicines", new { id = @item.VisitMedicineID })" style="color:#f3715b;" role="button" data-toggle="tooltip" title="Usuń">
+                                                <a href="@Url.ActionLink("DeleteNow", "VisitMedicines", new { id = @item.VisitMedicineID, patientId = @item.Visit.PatientID })" style="color:#f3715b;" role="button" data-toggle="tooltip" title="Usuń">
                                                     <i class="fas fa-times"></i>
                                                 </a>
                                             </td>
@@ -190,6 +190,8 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+
 <script>
      $('.showDetails').click(function () {
 
@@ -242,7 +244,7 @@
     );
 </script>
 
-<div class="modal fade bd-example-modal-xl" id="TreatmentModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-xl" id="TreatmentModal" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" style="max-width:600px" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -272,7 +274,7 @@
     );
 </script>
 
-<div class="modal fade bd-example-modal-xl" id="MedicineModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-xl" id="MedicineModal" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" style="max-width:600px" role="document">
         <div class="modal-content">
             <div class="modal-header">
