@@ -1,4 +1,5 @@
-﻿@model VetClinic.Data.Data.Clinic.User
+﻿@using Microsoft.AspNetCore.Http;
+@model VetClinic.Data.Data.Clinic.User
 
 @{
     ViewData["Title"] = String.Format("Edycja użytkownika {0} {1} (Login: {2})", Model.FirstName, Model.LastName, Model.Login);
@@ -57,7 +58,14 @@
                                     <span class="input-group-text" id="label1">Hasło</span>
                                 </div>
                                 <input type="hidden" id="passwordInput" asp-for="Password" class="form-control" aria-describedby="label1" />
-                                <input id="passPop" type="button" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="Nowe hasło zostało wygenerowane, nie zapomnij zapisać zmian!" onclick="generatePassword()" value="Generuj hasło" class="generate-pass btn-primary form-control valid" />
+                                @if (Model.Login == Context.Session.GetString("Login"))
+                                {
+                                    <input id="passPop" type="button" data-placement="top" value="Generuj hasło" class="btn-secondary form-control valid center-block" disabled/>
+                                }
+                                else
+                                {
+                                    <input id="passPop" type="button" data-toggle="popover" data-trigger="focus" data-placement="top" data-content="Nowe hasło zostało wygenerowane, nie zapomnij zapisać zmian!" onclick="generatePassword()" value="Generuj hasło" class="generate-pass btn-primary form-control valid" />
+                                }
                                 <span asp-validation-for="Password" class="text-danger"></span>
                             </div>
                         </div>
@@ -213,9 +221,9 @@
                     </div>
                 </div>
                 @*<form asp-action="Delete" asp-route-id="@Model.UserID" onsubmit="alert('Na pewno chcesz usunąć użytkownika?')">
-                <input type="hidden" asp-for="UserID" />
-                <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
-            </form>*@
+                        <input type="hidden" asp-for="UserID" />
+                        <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
+                    </form>*@
             }
             else
             {
