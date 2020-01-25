@@ -133,6 +133,7 @@ namespace VetClinic.Intranet.Controllers
                 var LoggedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                 news.UserID = LoggedUserID;
                 news.AddedDate = DateTime.Now;
+                news.UpdatedDate = news.AddedDate;
                 news.IsActive = true;
 
                 _context.Add(news);

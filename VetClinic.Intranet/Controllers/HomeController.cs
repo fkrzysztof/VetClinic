@@ -52,7 +52,7 @@ namespace VetClinic.Intranet.Controllers
                                         && n.IsActive == true 
                                         && n.SenderUser.UserID != userid
                                         && n.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
-                                        .OrderBy(o => o.AddedDate).Take(6).ToList();
+                                        .OrderByDescending(o => o.UpdatedDate).Take(6).ToList();
 
             if (((List<News>)ViewBag.VetClinicContext).Any())
             {
@@ -111,7 +111,7 @@ namespace VetClinic.Intranet.Controllers
                                         && n.IsActive == true
                                         && n.SenderUser.UserID != userid
                                         && n.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
-                                        .OrderBy(o => o.AddedDate).Take(6).ToList();
+                                        .OrderByDescending(o => o.UpdatedDate).Take(6).ToList();
 
             if (((List<News>)ViewBag.VetClinicContext).Any())
             {
