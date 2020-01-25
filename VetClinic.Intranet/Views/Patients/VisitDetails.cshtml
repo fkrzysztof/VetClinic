@@ -3,16 +3,11 @@
 @{
     Layout = null;
 }
-
-
-
 <link href="~/css/Zakladki.css" rel="stylesheet" />
-
-<!------ Include the above in your HEAD tag ---------->
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col" style="padding-left: 0px;padding-right: 0px;">
             <nav>
                 <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                     <a class="nav-item nav-link active" id="nav-dane-tab" data-toggle="tab" href="#nav-dane" role="tab" aria-controls="nav-dane" aria-selected="true">Opis</a>
@@ -22,7 +17,7 @@
             </nav>
 
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="nav-dane" role="tabpanel" aria-labelledby="nav-dane-tab">
+                <div class="tab-pane fade show active" id="nav-dane" role="tabpanel" aria-labelledby="nav-dane-tab" style="padding-top: 15px;">
                     <form asp-action="Visit" enctype="multipart/form-data" class="col" id="saveForm">
                         <div class="form-row">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -46,68 +41,71 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </form>
                 </div>
-                @*<div>
-            <div class="row">
-                <div class="showDetails col-sm-6 wiersz" Visit-Id="@Model.Visit.VisitID" style="cursor:pointer;height:auto">
-                    <p class="odstep">  @Html.DisplayFor(model => model.Visit.Description)</p>
-                </div>
-            </div>
-        </div>*@
-                <div class="tab-pane fade" id="nav-zabieg" role="tabpanel" aria-labelledby="nav-zabieg-tab">
+                @* ZABIEGI TAB *@
+            <div class="tab-pane fade" id="nav-zabieg" role="tabpanel" aria-labelledby="nav-zabieg-tab">
 
-                    @if (Model.VisitTreatments.Count == 0)
-                    {
-                        <br />
-                        <p><b>Nie ma dodanych zabiegów</b></p>
-                    }
-                    else
-                    {
-                        <div class="table-responsive odstep">
-                            <table class="table table-hover">
-                                <thead class="komorka">
+                <a class="btn btn-outline-primary btn-sm listButtMargin" style="margin-left: 12px; margin-top: 12px;" id="addTreatment" role="button" visit-id="@Model.Visit.VisitID">
+                    <span class="fa fa-plus-circle"></span>
+                    Dodaj zabieg
+                </a>
+
+                @if (Model.VisitTreatments.Count == 0)
+                {
+                    <br /><br />
+                    <p><b>Nie ma dodanych zabiegów</b></p><br /><br />
+                }
+                else
+                {
+                    <div class="table-responsive odstep">
+                        <table class="table table-hover">
+                            <thead class="komorka">
+                                <tr>
+                                    <th>
+                                        Nazwa zabiegu
+                                    </th>
+                                    <th>
+                                        Rodzaj
+                                    </th>
+                                    <th width="20px"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.VisitTreatments)
+                                {
                                     <tr>
-                                        <th>
-                                            Nazwa
-                                        </th>
-                                        @*<th>
-                                    Ilosc
-                                </th>*@
-                                        <th>
-                                            Typ leku
-                                        </th>
-                                        <th></th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Treatment.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Treatment.Description)
+                                        </td>
+                                        <td width="20px">
+                                            <a href="@Url.ActionLink("Delete", "VisitTreatments", new { id = @item.VisitTreatmentID })" style="color:#f3715b;" role="button" data-toggle="tooltip" title="Usuń">
+                                                <i class="fas fa-times"></i>
+                                            </a>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.VisitTreatments)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Treatment.Name)
-                                            </td>
-                                            @*<td>
-                                        @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                                    </td>*@
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Treatment.Description)
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    }
-                </div>
-
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+                @* LEKI TAB *@
                 <div class="tab-pane fade" id="nav-leki" role="tabpanel" aria-labelledby="nav-leki-tab">
+
+                    <a class="btn btn-outline-primary btn-sm listButtMargin" style="margin-left: 12px; margin-top: 12px;" id="addMedicine" role="button" visit-id="@Model.Visit.VisitID">
+                        <span class="fa fa-plus-circle"></span>
+                        Dodaj lek
+                    </a>
                     @if (Model.VisitMedicine.Count == 0)
-                    {<br />
+                    {<br /><br />
                         <p>
                             <b>Nie ma dodanych leków</b>
-                        </p>
+                        </p><br /><br />
                     }
                     else
                     {
@@ -116,15 +114,15 @@
                                 <thead class="komorka">
                                     <tr>
                                         <th>
-                                            Nazwa
+                                            Nazwa leku
                                         </th>
                                         @*<th>
-                                    Ilosc
-                                </th>*@
+                                            Ilość
+                                        </th>*@
                                         <th>
                                             Typ leku
                                         </th>
-                                        <th></th>
+                                        <th width="20px"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -135,10 +133,15 @@
                                                 @Html.DisplayFor(modelItem => item.Medicine.Name)
                                             </td>
                                             @*<td>
-                                        @Html.DisplayFor(modelItem => item.Medicine.Quantity)
-                                    </td>*@
+                                                @Html.DisplayFor(modelItem => item.Medicine.Quantity)
+                                            </td>*@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
+                                            </td>
+                                            <td width="20px">
+                                                <a href="@Url.ActionLink("Delete", "VisitMedicines", new { id = @item.VisitMedicineID })" style="color:#f3715b;" role="button" data-toggle="tooltip" title="Usuń">
+                                                    <i class="fas fa-times"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     }
@@ -148,15 +151,6 @@
                     }
                 </div>
 
-                <div class="col-md-12">
-                    <p class="odstep">
-                        <a class="edytuj btn btn-outline-primary btn-sm listButtMargin" role="button" Visit-Id="@Model.Visit.VisitID">
-                            <span class="fa fa-edit"></span>
-                            Edytuj
-                        </a>
-                    </p>
-                </div>
-
                 @await Component.InvokeAsync("DetailsComponent", new
                             {
                                AddedDate = @Model.Visit.AddedDate,
@@ -164,33 +158,32 @@
                                UpdatedDate = @Model.Visit.UpdatedDate,
                                UpdatedUserID = @Model.Visit.UpdatedUserID
                             })
-                <div class="row">
+                @* Row z buttonami Usuń / Zapisz *@
+                <div class="row" style="padding-bottom: 15px;padding-left: 15px;padding-right: 12px;padding-top: 5px;">
                     <div class="col">
                         @if (Model.Visit.IsActive)
                         {
-                            <form asp-action="DeleteVisit" asp-route-id="@Model.Visit.VisitID" onsubmit="alert('Na pewno chcesz usunąć pacjenta?')">
+                            <form asp-action="DeleteVisit" asp-route-id="@Model.Visit.VisitID" onsubmit="alert('Na pewno chcesz usunąć wizytę?')">
                                 <input type="hidden" asp-for="Visit.VisitID" />
-                                <input type="submit" value="Usuń wizyte" class="btn btn-outline-danger buttMargin"/>
+                                <input type="submit" value="Usuń wizyte" class="btn btn-outline-danger buttMargin" />
                             </form>
                         }
                         else
                         {
                             <form asp-action="RestoreVisit" asp-route-id="@Model.Visit.VisitID">
                                 <input type="hidden" asp-for="Visit.VisitID" />
-                                <input type="submit" value="Przywróć wizyte" class="btn btn-success buttMargin"/>
+                                <input type="submit" value="Przywróć wizyte" class="btn btn-success buttMargin" />
                             </form>
                         }
                     </div>
                     <div class="col">
-                        <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin" 
-                               asp-action="EditVisit" asp-route-id="@Model.Visit.VisitID" asp-fragment="@Model.Visit.VisitID"/>
+                        <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin"
+                               asp-action="EditVisit" asp-route-id="@Model.Visit.VisitID" asp-fragment="@Model.Visit.VisitID" />
                     </div>
                 </div>
 
             </div>
-            
         </div>
-        
     </div>
 </div>
 
@@ -234,3 +227,63 @@
                 });
                 });
 </script>
+
+<script>
+    $('#addTreatment').click(function (e) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Create","VisitTreatments", new { id = @Model.Visit.VisitID, patientId = @Model.Visit.PatientID })',
+              success: (data) => {
+                  $('#TreatmentModal').find('.modal-body').html(data);
+                  $('#TreatmentModal').modal('show');
+              }
+        })
+    }
+    );
+</script>
+
+<div class="modal fade bd-example-modal-xl" id="TreatmentModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="max-width:600px" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Zabiegi do dodania:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#addMedicine').click(function (e) {
+        $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Create","VisitMedicines", new { id = @Model.Visit.VisitID, patientId = @Model.Visit.PatientID })',
+              success: (data) => {
+                  $('#MedicineModal').find('.modal-body').html(data);
+                  $('#MedicineModal').modal('show');
+              }
+        })
+    }
+    );
+</script>
+
+<div class="modal fade bd-example-modal-xl" id="MedicineModal" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" style="max-width:600px" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Leki do dodania:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+        </div>
+    </div>
+</div>

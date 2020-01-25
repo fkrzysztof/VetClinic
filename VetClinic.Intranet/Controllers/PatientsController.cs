@@ -104,6 +104,28 @@ namespace VetClinic.Intranet.Controllers
             return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
 
         }
+
+        public IActionResult AddVisitTreatment()
+        {
+            ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name");
+            ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID");
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddVisitTreatment([Bind("VisitTreatmentID,VisitID,TreatmentID")] VisitTreatment visitTreatment)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(visitTreatment);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "Patients");
+            }
+            ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name", visitTreatment.TreatmentID);
+            ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID", visitTreatment.VisitID);
+            return View(visitTreatment);
+        }
+
         public async Task<IActionResult> DetailsUpdated(int? id)
         {         
             if (id == null)
@@ -369,6 +391,7 @@ namespace VetClinic.Intranet.Controllers
 
             return View(view);
         }
+
         public async Task<IActionResult> EditVisit(int? id)
         {
             if (id == null)
@@ -499,4 +522,3 @@ namespace VetClinic.Intranet.Controllers
         }
     }
 }
-    

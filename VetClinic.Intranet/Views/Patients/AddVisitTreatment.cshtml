@@ -1,0 +1,30 @@
+﻿@model VetClinic.Data.Data.Clinic.VisitTreatment
+
+@{
+    Layout = null;
+}
+
+    <div class="row">
+        <div class="col">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="VisitID" class="control-label"></label>
+                    <select asp-for="VisitID" class="form-control" asp-items="ViewBag.VisitID"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TreatmentID" class="control-label"></label>
+                    <select asp-for="TreatmentID" class="form-control" asp-items="ViewBag.TreatmentID"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Zapisz" class="btn btn-primary" />
+                    @*<input type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin"
+                        asp-action="EditVisit" asp-route-id="@Model.Visit.VisitID" asp-fragment="@Model.Visit.VisitID" />*@
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>

@@ -47,11 +47,17 @@ namespace VetClinic.Intranet.Controllers
         }
 
         // GET: VisitMedicines/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int? id, int patientId)
         {
+            var visitMedic = await _context.VisitMedicines
+                .FirstOrDefaultAsync(m => m.Visit.VisitID == id);
+                if (visitMedic == null)
+                {
+                visitMedic = new VisitMedicine { VisitID = id };
+                }
             ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name");
             ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID");
-            return View();
+            return View(visitMedic);
         }
 
         // POST: VisitMedicines/Create
@@ -59,13 +65,15 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VisitMedicineID,VisitID,MedicineID")] VisitMedicine visitMedicine)
+        public async Task<IActionResult> Create(int? id, [Bind("VisitMedicineID,VisitID,MedicineID")] VisitMedicine visitMedicine)
         {
+            id = visitMedicine.VisitID;
+
             if (ModelState.IsValid)
             {
                 _context.Add(visitMedicine);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Patients");
             }
             ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name", visitMedicine.MedicineID);
             ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID", visitMedicine.VisitID);
@@ -155,7 +163,8 @@ namespace VetClinic.Intranet.Controllers
             var visitMedicine = await _context.VisitMedicines.FindAsync(id);
             _context.VisitMedicines.Remove(visitMedicine);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            //return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "Patients");
         }
 
         private bool VisitMedicineExists(int id)

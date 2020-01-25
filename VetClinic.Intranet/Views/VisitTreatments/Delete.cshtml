@@ -1,15 +1,15 @@
-﻿@model VetClinic.Data.Data.Clinic.VisitMedicine
+﻿@model VetClinic.Data.Data.Clinic.VisitTreatment
 
 @{
     ViewData["Title"] = "Usuwanie leku";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div>
-    <h4>Czy na pewno chcesz usunać ten lek z wizyty?</h4>
+    <h4>Czy na pewno chcesz usunać ten zabieg z wizyty?</h4>
     <hr />
 
     <form asp-action="Delete">
-        <input type="hidden" asp-for="VisitMedicineID" />
+        <input type="hidden" asp-for="VisitTreatmentID" />
         <input type="submit" value="Delete" class="btn btn-outline-danger" />
     </form>
 </div>
