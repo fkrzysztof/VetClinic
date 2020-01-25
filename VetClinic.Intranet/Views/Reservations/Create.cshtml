@@ -13,12 +13,12 @@
                 <span class="input-group-text" id="label1">Klient</span>
             </div>
             <input type="hidden" id="PatientUserID" asp-for="ReservationUserID" class="form-control" aria-describedby="label1" />
-            <input id="daneWlasciciela" type="text" asp-for="ReservationUser" class="form-control" />
+            <input id="daneWlasciciela" type="text" asp-for="ReservationUser" class="add form-control" />
             <span asp-validation-for="ReservationUserID" class="text-danger"></span>
         </div>
-        <div class="col-md-2 wiersz">
+        @*<div class="col-md-2 wiersz">
             <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
-        </div>
+        </div>*@
     </div>
     <div class="form-group">
         <div class="input-group">
@@ -69,7 +69,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
     $(".myselect").select2();
-    $('#add').click(function () {
+    $('.add').click(function () {
         $.ajax({
             type: 'GET',
             url: '@Url.Action("ChooseOwner","Patients")',
