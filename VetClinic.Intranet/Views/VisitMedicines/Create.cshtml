@@ -10,6 +10,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <input type="hidden" asp-for="VisitID" />
+                    <input type="hidden" name="patientId" id="patientId" value="@ViewBag.patientId" />
                 </div>
                 <div class="row">
                     <div class="form-group col-10">
@@ -17,7 +18,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="label1">Lek</span>
                             </div>
-                            <select asp-for="MedicineID" class="form-control" asp-items="ViewBag.MedicineID"></select>
+                            <select class="custom-select" asp-for="MedicineID" asp-items="ViewBag.MedicineID" data-width="100%" aria-describedby="label1"></select>
                         </div>
                     </div>
                     <div class="form-group col-2">

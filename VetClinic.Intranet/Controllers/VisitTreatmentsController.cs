@@ -58,25 +58,26 @@ namespace VetClinic.Intranet.Controllers
             }
             ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name");
             ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID");
+            ViewBag.patientId = patientId;
             return View(visitTreat);
         }
-
         // POST: VisitTreatments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(int? id, [Bind("VisitTreatmentID,VisitID,TreatmentID")] VisitTreatment visitTreatment)
+        public async Task<IActionResult> Create(int? id, int patientId, [Bind("VisitTreatmentID,VisitID,TreatmentID")] VisitTreatment visitTreatment)
         {
             id = visitTreatment.VisitID;
             if (ModelState.IsValid)
             {
                 _context.Add(visitTreatment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Patients");
+                return RedirectToAction("Visit", "Patients", new { id = patientId });
             }
             ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name", visitTreatment.TreatmentID);
             ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID", visitTreatment.VisitID);
+            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "PatientID");
             return View(visitTreatment);
         }
 
@@ -170,6 +171,14 @@ namespace VetClinic.Intranet.Controllers
         private bool VisitTreatmentExists(int id)
         {
             return _context.VisitTreatment.Any(e => e.VisitTreatmentID == id);
+        }
+
+        public async Task<IActionResult> DeleteNow(int id, int patientId)
+        {
+            var visitTreatment = await _context.VisitTreatment.FindAsync(id);
+            _context.VisitTreatment.Remove(visitTreatment);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Visit", "Patients", new { id = patientId });
         }
     }
 }
