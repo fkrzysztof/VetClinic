@@ -1,0 +1,30 @@
+﻿@model VetClinic.Data.Data.Clinic.VisitTreatment
+
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="VisitID" />
+            </div>
+            <div class="row">
+                <div class="form-group col-10">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Zabieg</span>
+                        </div>
+                        <select asp-for="TreatmentID" class="form-control" asp-items="ViewBag.TreatmentID"></select>
+                    </div>
+                </div>
+                <div class="form-group col-2">
+                    <input type="submit" value="Dodaj" class="btn btn-outline-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

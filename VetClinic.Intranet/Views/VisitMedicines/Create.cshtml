@@ -1,33 +1,29 @@
 ﻿@model VetClinic.Data.Data.Clinic.VisitMedicine
 
 @{
-    ViewData["Title"] = "Create";
+    Layout = null;
 }
 
-<h1>Create</h1>
-
-<h4>VisitMedicine</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="VisitID" class="control-label"></label>
-                <select asp-for="VisitID" class ="form-control" asp-items="ViewBag.VisitID"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="MedicineID" class="control-label"></label>
-                <select asp-for="MedicineID" class ="form-control" asp-items="ViewBag.MedicineID"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+    <div class="row">
+        <div class="col">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input type="hidden" asp-for="VisitID" />
+                </div>
+                <div class="row">
+                    <div class="form-group col-10">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="label1">Lek</span>
+                            </div>
+                            <select asp-for="MedicineID" class="form-control" asp-items="ViewBag.MedicineID"></select>
+                        </div>
+                    </div>
+                    <div class="form-group col-2">
+                        <input type="submit" value="Dodaj" class="btn btn-outline-primary" />
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
