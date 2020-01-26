@@ -47,10 +47,10 @@ namespace VetClinic.Intranet.Controllers
                 w.Title.Contains(searchString) ||
                 w.Message.Contains(searchString)
                 );
-                return View(await searchResult.OrderBy(u => u.UpdatedDate).ToListAsync());
+                return View(await searchResult.OrderByDescending(u => u.UpdatedDate).ToListAsync());
             }
 
-            return View(await vetClinicContext.OrderBy(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }        
         
         // GET: Moje
@@ -83,7 +83,7 @@ namespace VetClinic.Intranet.Controllers
                 return View(await searchResult.OrderByDescending(u => u.UpdatedDate).ToListAsync());
             }
 
-            return View(await vetClinicContext.OrderBy(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
         }
 
 
