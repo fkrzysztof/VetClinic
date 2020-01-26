@@ -290,7 +290,7 @@ namespace VetClinic.Intranet.Controllers
             }
             
             var patient = _context.Visits.Where(p => p.PatientID == id).OrderByDescending(u => u.IsActive)
-                .ThenByDescending(p => p.AddedDate > p.UpdatedDate && p.UpdatedDate != null ? p.AddedDate : p.UpdatedDate);
+                .ThenByDescending(p => p.UpdatedDate == null ? p.AddedDate : p.UpdatedDate);
 
             //var patient = _context.Visits.Where(p => p.PatientID == id).OrderByDescending(u => u.IsActive).ThenByDescending(p => p.AddedDate < p.UpdatedDate ? p.AddedDate : p.UpdatedDate);
 
