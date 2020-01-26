@@ -367,3 +367,8 @@ a.dropdown-item {
     padding-left: 0px;
     padding-right: 0px;
 }
+
+a.dropdown-item i {
+    width: 23px;
+    text-align: center;
+}
