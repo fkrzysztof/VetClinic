@@ -36,9 +36,9 @@
 <br />
 @using (Html.BeginForm("Deactivate", "AllUsers", FormMethod.Post))
 {
-<p>
-    <input class="btn btn-outline-secondary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
-</p>
+    <p>
+        <input class="btn btn-outline-secondary" role="button" aria-haspopup="true" aria-expanded="false" type="submit" value="Dezaktywuj" />
+    </p>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead class="thead-dark">
@@ -57,7 +57,7 @@
                     </th>
                     <th>
                         Rola
-                    </th>                   
+                    </th>
                     <th></th>
                 </tr>
             </thead>
@@ -84,7 +84,7 @@
                         </td>
                         <td onclick="location.href = '@(Url.Action("Edit", "AllUsers", new { id = item.UserID }, null))'">
                             @Html.DisplayFor(modelItem => item.UserType.Name)
-                        </td>                     
+                        </td>
                         <td>
                             <a class="btn btn-outline-primary btn-sm" role="button" asp-action="lockUnlock" asp-route-id="@item.UserID"
                                title="@String.Format("{0} użytkownika {1} {2}", (item.IsActive ? "Zablokuj" : "Oblokuj"), item.FirstName, item.LastName)">

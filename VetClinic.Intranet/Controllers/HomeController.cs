@@ -52,14 +52,14 @@ namespace VetClinic.Intranet.Controllers
                                         && n.IsActive == true 
                                         && n.SenderUser.UserID != userid
                                         && n.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
-                                        .OrderBy(o => o.AddedDate).ToList();
+                                        .OrderByDescending(o => o.UpdatedDate).Take(6).ToList();
 
-            if(((List<News>) ViewBag.VetClinicContext).Any())
+            if (((List<News>)ViewBag.VetClinicContext).Any())
             {
                 ViewData["Empty"] = "No Results";
             }
 
-                ViewBag.NewMessage = _context.News
+            ViewBag.NewMessage = _context.News
                 .Include(i => i.NewsReadeds)
                 .Where(w => w.UserTypeID == usertypeid && 
                     w.SenderUser.UserID != userid && 
@@ -101,10 +101,31 @@ namespace VetClinic.Intranet.Controllers
         {
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
-            ViewBag.VetClinicContext = _context.News.Include(n => n.NewsUpdatedUser)
-                                        .Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-                                        .Where(n => n.UserTypeID == usertypeid && n.IsActive == true).OrderBy( o => o.AddedDate).Take(4);
+            //ViewBag.VetClinicContext = _context.News.Include(n => n.NewsUpdatedUser)
+            //                            .Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
+            //                            .Where(n => n.UserTypeID == usertypeid && n.IsActive == true).OrderBy( o => o.AddedDate).Take(4);
 
+            ViewBag.VetClinicContext = _context.News.Include(n => n.NewsUpdatedUser)
+                                        .Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser).Include(n => n.NewsReadeds)
+                                        .Where(n => n.UserTypeID == usertypeid
+                                        && n.IsActive == true
+                                        && n.SenderUser.UserID != userid
+                                        && n.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+                                        .OrderByDescending(o => o.UpdatedDate).Take(6).ToList();
+
+            if (((List<News>)ViewBag.VetClinicContext).Any())
+            {
+                ViewData["Empty"] = "No Results";
+            }
+
+            ViewBag.NewMessage = _context.News
+                .Include(i => i.NewsReadeds)
+                .Where(w => w.UserTypeID == usertypeid &&
+                    w.SenderUser.UserID != userid &&
+                    w.StartDate <= DateTime.Now &&
+                    w.ExpirationDate >= DateTime.Now &&
+                    w.NewsReadeds.FirstOrDefault(f => f.UserId == userid) == null)
+                .Count();
 
             if (c.Navigation == "next")
                 c.First = c.First.Add(new TimeSpan(7, 0, 0, 0, 0));
