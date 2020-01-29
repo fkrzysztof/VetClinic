@@ -520,5 +520,26 @@ namespace VetClinic.Intranet.Controllers
 
             return RedirectToAction("Visit", "Patients", new { id = visit.PatientID }, Convert.ToString(id));
         }
+
+        public int DeleteVisitTretment(int TreatmentID, int VisitID)
+        {
+            VisitTreatment visitTreatments = _context.VisitTreatment
+               .Where(t => t.TreatmentID == TreatmentID)
+               .Where(v => v.VisitID == VisitID).FirstOrDefault();
+
+            _context.VisitTreatment.Remove(visitTreatments);
+            _context.SaveChangesAsync();
+            return VisitID;
+        }
+        public int DeleteVisitMedicine(int MedicineID, int VisitID)
+        {
+            VisitMedicine visitMedicine = _context.VisitMedicines
+               .Where(t => t.MedicineID == MedicineID)
+               .Where(v => v.VisitID == VisitID).FirstOrDefault();
+
+            _context.VisitMedicines.Remove(visitMedicine);
+            _context.SaveChangesAsync();
+            return VisitID;
+        }
     }
 }

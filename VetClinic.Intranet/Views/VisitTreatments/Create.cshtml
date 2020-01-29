@@ -18,9 +18,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Zabieg</span>
                         </div>
-                        @*<select class="myselect select2-container .select2-selection--single
-                                                        select2-container .select2-selection--single .select2-selection__rendered
-                                                        select2-container--default .select2-selection--single .select2-selection__arrow"
+                        @*<select id="myselectTreat"
                                 asp-for="TreatmentID" asp-items="ViewBag.TreatmentID" data-width="100%" aria-describedby="label1"></select>*@
                         <select class="custom-select" asp-for="TreatmentID" asp-items="ViewBag.TreatmentID" data-width="100%" aria-describedby="label1"></select>
                     </div>
@@ -36,41 +34,19 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-
-    <script>
-        $(".myselect").select2({
-        });
-
-    </script>
 }
 
-<style>
-    .select2-container .select2-selection--single {
-        height: 38px !important;
-    }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
-        .select2-container .select2-selection--single .select2-selection__rendered {
-            display: block !important;
-            padding-left: 8px !important;
-            padding-right: 20px !important;
-            padding-top: 2px !important;
-            overflow: hidden !important;
-            text-overflow: ellipsis !important;
-            white-space: nowrap !important;
-        }
+<script>
 
-    .select2-container--default
-    .select2-selection--single
-    .select2-selection__arrow {
-        height: 26px !important;
-        position: absolute !important;
-        top: 3px !important;
-        right: 1px !important;
-        width: 20px !important;
-    }
-</style>
+    $('#myselectTreat').select2({
+        dropdownParent: $('#TreatmentModal')
+    });
+        //$(document).ready(function () {
+        //    $('.myselect').select2();
+        //});
+</script>

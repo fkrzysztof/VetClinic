@@ -173,12 +173,5 @@ namespace VetClinic.Intranet.Controllers
             return _context.VisitTreatment.Any(e => e.VisitTreatmentID == id);
         }
 
-        public async Task<IActionResult> DeleteNow(int id, int patientId)
-        {
-            var visitTreatment = await _context.VisitTreatment.FindAsync(id);
-            _context.VisitTreatment.Remove(visitTreatment);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Visit", "Patients", new { id = patientId });
-        }
     }
 }
