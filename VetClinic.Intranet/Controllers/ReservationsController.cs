@@ -240,7 +240,7 @@ namespace VetClinic.Intranet.Controllers
             var res = await _context.Reservations.FindAsync(id2);
             res.VisitID = id3;
             await _context.SaveChangesAsync();
-            return RedirectToAction("ShowOwnReservation");
+            return RedirectToAction("Visit", "Patients", new { id = visit.PatientID }, Convert.ToString(visit.VisitID));
             //}
             //ViewData["VisitUserID"] = new SelectList(_context.Users, "UserID", "LastName", visit.VisitUserID);
             //ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", visit.PatientID);
