@@ -56,12 +56,15 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 medicine.IsActive = true;
                 medicine.AddedDate = DateTime.Now;
                 if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
                 {
                     medicine.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    
                 }
+                
                 _context.Add(medicine);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -109,10 +112,14 @@ namespace VetClinic.Intranet.Controllers
                 {
                     medicine.UpdatedDate = DateTime.Now;
                     medicine.IsActive = true;
+                    
+
                     if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
                     {
+                        medicine.Price.ToString("c");
                         medicine.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                     }
+                    
                     _context.Update(medicine);
                     await _context.SaveChangesAsync();
                 }

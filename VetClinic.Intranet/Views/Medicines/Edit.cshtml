@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = String.Format("Edycja leku {0}", Model.Name);
 }
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
 <div class="container">
     <div class="row">
@@ -39,7 +41,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">Cena</span>
                         </div>
-                        <input type="text" asp-for="Price" class="form-control text-right" aria-describedby="label1" />
+                        <input type="text" asp-for="Price"  class="form-control text-right" aria-describedby="label1" />
                         <div class="input-group-append">
                             <span asp-validation-for="Price" class="input-group-text">zł</span>
                         </div>
@@ -103,9 +105,9 @@
                     </div>
                 </div>
                 @*<form asp-action="Delete" asp-route-id="@Model.MedicineID" onsubmit="alert('Na pewno chcesz usunąć lek?')">
-                <input type="hidden" asp-for="MedicineID" />
-                <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
-            </form>*@
+                        <input type="hidden" asp-for="MedicineID" />
+                        <input type="submit" value="Usuń" class="btn btn-outline-danger buttMargin" />
+                    </form>*@
             }
             else
             {
