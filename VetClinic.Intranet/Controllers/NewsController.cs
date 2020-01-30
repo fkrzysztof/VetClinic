@@ -138,7 +138,7 @@ namespace VetClinic.Intranet.Controllers
 
                 _context.Add(news);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Own","News");
             }
 
             return View(news);
