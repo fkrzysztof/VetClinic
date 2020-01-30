@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
 
-
 @{
     ViewData["Title"] = "Przyjęcia na dziś";
 }
@@ -10,19 +9,24 @@
 </a>
 
 <div class="row" style="justify-content:center">
-    <div class="card-deck">
+    <div class="card-deck" style="text-align: -webkit-center; max-width:960px">
         @foreach (var item in Model)
         {
-            <div class="col-lg-3" style="padding-top:10px; padding-bottom:10px;padding-left: 0px;padding-right: 0px;">
-                <div class="card" style="text-align:center;">
-                    <div class="card-body" style="padding-bottom: 0px;">
-                        <h5 class="card-title">
+            <div class="rsrvCol col-lg-4">
+                <div class="rsrvCard card" >
+                    <div class="rsrvCardBody card-body">
+                        <h5 id="rsrvCardTitle" class="card-title" onclick="location.href = '@(Url.Action("Edit", "Reservations", new { id = item.ReservationID }, null))'">
                             <b style="overflow-wrap: normal;">
                                 @Convert.ToString(string.Format("{0:dd/MM/yyyy, HH:mm}", item.DateOfVisit))
                             </b>
                         </h5>
-                        <p class="card-text"><b>Pacjent: </b><br />@Html.DisplayFor(modelItem => item.Patients.Name)</p>
-                        <a class="btn btn-outline-primary  mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="AddVisitFromReservation" asp-route-id="@item.ReservationID" onclick="return true">
+                        <p class="rsrvP card-text" onclick="location.href = '@(Url.Action("Edit", "Patients", new { id = item.PatientID }, null))'">
+                            <b>Pacjent: </b>@Html.DisplayFor(modelItem => item.Patients.Name)
+                        </p>
+                        <p class="rsrvP card-text" onclick="location.href = '@(Url.Action("Edit", "AllUsers", new { id = item.Patients.PatientUserID }, null))'">
+                            <b>Właściciel: </b>@Html.DisplayFor(modelItem => item.Patients.PatientUser.LastName) @Html.DisplayFor(modelItem => item.Patients.PatientUser.FirstName)
+                        </p>
+                        <a  class="btn btn-outline-primary  mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="AddVisitFromReservation" asp-route-id="@item.ReservationID" onclick="return true">
                             <i class="fas fa-plus-circle"></i>
                             Utwórz wizytę
                         </a>

@@ -376,3 +376,29 @@ a.dropdown-item i {
 .buttMargin2 {
     margin-right: 15px;
 }
+
+.rsrvCol {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.rsrvCard {
+    text-align: center !important;
+    max-width: 300px !important;
+}
+
+.rsrvCardBody {
+    padding-bottom: 0px !important;
+}
+
+#rsrvCardTitle :hover {
+    color: #f37159 !important;
+    cursor: pointer !important;
+}
+
+.rsrvP:hover {
+    color: #f37159 !important;
+    cursor: pointer !important;
+}
