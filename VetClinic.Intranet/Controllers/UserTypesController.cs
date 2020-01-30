@@ -47,31 +47,31 @@ namespace VetClinic.Intranet.Controllers
             var usersPermissions_add = await _context.UserTypes
                 .FirstOrDefaultAsync(m => m.UserTypeID == id && m.IsActive == true);
 
-            //uprawnienia grupy - Access!
-            ICollection<UserTypePermission> permissions_add = _context.UserTypePermissions
+            ICollection<Permission> permissions_add = _context.UserTypePermissions.Include(i => i.Permission)
+                .Where(w => w.UserTypeID == id && w.IsActive == true && w.Access == true && w.Permission.IsActive == true)
+                .Select(s => s.Permission).ToList();
+            
+            
+            //uprawnienia w int
+            ICollection<int> permissions_select_name = _context.UserTypePermissions
                 .Include(i => i.Permission)
-                .Include(i => i.UserType.Users)
-                .Where(w => w.UserTypeID == id && w.IsActive == true && w.Access == true && w.Permission.IsActive == true).ToList();
+                .Where(w => w.UserTypeID == id && w.IsActive == true && w.Access == true && w.Permission.IsActive == true)
+                .Select(s => s.Permission.PermissionID).ToList();
 
-            //uprawnienia w string
-            ICollection<string> permissions_select_name = _context.UserTypePermissions
-                .Include(i => i.Permission)
-                .Where(w => w.UserTypeID == id && w.IsActive == true && w.Access == true)
-                .Select(s => s.Permission.Name).ToList();
-
-            //wszystkie istniejace uprawnienia w string
-            List<string> permissionsAllName = _context.Permissions.Where(w => w.IsActive == true).Select(s => s.Name).ToList();
+            //wszystkie istniejace uprawnienia w int
+            List<int> permissionsAllName = _context.Permissions.Where(w => w.IsActive == true).Select(s => s.PermissionID).ToList();
+            
             //kolekcja wszystkich uprawnien max
             List<Permission> permissionsAll = _context.Permissions.Where(w => w.IsActive == true).ToList();
 
-            foreach (string item2 in permissions_select_name)
+            foreach (int itemSelect in permissions_select_name) 
             {
-                foreach (string item in permissionsAllName)
+                foreach (int itemAll in permissionsAllName)
                 {
-                    if (item.Contains(item2))
+                    if (itemSelect == itemAll)
                     {
                         //usuwamy z listy te ktore juz sa w uprawnieniach grupy
-                        Permission permissionToRemove = permissionsAll.FirstOrDefault(w => w.Name == item);
+                        Permission permissionToRemove = permissionsAll.FirstOrDefault(w => w.PermissionID == itemSelect);
                         if (permissionToRemove != null)
                             permissionsAll.Remove(permissionToRemove);
                     }
@@ -107,19 +107,17 @@ namespace VetClinic.Intranet.Controllers
                 _context.SaveChanges();
             }
 
-
-            //lista uprawnien w string dla aktualnego typu (grupy)
+            //lista uprawnien w int dla aktualnego typu (grupy)
             List<int> permissionsQuery = _context.UserTypePermissions
                 .Where(w => w.UserTypeID == hd.typeUser.UserTypeID && w.IsActive == true && w.Access == true && w.Permission.IsActive == true)
-                .Select(s => s.UserPermissionID).ToList();
+                .Select(s => s.PermissionID).ToList();
 
-
-
+            // - odejmowanie
             foreach (int item in permissionsQuery) //juz istniejace uprawniena
             {
                 if (!select_permission.Contains(item)) //nowe rozdanie nie posiada elementu starego rozdania
                 {
-                    UserTypePermission resulUserTypePermissions = _context.UserTypePermissions.FirstOrDefault(w => w.UserPermissionID == item);
+                    UserTypePermission resulUserTypePermissions = _context.UserTypePermissions.FirstOrDefault(w => w.PermissionID == item && w.UserTypeID == hd.typeUser.UserTypeID && w.IsActive == true && w.Permission.IsActive == true );
                     if (resulUserTypePermissions != null)
                     {
                         resulUserTypePermissions.Access = false;
@@ -127,14 +125,21 @@ namespace VetClinic.Intranet.Controllers
                     }
                 }
             }
-
-            //stare rozdanie nie posiada elementu nowego 
+           
+            // + dodawnia
+            //stare rozdanie nie posiada elementu nowego II
             foreach (int item in select_permission)
             {
                 if (!permissionsQuery.Contains(item))
                 {
-                    Permission resultPermissionToAdd = _context.Permissions.FirstOrDefault(f => f.PermissionID == item && f.IsActive == true);
-                    if (resultPermissionToAdd != null)
+                    UserTypePermission resultPermissionToAdd = _context.UserTypePermissions
+                        .FirstOrDefault(w => w.UserTypeID == hd.typeUser.UserTypeID &&
+                        w.Access == false && 
+                        w.PermissionID == item && 
+                        w.IsActive == true && 
+                        w.Permission.IsActive == true);
+
+                    if (resultPermissionToAdd == null)
                     {
                         _context.UserTypePermissions.Add(new UserTypePermission
                         {
@@ -144,6 +149,12 @@ namespace VetClinic.Intranet.Controllers
                             IsActive = true,
                             AddedDate = DateTime.Now
                         });
+                        _context.SaveChanges();
+                    }                
+                    else
+                    {
+                        resultPermissionToAdd.Access = true;
+                        
                         _context.SaveChanges();
                     }
                 }

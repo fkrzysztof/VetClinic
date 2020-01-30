@@ -40,12 +40,20 @@ namespace VetClinic.Intranet.Controllers
                 permission.AddedDate = DateTime.Now;
                 permission.UpdatedDate = permission.AddedDate;
                 permission.IsActive = true;
-
-                _context.Add(permission);
-                await _context.SaveChangesAsync();
+                var result = _context.Permissions.FirstOrDefault(f => f.Name == permission.Name);
+                if (result == null)
+                {
+                    _context.Add(permission);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    result.IsActive = true;
+                    result.Description = permission.Description;
+                    _context.SaveChanges();
+                }
                 return RedirectToAction(nameof(Index));
             }
-
             return View(permission);
         }
 
@@ -102,7 +110,6 @@ namespace VetClinic.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-
             return View(permission);
         }
 
@@ -136,6 +143,13 @@ namespace VetClinic.Intranet.Controllers
             var permission = await _context.Permissions.FindAsync(id);
             permission.IsActive = true;
             permission.UpdatedDate = DateTime.Now;
+
+            (
+             from utp in _context.UserTypePermissions
+             where utp.PermissionID == id
+             select utp
+             ).ToList().ForEach(x => x.IsActive = true );
+
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));

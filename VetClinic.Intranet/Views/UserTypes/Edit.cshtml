@@ -44,10 +44,11 @@
                         {
                             <tr>
                                 <td>
-                                    <label for="@String.Format("role_{0}", @item.UserPermissionID)">@Html.DisplayFor(modelItem => item.Permission.Name)</label>
+                                    @*<label for="@String.Format("role_{0}", @item.Name)">@Html.DisplayFor(modelItem => item.Name)</label>*@
+                                    <label>@Html.DisplayFor(modelItem => item.Name)</label>
                                 </td>
                                 <td class="text-right">
-                                    <input type="checkbox" id="@String.Format("role_{0}", @item.UserPermissionID)" name="select_permission" checked="checked" value="@item.UserPermissionID" />
+                                    <input type="checkbox" id="@String.Format("role_{0}", @item.PermissionID)" name="select_permission" checked="checked" value="@item.PermissionID" />
                                 </td>
                             </tr>
                         }
