@@ -15,33 +15,36 @@
     <div class="row">
         <div class="col-12 text-left mt-4">
             <h1 class="mb-1 mt-3">@Model.FirstName @Model.LastName</h1>
+            <h4>Lekarz weterynarii</h4>
             <hr />
         </div>
     </div>
-    <div class="row" style="align-items:center; justify-content: center;">
-        <div class="col-lg-4 mt-4" style="text-align: center;">
+    <div class="row">
+        <div class="col-sm-4 mt-4">
             @{
                 if (Model.Image != null)
                 {
                     var base64 = Convert.ToBase64String(Model.Image);
                     var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                    <img class="rounded crewIndexImg" src="@imgSrc" />
+                    <img style="max-height: 350px" class="img-fluid rounded" src="@imgSrc" />
                 }
                 else
                 {
-                    <img class="rounded crewIndexImg" src="~/images/empty_image.png" />
+                    <img style="max-height: 350px" class="img-fluid rounded" src="~/images/empty_image.png" />
                 }
             }
         </div>
-        <div class="col-lg-5 text-left mt-4">
+        <div class="col-sm-8 text-left mt-4">
             @Model.Description
         </div>
-        <div class="col-lg-3 text-left mt-4 mb-4" style="align-self: start;">
-            <h5>Specjalizacje:</h5>
-            <ul class="list-group list-group-flush">
+        <div class="col-sm-12 text-left mt-4 mb-4">
+            <ul class="list-group list-group-horizontal">
                 @foreach (var item in ViewBag.MedicalSpecializations)
                 {
-                    <li class="list-group-item">@item.Specialization.Name</li>
+                    if (item.IsActive == true)
+                    {
+                        <li class="list-group-item">@item.Specialization.Name</li>
+                    }
                 }
             </ul>
         </div>
