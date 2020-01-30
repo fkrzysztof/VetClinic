@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <div class="form-group col-lg-4">
+                <div class="form-group col-lg-6">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="label1">Właściciel</span>
                         <input type="hidden" id="PatientUserID" asp-for="PatientUserID" class="form-control" aria-describedby="label1" />
@@ -46,9 +46,9 @@
                         <span asp-validation-for="PatientUserID" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-lg-2">
+                @*<div class="col-lg-2">
                     <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
-                </div>
+                </div>*@
 
                 <div class="form-group col-lg-6">
                     <div class="input-group">
@@ -185,8 +185,41 @@
 <script>
 
      $(".myselect").select2();
-
-    $('#add').click(function () {
+    $('#daneWlasciciela').click(function () {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("ChooseOwner","Patients")',
+                success: (data) => {
+                    $('#exampleModal').find('.modal-body').html(data);
+                    $('#exampleModal').modal('show');
+                    $(document).ready(function () {
+                        $('#exampleModal').on('hidden.bs.modal', function () {
+                            if (typeof (window.name) != 'undefined') {
+                                var tr = document.createElement("TR");
+                                tr.setAttribute("id", "myTr");
+                                document.getElementById("myTable").appendChild(tr);
+                                var td = document.createElement("TD");
+                                var checkbox = document.createElement('input');
+                                checkbox.type = "hidden";
+                                checkbox.name = "select_new_user";
+                                checkbox.value = window.id;
+                                checkbox.id = "notrole_" + window.id;
+                                var label = document.createElement('label');
+                                label.htmlFor = "newuser_" + window.id;
+                                label.appendChild(document.createTextNode(window.name));
+                                td.appendChild(checkbox);
+                                td.appendChild(label);
+                                tr.appendChild(td);
+                                document.getElementById("myTable").appendChild(tr);
+                                delete window.id;
+                                delete window.name;
+                            }
+                        });
+                    });
+                }
+            })
+    });
+    @*$('#add').click(function () {
         $.ajax({
             type: 'GET',
             url: '@Url.Action("ChooseOwner","Patients")',
@@ -197,5 +230,5 @@
                     }
 
         })
-                });
+                });*@
 </script>
