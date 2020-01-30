@@ -156,19 +156,19 @@
                                                     <button type="submit" class="btn shadow-sm btn-outline-success mt-1 ml-md-3 mr-md-3"
                                                             @if ((DateTime.Compare(block, DateTime.Now) == -1)) { @: disabled
                                                             }>
-                                                                @if ((DateTime.Compare(block, DateTime.Now) == -1))
-                                                                {
-                                                                    <s>
-                                                                        @block.ToString("HH:mm")
-                                                                    </s>
-                                                                    <br />
-                                                                    @:Wolny
-                                                                }
-                                                                else
-                                                                {
-                                                                    @block.ToString("HH:mm")<br />
-                                                                    @:Wolny
-                                                                }
+                                                        @if ((DateTime.Compare(block, DateTime.Now) == -1))
+                                                        {
+                                                            <s>
+                                                                @block.ToString("HH:mm")
+                                                            </s>
+                                                            <br />
+                                                            @:&nbsp;
+                                                        }
+                                                        else
+                                                        {
+                                                            @block.ToString("HH:mm")<br />
+                                                            @:Wolny
+                                                        }
                                                     </button>
                                                 </form>
                                             }
