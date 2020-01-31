@@ -11,10 +11,6 @@
             <i class="fas fa-plus-circle"></i>
             Dodaj
         </a>
-        <a class="btn btn-outline-secondary float-left btn-sm" role="button" aria-haspopup="true" aria-expanded="false" href='javascript:history.go(-1)'>
-        <i class="fas fa-chevron-left"></i>
-        Powrót
-        </a>
     </div>
 </div>
 
@@ -50,7 +46,7 @@
 </div>
 
 <div class="container">
-    @foreach (var item in Model)
+    @foreach (var item in Model.OrderByDescending(x => x.StartDate).ThenBy(y => y.AddedDate))
     {
         <div class="row no-gutters rounded shadow-sm mt-2 mb-2 
             @if(item.NewsReadeds.FirstOrDefault(f => f.NewsID == item.NewsID) == null)
