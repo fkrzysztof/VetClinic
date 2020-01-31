@@ -12,8 +12,8 @@
     <div class="card-deck" style="text-align: -webkit-center; max-width:960px">
         @foreach (var item in Model)
         {
-            <div class="rsrvCol col-lg-4">
-                <div class="rsrvCard card" >
+            <div class="rsrvCol col-lg-4" style="min-width:300px">
+                <div class="rsrvCard card">
                     <div class="rsrvCardBody card-body">
                         <h5 id="rsrvCardTitle" class="card-title" onclick="location.href = '@(Url.Action("Edit", "Reservations", new { id = item.ReservationID }, null))'">
                             <b style="overflow-wrap: normal;">
