@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using VetClinic.Data;
 using VetClinic.Data.Data.Clinic;
 using VetClinic.Data.Helpers;
@@ -22,22 +23,31 @@ namespace VetClinic.PortalWWW.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.UserFromSession = Int32.Parse(HttpContext.Session.GetString("UserID"));
-            while (true)
+
+            var value = HttpContext.Session.GetString("day");
+            if (value != null)
             {
-                if (now.DayOfWeek != DayOfWeek.Monday)
-                    now -= new TimeSpan(1, 0, 0, 0, 0);
-                else
-                    break;
+                DateTime day = JsonConvert.DeserializeObject<DateTime>(value);
+                sb.First = day;
             }
-            sb.First = now;
+            else
+            {
+                while (true)
+                {
+                    if (now.DayOfWeek != DayOfWeek.Monday)
+                        now -= new TimeSpan(1, 0, 0, 0, 0);
+                    else
+                        break;
+                }
+                sb.First = now;
+            }
+
             //dodaje kolekcje rezerwacji w zakresie aktualnie ogladanym
             sb.Reservation = _context.Reservations.Where(w => w.DateOfVisit >= now && w.DateOfVisit <= now.AddDays(7) && w.IsActive == true).ToList();
             //dodanie kolekcji dni wolnych
             sb.InaccessibleDay = _context.InaccessibleDays.Select(s => s.Date).ToList();
             //dodanie kolekcji godzin pracy przychodni
             sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy(o => o.Time).ToList();
-            ViewBag.UserID = null;
-            ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
 
             var UserFromSession = Int32.Parse(HttpContext.Session.GetString("UserID"));
             ViewBag.Patients =
@@ -49,23 +59,27 @@ namespace VetClinic.PortalWWW.Controllers
             return View(sb);
         }
 
+        [ActionName("Index")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Index([Bind("First,Navigation")] ScheduleBlocks c)
+        public async Task<IActionResult> Navi([Bind("First,Navigation")] ScheduleBlocks c)
         {
             ViewBag.UserFromSession = Int32.Parse(HttpContext.Session.GetString("UserID"));
+
             if (c.Navigation == "next")
                 c.First = c.First.Add(new TimeSpan(7, 0, 0, 0, 0));
-            if (c.Navigation == "previous")
+            else if (c.Navigation == "previous")
                 c.First -= (new TimeSpan(7, 0, 0, 0, 0));
-            sb.First = c.First;
-            sb.Reservation = _context.Reservations.Where(w => w.DateOfVisit >= sb.First && w.DateOfVisit <= sb.First.AddDays(7) && w.IsActive == true).ToList();
-            //dodanie kolekcji dni wolnych
-            sb.InaccessibleDay = _context.InaccessibleDays.Select(s => s.Date).ToList();
-            //dodanie kolekcji godzin pracy przychodni
-            sb.ScheduleBlock = _context.ScheduleBlocks.OrderBy(o => o.Time).ToList();
+
+            HttpContext.Session.SetString("day", JsonConvert.SerializeObject(c.First));
             ViewBag.Doctors = _context.Users.Include(u => u.UserType).Where(w => w.UserType.Name.Contains("Lekarz") == true && w.IsActive == true);
-            return View(sb);
+            
+            return RedirectToAction("Index");
+        }
+        public IActionResult ToDay()
+        {
+            HttpContext.Session.Remove("day");
+            return RedirectToAction("Index");
         }
     }
 }
