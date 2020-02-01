@@ -154,5 +154,23 @@
                 });
             }
     }
+
+  if (window.location.hash) {
+            var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("VisitDetails", "Patients")',
+                    data: {
+                    id: hash
+                          },
+                    success: function (pageContent)
+                    {
+                        $('#maincont').html(pageContent);
+                    }
+                });
+            }
+
+
 </script>
 }
