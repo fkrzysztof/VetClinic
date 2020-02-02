@@ -109,19 +109,23 @@ namespace VetClinic.Intranet.Controllers
                          select users.Email
                          ).FirstOrDefault();
 
-                var usersToken =
-                        (from users in _context.Users
-                         where users.UserID == UserID
-                         select users.ActivationToken
-                         ).FirstOrDefault();
+                //var usersToken =
+                //        (from users in _context.Users
+                //         where users.UserID == UserID
+                //         select users.ActivationToken
+                //         ).FirstOrDefault();
 
                 SmtpConf.MessageTo = usersEmail;
                 SmtpConf.MessageText = "Witaj <br>"
                                         + "Twoje hasło zostało właśnie zmienione. <br>"
                                         + "<br>"
-                                        + "Jeżeli to Ty dokonałeś zmiany hasła możesz zignorować tą wiadomość: <br>"
-                                        + "Jeśli uważasz, że ktoś mógł włamać się na twoje konto i zmienić twoje hasło, możesz je zresetować klikając w poniższy link: <br>"
-                                        + "Link do zmiany hasła: https://vetclinic-portalwww.azurewebsites.net/Login/ResetPassword?email=" + usersEmail + "&token=" + usersToken + "";
+
+                                        + "Pozdrawiamy <br>"
+                                        + "Zespół VetClinic <br>";
+
+                //+ "Jeżeli to Ty dokonałeś zmiany hasła możesz zignorować tą wiadomość: <br>"
+                //+ "Jeśli uważasz, że ktoś mógł włamać się na twoje konto i zmienić twoje hasło, możesz je zresetować klikając w poniższy link: <br>"
+                //+ "Link do zmiany hasła: https://vetclinic-portalwww.azurewebsites.net/Login/ResetPassword?email=" + usersEmail + "&token=" + usersToken + "";
 
                 SmtpConf.MessageSubject = "Potwierdzenie zmiany hasła";
 
