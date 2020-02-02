@@ -19,7 +19,7 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Index()
         {
             var vetClinicContext = _context.Treatments.Include(t => t.TreatmentAddedUser).Include(t => t.TreatmentUpdatedUser);
-            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderBy(u => u.Name).ToListAsync());
         }
 
         // GET: Treatment/Create
