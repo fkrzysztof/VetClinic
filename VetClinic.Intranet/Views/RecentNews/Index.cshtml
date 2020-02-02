@@ -20,7 +20,7 @@
             @foreach (var item in Model)
             {
                 <div>
-                    <div class="card text-center recentNewsCard">
+                    <div class="card text-center recentNewsCard @(item.IsActive ? "item-active" : "item-not-active")">
                         <div class="col-4 mx-auto d-flex justify-content-center flex-wrap cardImagePadding" style="padding-top: 15px;">
                             @{
                                 if (item.Image != null)
