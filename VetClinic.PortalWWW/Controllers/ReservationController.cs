@@ -68,7 +68,7 @@ namespace VetClinic.PortalWWW.Controllers
                         ViewData["WelcomeMessage"] = "";
                     }
 
-            return View(await vetClinicContext.Where(x => x.DateOfVisit >= DateTime.Now.AddHours(1)).Where(x => x.IsActive == true).OrderByDescending(u => u.DateOfVisit).ToListAsync());
+            return View(await vetClinicContext.Where(x => x.DateOfVisit >= DateTime.Now.AddHours(1)).Where(x => x.IsActive == true).OrderBy(u => u.DateOfVisit).ToListAsync());
             //^ MCZ: wyświetlanie od najświeższej wizyty, o ile wizyta nie jest w czasie przeszłym i o ile jest AKTYWNA
         }
 
