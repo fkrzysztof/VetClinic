@@ -17,7 +17,7 @@
         <div id="collapse1" class="collapse @(ViewData["currentFilter"] == null ? "" : "show")" aria-labelledby="Filtry" data-parent="#accordion">
             <div class="card-body">
 
-                <form class="form-inline" asp-action="Index" method="get">
+                <form class="form-inline" asp-action="ShowOwnPatients" method="get">
                     <div class="form-group mb-2">
                         <label>Wyszukaj po: </label>
                     </div>
@@ -27,7 +27,7 @@
                     <button type="submit" class="btn btn-primary mb-2">Szukaj</button>
                     @if (ViewData["currentFilter"] != null)
                     {
-                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="Index"> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
+                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" asp-action="ShowOwnPatients"> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
                     }
                 </form>
             </div>
