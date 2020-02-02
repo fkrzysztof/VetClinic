@@ -98,15 +98,15 @@ namespace VetClinic.PortalWWW.Controllers
             var usersLogin =
                 (from users in _context.Users
                  select users.Login
-                 ).ToList();
+                 ).ToList().ConvertAll(d => d.ToLower());
 
             var usersEmail =
                 (from users in _context.Users
                  select users.Email
-                 ).ToList();
+                 ).ToList().ConvertAll(d => d.ToLower());
 
             // check email
-            if (usersEmail.Contains(email))
+            if (usersEmail.Contains(email.ToLower()))
             {
                 ModelState.AddModelError("", "Konto z takim adresem email już istnieje!");
                 return View();
@@ -213,10 +213,15 @@ namespace VetClinic.PortalWWW.Controllers
             if (ModelState.IsValid)
             {
                 user.Login = login.ToLower();
+                user.Email = email.ToLower();
 
                 SmtpConf.MessageTo = user.Email;
-                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>"
-                                        + "Link aktywacyjny: https://vetclinic-portalwww.azurewebsites.net/Login/AccountConfirm?email=" + user.Email + "&token=" + token + "";
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole " + "<br>" + "<br>" + " Twój login: " + user.Login + "<br>"
+                                        + "<br>"
+                                        + "Link aktywacyjny: https://vetclinic-portalwww.azurewebsites.net/Login/AccountConfirm?email=" + user.Email + "&token=" + token + "<br>"
+                                        + "<br>"
+                                        + "Pozdrawiamy <br>"
+                                        + "Zespół VetClinic";
                 // vetclinic-portalwww.azurewebsites.net
                 // localhost:44343
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
@@ -263,7 +268,7 @@ namespace VetClinic.PortalWWW.Controllers
             var usersEmail =
                 (from users in _context.Users
                  select users.Email
-                 ).FirstOrDefault();
+                 ).ToList();
 
             var usersToken =
                 (from users in _context.Users
@@ -277,12 +282,15 @@ namespace VetClinic.PortalWWW.Controllers
                  select users.FirstName
                  ).FirstOrDefault();
 
-            if (usersEmail == email)
+            if (usersEmail.Contains(email))
             {
 
                 SmtpConf.MessageTo = user.Email;
                 SmtpConf.MessageText = "Witaj " + usersName + " to twój link aktywacyjny. Tym razem go nie zgub :P" + "<br>"
-                                            + "Link aktywacyjny: https://vetclinic-portalwww.azurewebsites.net/Login/AccountConfirm?email=" + user.Email + "&token=" + usersToken + "";
+                                            + "Link aktywacyjny: https://vetclinic-portalwww.azurewebsites.net/Login/AccountConfirm?email=" + user.Email + "&token=" + usersToken + "<br>"
+                                            + "<br>"
+                                            + "Pozdrawiamy <br>"
+                                            + "Zespół VetClinic";
 
                 // vetclinic-portalwww.azurewebsites.net
                 // localhost:44343
@@ -398,9 +406,14 @@ namespace VetClinic.PortalWWW.Controllers
             {
                 SmtpConf.MessageTo = usersEmail;
                 SmtpConf.MessageText = "Witaj <br>"
+                                       + "<br>"
                                        + "Wysłano prośbę o zmianę hasła. Jeżeli to Ty klikni w poniższy link <br>"
-                                       + "Jeśli uważasz, że to pomyłka możesz zignorować tą wiadomośc <br>"
-                                       + "Zresetuj hasło -> https://vetclinic-portalwww.azurewebsites.net/Login/ResetPassword?email=" + usersEmail + "&token=" + usersToken + "";
+                                       + "Jeśli uważasz, że to pomyłka możesz zignorować tą wiadomość <br>"
+                                       + "<br>"
+                                       + "Zresetuj hasło -> https://vetclinic-portalwww.azurewebsites.net/Login/ResetPassword?email=" + usersEmail + "&token=" + usersToken + "<br>"
+                                       + "<br>"
+                                       + "Pozdrawiamy <br>"
+                                       + "Zespół VetClinic";
 
                 // vetclinic-portalwww.azurewebsites.net
                 // localhost:44343
@@ -543,7 +556,19 @@ namespace VetClinic.PortalWWW.Controllers
                     _context.Users.Update(s);
                     s.Password = HashPassword.GetMd5Hash(Password);
                     s.UpdatedDate = DateTime.Now;
+                    
+                    SmtpConf.MessageTo = usersEmail;
+                    SmtpConf.MessageText = "Witaj <br>"
+                                            + "<br>"
+                                            + "Twoje hasło zostało właśnie zmienione. <br>"
+                                            + "<br>"
+                                            + "Pozdrawiamy <br>"
+                                            + "Zespół VetClinic";
+
+                    SmtpConf.MessageSubject = "Potwierdzenie zmiany hasła";
+
                     await _context.SaveChangesAsync();
+                    SmtpConf.send();
                 }
 
                 return View("ResetPasswordConfirm", "Login");
