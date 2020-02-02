@@ -26,6 +26,7 @@ namespace VetClinic.PortalWWW.Controllers
             (
                 from recentnews in _context.RecentNews
                 orderby recentnews.Position, recentnews.AddedDate descending
+                where recentnews.IsActive == true
                 select recentnews
             ).ToList();
 
