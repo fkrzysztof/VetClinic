@@ -79,7 +79,7 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RecentNewsID,LinkTitle,Title,Text,Position,Photo,Image,IsActive,UpdatedDate,AddedUserID,UpdatedUserID")] RecentNews recentNews, List<Microsoft.AspNetCore.Http.IFormFile> Image)
+        public async Task<IActionResult> Edit(int id, [Bind("RecentNewsID,LinkTitle,Title,Text,Position,Photo,Image,IsActive,UpdatedDate,AddedDate,AddedUserID,UpdatedUserID")] RecentNews recentNews, List<Microsoft.AspNetCore.Http.IFormFile> Image)
         {
             if (id != recentNews.RecentNewsID)
             {
