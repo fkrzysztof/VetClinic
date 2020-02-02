@@ -57,9 +57,13 @@
                 <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown"
                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-paw"></i>
-                    <span>Moje zwierzaki</span>
+                    <span> Moje zwierzaki</span>
                 </a>
+               
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="nav-link" asp-controller="Patient" asp-action="Index">
+                        <i class="fas fa-paw"></i> <span>Wszystkie zwierzaki</span>
+                    </a>
                     <a class="btn" asp-area="" asp-controller="Patient" asp-action="Create">
                         <i class="fas fa-plus-circle" style="color:#909294"></i>
                         <span style="color:#909294">Dodaj zwierzaka</span>
