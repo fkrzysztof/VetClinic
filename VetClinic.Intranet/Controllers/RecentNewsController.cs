@@ -49,6 +49,8 @@ namespace VetClinic.Intranet.Controllers
                         recentNews.Image = stream.ToArray();
                     }
                 }
+                int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                recentNews.AddedUserID = UserId;
                 recentNews.AddedDate = DateTime.Now;
                 recentNews.IsActive = true;
                 _context.Add(recentNews);
@@ -101,6 +103,8 @@ namespace VetClinic.Intranet.Controllers
                             }
                         }
                     }
+                    int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    recentNews.UpdatedUserID = UserId;
                     recentNews.UpdatedDate = DateTime.Now;
                     recentNews.IsActive = true;
                     _context.Update(recentNews);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,8 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                treatment.AddedUserID = UserId;
                 treatment.AddedDate = DateTime.Now;
                 treatment.IsActive = true;
                 _context.Add(treatment);
@@ -84,6 +87,8 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    treatment.UpdatedUserID = UserId;
                     treatment.UpdatedDate = DateTime.Now;
                     treatment.IsActive = true;
                     _context.Update(treatment);
