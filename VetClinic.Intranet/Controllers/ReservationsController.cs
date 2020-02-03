@@ -95,7 +95,7 @@ namespace VetClinic.Intranet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ReservationID,ReservationUserID,PatientID,Description,DateOfVisit,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Reservation reservation)
         {
-            if (id != reservation.ReservationID)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -104,6 +104,8 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
+                    int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    reservation.UpdatedUserID = UserId;
                     reservation.UpdatedDate = DateTime.Now;
                     reservation.IsActive = true;
                     _context.Update(reservation);

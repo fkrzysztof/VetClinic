@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -37,8 +38,9 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
+                int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                permission.AddedUserID = UserId;
                 permission.AddedDate = DateTime.Now;
-                permission.UpdatedDate = permission.AddedDate;
                 permission.IsActive = true;
                 var result = _context.Permissions.FirstOrDefault(f => f.Name == permission.Name);
                 if (result == null)
@@ -91,7 +93,8 @@ namespace VetClinic.Intranet.Controllers
             {
                 try
                 {
-
+                    int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    permission.UpdatedUserID = UserId;
                     permission.IsActive = true;
                     permission.UpdatedDate = DateTime.Now;
                     _context.Update(permission);
