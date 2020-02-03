@@ -77,13 +77,12 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
- 
 
-            ViewData["PatientID"] = new SelectList(_context.Patients.
-            Where(p => p.PatientUserID != null).
-            Where(p => p.PatientUserID == reservation.ReservationUserID).Select(n => n.Name)
-           );
+            var userReservationId = _context.Reservations.Where(r => r.ReservationID == id).Select(u => u.ReservationUserID).FirstOrDefault();
+            var patientList = _context.Patients.Where(p => p.PatientUserID == userReservationId).ToList();
+            var patientId = _context.Reservations.Where(r => r.ReservationID == id).Select(p => p.PatientID).FirstOrDefault();
 
+            ViewData["PatientID"] = new SelectList(patientList, "PatientID", "Name", patientId);
             ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
             return View(reservation);
         }
