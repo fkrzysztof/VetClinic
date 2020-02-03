@@ -246,10 +246,11 @@ namespace VetClinic.PortalWWW.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var patient = await _context.Patients.FindAsync(id);
-            var reservation = _context.Reservations.Where(r => r.PatientID == id).ToList();
-            foreach(Reservation res in reservation)
+            var visitList = _context.Visits.Where(p => p.PatientID == id).ToList();
+            foreach (Visit visit in visitList)
             {
-                _context.Reservations.Remove(res);
+                visit.PatientID = null;
+                _context.Visits.Update(visit);
             }
 
             _context.Patients.Remove(patient);
