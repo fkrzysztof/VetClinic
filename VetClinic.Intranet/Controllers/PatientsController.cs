@@ -72,23 +72,22 @@ namespace VetClinic.Intranet.Controllers
             if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
             {
                 int UserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
-                IEnumerable<int?> listpatientsID = _context.Visits.Where(v => v.VetID == UserID).Select(p => p.PatientID).ToList();
-                var ownPatients = _context.Patients.Include(p=>p.PatientType).Include(p=>p.PatientUser).Where(v => listpatientsID.Contains(v.PatientID));
+                var ownPatients = _context.Visits.Include(p=>p.Patient).Include(p=>p.Patient.PatientUser).Where(w => w.VetID == UserID && w.Patient.IsActive == true).Select(s => s.Patient);
 
                 ViewData["CurrentFilter"] = searchString;
                 ViewData["PatientUserID"] = new SelectList(_context.PatientTypes, "PatientUserID", "Name");
 
                 if (!String.IsNullOrEmpty(searchString))
                 {
-                    ownPatients = (from order in ownPatients
-                                   where order.Name.Contains(searchString) || order.PatientNumber.Contains(searchString)
-                                                                                || order.PatientUser.FirstName.Contains(searchString)
-                                                                                || order.PatientUser.LastName.Contains(searchString)
-                                                                                || order.PatientType.Name.Contains(searchString)
-                                        select order)
-                                        .Include(m => m.PatientUser)
-                                        .Include(m => m.PatientType)
-                                        .Include(m=>m.Visits);
+                    ownPatients = (
+                                  from order in ownPatients
+                                  where order.Name.Contains(searchString) ||
+                                  order.PatientNumber.Contains(searchString) ||
+                                  order.PatientUser.FirstName.Contains(searchString) ||
+                                  order.PatientUser.LastName.Contains(searchString) ||
+                                  order.PatientType.Name.Contains(searchString)
+                                  select order
+                                  );
 
                 }
 
