@@ -224,21 +224,21 @@
                 <div class="card">
                     <div class="card-header">
                         @if (
-                          ViewContext.RouteData.Values["action"].ToString() == "Edit" ||
-                          (ViewContext.RouteData.Values["action"].ToString() == "Create" && ViewContext.RouteData.Values["controller"].ToString() != "News") ||
-                          (ViewContext.RouteData.Values["action"].ToString() == "Details" && ViewContext.RouteData.Values["controller"].ToString() != "News") ||
-                          ViewContext.RouteData.Values["action"].ToString() == "AddVisit" ||
-                          ViewContext.RouteData.Values["action"].ToString() == "EditVisit"
-                        )
+                         ViewContext.RouteData.Values["action"].ToString() == "Edit" ||
+                         (ViewContext.RouteData.Values["action"].ToString() == "Create" && ViewContext.RouteData.Values["controller"].ToString() != "News") ||
+                         (ViewContext.RouteData.Values["action"].ToString() == "Details" && ViewContext.RouteData.Values["controller"].ToString() != "News") ||
+                         ViewContext.RouteData.Values["action"].ToString() == "AddVisit" ||
+                         ViewContext.RouteData.Values["action"].ToString() == "EditVisit" || ViewContext.RouteData.Values["action"].ToString() == "Visit"
+                       )
                         {
                             <a class="btn btn-outline-secondary mr-3 btn-sm" role="button" href='javascript:history.go(-1)'>
                                 <span class="fas fa-arrow-circle-left"></span> Wróć do listy
                             </a>
                         }
                         @if (
-                            (ViewContext.RouteData.Values["action"].ToString() == "Create" && ViewContext.RouteData.Values["controller"].ToString() == "News") ||
-                            (ViewContext.RouteData.Values["action"].ToString() == "Details" && ViewContext.RouteData.Values["controller"].ToString() == "News")
-                            ) 
+                             (ViewContext.RouteData.Values["action"].ToString() == "Create" && ViewContext.RouteData.Values["controller"].ToString() == "News") ||
+                             (ViewContext.RouteData.Values["action"].ToString() == "Details" && ViewContext.RouteData.Values["controller"].ToString() == "News")
+                         )
                         {
                             <a class="btn btn-outline-secondary mr-3 btn-sm" role="button" href='@Url.Action("Index", "News")'>
                                 <span class="fas fa-arrow-circle-left"></span> Wróć do listy wiadomości
