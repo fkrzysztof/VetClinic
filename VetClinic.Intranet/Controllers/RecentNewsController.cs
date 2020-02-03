@@ -68,7 +68,8 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            var recentNews = await _context.RecentNews.FindAsync(id);
+            //var recentNews = await _context.RecentNews.FindAsync(id);
+            var recentNews = _context.RecentNews.Where(r => r.RecentNewsID == id).FirstOrDefault();
             if (recentNews == null)
             {
                 return NotFound();
