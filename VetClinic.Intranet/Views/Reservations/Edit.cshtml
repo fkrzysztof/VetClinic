@@ -40,6 +40,7 @@
                             <span class="input-group-text" id="label1">Data wizyty</span>
                         </div>
                         @*<input asp-for="DateOfVisit" class="form-control" />*@
+                    <span class="form-control">@Model.DateOfVisit.ToShortDateString(),@Model.DateOfVisit.ToShortTimeString()</span>
                         @*<span asp-validation-for="DateOfVisit" class="text-danger"></span>*@
                         @if (@ViewBag.DateError != null)
                         {
@@ -57,116 +58,108 @@
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-                <div class="col-10 mb-4">
-                    @{
-                        DateTime firstH = ViewBag.FreeBlock[0];
-                        <h6 class="mt-3">
-                            @{
-                                if (firstH.DayOfWeek.ToString().Equals("Monday"))
-                                {
-                                    @:Poniedziałek
-                                }
-                                if (firstH.DayOfWeek.ToString().Equals("Tuesday"))
-                                {
-                                    @:Wtorek
-                                }
-                                if (firstH.DayOfWeek.ToString().Equals("Wednesday"))
-                                {
-                                    @:Środa
-                                }
-                                if (firstH.DayOfWeek.ToString().Equals("Thursday"))
-                                {
-                                    @:Czwartek
-                                }
-                                if (firstH.DayOfWeek.ToString().Equals("Friday"))
-                                {
-                                    @:Piątek
-                                }
-                                if (firstH.DayOfWeek.ToString().Equals("Saturday"))
-                                {
-                                    @:Sobota
-                                }
-                                if (firstH.DayOfWeek.ToString().Equals("Sunday"))
-                                {
-                                    @:Niedziela
-                                }
-                            }
-                            @firstH.ToShortDateString()
-                        </h6>
-
-                        foreach (var item in ViewBag.FreeBlock)
-                        {
-                            if (item.DayOfYear > firstH.DayOfYear)
-                            {
-                                firstH = item;
-
-                                <h6 class="mt-3">
-                                    @{
-                                        if (firstH.DayOfWeek.ToString().Equals("Monday"))
-                                        {
-                                            @:Poniedziałek
-                                        }
-                                        if (firstH.DayOfWeek.ToString().Equals("Tuesday"))
-                                        {
-                                            @:Wtorek
-                                        }
-                                        if (firstH.DayOfWeek.ToString().Equals("Wednesday"))
-                                        {
-                                            @:Środa
-                                        }
-                                        if (firstH.DayOfWeek.ToString().Equals("Thursday"))
-                                        {
-                                            @:Czwartek
-                                        }
-                                        if (firstH.DayOfWeek.ToString().Equals("Friday"))
-                                        {
-                                            @:Piątek
-                                        }
-                                        if (firstH.DayOfWeek.ToString().Equals("Saturday"))
-                                        {
-                                            @:Sobota
-                                        }
-                                        if (firstH.DayOfWeek.ToString().Equals("Sunday"))
-                                        {
-                                            @:Niedziela
-                                        }
-                                    }
-                                    @item.ToShortDateString()
-                                </h6>
-
-                            }
-                            <div class="d-inline btn-group-toggle" data-toggle="buttons">
-                            <label class="btn btn-secondary btn-sm pl-1 pr-1 pb-0 pt-0">
-                                <input type="radio" value="@item" name="DateOfVisit"> @item.ToString("HH:mm")
-                                @*<input type="radio" name="DateOfVisit" value="@item" class="form-control" />*@
-                            </label>
-                            </div>
-                        }
-                    }
-                </div>
-
-
-
-
-
-
-
-
-
-
+                      @*Kalendarz*@         
+                @{
+                    DateTime firstH = ViewBag.FreeBlock[0];
+                }
+            <div class="col-sm-2 mb-4 text-sm-right">
+                @if (!firstH.Date.Equals(Model.DateOfVisit.Date))
+                {
+                    <a asp-action="Edit" asp-route-navi="previous" asp-route-vd="@ViewBag.FreeBlock[0].ToString()"> <i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i></a>
+                }
             </div>
+                    <div class="col-sm-4 mb-4 text-sm-center">
+                        @{
+
+                            <h6 class="mt-3">
+                                @{
+                                    if (firstH.DayOfWeek.ToString().Equals("Monday"))
+                                    {
+                                        @:Poniedziałek
+                                    }
+                                    if (firstH.DayOfWeek.ToString().Equals("Tuesday"))
+                                    {
+                                        @:Wtorek
+                                    }
+                                    if (firstH.DayOfWeek.ToString().Equals("Wednesday"))
+                                    {
+                                        @:Środa
+                                    }
+                                    if (firstH.DayOfWeek.ToString().Equals("Thursday"))
+                                    {
+                                        @:Czwartek
+                                    }
+                                    if (firstH.DayOfWeek.ToString().Equals("Friday"))
+                                    {
+                                        @:Piątek
+                                    }
+                                    if (firstH.DayOfWeek.ToString().Equals("Saturday"))
+                                    {
+                                        @:Sobota
+                                    }
+                                    if (firstH.DayOfWeek.ToString().Equals("Sunday"))
+                                    {
+                                        @:Niedziela
+                                    }
+                                }
+                                @firstH.ToShortDateString()
+                            </h6>
+
+                            foreach (var item in ViewBag.FreeBlock)
+                            {
+                                if (item.DayOfYear > firstH.DayOfYear)
+                                {
+                                    firstH = item;
+
+                                    <h6 class="mt-3">
+                                        @{
+                                            if (firstH.DayOfWeek.ToString().Equals("Monday"))
+                                            {
+                                                @:Poniedziałek
+                                            }
+                                            if (firstH.DayOfWeek.ToString().Equals("Tuesday"))
+                                            {
+                                                @:Wtorek
+                                            }
+                                            if (firstH.DayOfWeek.ToString().Equals("Wednesday"))
+                                            {
+                                                @:Środa
+                                            }
+                                            if (firstH.DayOfWeek.ToString().Equals("Thursday"))
+                                            {
+                                                @:Czwartek
+                                            }
+                                            if (firstH.DayOfWeek.ToString().Equals("Friday"))
+                                            {
+                                                @:Piątek
+                                            }
+                                            if (firstH.DayOfWeek.ToString().Equals("Saturday"))
+                                            {
+                                                @:Sobota
+                                            }
+                                            if (firstH.DayOfWeek.ToString().Equals("Sunday"))
+                                            {
+                                                @:Niedziela
+                                            }
+                                        }
+                                        @item.ToShortDateString()
+                                    </h6>
+
+                                }
+                                <div class="d-inline btn-group-toggle" data-toggle="buttons">
+                                    <label class="btn btn-secondary btn-sm pl-1 pr-1 pb-0 pt-0">
+                                        <input type="radio" value="@item" name="DateOfVisit"> @item.ToString("HH:mm")
+                                    </label>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="col-sm-2 mb-4 text-sm-left">
+                        <a asp-action="Edit" asp-route-navi="next" asp-route-vd="@firstH.ToString()"> <i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></a>
+                    </div>
+
+                @*kalendarz koniec*@
+             </div>
 
             @await Component.InvokeAsync("DetailsComponent", new
        {
@@ -177,10 +170,6 @@
        })
         </form>
     </div>
-    
-    
-
-    
     
     
     <div class="row">

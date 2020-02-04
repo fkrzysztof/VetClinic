@@ -66,7 +66,7 @@ namespace VetClinic.Intranet.Controllers
         }
 
         // GET: Reservations/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string navi,string vd)
         {
             if (id == null)
             {
@@ -81,19 +81,31 @@ namespace VetClinic.Intranet.Controllers
                 Include(r => r.ReservationUpdatedUser).
                 Include(r => r.ReservationUser).FirstOrDefault(f => f.ReservationID == id);
 
+
             DateTime rTemp = new DateTime( reservation.DateOfVisit.Year, reservation.DateOfVisit.Month, reservation.DateOfVisit.Day,0,0,0);
+            
+            if (navi == "next")
+            {
+                rTemp = Convert.ToDateTime(vd);
+                rTemp = rTemp.AddDays(1);
+            }
+            else if (navi == "previous")
+            {
+                rTemp = Convert.ToDateTime(vd);
+                rTemp -= new TimeSpan(1, 0, 0, 0);
+            }
+
             var freeDays = _context.InaccessibleDays;
             var block = _context.ScheduleBlocks;
             var reservationsAll = _context.Reservations;
             List<DateTime> freeBlock = new List<DateTime>();
             DateTime tempDate;
-
-            for (int i = 0; i <7; i++)
+            while(freeBlock.Count == 0)
             {
                 foreach (var item in block)
                 {
-                    tempDate = new DateTime(rTemp.Year, rTemp.Month, rTemp.Day+i, item.Time.Hours, item.Time.Minutes, 0);
-
+                    rTemp = new DateTime(rTemp.Year, rTemp.Month, rTemp.Day, item.Time.Hours, item.Time.Minutes, 0);
+                    tempDate = rTemp;
 
                     if (
                         reservationsAll.FirstOrDefault(f =>
@@ -105,12 +117,14 @@ namespace VetClinic.Intranet.Controllers
                             f.Date.Month == tempDate.Month &&
                             f.Date.Day == tempDate.Day) == null
                         )
+                    {
                         freeBlock.Add(tempDate);
+                    }
                 }
+                rTemp = rTemp.AddDays(1);
             }
-           // DateTime c = freeBlock[0].DayOfYear;
+            
             ViewBag.FreeBlock = freeBlock;
-                
             
             if (reservation == null)
             {
