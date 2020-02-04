@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = null;
+}
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="max-width:300px">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+            </div>
+            <div class="modal-body text-center">
+                <a>Specjalizacja usunięta</a>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success mr-2 btn-sm" role="button" href='javascript:history.go(-1)'>OK</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+</script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(window).on('load', function () {
+        $('#myModal').modal('show');
+    });
+</script>

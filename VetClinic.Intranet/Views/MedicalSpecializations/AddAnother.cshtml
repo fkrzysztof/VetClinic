@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = null;
+}
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="max-width:400px">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+            </div>
+            <div class="modal-body text-center">
+                <a>Specjalizacja zapisana</a>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-success btn-sm float-left mr-3" role="button" href='javascript:history.go(-2)'>Dziękuję</a>
+                <a class="btn btn-primary btn-sm float-right" role="button" href='javascript:history.go(-1)'>Dodaj kolejną</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js">
+</script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(window).on('load', function () {
+        $('#myModal').modal('show');
+    });
+</script>

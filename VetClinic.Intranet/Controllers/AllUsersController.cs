@@ -55,6 +55,9 @@ namespace VetClinic.Intranet.Controllers
             {
                 return NotFound();
             }
+            ViewBag.IdUser = user.UserID;
+            ViewBag.Type = user.UserTypeID;
+            ViewBag.MedicalSpecializations = _context.MedicalSpecializations.Include(m => m.MedicalSpecializationUser).Include(m => m.Specialization).Where(w => w.UserID == id);
             return View(user);
         }
 

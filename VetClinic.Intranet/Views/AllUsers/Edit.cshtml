@@ -60,7 +60,7 @@
                                 <input type="hidden" id="passwordInput" asp-for="Password" class="form-control" aria-describedby="label1" />
                                 @if (Model.Login == Context.Session.GetString("Login"))
                                 {
-                                    <input id="passPop" type="button" data-placement="top" value="Generuj hasło" class="btn-secondary form-control valid center-block" disabled/>
+                                    <input id="passPop" type="button" data-placement="top" value="Generuj hasło" class="btn-secondary form-control valid center-block" disabled />
                                 }
                                 else
                                 {
@@ -171,11 +171,38 @@
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
                         </div>
-
+                        @if (ViewBag.Type == 2)
+                        {
+                            <div class="table-responsive col-lg-6 offset-lg-6">
+                                <table class="table table-hover">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <td>                                     
+                                                <a class="pl-3 font-weight-bold">Specjalizacje</a>
+                                                <a class="btn btn-primary btn-sm float-right" asp-controller="MedicalSpecializations" asp-action="AddUserMedSpec" asp-route-id="@ViewBag.IdUser"><i class="fas fa-plus-circle"></i> Dodaj</a>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.MedicalSpecializations)
+                                        {
+                                            if (item.IsActive == true)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        <a class="pl-3"> @item.Specialization.Name</a>
+                                                        <a class="btn btn-outline-primary float-right mr-3 btn-sm" asp-controller="MedicalSpecializations" asp-action="DeleteUserMedSpec" asp-route-id="@item.MedicalSpecializationID"><i class="fas fa-trash"></i></a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
 
                     </div>
                 </div>
-
             </div>
 
             @await Component.InvokeAsync("DetailsComponent", new
