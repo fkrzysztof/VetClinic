@@ -9,6 +9,7 @@
         <form asp-action="Edit" class="col" id="saveForm">
             <div class="form-row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ReservationID" />
                 <input type="hidden" asp-for="ReservationUserID" />
                 <input type="hidden" asp-for="AddedDate" />
                 <input type="hidden" asp-for="AddedUserID" />
@@ -19,8 +20,9 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Klient</span>
                         </div>
-                        <select asp-for="ReservationUserID" class="form-control" asp-items="ViewBag.ReservationUserID"></select>
-                        <span asp-validation-for="ReservationUserID" class="text-danger"></span>
+                        <span class="form-control">@Model.ReservationUser.Fullname</span>
+                        @*<select asp-for="ReservationUserID" class="form-control" asp-items="ViewBag.ReservationUserID"></select>
+                <span asp-validation-for="ReservationUserID" class="text-danger"></span>*@
                     </div>
                 </div>
                 <div class="form-group col-lg-3">
@@ -37,8 +39,12 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Data wizyty</span>
                         </div>
-                        <input asp-for="DateOfVisit" class="form-control" />
-                        <span asp-validation-for="DateOfVisit" class="text-danger"></span>
+                        @*<input asp-for="DateOfVisit" class="form-control" />*@
+                        @*<span asp-validation-for="DateOfVisit" class="text-danger"></span>*@
+                        @if (@ViewBag.DateError != null)
+                        {
+                            <span class="text-danger">@ViewBag.DateError</span>
+                        }
                     </div>
                 </div>
 
@@ -51,17 +57,132 @@
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="col-10 mb-4">
+                    @{
+                        DateTime firstH = ViewBag.FreeBlock[0];
+                        <h6 class="mt-3">
+                            @{
+                                if (firstH.DayOfWeek.ToString().Equals("Monday"))
+                                {
+                                    @:Poniedziałek
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Tuesday"))
+                                {
+                                    @:Wtorek
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Wednesday"))
+                                {
+                                    @:Środa
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Thursday"))
+                                {
+                                    @:Czwartek
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Friday"))
+                                {
+                                    @:Piątek
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Saturday"))
+                                {
+                                    @:Sobota
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Sunday"))
+                                {
+                                    @:Niedziela
+                                }
+                            }
+                            @firstH.ToShortDateString()
+                        </h6>
+
+                        foreach (var item in ViewBag.FreeBlock)
+                        {
+                            if (item.DayOfYear > firstH.DayOfYear)
+                            {
+                                firstH = item;
+
+                                <h6 class="mt-3">
+                                    @{
+                                        if (firstH.DayOfWeek.ToString().Equals("Monday"))
+                                        {
+                                            @:Poniedziałek
+                                        }
+                                        if (firstH.DayOfWeek.ToString().Equals("Tuesday"))
+                                        {
+                                            @:Wtorek
+                                        }
+                                        if (firstH.DayOfWeek.ToString().Equals("Wednesday"))
+                                        {
+                                            @:Środa
+                                        }
+                                        if (firstH.DayOfWeek.ToString().Equals("Thursday"))
+                                        {
+                                            @:Czwartek
+                                        }
+                                        if (firstH.DayOfWeek.ToString().Equals("Friday"))
+                                        {
+                                            @:Piątek
+                                        }
+                                        if (firstH.DayOfWeek.ToString().Equals("Saturday"))
+                                        {
+                                            @:Sobota
+                                        }
+                                        if (firstH.DayOfWeek.ToString().Equals("Sunday"))
+                                        {
+                                            @:Niedziela
+                                        }
+                                    }
+                                    @item.ToShortDateString()
+                                </h6>
+
+                            }
+                            <div class="d-inline btn-group-toggle" data-toggle="buttons">
+                            <label class="btn btn-secondary btn-sm pl-1 pr-1 pb-0 pt-0">
+                                <input type="radio" value="@item" name="DateOfVisit"> @item.ToString("HH:mm")
+                                @*<input type="radio" name="DateOfVisit" value="@item" class="form-control" />*@
+                            </label>
+                            </div>
+                        }
+                    }
+                </div>
+
+
+
+
+
+
+
+
+
+
             </div>
 
             @await Component.InvokeAsync("DetailsComponent", new
-            {
-               AddedDate = @Model.AddedDate,
-               AddedUserID = @Model.AddedUserID,
-               UpdatedDate = @Model.UpdatedDate,
-               UpdatedUserID = @Model.UpdatedUserID
-            })
+       {
+           AddedDate = @Model.AddedDate,
+           AddedUserID = @Model.AddedUserID,
+           UpdatedDate = @Model.UpdatedDate,
+           UpdatedUserID = @Model.UpdatedUserID
+       })
         </form>
     </div>
+    
+    
+
+    
+    
+    
     <div class="row">
         <div class="col">
             @if (Model.IsActive)
@@ -115,6 +236,10 @@
         <div class="col">
             <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin" />
         </div>
+
+        
+
+
     </div>
 </div>
 

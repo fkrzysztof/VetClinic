@@ -1,0 +1,97 @@
+﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Reservation>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOfVisit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Visit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReservationUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Patients)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReservationAddedUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReservationUpdatedUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfVisit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Visit.VisitID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationUser.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patients.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationAddedUser.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationUpdatedUser.City)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ReservationID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ReservationID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ReservationID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>
