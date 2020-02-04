@@ -159,34 +159,34 @@
                                UpdatedUserID = @Model.Visit.UpdatedUserID
                             })
                 @* Row z buttonami Usuń / Zapisz *@
-            <div class="row" style="padding-bottom: 15px;padding-left: 15px;padding-right: 12px;padding-top: 5px;">
-                <div class="col">
-                    @if (Model.Visit.IsActive)
+                <div class="row" style="padding-bottom: 15px;padding-left: 15px;padding-right: 12px;padding-top: 5px;">
+                    <div class="col">
+                        @if (Model.Visit.IsActive)
+                        {
+                            <form asp-action="DeleteVisit" asp-route-id="@Model.Visit.VisitID" onsubmit="alert('Na pewno chcesz usunąć wizytę?')">
+                                <input type="hidden" asp-for="Visit.VisitID" />
+                                <input type="submit" value="Usuń wizyte" class="btn btn-outline-danger buttMargin" />
+                            </form>
+                        }
+                        else
+                        {
+                            <form asp-action="RestoreVisit" asp-route-id="@Model.Visit.VisitID">
+                                <input type="hidden" asp-for="Visit.VisitID" />
+                                <input type="submit" value="Przywróć wizyte" class="btn btn-success buttMargin" />
+                            </form>
+                        }
+                    </div>
+                    <div class="col">
+                        <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin"
+                               asp-action="EditVisit" asp-route-id="@Model.Visit.VisitID" asp-fragment="@Model.Visit.VisitID" />
+                    </div>
+                    @if (Model.VisitTreatments.Count != 0 && Model.VisitMedicine.Count != 0)
                     {
-                        <form asp-action="DeleteVisit" asp-route-id="@Model.Visit.VisitID" onsubmit="alert('Na pewno chcesz usunąć wizytę?')">
-                            <input type="hidden" asp-for="Visit.VisitID" />
-                            <input type="submit" value="Usuń wizyte" class="btn btn-outline-danger buttMargin" />
-                        </form>
-                    }
-                    else
-                    {
-                        <form asp-action="RestoreVisit" asp-route-id="@Model.Visit.VisitID">
-                            <input type="hidden" asp-for="Visit.VisitID" />
-                            <input type="submit" value="Przywróć wizyte" class="btn btn-success buttMargin" />
-                        </form>
+                        <a class="btn btn-success float-right buttMargin2 mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="ShowOwnReservation" asp-controller="Reservations">
+                            Zakończ wizytę
+                        </a>
                     }
                 </div>
-                <div class="col">
-                    <input form="saveForm" type="submit" value="Zapisz zmiany" class="btn btn-success float-right buttMargin"
-                           asp-action="EditVisit" asp-route-id="@Model.Visit.VisitID" asp-fragment="@Model.Visit.VisitID" />
-                </div>
-                @if (Model.VisitTreatments.Count != 0 && Model.VisitMedicine.Count != 0)
-                {
-                    <a class="btn btn-success float-right buttMargin2 mb-3" role="button" aria-haspopup="true" aria-expanded="false" asp-action="ShowOwnReservation" asp-controller="Reservations">
-                        Zakończ wizytę
-                    </a>
-                }
-            </div>
 
             </div>
         </div>
@@ -207,9 +207,9 @@
                         id: pId
                     },
                     success: function (pageContent) {
-                        $('#maincont').html(pageContent);       
+                        $('#maincont').html(pageContent);
                     }
-                });             
+                });
         }
 </script>
 
@@ -234,6 +234,7 @@
          });
      });
 </script>
+
 <script>
             $('.edytuj').click(function(e) {
                 e.preventDefault();
@@ -251,6 +252,9 @@
                 });
 </script>
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
 <script>
     $('#addTreatment').click(function (e) {
         $.ajax({
@@ -259,7 +263,8 @@
               success: (data) => {
                   $('#TreatmentModal').find('.modal-body').html(data);
                   $('#TreatmentModal').modal('show');
-
+                  $("#myselectTreat").select2({
+                  });
               }
         })
     }
@@ -281,7 +286,6 @@
         </div>
     </div>
 </div>
-
 
 <script>
     $('#addMedicine').click(function (e) {

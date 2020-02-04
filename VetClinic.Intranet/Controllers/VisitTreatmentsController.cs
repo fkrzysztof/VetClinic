@@ -50,13 +50,12 @@ namespace VetClinic.Intranet.Controllers
         public async Task<IActionResult> Create(int? id, int patientId)
         {
 
-            var visitTreat = await _context.VisitTreatment
-              .FirstOrDefaultAsync(m => m.Visit.VisitID == id);
+            var visitTreat = await _context.VisitTreatment.FirstOrDefaultAsync(m => m.Visit.VisitID == id);
             if (visitTreat == null)
             {
                 visitTreat = new VisitTreatment { VisitID = id };
             }
-            ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name");
+            ViewData["TreatmentID"] = new SelectList(_context.Treatments.OrderBy(x => x.Name), "TreatmentID", "Name");
             ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID");
             ViewBag.patientId = patientId;
             return View(visitTreat);
