@@ -263,8 +263,7 @@
               success: (data) => {
                   $('#TreatmentModal').find('.modal-body').html(data);
                   $('#TreatmentModal').modal('show');
-                  $("#myselectTreat").select2({
-                  });
+                  $("#myselectTreat").select2({});
               }
         })
     }
@@ -295,6 +294,8 @@
               success: (data) => {
                   $('#MedicineModal').find('.modal-body').html(data);
                   $('#MedicineModal').modal('show');
+                  //$("#myselectMedType").select2({});
+                  $("#myselectMed").select2({});
               }
         })
     }

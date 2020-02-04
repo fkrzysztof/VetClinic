@@ -55,8 +55,10 @@ namespace VetClinic.Intranet.Controllers
                 {
                 visitMedic = new VisitMedicine { VisitID = id };
                 }
-            ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name");
             ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID");
+            ViewData["MedicineTypeID"] = new SelectList(_context.MedicineTypes, "MedicineTypeID", "Name");
+            ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name");
+
             ViewBag.patientId = patientId;
             return View(visitMedic);
         }

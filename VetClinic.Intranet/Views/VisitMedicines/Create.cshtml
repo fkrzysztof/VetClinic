@@ -4,27 +4,35 @@
     Layout = null;
 }
 
-    <div class="row">
-        <div class="col">
-            <form asp-action="Create">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <input type="hidden" asp-for="VisitID" />
-                    <input type="hidden" name="patientId" id="patientId" value="@ViewBag.patientId" />
-                </div>
-                <div class="row">
-                    <div class="form-group col-10">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="label1">Lek</span>
-                            </div>
-                            <select class="custom-select" asp-for="MedicineID" asp-items="ViewBag.MedicineID" data-width="100%" aria-describedby="label1"></select>
-                        </div>
+<div class="row">
+    <div class="col">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="VisitID" />
+                <input type="hidden" name="patientId" id="patientId" value="@ViewBag.patientId" />
+            </div>
+            <div class="form-row">
+                @*<div class="col-12 mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="label1">Typ leku</span>
+                        <select id="myselectMedType" class="myselect select2-container .select2-selection--single select2-container .select2-selection--single .select2-selection__rendered select2-container--default .select2-selection--single .select2-selection__arrow"
+                                asp-items="ViewBag.MedicineTypeID" data-width="100%" aria-describedby="label1">
+                        </select>
                     </div>
-                    <div class="form-group col-2">
-                        <input type="submit" value="Dodaj" class="btn btn-outline-primary" />
+                </div>*@
+                <div class="col-12 mb-2">
+                    <div class="input-group-prepend">
+                        <select id="myselectMed" class="myselect select2-container .select2-selection--single select2-container .select2-selection--single .select2-selection__rendered select2-container--default .select2-selection--single .select2-selection__arrow"
+                                asp-for="MedicineID" asp-items="ViewBag.MedicineID" data-width="100%" aria-describedby="label1">
+                        </select>
+                        <span asp-validation-for="MedicineID" class="text-danger"></span>
                     </div>
                 </div>
-            </form>
-        </div>
+                <div class="form-group col-12" style="text-align:center;">
+                    <input type="submit" value="Dodaj do wizyty" class="btn btn-outline-primary" />
+                </div>
+            </div>
+        </form>
     </div>
+</div>
