@@ -68,6 +68,16 @@ namespace VetClinic.Intranet.Controllers.Abastract
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(User user, List<Microsoft.AspNetCore.Http.IFormFile> Image)
         {
+            var rnd = new Random();
+
+            string email;
+            string login;
+
+            email = user.Email;
+            login = user.Login;
+
+           
+
             if (ModelState.IsValid)
             {
                 foreach (var item in Image)
@@ -78,6 +88,42 @@ namespace VetClinic.Intranet.Controllers.Abastract
                         user.Image = stream.ToArray();
                     }
                 }
+                var usersLogin =
+              (from users in _context.Users
+               select users.Login
+                  ).ToList().ConvertAll(d => d.ToLower());
+
+                var usersEmail =
+                (from users in _context.Users
+                 select users.Email
+                    ).ToList().ConvertAll(d => d.ToLower());
+
+                // check email
+                if (usersEmail.Contains(email.ToLower()))
+                {
+                    ModelState.AddModelError("email", "Konto z takim adresem email już istnieje!");
+                    return View("../AbstractUsers/Create");
+                }
+
+                //check login
+                for (int i = 0; i < usersLogin.Count(); i++)
+                {
+                    if (usersLogin.Contains(login.ToLower()))
+                    {
+                        login += rnd.Next(0, 9);
+                        ModelState.AddModelError("login", "Taki login już istnieje! Wybierz inny: " + login.ToLower());
+                        return View("../AbstractUsers/Create");
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+
+                user.Login = login.ToLower();
+                user.Email = email.ToLower();
+
                 user.AddedDate = DateTime.Now;
                 user.UpdatedDate = user.AddedDate;
                 user.IsActive = true;
@@ -88,14 +134,21 @@ namespace VetClinic.Intranet.Controllers.Abastract
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 SmtpConf.MessageTo = user.Email;
-                SmtpConf.MessageText = user.FirstName + " witamy w zespole :)" + "<br>" + "Login: " + user.Login + "<br>" + "Hasło: " + passwordUser;
+                SmtpConf.MessageText = user.FirstName + " witamy w zespole <br>"
+                                    + "<br> "
+                                    + "Twój login: " + user.Login + "<br>" + "Hasło: " + passwordUser + "<br>"
+                                    + "<br>"
+                                    + "Pozdrawiamy <br>"
+                                    + "Zespół VetClinic";
+
+
                 SmtpConf.MessageSubject = "Potwierdzenie dokonanej rejestracji";
                 SmtpConf.send();
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(user);
+            return View("../AbstractUsers/Create");
         }
 
         // GET: Admin/Edit/5

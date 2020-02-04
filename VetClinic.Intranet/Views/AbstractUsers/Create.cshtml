@@ -4,7 +4,7 @@
     ViewData["Title"] = ViewBag.Title;
 }
 
-    <form asp-action="Create" enctype="multipart/form-data">
+    <form asp-action="Create" method="post" enctype="multipart/form-data">
         <div class="form-row">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @*<div class="row inputGroupMargin">*@
@@ -12,9 +12,9 @@
             <div class="form-group col-md-6">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="label1">Login</span>
+                        <span class="input-group-text" id="login">Login</span>
                     </div>
-                    <input type="text" asp-for="Login" class="form-control" aria-describedby="label1" />
+                    <input type="text" asp-for="Login" class="form-control" aria-describedby="label1" required />
                     <span asp-validation-for="Login" class="text-danger"></span>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="label1">Imię</span>
                     </div>
-                    <input type="text" asp-for="FirstName" class="form-control" aria-describedby="label1" />
+                    <input type="text" asp-for="FirstName" class="form-control" aria-describedby="label1" required />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="label1">Numer telefonu</span>
                     </div>
-                    <input type="text" asp-for="Phone" class="form-control text-right" aria-describedby="label1" />
+                    <input type="text" asp-for="Phone" class="form-control text-right" aria-describedby="label1" required />
                     <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="label1">E-mail</span>
                     </div>
-                    <input type="text" asp-for="Email" class="form-control" aria-describedby="label1" />
+                    <input type="text" asp-for="Email" class="form-control" aria-describedby="label1" required />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="label1">Ulica</span>
                     </div>
-                    <input type="text" asp-for="Street" class="form-control" aria-describedby="label1" />
+                    <input type="text" asp-for="Street" class="form-control" aria-describedby="label1" required />
                     <span asp-validation-for="Street" class="text-danger"></span>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="label1">Kod Pocztowy</span>
                     </div>
-                    <input type="text" asp-for="PostalCode" class="form-control text-right" aria-describedby="label1" />
+                    <input type="text" asp-for="PostalCode" class="form-control text-right" aria-describedby="label1" required />
                     <span asp-validation-for="PostalCode" class="text-danger"></span>
                 </div>
             </div>
@@ -105,7 +105,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="label1">Miasto</span>
                     </div>
-                    <input type="text" asp-for="City" class="form-control" aria-describedby="label1" />
+                    <input type="text" asp-for="City" class="form-control" aria-describedby="label1" required />
                     <span asp-validation-for="City" class="text-danger"></span>
                 </div>
             </div>
