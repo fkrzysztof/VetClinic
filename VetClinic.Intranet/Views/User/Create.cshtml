@@ -12,8 +12,8 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group col-md-4">
             <label>Imię</label>
-            <input asp-for="FirstName" class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
+            <input asp-for="FirstName" class="form-control"/>
+            <span asp-validation-for="FirstName" class="text-danger" ></span>
         </div>
         <div class="form-group col-md-4">
             <label>Nazwisko</label>
@@ -35,7 +35,7 @@
         </div>
         <div class="form-group col-md-4">
             <label>Ulica</label>
-            <input asp-for="Street" class="form-control" />
+            <input asp-for="Street" class="form-control" required/>
             <span asp-validation-for="Street" class="text-danger"></span>
         </div>
         <div class="form-group col-md-2">
