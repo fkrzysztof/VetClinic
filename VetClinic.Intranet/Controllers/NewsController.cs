@@ -180,7 +180,7 @@ namespace VetClinic.Intranet.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("NewsID,UserID,UserTypeID,Title,Message,IsReaded,IsActive,StartDate,ExpirationDate,UpdatedDate,UpdatedUserID")] News news)
+        public async Task<IActionResult> Edit(int id, [Bind("NewsID,UserID,UserTypeID,Title,Message,IsReaded,IsActive,StartDate,ExpirationDate,AddedDate,UpdatedDate,UpdatedUserID")] News news)
         {
             if (id != news.NewsID)
             {

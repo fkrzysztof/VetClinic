@@ -75,8 +75,8 @@
                                         <th>
                                             Typ leku
                                         </th>
-                                        <th></th>
-                                        <th></th>
+                                        @*<th></th>*@
+                                        @*<th></th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -92,11 +92,11 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Treatment.Description)
                                             </td>
-                                            <td>
+                                            @*<td>
                                                 <a href="#" onclick="DeleteVisitTretment(@item.TreatmentID, @item.VisitID)" class="TreatmentIDDelete btn btn-outline-primary btn-sm" role="button">
                                                     <span class="fas fa-trash"></span>
                                                 </a>
-                                            </td>
+                                            </td>*@
                                         </tr>
                                     }
                                 </tbody>
@@ -127,8 +127,8 @@
                                         <th>
                                             Typ leku
                                         </th>
-                                        <th></th>
-                                        <th></th>
+                                        @*<th></th>*@
+                                        @*<th></th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -144,11 +144,11 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Medicine.MedicineType.Name)
                                             </td>
-                                            <td>
+                                            @*<td>
                                                 <a href="#" onclick="DeleteVisitMedicine(@item.MedicineID, @item.VisitID)" class="TreatmentIDDelete btn btn-outline-primary btn-sm" role="button">
                                                     <span class="fas fa-trash"></span>
                                                 </a>
-                                            </td>
+                                            </td>*@
                                         </tr>
                                     }
                                 </tbody>

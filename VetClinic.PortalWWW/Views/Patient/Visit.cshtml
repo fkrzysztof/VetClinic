@@ -14,6 +14,38 @@
         </a>
     </p>
 </div>
+<div class="row">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="komorka">
+                <tr>
+                    <th class="text-left">
+                        Imię
+                    </th>
+                    <th class="text-left">
+                        Data urodzenia
+                    </th>
+                    <th class="text-left">
+                        Nazwisko właściciela
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @ViewBag.PatientName
+                    </td>
+                    <td>
+                        @ViewBag.BirthDate
+                    </td>
+                    <td>
+                        @ViewBag.PatientUserLastname
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 <div class="form-row">
     <div class="form-group col-md-3">
         <div class="table-responsive">

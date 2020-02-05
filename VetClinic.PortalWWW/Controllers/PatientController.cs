@@ -41,6 +41,10 @@ namespace VetClinic.PortalWWW.Controllers
             ViewData["PatientID"] = id;
             ViewData["PatientUserFirstName"] = _context.Patients.Where(p => p.PatientID == id).Select(a => a.PatientUser.FirstName).FirstOrDefault();
             ViewData["PatientUserLastName"] = _context.Patients.Where(p => p.PatientID == id).Select(a => a.PatientUser.LastName).FirstOrDefault();
+
+            ViewBag.PatientName = _context.Patients.Where(p => p.PatientID == id).Select(name => name.Name).FirstOrDefault();
+            ViewBag.BirthDate = _context.Patients.Where(p => p.PatientID == id).Select(date => date.BirthDate).FirstOrDefault();
+            ViewBag.PatientUserLastname = _context.Patients.Where(p => p.PatientID == id).Select(ownerName => ownerName.PatientUser.LastName).FirstOrDefault();
             return View(await patient.AsNoTracking().ToListAsync());
         }
 
