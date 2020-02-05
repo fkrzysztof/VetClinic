@@ -35,7 +35,7 @@ namespace VetClinic.Intranet.Controllers
                                  .Include(m => m.MedicineUpdatedUser)
                                  .Where(a => a.IsActive == true);
             }
-            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.IsActive).ThenBy(u => u.Name).ToListAsync());
         }
 
         // GET: Medicines/Create
