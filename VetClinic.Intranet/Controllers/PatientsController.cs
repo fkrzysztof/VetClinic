@@ -376,10 +376,16 @@ namespace VetClinic.Intranet.Controllers
             var visitMedicine = _context.VisitMedicines
                 .Include(m=>m.Medicine)
                 .Include(m=>m.Medicine.MedicineType)
-                .Where(v => v.VisitID == id).ToList();
+                .Where(v => v.VisitID == id)
+                .OrderBy(m=>m.Medicine.Name) //
+                .ToList();
+
             var visitTreatments= _context.VisitTreatment
                .Include(m => m.Treatment)
-               .Where(v => v.VisitID == id).ToList();
+               .Where(v => v.VisitID == id)
+               .OrderBy(m=>m.Treatment.Name) //
+               .ToList();
+
             var view = new VisitDetails
             {
                 VisitTreatments= visitTreatments,
