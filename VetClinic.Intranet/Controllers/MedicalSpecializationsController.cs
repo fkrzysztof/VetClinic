@@ -146,5 +146,39 @@ namespace VetClinic.Intranet.Controllers
         {
             return _context.MedicalSpecializations.Any(e => e.MedicalSpecializationID == id);
         }
+        public IActionResult AddUserMedSpec(int id)
+        {
+
+            ViewData["UserID"] = new SelectList(from user in _context.Users where user.UserID == id where user.UserTypeID == 2 select new { user.UserID, Display_Name = user.FirstName + " " + user.LastName }, "UserID", "Display_Name");
+            ViewData["SpecializationID"] = new SelectList(_context.Specializations.Where(s => s.IsActive == true), "SpecializationID", "Name");
+
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddUserMedSpec(int id, [Bind("MedicalSpecializationID,UserID,SpecializationID,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] MedicalSpecialization medicalSpecialization)
+        {
+
+            medicalSpecialization.AddedDate = DateTime.Now;
+            medicalSpecialization.UpdatedDate = medicalSpecialization.AddedDate;
+            medicalSpecialization.IsActive = true;
+
+            _context.Add(medicalSpecialization);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AddAnother));
+
+        }
+        public IActionResult AddAnother()
+        {
+            return View();
+        }
+        public async Task<IActionResult> DeleteUserMedSpec(int id)
+        {
+            var medicine = await _context.MedicalSpecializations.FirstOrDefaultAsync(a => a.MedicalSpecializationID == id);
+            medicine.IsActive = false;           
+            await _context.SaveChangesAsync();
+
+            return View();
+        }
     }
 }
