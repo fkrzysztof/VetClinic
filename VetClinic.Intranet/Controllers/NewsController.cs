@@ -140,7 +140,8 @@ namespace VetClinic.Intranet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Own","News");
             }
-
+            ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true &&
+            ut.Name != "No7818Permissions" && ut.Name != "Klienci"), "UserTypeID", "Name");
             return View(news);
         }
 
