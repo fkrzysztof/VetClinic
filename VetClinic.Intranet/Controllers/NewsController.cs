@@ -69,7 +69,7 @@ namespace VetClinic.Intranet.Controllers
             .Count();
 
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-            .Where(n => n.SenderUser.UserID == userid && n.IsActive == true && n.StartDate <= DateTime.Now && n.ExpirationDate >= DateTime.Now);
+            .Where(n => n.SenderUser.UserID == userid && n.IsActive == true);
 
             ViewData["CurrentFilter"] = searchString;
             if (!String.IsNullOrEmpty(searchString))
@@ -80,10 +80,10 @@ namespace VetClinic.Intranet.Controllers
                 w.Title.Contains(searchString) ||
                 w.Message.Contains(searchString) 
                 );
-                return View(await searchResult.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+                return View(await searchResult.OrderByDescending(u => u.StartDate).ToListAsync());
             }
 
-            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.StartDate).ToListAsync());
         }
 
 
