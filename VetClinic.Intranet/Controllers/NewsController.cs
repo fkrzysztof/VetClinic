@@ -152,7 +152,7 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            var news = await _context.News.FindAsync(id);
+            var news = await _context.News.FirstOrDefaultAsync(m => m.NewsID == id);
             if (news == null)
             {
                 return NotFound();
@@ -171,6 +171,8 @@ namespace VetClinic.Intranet.Controllers
             .Count();
 
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true), "UserTypeID", "Name", news.UserTypeID);
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", news.UpdatedUserID);
+
 
             return View(news);
         }
@@ -193,7 +195,10 @@ namespace VetClinic.Intranet.Controllers
                 {
                     news.UpdatedDate = DateTime.Now;
                     news.IsActive = true;
-
+                    if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+                    {
+                        news.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    }
                     _context.Update(news);
                     await _context.SaveChangesAsync();
                 }
@@ -208,7 +213,7 @@ namespace VetClinic.Intranet.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Own","News");
             }
 
             return View(news);
