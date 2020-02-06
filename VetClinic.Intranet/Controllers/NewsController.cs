@@ -19,7 +19,7 @@ namespace VetClinic.Intranet.Controllers
         // GET: Admin
         public async Task<IActionResult> Index(string searchString)
         {
-            ViewBag.Tite = "Wiadomosci Nieodczytane";
+            ViewBag.Tite = "Wiadomosci przychodzące";
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
             
