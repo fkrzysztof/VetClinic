@@ -37,13 +37,14 @@
                 </div>
 
             </div>
+
             <div class="form-row">
                 <div class="form-group col-lg-6">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Data od</span>
                         </div>
-                        <input asp-for="StartDate" class="form-control  text-right" />
+                        <input type="text" id="StartDatePicker" class="form-control" asp-for="StartDate" autocomplete="off"/>
                         <span asp-validation-for="StartDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -53,11 +54,10 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Data do</span>
                         </div>
-                        <input asp-for="ExpirationDate" class="form-control  text-right" />
+                        <input type="text" id="EndDatePicker" asp-for="ExpirationDate" class="form-control" autocomplete="off"/>
                         <span asp-validation-for="ExpirationDate" class="text-danger"></span>
                     </div>
                 </div>
-
             </div>
 
             <div class="form-row">
@@ -109,3 +109,17 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    $.datetimepicker.setLocale('pl');
+
+    $("#StartDatePicker").datetimepicker({
+        format: 'd.m.Y H:i',
+        lang: 'pl'
+    });
+
+    $("#EndDatePicker").datetimepicker({
+        format: 'd.m.Y H:i',
+        lang: 'pl'
+    });
+</script>
