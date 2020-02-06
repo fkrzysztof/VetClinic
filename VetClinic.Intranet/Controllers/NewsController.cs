@@ -347,7 +347,7 @@ namespace VetClinic.Intranet.Controllers
             news.IsActive = false;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Own", "News");
         }
 
         // POST: Admin/Restore/5
