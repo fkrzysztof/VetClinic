@@ -1,58 +1,46 @@
-@model VetClinic.Data.Helpers.VisitDetails
+@model VetClinic.Data.Data.Clinic.Visit
 @{
-        Layout = null;
+    ViewData["Title"] = "Dodaj wizytę";
 }
-
-
-    <form asp-action="AddVisit">
-        <input type="hidden" asp-for="@Model.Patient.PatientID"/>
-        <div class="form-row">
+<div class="row">
+    <div class="col">
+        <form asp-action="AddVisit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @*<div class="row inputGroupMargin col-12">*@
+            <input type="hidden" asp-for="VisitUserID" />
+            <input type="hidden" asp-for="PatientID" />
+            <input type="hidden" asp-for="VetID" />
+            <input type="hidden" asp-for="IsActive" />
+            <input type="hidden" asp-for="AddedDate" />
+            <input type="hidden" asp-for="UpdatedDate" />
+            <input type="hidden" asp-for="AddedUserID" />
+            <input type="hidden" asp-for="UpdatedUserID" />
+            <input type="hidden" asp-for="TreatmentID" />
             <div class="form-group col-md-6">
                 <div class="input-group">
                     <div class="input-group-prepend">
-                        <span class="input-group-text" id="label1">Lekarz</span>
+                        <span class="input-group-text" id="label1">Data</span>
                     </div>
-                    <select type="select" asp-for="Visit.VetID" class="form-control" aria-describedby="label1" asp-items="ViewBag.VetID"></select>
-                    <span asp-validation-for="Visit.VetID" class="text-danger"></span>
+                    <input asp-for="DateOfVisit" class="form-control text-right"/>
+                    <span asp-validation-for="DateOfVisit" class="text-danger"></span>
                 </div>
             </div>
-
-            <div class="form-group col-md-6">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="label1">Data wizyty</span>
-                    </div>
-                    <input type="date" asp-for="Visit.DateOfVisit" class="form-control" aria-describedby="label1" />
-                    <span asp-validation-for="Visit.DateOfVisit" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        @*</div>*@
-
-        <div class="form-row">
-            @*<div class="row inputGroupMargin col-12">*@
             <div class="form-group col-12">
-                <div class="input-group">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Opis</span>
                     </div>
-                    <textarea asp-for="Visit.Description" class="form-control" rows="4"></textarea>
-                    <span asp-validation-for="Visit.Description" class="text-danger"></span>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
             </div>
-            @*</div>*@
-        </div>
 
-        <div>
-            <input type="submit" value="Utwórz wizytę" class="btn btn-success float-right buttMargin" asp-fragment="@Model.Visit.VisitID"/>
-        </div>
-    </form>
-
+            <div class="form-group" style="text-align:right">
+                <input type="submit" value="Dodaj wizytę" class="btn btn-outline-success" />
+            </div>
+        </form>
+    </div>
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-
