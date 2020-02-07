@@ -275,18 +275,33 @@
 
 
 <script> 
-    function randomPassword(length) {
-    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPRSTUVWXYZ1234567890!#$%^&*()_-+=[{]};:<>|./?";
-    var pass = "";
-    for (var x = 0; x < length; x++) {
-        var i = Math.floor(Math.random() * chars.length);
-        pass += chars.charAt(i);
+    function password_generator(length) {
+    var length = myForm.length.value
+    var string = "abcdefghijklmnopqrstuvwxyz"; //to upper 
+    var numeric = '0123456789';
+    var punctuation = '!#$%^&*()_+';
+    var password = "";
+    var character = "";
+    var crunch = true;
+    while( password.length<length ) {
+        entity1 = Math.ceil(string.length * Math.random()*Math.random());
+        entity2 = Math.ceil(numeric.length * Math.random()*Math.random());
+        entity3 = Math.ceil(punctuation.length * Math.random()*Math.random());
+        hold = string.charAt( entity1 );
+        hold = (password.length%2==0)?(hold.toUpperCase()):(hold);
+        character += hold;
+        hold = string.charAt( entity1 );
+        character += hold;
+        character += numeric.charAt( entity2 );
+        character += punctuation.charAt( entity3 );
+        password = character;
     }
-    return pass;
+    password=password.split('').sort(function(){return 0.5-Math.random()}).join('');
+    return password.substr(0,length);
 }
 
-function generatePassword() {
-    document.getElementById("passwordInput").value = randomPassword(myForm.length.value);
+    function generatePassword() {
+        document.getElementById("passwordInput").value = password_generator();       
 }
 
 </script>
