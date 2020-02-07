@@ -7,7 +7,8 @@
 
 <div class="container">
     <div class="row">
-        <form asp-action="Edit" enctype="multipart/form-data" id="saveForm">
+        <form asp-action="Edit" name="myForm" enctype="multipart/form-data" id="saveForm">
+            <input type="hidden" name="length" value="8">
             <div class="form-row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="UserID" />
@@ -177,7 +178,7 @@
                                 <table class="table table-hover">
                                     <thead class="table-secondary">
                                         <tr>
-                                            <td>                                     
+                                            <td>
                                                 <a class="pl-3 font-weight-bold">Specjalizacje</a>
                                                 <a class="btn btn-primary btn-sm float-right" asp-controller="MedicalSpecializations" asp-action="AddUserMedSpec" asp-route-id="@ViewBag.IdUser"><i class="fas fa-plus-circle"></i> Dodaj</a>
                                             </td>
@@ -286,12 +287,34 @@
 </div>
 
 <script>
-    function generatePassword() {
-        event.preventDefault();
-        var buf = new Uint8Array(6);
-        window.crypto.getRandomValues(buf);
-        document.getElementById("passwordInput").value = btoa(String.fromCharCode.apply(null, buf));
+   function password_generator(length) {
+    var length = myForm.length.value
+    var string = "abcdefghijklmnopqrstuvwxyz"; //to upper 
+    var numeric = '0123456789';
+    var punctuation = '!#$%^&*()_+';
+    var password = "";
+    var character = "";
+    var crunch = true;
+    while( password.length<length ) {
+        entity1 = Math.ceil(string.length * Math.random()*Math.random());
+        entity2 = Math.ceil(numeric.length * Math.random()*Math.random());
+        entity3 = Math.ceil(punctuation.length * Math.random()*Math.random());
+        hold = string.charAt( entity1 );
+        hold = (password.length%2==0)?(hold.toUpperCase()):(hold);
+        character += hold;
+        hold = string.charAt( entity1 );
+        character += hold;
+        character += numeric.charAt( entity2 );
+        character += punctuation.charAt( entity3 );
+        password = character;
     }
+    password=password.split('').sort(function(){return 0.5-Math.random()}).join('');
+    return password.substr(0,length);
+}
+
+    function generatePassword() {
+        document.getElementById("passwordInput").value = password_generator();       
+}
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
