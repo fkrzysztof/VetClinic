@@ -121,6 +121,7 @@ namespace VetClinic.Intranet.Controllers
                     if (resulUserTypePermissions != null)
                     {
                         resulUserTypePermissions.Access = false;
+                        resulUserTypePermissions.IsActive = false;
                         _context.SaveChanges();
                     }
                 }
