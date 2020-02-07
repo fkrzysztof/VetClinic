@@ -46,9 +46,6 @@
                         <span asp-validation-for="PatientUserID" class="text-danger"></span>
                     </div>
                 </div>
-                @*<div class="col-lg-2">
-                    <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
-                </div>*@
 
                 <div class="form-group col-lg-6">
                     <div class="input-group">
@@ -66,7 +63,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Data Ur.</span>
                         </div>
-                        <input type="date" asp-for="BirthDate" class="form-control text-right" aria-describedby="label1" />
+                        <input class="form-control" value="@(ViewBag.BirthDate)" placeholder="Wybierz datę" asp-for="BirthDate" type="text" id="DatePicker" autocomplete="off" />
                         <span asp-validation-for="BirthDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -176,6 +173,15 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    $.datetimepicker.setLocale('pl');
+
+    $("#DatePicker").datetimepicker({
+        timepicker: false,
+        format: 'd.m.Y',
+        lang: 'pl',
+    });
+</script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />

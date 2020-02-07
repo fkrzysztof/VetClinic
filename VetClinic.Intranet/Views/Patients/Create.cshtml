@@ -8,8 +8,6 @@
 <form asp-action="Create" enctype="multipart/form-data">
     <div class="form-row">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @*<div class="form-group col-md-6">*@
-        @*<label asp-for="PatientTypeID" class="control-label"></label>*@
         <div class="form-group col-md-6">
             <div class="input-group">
                 <div class="input-group-prepend">
@@ -39,9 +37,6 @@
                 <span asp-validation-for="PatientUserID" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="col-md-2">
-            <button type="button" id="add" class="btn btn-primary w-100">Wybierz</button>
-        </div>*@
 
         <div class="form-group col-md-6">
             <div class="input-group">
@@ -59,7 +54,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Data Ur.</span>
                 </div>
-                <input type="date" asp-for="BirthDate" class="form-control text-right" aria-describedby="label1" />
+                <input class="form-control" placeholder="Wybierz datę" asp-for="BirthDate" type="text" id="DatePicker" autocomplete="off"/>
                 <span asp-validation-for="BirthDate" class="text-danger"></span>
             </div>
         </div>
@@ -69,7 +64,6 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="label1">Numer pacjenta</span>
                 </div>
-                @*<label asp-for="PatientNumber" class="control-label"></label>*@
                 <input readonly="readonly" asp-for="PatientNumber" class="form-control text-right" aria-describedby="label1" />
                 <span asp-validation-for="PatientNumber" class="text-danger"></span>
             </div>
@@ -112,6 +106,15 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    $.datetimepicker.setLocale('pl');
+
+    $("#DatePicker").datetimepicker({
+        timepicker: false,
+        format: 'd.m.Y',
+        lang: 'pl',
+    });
+</script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
@@ -119,7 +122,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 
 <script>
-
     $(".myselect").select2();
 $('#daneWlasciciela').click(function () {
             $.ajax({
@@ -155,18 +157,4 @@ $('#daneWlasciciela').click(function () {
                 }
             })
     });
-
-    @*$('#add').click(function () {
-        $.ajax({
-            type: 'GET',
-            url: '@Url.Action("ChooseOwner","Patients")',
-
-              success: (data) => {
-                        $('#exampleModal').find('.modal-body').html(data);
-                        $('#exampleModal').modal('show');
-                    }
-
-                })
-                                });*@
-
 </script>

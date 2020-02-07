@@ -84,6 +84,7 @@ namespace VetClinic.Intranet.Controllers
 
             ViewData["PatientID"] = new SelectList(patientList, "PatientID", "Name", patientId);
             ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
+            ViewBag.DateOfVisit = reservation.DateOfVisit.ToString("dd.MM.yyyy H:mm");
             return View(reservation);
         }
 
