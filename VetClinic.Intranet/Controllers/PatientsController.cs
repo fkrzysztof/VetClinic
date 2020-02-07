@@ -118,11 +118,33 @@ namespace VetClinic.Intranet.Controllers
             {
                 _context.Add(visitTreatment);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Patients");
+                //return RedirectToAction("Index", "Patients");
             }
             ViewData["TreatmentID"] = new SelectList(_context.Treatments, "TreatmentID", "Name", visitTreatment.TreatmentID);
             ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID", visitTreatment.VisitID);
             return View(visitTreatment);
+        }
+
+
+        public IActionResult AddVisitMedicine()
+        {
+            ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name");
+            ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID");
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddVisitMedicine([Bind("VisitMedicineID,VisitID,MedicineID")] VisitMedicine visitMedicine)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(visitMedicine);
+                await _context.SaveChangesAsync();
+                //return RedirectToAction("Index", "Patients");
+            }
+            ViewData["MedicineID"] = new SelectList(_context.Medicines, "MedicineID", "Name", visitMedicine.MedicineID);
+            ViewData["VisitID"] = new SelectList(_context.Visits, "VisitID", "VisitID", visitMedicine.VisitID);
+            return View(visitMedicine);
         }
 
         public async Task<IActionResult> DetailsUpdated(int? id)

@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col">
-        <form asp-action="Create">
+        <form id="myForm" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <input type="hidden" asp-for="VisitID" />
@@ -30,9 +30,28 @@
                     </div>
                 </div>
                 <div class="form-group col-12" style="text-align:center;">
-                    <input type="submit" value="Dodaj do wizyty" class="btn btn-outline-primary" />
+                    <input type="button" id="btnSubmit" value="Dodaj do wizyty" class="btn btn-outline-primary" />
                 </div>
             </div>
         </form>
     </div>
 </div>
+<script>
+     
+    $("#btnSubmit").click(function () {
+        var myformdata = $("#myForm").serialize();
+        $.ajax({
+            type: "POST",
+            url: "/Patients/AddVisitMedicine",
+            data: myformdata,
+            success: function () {
+
+                $("#MedicineModal").modal("hide");
+                VisitDetailsClickMedicines(@Model.VisitID);
+
+
+            }
+        });
+    })
+    
+</script>

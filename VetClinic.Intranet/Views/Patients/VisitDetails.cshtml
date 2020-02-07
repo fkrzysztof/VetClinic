@@ -210,7 +210,39 @@
                         $('#maincont').html(pageContent);
                     }
                 });
-        }
+    }
+
+         function VisitDetailsClickTreatments(VisitId) {
+            var pId = VisitId;
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("VisitDetails", "Patients")',
+                    data: {
+                        id: pId
+                    },
+                    success: function (pageContent) {
+                        $('#maincont').html(pageContent);
+                        $('[href="#nav-zabieg"]').tab('show'); 
+
+                    }
+                });
+         }
+
+
+     function VisitDetailsClickMedicines(VisitId) {
+            var pId = VisitId;
+                $.ajax({
+                    type: 'get',
+                    url: '@Url.Action("VisitDetails", "Patients")',
+                    data: {
+                        id: pId
+                    },
+                    success: function (pageContent) {
+                        $('#maincont').html(pageContent);                      
+                        $('[href="#nav-leki"]').tab('show'); 
+                    }
+                });
+     }
 </script>
 
 <script>
