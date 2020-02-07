@@ -44,7 +44,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Data od</span>
                         </div>
-                        <input type="text" id="StartDatePicker" class="form-control" asp-for="StartDate" autocomplete="off"/>
+                        <input class="form-control" value="@(ViewBag.StartDate)" asp-for="StartDate" type="text" id="StartDatePicker" autocomplete="off"/>
                         <span asp-validation-for="StartDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Data do</span>
                         </div>
-                        <input type="text" id="EndDatePicker" asp-for="ExpirationDate" class="form-control" autocomplete="off"/>
+                        <input type="text" id="EndDatePicker" value="@(ViewBag.ExpirationDate)" asp-for="ExpirationDate" class="form-control" autocomplete="off"/>
                         <span asp-validation-for="ExpirationDate" class="text-danger"></span>
                     </div>
                 </div>

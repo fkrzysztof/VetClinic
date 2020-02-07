@@ -37,7 +37,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Data wizyty</span>
                         </div>
-                        <input asp-for="DateOfVisit" class="form-control" />
+                        <input asp-for="DateOfVisit" value="@(ViewBag.DateOfVisit)" placeholder="Wybierz datę" class="form-control" type="text" id="DatePicker" autocomplete="off"/>
                         <span asp-validation-for="DateOfVisit" class="text-danger"></span>
                     </div>
                 </div>
@@ -121,3 +121,14 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    $.datetimepicker.setLocale('pl');
+
+    $("#DatePicker").datetimepicker({
+        step:20,
+        format: 'd.m.Y H:i',
+        lang: 'pl'
+    });
+
+
+</script>

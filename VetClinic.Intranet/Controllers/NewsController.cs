@@ -173,7 +173,8 @@ namespace VetClinic.Intranet.Controllers
 
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true), "UserTypeID", "Name", news.UserTypeID);
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", news.UpdatedUserID);
-
+            ViewBag.StartDate = news.StartDate.ToString("dd.MM.yyyy H:mm");
+            ViewBag.ExpirationDate = news.ExpirationDate.ToString("dd.MM.yyyy H:mm");
 
             return View(news);
         }

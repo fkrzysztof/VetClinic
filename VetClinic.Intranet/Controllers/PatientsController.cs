@@ -224,6 +224,7 @@ namespace VetClinic.Intranet.Controllers
             ViewData["PatientTypeID"] = new SelectList(_context.PatientTypes, "PatientTypeID", "Name", patient.PatientTypeID);
             ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.UpdatedUserID);
             ViewData["PatientUserID"] = new SelectList(_context.Users, "UserID", "LastName", patient.PatientUserID);
+            ViewBag.BirthDate = patient.BirthDate.ToString("dd.MM.yyyy");
             return View(patient);
         }
 

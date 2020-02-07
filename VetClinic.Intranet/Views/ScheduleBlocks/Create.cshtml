@@ -13,7 +13,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="label1">Czas</span>
                     </div>
-                    <input asp-for="Time" class="form-control text-right" placeholder="Czas" aria-describedby="label1" />
+                    <input class="form-control" placeholder="Wybierz godzinę" asp-for="Time" type="text" id="DatePicker" autocomplete="off" />
                     <span asp-validation-for="Time" class="text-danger"></span>
                 </div>
             </div>
@@ -27,3 +27,13 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
+<script>
+    $.datetimepicker.setLocale('pl');
+
+    $("#DatePicker").datetimepicker({
+        datepicker: false,
+        step:20,
+        format: 'H:i',
+        lang: 'pl',
+    });
+</script>
