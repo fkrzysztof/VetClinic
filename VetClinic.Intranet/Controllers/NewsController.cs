@@ -19,7 +19,7 @@ namespace VetClinic.Intranet.Controllers
         // GET: Admin
         public async Task<IActionResult> Index(string searchString)
         {
-            ViewBag.Tite = "Wiadomosci Nieodczytane";
+            ViewBag.Tite = "Wiadomosci przychodzące";
             int userid = Convert.ToInt32(HttpContext.Session.GetString("UserID"));
             int usertypeid = (from item in _context.Users where item.UserID == userid select item.UserTypeID).FirstOrDefault();
             
@@ -69,7 +69,7 @@ namespace VetClinic.Intranet.Controllers
             .Count();
 
             var vetClinicContext = _context.News.Include(n => n.NewsUpdatedUser).Include(n => n.ReceiverUserTypes).Include(n => n.SenderUser)
-            .Where(n => n.SenderUser.UserID == userid && n.IsActive == true && n.StartDate <= DateTime.Now && n.ExpirationDate >= DateTime.Now);
+            .Where(n => n.SenderUser.UserID == userid && n.IsActive == true);
 
             ViewData["CurrentFilter"] = searchString;
             if (!String.IsNullOrEmpty(searchString))
@@ -80,10 +80,10 @@ namespace VetClinic.Intranet.Controllers
                 w.Title.Contains(searchString) ||
                 w.Message.Contains(searchString) 
                 );
-                return View(await searchResult.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+                return View(await searchResult.OrderByDescending(u => u.StartDate).ToListAsync());
             }
 
-            return View(await vetClinicContext.OrderByDescending(u => u.UpdatedDate).ToListAsync());
+            return View(await vetClinicContext.OrderByDescending(u => u.StartDate).ToListAsync());
         }
 
 
@@ -140,7 +140,8 @@ namespace VetClinic.Intranet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Own","News");
             }
-
+            ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true &&
+            ut.Name != "No7818Permissions" && ut.Name != "Klienci"), "UserTypeID", "Name");
             return View(news);
         }
 
@@ -152,7 +153,7 @@ namespace VetClinic.Intranet.Controllers
                 return NotFound();
             }
 
-            var news = await _context.News.FindAsync(id);
+            var news = await _context.News.FirstOrDefaultAsync(m => m.NewsID == id);
             if (news == null)
             {
                 return NotFound();
@@ -171,6 +172,8 @@ namespace VetClinic.Intranet.Controllers
             .Count();
 
             ViewData["UserTypeID"] = new SelectList(_context.UserTypes.Where(ut => ut.IsActive == true), "UserTypeID", "Name", news.UserTypeID);
+            ViewData["UpdatedUserID"] = new SelectList(_context.Users, "UserID", "LastName", news.UpdatedUserID);
+
 
             return View(news);
         }
@@ -193,7 +196,10 @@ namespace VetClinic.Intranet.Controllers
                 {
                     news.UpdatedDate = DateTime.Now;
                     news.IsActive = true;
-
+                    if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
+                    {
+                        news.UpdatedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    }
                     _context.Update(news);
                     await _context.SaveChangesAsync();
                 }
@@ -208,7 +214,7 @@ namespace VetClinic.Intranet.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Own","News");
             }
 
             return View(news);
@@ -341,7 +347,7 @@ namespace VetClinic.Intranet.Controllers
             news.IsActive = false;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Own", "News");
         }
 
         // POST: Admin/Restore/5
