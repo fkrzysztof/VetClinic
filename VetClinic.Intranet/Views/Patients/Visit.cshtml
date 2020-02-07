@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<VetClinic.Data.Data.Clinic.Visit>
 @{
     ViewData["Title"] = String.Format("Wizyty pacjenta: {0},    Właściciel: {2} {3}", ViewData["PatientName"], @ViewData["PatientID"], ViewData["PatientUserFirstName"], ViewData["PatientUserLastName"]);
-    //ViewData["Title"] = String.Format("Wizyty pacjenta");
-
 }
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -19,6 +17,16 @@
 </head>
 
 <link href="~/css/Zakladki.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col">
+        <a class="btn btn-outline-success float-right mb-3" role="button"
+           href="@Url.Action("AddVisit", "Patients", new { PatientID = ViewData["PatientID"], VisitUserID = ViewData["PatientUserID"] }, null)">
+            <i class="fas fa-plus-circle"></i>
+            Dodaj wizytę
+        </a>
+    </div>
+</div>
 
 <div class="form-row">
     <div class="form-group col-4" style="min-width: 280px; max-width: 280px">
@@ -64,23 +72,6 @@
         </div>
     </div>
     <div id="maincont" class="form-group col col-sm-9" style="min-width:400px"></div>
-</div>
-
-<div class="modal fade bd-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog"
-     aria-labelledby="myExtraLargeModalLabel" aria-hidden="true" style="margin-top:20%;margin-left:25%">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edytuj Opis</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-        </div>
-    </div>
 </div>
 
 @section Scripts {
@@ -148,7 +139,6 @@
                 });
             }
     }
-
     function addMedicine(visitID, patientID) {
              {
                 $.ajax({
@@ -164,8 +154,7 @@
                 });
             }
     }
-
-  if (window.location.hash) {
+    if (window.location.hash) {
             var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
 
                 $.ajax({
@@ -180,7 +169,5 @@
                     }
                 });
             }
-
-
     </script>
 }
