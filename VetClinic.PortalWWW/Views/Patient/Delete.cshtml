@@ -5,85 +5,47 @@
     Layout = "~/Views/Shared/_ClientPanelLayout.cshtml";
 }
 
-<div>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BirthDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatientNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatientNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsActive)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsActive)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.KennelName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.KennelName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AddedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AddedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UpdatedDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UpdatedDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatientType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatientType.Name)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatientUser)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatientUser.City)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatientAddedUser)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatientAddedUser.City)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PatientUpdatedUser)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PatientUpdatedUser.City)
-        </dd class>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="PatientID" />
-        <input type="submit" value="Usuń" class="btn btn-danger" /> |
-        <a asp-action="Index">Lista moich zwierząt</a>
-    </form>
-</div>
+
+
+    <div>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-left" width="150">
+                            Imię
+                        </th>
+                        <th class="text-left" width="150">
+                            Data urodzenia
+                        </th>
+                        <th class="text-left" width="250">
+                            Właściciel
+                        </th>
+                        <th class="text-left" width="200">
+                            Rodzaj
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td class="text-left">
+                                @ViewBag.PatientName
+                            </td>
+                            <td class="text-left">
+                                @ViewBag.BirthDate
+                            </td>
+                            <td class="text-left">
+                                @ViewBag.PatientUserLastname
+                            </td>
+                            <td>
+                                @ViewBag.PatientType
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="PatientID" />
+            <input type="submit" value="Usuń" class="btn btn-danger" /> 
+        </form>
+    </div>

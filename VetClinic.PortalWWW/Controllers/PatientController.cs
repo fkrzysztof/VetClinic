@@ -240,7 +240,10 @@ namespace VetClinic.PortalWWW.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.PatientName = _context.Patients.Where(p => p.PatientID == id).Select(name => name.Name).FirstOrDefault();
+            ViewBag.BirthDate = _context.Patients.Where(p => p.PatientID == id).Select(date => date.BirthDate).FirstOrDefault();
+            ViewBag.PatientUserLastname = _context.Patients.Where(p => p.PatientID == id).Select(ownerName => ownerName.PatientUser.LastName).FirstOrDefault();
+            ViewBag.PatientType = _context.Patients.Where(p => p.PatientID == id).Select(n => n.PatientType.Name).FirstOrDefault();
             return View(patient);
         }
 
@@ -259,7 +262,7 @@ namespace VetClinic.PortalWWW.Controllers
 
             _context.Patients.Remove(patient);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "ClientPanel");
         }
 
         private bool PatientExists(int id)
