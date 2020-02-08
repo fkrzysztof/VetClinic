@@ -20,7 +20,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="label1">Data</span>
                     </div>
-                    <input asp-for="DateOfVisit" class="form-control text-right"/>
+                    <input asp-for="DateOfVisit" id="DatePicker" type="text" placeholder="Wybierz datę" autocomplete="off" class="form-control text-right"/>
                     <span asp-validation-for="DateOfVisit" class="text-danger"></span>
                 </div>
             </div>
@@ -44,3 +44,13 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    $.datetimepicker.setLocale('pl');
+
+    $("#DatePicker").datetimepicker({
+        timepicker: false,
+        format: 'd.m.Y',
+        lang: 'pl'
+    });
+
+</script>
