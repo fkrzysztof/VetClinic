@@ -9,6 +9,7 @@
         <form asp-action="Edit" class="col" id="saveForm">
             <div class="form-row">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ReservationID" />
                 <input type="hidden" asp-for="ReservationUserID" />
                 <input type="hidden" asp-for="AddedDate" />
                 <input type="hidden" asp-for="AddedUserID" />
@@ -19,8 +20,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Klient</span>
                         </div>
-                        <select asp-for="ReservationUserID" class="form-control" asp-items="ViewBag.ReservationUserID"></select>
-                        <span asp-validation-for="ReservationUserID" class="text-danger"></span>
+                        <span class="form-control">@Model.ReservationUser.Fullname</span>
                     </div>
                 </div>
                 <div class="form-group col-lg-3">
@@ -37,31 +37,110 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Data wizyty</span>
                         </div>
-                        <input asp-for="DateOfVisit" value="@(ViewBag.DateOfVisit)" placeholder="Wybierz datę" class="form-control" type="text" id="DatePicker" autocomplete="off"/>
-                        <span asp-validation-for="DateOfVisit" class="text-danger"></span>
+                        <span class="form-control">@Model.DateOfVisit.ToShortDateString(),@Model.DateOfVisit.ToShortTimeString()</span>
+                        @if (@ViewBag.DateError != null)
+                        {
+                            <span class="text-danger">@ViewBag.DateError</span>
+                        }
                     </div>
                 </div>
 
-                <div class="form-group col-md-12">
+                <div class="form-group col-lg-6">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="label1">Opis</span>
                         </div>
-                        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                        <textarea asp-for="Description" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>
                         <span asp-validation-for="Description" class="text-danger"></span>
                     </div>
                 </div>
+
+                @*Kalendarz*@
+                @{
+                    DateTime firstH = ViewBag.FreeBlock[0];
+                }
+                <div class="col-sm-1 text-lg-right">
+                    @if (!firstH.Date.Equals(DateTime.Now.Date))
+                    {
+                       <a asp-action="Edit" asp-route-navi="previous" asp-route-vd="@ViewBag.FreeBlock[0].ToString()"> <i class="fas fa-chevron-left"></i><i class="fas fa-chevron-left"></i></a>
+                    }
+                </div>
+                <div class="col-lg-4 mb-8 text-lg-center mb-2">
+                    @{
+                        <h6 class="mt-3">
+                            @{
+                                if (firstH.DayOfWeek.ToString().Equals("Monday"))
+                                {
+                                    @:Poniedziałek
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Tuesday"))
+                                {
+                                    @:Wtorek
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Wednesday"))
+                                {
+                                    @:Środa
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Thursday"))
+                                {
+                                    @:Czwartek
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Friday"))
+                                {
+                                    @:Piątek
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Saturday"))
+                                {
+                                    @:Sobota
+                                }
+                                if (firstH.DayOfWeek.ToString().Equals("Sunday"))
+                                {
+                                    @:Niedziela
+                                }
+                            }
+                            @firstH.ToShortDateString()
+                        </h6>
+
+                            foreach (var item in ViewBag.FreeBlock)
+                            {
+                                    if(Model.DateOfVisit.Equals(item))
+                                    { 
+                                    <div class="d-inline btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-success btn-sm pl-1 pr-1 pb-0 pt-0">
+                                            <input type="radio" checked value="@item" name="DateOfVisit"> @item.ToString("HH:mm")
+                                        </label>
+                                    </div>
+                                    }
+                                    else 
+                                    { 
+                                    <div class="d-inline btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-secondary btn-sm pl-1 pr-1 pb-0 pt-0">
+                                            <input type="radio" value="@item" name="DateOfVisit"> @item.ToString("HH:mm")
+                                        </label>
+                                    </div>
+                                    }
+                            }
+                    }
+                </div>
+                <div class="col-sm-1 mb-4 text-sm-left">
+                    <a asp-action="Edit" asp-route-navi="next" asp-route-vd="@firstH.ToString()"> <i class="fas fa-chevron-right"></i><i class="fas fa-chevron-right"></i></a>
+                </div>
+
+                @*kalendarz koniec*@
+
             </div>
 
             @await Component.InvokeAsync("DetailsComponent", new
-            {
-               AddedDate = @Model.AddedDate,
-               AddedUserID = @Model.AddedUserID,
-               UpdatedDate = @Model.UpdatedDate,
-               UpdatedUserID = @Model.UpdatedUserID
-            })
+       {
+           AddedDate = @Model.AddedDate,
+           AddedUserID = @Model.AddedUserID,
+           UpdatedDate = @Model.UpdatedDate,
+           UpdatedUserID = @Model.UpdatedUserID
+       })
         </form>
     </div>
+    
+    
     <div class="row">
         <div class="col">
             @if (Model.IsActive)
@@ -115,6 +194,10 @@
         <div class="col">
             <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin" />
         </div>
+
+        
+
+
     </div>
 </div>
 

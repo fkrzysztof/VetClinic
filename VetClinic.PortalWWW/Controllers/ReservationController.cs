@@ -136,24 +136,51 @@ namespace VetClinic.PortalWWW.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
                 {
                     reservation.AddedUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                     reservation.ReservationUserID = Int32.Parse(HttpContext.Session.GetString("UserID"));
                 }
 
-                reservation.DateOfVisit = DateOfVisitFromCalendar;
-                reservation.AddedDate = DateTime.Now;
-                reservation.IsActive = true;
-                _context.Add(reservation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "ClientPanel");
+                if (freeDayCheck(DateOfVisitFromCalendar, 0))
+                {
+
+                    reservation.DateOfVisit = DateOfVisitFromCalendar;
+                    reservation.AddedDate = DateTime.Now;
+                    reservation.IsActive = true;
+                    _context.Add(reservation);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "ClientPanel");
+                }
+                else
+                    return Content("Termin już nie aktualny");
             }
 
             ViewData["PatientID"] = new SelectList(_context.Reservations, "Name", "PatientID", reservation.PatientID);
 
             return Content("cos poszlo nie tak");
        
+        }
+
+
+        private bool freeDayCheck(DateTime tempDate, int rId)
+        {
+            var freeDays = _context.InaccessibleDays;
+            var reservationsAll = _context.Reservations;
+            return (
+                //sprawdzam czy data jest w rezerwacjach z IsActiv 1 - NIE True
+                reservationsAll.FirstOrDefault(f =>
+                    f.DateOfVisit == tempDate &&
+                    f.ReservationID != rId &&
+                    f.IsActive == true) == null
+                &&
+                //sprawdzam czy data jest w dniach wolnych - NIE True
+                freeDays.FirstOrDefault(f =>
+                    f.Date.Year == tempDate.Year &&
+                    f.Date.Month == tempDate.Month &&
+                    f.Date.Day == tempDate.Day) == null
+                );
         }
 
         //GET: Reservation/Create
@@ -169,15 +196,15 @@ namespace VetClinic.PortalWWW.Controllers
 
 
 
-       
+
 
         // GET: Reservation/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
             var reservation = await _context.Reservations.FindAsync(id);
             if (reservation == null)
@@ -203,10 +230,6 @@ namespace VetClinic.PortalWWW.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ReservationID,ReservationUserID,PatientID,Description,DateOfVisit,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Reservation reservation)
         {
-            if (id != reservation.ReservationID)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -236,10 +259,7 @@ namespace VetClinic.PortalWWW.Controllers
             if (!String.IsNullOrEmpty(HttpContext.Session.GetString("UserID")))
             {
                 int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
-                ViewData["PatientID"] = new SelectList(_context.Patients.
-                        Where(p => p.PatientUserID != null).
-                        Where(p => p.PatientUserID == UserId).Select(n => n.Name)
-                       );
+                ViewBag.PatientID = new SelectList(_context.Patients.Where(p => p.PatientUserID == UserId), "PatientID", "Name");
             }
             return View(reservation);
         }
@@ -275,6 +295,7 @@ namespace VetClinic.PortalWWW.Controllers
             _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+
         }
 
         private bool ReservationExists(int id)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -19,8 +20,8 @@ namespace VetClinic.Intranet.Controllers
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
-            var vetClinicContext = _context.Reservations.Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser);
-            return View(await vetClinicContext.OrderByDescending(u => u.IsActive).ThenByDescending(u => u.UpdatedDate).ToListAsync());
+            var vetClinicContext = _context.Reservations.Include(r => r.Patients).Include(r => r.ReservationAddedUser).Include(r => r.ReservationUpdatedUser).Include(r => r.ReservationUser).Where(w => w.IsActive == true);
+            return View(await vetClinicContext.OrderByDescending(u => u.IsActive).ThenBy(u => u.DateOfVisit).ToListAsync());
         }
 
         [HttpPost]
@@ -51,57 +52,159 @@ namespace VetClinic.Intranet.Controllers
         {
             if (ModelState.IsValid)
             {
-                int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
-                reservation.AddedDate = DateTime.Now;
-                reservation.UpdatedDate = DateTime.Now;
-                reservation.IsActive = true;
-                reservation.AddedUserID = UserId;
-                reservation.DateOfVisit = DateOfVisitFromCalendar;
-                _context.Add(reservation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Calendar");
+                if (freeDayCheck(DateOfVisitFromCalendar, 0))
+                {
+                    int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
+                    reservation.AddedDate = DateTime.Now;
+                    reservation.UpdatedDate = DateTime.Now;
+                    reservation.IsActive = true;
+                    reservation.AddedUserID = UserId;
+                    reservation.DateOfVisit = DateOfVisitFromCalendar;
+                    _context.Add(reservation);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", "Calendar");
+                }
+                else
+                {
+                    return Content("Termin już nie aktualny");
+                }
             }
             return Content("cos poszlo nie tak");
         }
 
         // GET: Reservations/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string navi,string vd)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations.FindAsync(id);
+            ViewBag.DateError = TempData["DateError"];
+
+            var reservation = _context.Reservations.
+                Include(r => r.Patients).
+                Include(r => r.ReservationAddedUser).
+                Include(r => r.ReservationUpdatedUser).
+                Include(r => r.ReservationUser).FirstOrDefault(f => f.ReservationID == id);
+
+
+            DateTime rTemp = new DateTime( reservation.DateOfVisit.Year, reservation.DateOfVisit.Month, reservation.DateOfVisit.Day,0,0,0);
+            
+            if (navi == "next")
+            {
+                rTemp = Convert.ToDateTime(vd);
+                rTemp = rTemp.AddDays(1);
+            }
+            else if (navi == "previous")
+            {
+                rTemp = Convert.ToDateTime(vd);
+                do
+                { rTemp -= new TimeSpan(1, 0, 0, 0); }
+                while ( !freeDayCheck(rTemp,(int)id));
+
+            }
+            var reservationsAll = _context.Reservations;
+            var block = _context.ScheduleBlocks;
+            List<DateTime> freeBlock = new List<DateTime>();
+            DateTime tempDate;
+            while(freeBlock.Count == 0)
+            {
+                foreach (var item in block)
+                {
+                    rTemp = new DateTime(rTemp.Year, rTemp.Month, rTemp.Day, item.Time.Hours, item.Time.Minutes, 0);
+                    tempDate = rTemp;
+
+                    if (freeDayCheck(tempDate,(int)id))
+                    {
+                        freeBlock.Add(tempDate);
+                    }
+                }
+                rTemp = rTemp.AddDays(1);
+            }
+
+            ViewBag.FreeBlock = freeBlock;
+
             if (reservation == null)
             {
                 return NotFound();
             }
 
-            var userReservationId = _context.Reservations.Where(r => r.ReservationID == id).Select(u => u.ReservationUserID).FirstOrDefault();
-            var patientList = _context.Patients.Where(p => p.PatientUserID == userReservationId).ToList();
-            var patientId = _context.Reservations.Where(r => r.ReservationID == id).Select(p => p.PatientID).FirstOrDefault();
+            var p = _context.Patients.
+            Where(p => p.PatientUserID != null).
+            Where(p => p.PatientUserID == reservation.ReservationUserID);
+            ViewData["PatientID"] = new SelectList(p, "PatientID", "Name", reservation.ReservationUserID);
 
-            ViewData["PatientID"] = new SelectList(patientList, "PatientID", "Name", patientId);
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
-            ViewBag.DateOfVisit = reservation.DateOfVisit.ToString("dd.MM.yyyy H:mm");
             return View(reservation);
         }
+
+        private bool freeDayCheck(DateTime tempDate,int rId)
+        {
+            var freeDays = _context.InaccessibleDays;
+            var reservationsAll = _context.Reservations;
+            return (
+                //sprawdzam czy data jest w rezerwacjach z IsActiv 1 - NIE True
+                reservationsAll.FirstOrDefault(f =>
+                    f.DateOfVisit == tempDate &&
+                    f.ReservationID != rId &&
+                    f.IsActive == true) == null
+                &&
+                //sprawdzam czy data jest w dniach wolnych - NIE True
+                freeDays.FirstOrDefault(f =>
+                    f.Date.Year == tempDate.Year &&
+                    f.Date.Month == tempDate.Month &&
+                    f.Date.Day == tempDate.Day) == null
+                );
+        }
+
+
 
         // POST: Reservations/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReservationID,ReservationUserID,PatientID,Description,DateOfVisit,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Reservation reservation)
+        //public async Task<IActionResult> Edit(int id, [Bind("ReservationID,ReservationUserID,PatientID,Description,DateOfVisit,IsActive,AddedDate,UpdatedDate,AddedUserID,UpdatedUserID")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, Reservation reservation)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
+            //DateTime reservationInBase = _context.Reservations.FirstOrDefault(f => f.ReservationID == id).DateOfVisit;
+            var p = _context.Patients.
+            Where(p => p.PatientUserID != null).
+            Where(p => p.PatientUserID == reservation.ReservationUserID);
+
             if (ModelState.IsValid)
             {
+                    //data jest juz bazie
+                    var rezultVD = _context.Reservations.FirstOrDefault(f => f.DateOfVisit == reservation.DateOfVisit && f.IsActive == true && f.ReservationID != id);
+                    //wolne dni
+                    var rezultID = _context.InaccessibleDays.
+                        FirstOrDefault(f =>
+                        f.Date.Year == reservation.DateOfVisit.Year &&
+                        f.Date.Month == reservation.DateOfVisit.Month &&
+                        f.Date.Day == reservation.DateOfVisit.Day
+                        );
+                    //bloki - godziny przyjec
+                    var rezultSB = _context.ScheduleBlocks.FirstOrDefault(f =>
+                        f.Time.Equals(reservation.DateOfVisit.TimeOfDay)
+                        );
+
+                    if (rezultVD != null || rezultID != null || rezultSB == null)
+                    {
+                        ViewData["PatientID"] = new SelectList(p, "PatientID", "Name", reservation.ReservationUserID);
+                        if (rezultSB == null)
+                            TempData["DateError"] = "w tych godzinach nie pracyjemy";
+                        else if (rezultID != null)
+                            TempData["DateError"] = "w tym dniu mamy zamknięte";
+                        else if (rezultVD != null)
+                            TempData["DateError"] = "termin już zajęty";
+
+                        return RedirectToAction(nameof(Edit), reservation.ReservationID);
+                    }
                 try
                 {
                     int UserId = Int32.Parse(HttpContext.Session.GetString("UserID"));
@@ -110,6 +213,7 @@ namespace VetClinic.Intranet.Controllers
                     reservation.IsActive = true;
                     _context.Update(reservation);
                     await _context.SaveChangesAsync();
+                    //_context.SaveChanges();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,8 +228,8 @@ namespace VetClinic.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PatientID"] = new SelectList(_context.Patients, "PatientID", "Name", reservation.PatientID);
-            ViewData["ReservationUserID"] = new SelectList(_context.Users, "UserID", "LastName", reservation.ReservationUserID);
+
+            ViewData["PatientID"] = new SelectList(p, "PatientID", "Name", reservation.ReservationUserID);
 
             return View(reservation);
         }
